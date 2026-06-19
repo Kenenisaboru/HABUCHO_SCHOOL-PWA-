@@ -1,0 +1,51 @@
+/**
+ * Global Styles — Tailwind CSS v4 + custom theme variables
+ * Theme: Blue, White, Emerald with dark mode support
+ */
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-emerald: #10b981;
+  --color-emerald-dark: #059669;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-gray-800 antialiased transition-colors duration-300;
+}
+
+.dark body,
+body.dark {
+  @apply bg-gray-900 text-gray-100;
+}
+
+.card {
+  @apply rounded-xl bg-white p-6 shadow-md transition-all duration-300 hover:shadow-lg dark:bg-gray-800;
+}
+
+.btn-primary {
+  @apply rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none;
+}
+
+.btn-emerald {
+  @apply rounded-lg bg-emerald-500 px-4 py-2 font-medium text-white transition-colors hover:bg-emerald-600 focus:ring-2 focus:ring-emerald-400 focus:outline-none;
+}
+
+.btn-outline {
+  @apply rounded-lg border-2 border-blue-600 px-4 py-2 font-medium text-blue-600 transition-colors hover:bg-blue-50 dark:hover:bg-gray-700;
+}
+
+.input-field {
+  @apply w-full rounded-lg border border-gray-300 px-4 py-2 transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white;
+}
+
+.skeleton {
+  @apply animate-pulse rounded bg-gray-200 dark:bg-gray-700;
+}
