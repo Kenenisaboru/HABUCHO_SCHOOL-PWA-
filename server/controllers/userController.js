@@ -99,6 +99,21 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
+/** List students only — accessible by admin and teacher */
+export const getStudents = async (req, res, next) => {
+  try {
+    const pagination = getPagination(req.query.page, req.query.limit || 100);
+    const { users, total } = await UserModel.getAllUsers({
+      role: "student",
+      search: req.query.search,
+      ...pagination,
+    });
+    return sendSuccess(res, { students: users, total });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getStats = async (req, res, next) => {
   try {
     const [students, teachers, announcements, schedules] = await Promise.all([
