@@ -4,12 +4,14 @@ import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import App from "./App.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
+import OfflineBanner from "./components/OfflineBanner.jsx";
 import "./index.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <ThemeProvider>
+        <OfflineBanner />
         <App />
         <Toaster
           position="top-right"
