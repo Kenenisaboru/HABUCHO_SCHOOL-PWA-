@@ -3,19 +3,10 @@
  */
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import DashboardLayout from "../../layouts/DashboardLayout";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { getSchedules } from "../../services/authService";
 import { formatTime } from "../../utils/helpers";
 
-const studentLinks = [
-  { to: "/student", label: "Dashboard", icon: "📊", end: true },
-  { to: "/student/grades", label: "My Grades", icon: "📝" },
-  { to: "/student/schedule", label: "Schedule", icon: "📅" },
-  { to: "/student/announcements", label: "Announcements", icon: "📢" },
-  { to: "/student/contact", label: "Contact", icon: "✉️" },
-  { to: "/student/profile", label: "Profile", icon: "👤" },
-];
 
 const StudentSchedule = () => {
   const [schedules, setSchedules] = useState([]);
@@ -36,7 +27,7 @@ const StudentSchedule = () => {
   }, []);
 
   return (
-    <DashboardLayout links={studentLinks} title="Class Schedule">
+    <>
       {loading ? (
         <LoadingSpinner className="py-20" />
       ) : (
@@ -65,7 +56,7 @@ const StudentSchedule = () => {
           </table>
         </div>
       )}
-    </DashboardLayout>
+    </>
   );
 };
 
