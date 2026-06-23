@@ -13,6 +13,18 @@
   --color-accent: #0f172a;
   --color-emerald: #10b981;
   --color-emerald-dark: #059669;
+
+  /* Custom Animations */
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-up: slide-up 0.4s ease-out;
+  --keyframes-fade-in: {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  };
+  --keyframes-slide-up: {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  };
 }
 
 html {
@@ -63,5 +75,15 @@ body.dark {
 }
 ::-webkit-scrollbar-thumb {
   @apply rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700;
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
