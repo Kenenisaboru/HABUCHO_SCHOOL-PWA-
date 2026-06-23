@@ -3,20 +3,11 @@
  */
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import DashboardLayout from "../../layouts/DashboardLayout";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import useAuthStore from "../../context/authStore";
 import { getGrades } from "../../services/authService";
 import { getGradeLetter, exportGradesToPDF } from "../../utils/helpers";
 
-const studentLinks = [
-  { to: "/student", label: "Dashboard", icon: "📊", end: true },
-  { to: "/student/grades", label: "My Grades", icon: "📝" },
-  { to: "/student/schedule", label: "Schedule", icon: "📅" },
-  { to: "/student/announcements", label: "Announcements", icon: "📢" },
-  { to: "/student/contact", label: "Contact", icon: "✉️" },
-  { to: "/student/profile", label: "Profile", icon: "👤" },
-];
 
 const StudentGrades = () => {
   const user = useAuthStore((s) => s.user);
@@ -51,7 +42,7 @@ const StudentGrades = () => {
     : 0;
 
   return (
-    <DashboardLayout links={studentLinks} title="My Grades">
+    <>
       <div className="mb-6 flex items-center justify-between">
         <div>
           <p className="text-sm text-gray-500">Overall Average</p>
@@ -94,7 +85,7 @@ const StudentGrades = () => {
           </table>
         </div>
       )}
-    </DashboardLayout>
+    </>
   );
 };
 
