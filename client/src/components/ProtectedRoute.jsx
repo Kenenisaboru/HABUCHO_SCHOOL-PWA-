@@ -1,10 +1,7 @@
-/**
- * ProtectedRoute — Redirects unauthenticated users to /login
- */
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, Outlet } from "react-router-dom";
 import useAuthStore from "../context/authStore";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = () => {
   const token = useAuthStore((s) => s.token);
   const location = useLocation();
 
@@ -12,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  return children;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;
