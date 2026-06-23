@@ -4,18 +4,10 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import DashboardLayout from "../../layouts/DashboardLayout";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { getAnnouncements, createAnnouncement } from "../../services/authService";
 import { formatDate } from "../../utils/helpers";
 
-const teacherLinks = [
-  { to: "/teacher", label: "Dashboard", icon: "📊", end: true },
-  { to: "/teacher/schedule", label: "My Schedule", icon: "📅" },
-  { to: "/teacher/grades", label: "Grades", icon: "📝" },
-  { to: "/teacher/announcements", label: "Announcements", icon: "📢" },
-  { to: "/teacher/profile", label: "Profile", icon: "👤" },
-];
 
 const TeacherAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -51,7 +43,7 @@ const TeacherAnnouncements = () => {
   };
 
   return (
-    <DashboardLayout links={teacherLinks} title="Announcements">
+    <>
       <div className="mb-6 flex justify-end">
         <button onClick={() => setShowForm(!showForm)} className="btn-primary">
           {showForm ? "Cancel" : "+ New Announcement"}
@@ -79,7 +71,7 @@ const TeacherAnnouncements = () => {
           ))}
         </div>
       )}
-    </DashboardLayout>
+    </>
   );
 };
 
