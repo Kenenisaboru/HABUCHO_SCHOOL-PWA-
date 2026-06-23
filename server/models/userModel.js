@@ -27,30 +27,27 @@ export const createUser = async ({ full_name, email, password, role }) => {
 };
 
 export const getAllUsers = async ({ search, role, limit, offset }) => {
-  let query = "SELECT id, full_name, email, role, profile_picture, created_at FROM users WHERE 1=1";
+  let baseQuery = " FROM users WHERE 1=1";
   const params = [];
   let paramIndex = 1;
 
   if (search) {
-    query += ` AND (full_name ILIKE $${paramIndex} OR email ILIKE $${paramIndex})`;
+    baseQuery += ` AND (full_name ILIKE $${paramIndex} OR email ILIKE $${paramIndex})`;
     params.push(`%${search}%`);
     paramIndex++;
   }
 
   if (role) {
-    query += ` AND role = $${paramIndex}`;
+    baseQuery += ` AND role = $${paramIndex}`;
     params.push(role);
     paramIndex++;
   }
 
   // Count total for pagination
-  const countResult = await pool.query(
-    query.replace("SELECT id, full_name, email, role, profile_picture, created_at", "SELECT COUNT(*)"),
-    params
-  );
+  const countResult = await pool.query("SELECT COUNT(*)" + baseQuery, params);
   const total = parseInt(countResult.rows[0].count, 10);
 
-  query += ` ORDER BY created_at DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
+  const query = "SELECT id, full_name, email, role, profile_picture, created_at" + baseQuery + ` ORDER BY created_at DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
   params.push(limit, offset);
 
   const result = await pool.query(query, params);
