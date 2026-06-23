@@ -14,7 +14,7 @@ import {
   getSchedules,
   submitContact,
 } from "../../services/authService";
-import { getGradeLetter, formatTime, exportGradesToPDF } from "../../utils/helpers";
+import { getGradeLetter, formatTime, exportGradesToPDF, formatDate } from "../../utils/helpers";
 
 const StudentDashboard = () => {
   const { user } = useAuthStore();
