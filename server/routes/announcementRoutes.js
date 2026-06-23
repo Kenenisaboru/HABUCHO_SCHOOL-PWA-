@@ -13,11 +13,12 @@ import {
   deleteAnnouncement,
 } from "../controllers/announcementController.js";
 import { authenticateUser, authorizeRoles } from "../middleware/auth.js";
+import { validateAnnouncement } from "../middleware/validate.js";
 
 const router = Router();
 
 router.get("/", authenticateUser, getAnnouncements);
-router.post("/", authenticateUser, authorizeRoles("admin", "teacher"), createAnnouncement);
+router.post("/", authenticateUser, authorizeRoles("admin", "teacher"), validateAnnouncement, createAnnouncement);
 router.put("/:id", authenticateUser, authorizeRoles("admin", "teacher"), updateAnnouncement);
 router.delete("/:id", authenticateUser, authorizeRoles("admin", "teacher"), deleteAnnouncement);
 
