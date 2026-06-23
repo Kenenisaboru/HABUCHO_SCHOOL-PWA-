@@ -6,8 +6,7 @@
 import pool from "../config/db.js";
 
 export const getAllSchedules = async ({ grade_level, teacher_id, limit, offset }) => {
-  let query = `
-    SELECT s.*, u.full_name AS teacher_name
+  let baseQuery = `
     FROM schedules s
     LEFT JOIN users u ON s.teacher_id = u.id
     WHERE 1=1`;
@@ -15,19 +14,18 @@ export const getAllSchedules = async ({ grade_level, teacher_id, limit, offset }
   let paramIndex = 1;
 
   if (grade_level) {
-    query += ` AND s.grade_level = $${paramIndex++}`;
+    baseQuery += ` AND s.grade_level = $${paramIndex++}`;
     params.push(grade_level);
   }
   if (teacher_id) {
-    query += ` AND s.teacher_id = $${paramIndex++}`;
+    baseQuery += ` AND s.teacher_id = $${paramIndex++}`;
     params.push(teacher_id);
   }
 
-  const countQuery = query.replace("SELECT s.*, u.full_name AS teacher_name", "SELECT COUNT(*)");
-  const countResult = await pool.query(countQuery, params);
+  const countResult = await pool.query("SELECT COUNT(*)" + baseQuery, params);
   const total = parseInt(countResult.rows[0].count, 10);
 
-  query += ` ORDER BY s.day, s.start_time LIMIT $${paramIndex++} OFFSET $${paramIndex}`;
+  const query = "SELECT s.*, u.full_name AS teacher_name" + baseQuery + ` ORDER BY s.day, s.start_time LIMIT $${paramIndex++} OFFSET $${paramIndex}`;
   params.push(limit, offset);
 
   const result = await pool.query(query, params);
