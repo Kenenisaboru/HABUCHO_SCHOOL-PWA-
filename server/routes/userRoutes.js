@@ -14,6 +14,7 @@ import {
   getStudents,
 } from "../controllers/userController.js";
 import { authenticateUser, authorizeRoles } from "../middleware/auth.js";
+import { validateCreateUser } from "../middleware/validate.js";
 
 const router = Router();
 
@@ -25,7 +26,7 @@ router.use(authenticateUser, authorizeRoles("admin"));
 router.get("/stats", getStats);
 router.get("/", getUsers);
 router.get("/:id", getUserById);
-router.post("/", createUser);
+router.post("/", validateCreateUser, createUser);
 router.put("/:id", updateUser);
 router.delete("/:id", deleteUser);
 
