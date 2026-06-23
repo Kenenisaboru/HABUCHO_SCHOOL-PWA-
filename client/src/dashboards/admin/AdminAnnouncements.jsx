@@ -4,19 +4,10 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import DashboardLayout from "../../layouts/DashboardLayout";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { getAnnouncements, createAnnouncement, updateAnnouncement, deleteAnnouncement } from "../../services/authService";
 import { formatDate } from "../../utils/helpers";
 
-const adminLinks = [
-  { to: "/admin", label: "Dashboard", icon: "📊", end: true },
-  { to: "/admin/users", label: "Users", icon: "👥" },
-  { to: "/admin/schedules", label: "Schedules", icon: "📅" },
-  { to: "/admin/announcements", label: "Announcements", icon: "📢" },
-  { to: "/admin/messages", label: "Messages", icon: "✉️" },
-  { to: "/admin/profile", label: "Profile", icon: "👤" },
-];
 
 const AdminAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -80,7 +71,7 @@ const AdminAnnouncements = () => {
   };
 
   return (
-    <DashboardLayout links={adminLinks} title="Announcement Management">
+    <>
       <div className="mb-6 flex justify-end">
         <button onClick={openCreate} className="btn-primary">+ New Announcement</button>
       </div>
@@ -120,7 +111,7 @@ const AdminAnnouncements = () => {
           </div>
         </div>
       )}
-    </DashboardLayout>
+    </>
   );
 };
 
