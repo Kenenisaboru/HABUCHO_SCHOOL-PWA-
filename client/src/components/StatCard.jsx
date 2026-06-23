@@ -10,7 +10,7 @@ const StatCard = ({ title, value, icon, color = "emerald" }) => {
   };
 
   return (
-    <div className="card flex items-center gap-4 border border-slate-100 bg-white p-5 shadow-xs dark:border-slate-800/60 dark:bg-slate-900">
+    <div className="card flex items-center gap-4 border border-slate-100 bg-white p-5 shadow-xs transition-transform duration-300 hover:-translate-y-1 hover:shadow-md dark:border-slate-800/60 dark:bg-slate-900">
       <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-xl font-semibold ${colors[color]}`}>
         {icon}
       </div>
