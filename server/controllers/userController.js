@@ -6,6 +6,8 @@
 import bcrypt from "bcryptjs";
 import * as UserModel from "../models/userModel.js";
 import { sendSuccess, sendError, getPagination } from "../utils/response.js";
+import { countAnnouncements } from "../models/announcementModel.js";
+import { countSchedules } from "../models/scheduleModel.js";
 
 export const getUsers = async (req, res, next) => {
   try {
@@ -52,7 +54,7 @@ export const createUser = async (req, res, next) => {
     const existing = await UserModel.findUserByEmail(email);
     if (existing) return sendError(res, "Email already exists", 409);
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 12);
     const user = await UserModel.createUser({
       full_name,
       email,
@@ -72,7 +74,7 @@ export const updateUser = async (req, res, next) => {
     const updateData = { full_name, email, role };
 
     if (password) {
-      updateData.password = await bcrypt.hash(password, 10);
+      updateData.password = await bcrypt.hash(password, 12);
     }
 
     const user = await UserModel.updateUser(req.params.id, updateData);
@@ -116,14 +118,15 @@ export const getStudents = async (req, res, next) => {
 
 export const getStats = async (req, res, next) => {
   try {
-    const [students, teachers, announcements, schedules] = await Promise.all([
+    const [admins, students, teachers, announcements, schedules] = await Promise.all([
+      UserModel.countUsersByRole("admin"),
       UserModel.countUsersByRole("student"),
       UserModel.countUsersByRole("teacher"),
-      import("../models/announcementModel.js").then((m) => m.countAnnouncements()),
-      import("../models/scheduleModel.js").then((m) => m.countSchedules()),
+      countAnnouncements(),
+      countSchedules(),
     ]);
 
-    return sendSuccess(res, { students, teachers, announcements, schedules });
+    return sendSuccess(res, { admins, students, teachers, announcements, schedules });
   } catch (error) {
     next(error);
   }
