@@ -3,18 +3,10 @@
  */
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import DashboardLayout from "../../layouts/DashboardLayout";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { getSchedules } from "../../services/authService";
 import { formatTime } from "../../utils/helpers";
 
-const teacherLinks = [
-  { to: "/teacher", label: "Dashboard", icon: "📊", end: true },
-  { to: "/teacher/schedule", label: "My Schedule", icon: "📅" },
-  { to: "/teacher/grades", label: "Grades", icon: "📝" },
-  { to: "/teacher/announcements", label: "Announcements", icon: "📢" },
-  { to: "/teacher/profile", label: "Profile", icon: "👤" },
-];
 
 const TeacherSchedule = () => {
   const [schedules, setSchedules] = useState([]);
@@ -35,7 +27,7 @@ const TeacherSchedule = () => {
   }, []);
 
   return (
-    <DashboardLayout links={teacherLinks} title="My Schedule">
+    <>
       {loading ? (
         <LoadingSpinner className="py-20" />
       ) : schedules.length === 0 ? (
@@ -54,7 +46,7 @@ const TeacherSchedule = () => {
           ))}
         </div>
       )}
-    </DashboardLayout>
+    </>
   );
 };
 
