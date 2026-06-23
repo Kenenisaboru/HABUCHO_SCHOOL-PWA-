@@ -70,15 +70,15 @@ const Home = () => {
               <img
                 src={src}
                 alt={`Habucho School Background ${index + 1}`}
-                className={`h-full w-full object-cover transition-transform duration-[6000ms] ease-out ${
+                className={`h-full w-full object-cover transition-transform duration-6000 ease-out ${
                   index === currentImageIndex ? "scale-105" : "scale-100"
                 }`}
               />
             </div>
           ))}
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-teal-700/60 mix-blend-multiply"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-teal-700/30"></div>
+          <div className="absolute inset-0 bg-linear-to-r from-blue-900/80 to-teal-700/60 mix-blend-multiply"></div>
+          <div className="absolute inset-0 bg-linear-to-r from-blue-900/50 to-teal-700/30"></div>
         </div>
 
         {/* Content */}
@@ -170,7 +170,7 @@ const Home = () => {
       </section>
 
       {/* CTA */}
-      <section className="bg-gradient-to-r from-emerald-500 to-blue-600 px-4 py-16 text-white">
+      <section className="bg-linear-to-r from-emerald-500 to-blue-600 px-4 py-16 text-white">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="mb-4 text-3xl font-bold">Ready to Get Started?</h2>
           <p className="mb-8 text-emerald-100">
