@@ -7,7 +7,7 @@ const NotFound = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4 dark:bg-gray-900">
       <div className="text-center">
-        <h1 className="bg-gradient-to-r from-blue-600 to-emerald-500 bg-clip-text text-9xl font-extrabold text-transparent">
+        <h1 className="bg-linear-to-r from-blue-600 to-emerald-500 bg-clip-text text-9xl font-extrabold text-transparent">
           404
         </h1>
         <h2 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
@@ -19,7 +19,7 @@ const NotFound = () => {
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Link
             to="/"
-            className="rounded-full bg-blue-600 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all duration-300 transform hover:scale-105"
+            className="rounded-full bg-blue-600 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all duration-300 transform hover:scale-105"
           >
             Go back home
           </Link>
