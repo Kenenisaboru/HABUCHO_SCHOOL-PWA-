@@ -22,7 +22,7 @@ const seed = async () => {
   await pool.query("DELETE FROM schedules");
   await pool.query("DELETE FROM announcements");
   await pool.query("DELETE FROM contact_messages");
-  await pool.query("DELETE FROM users RESTART IDENTITY CASCADE");
+  await pool.query("TRUNCATE TABLE users RESTART IDENTITY CASCADE");
 
   // --- Users ---
   const usersResult = await pool.query(
@@ -72,13 +72,13 @@ const seed = async () => {
   // --- Grades ---
   await pool.query(
     `INSERT INTO grades (student_id, teacher_id, subject, score, semester) VALUES
-      ($1, $3, 'Mathematics', 88.50, 'Semester 1'),
-      ($1, $3, 'English', 92.00, 'Semester 1'),
-      ($1, $4, 'Physics', 85.75, 'Semester 1'),
-      ($2, $3, 'Mathematics', 76.00, 'Semester 1'),
-      ($2, $4, 'Chemistry', 81.25, 'Semester 1'),
-      ($3, $3, 'Mathematics', 94.50, 'Semester 1'),
-      ($3, $4, 'Biology', 89.00, 'Semester 1')`,
+      ($1, $4, 'Mathematics', 88.50, 'Semester 1'),
+      ($1, $4, 'English', 92.00, 'Semester 1'),
+      ($1, $5, 'Physics', 85.75, 'Semester 1'),
+      ($2, $4, 'Mathematics', 76.00, 'Semester 1'),
+      ($2, $5, 'Chemistry', 81.25, 'Semester 1'),
+      ($3, $4, 'Mathematics', 94.50, 'Semester 1'),
+      ($3, $5, 'Biology', 89.00, 'Semester 1')`,
     [students[0].id, students[1].id, students[2].id, teacher1.id, teacher2.id]
   );
   console.log("  ✅ Grades seeded");
