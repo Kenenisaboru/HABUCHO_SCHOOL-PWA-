@@ -6,10 +6,7 @@
 import pool from "../config/db.js";
 
 export const getAllGrades = async ({ student_id, teacher_id, limit, offset }) => {
-  let query = `
-    SELECT g.*, 
-           s.full_name AS student_name, 
-           t.full_name AS teacher_name
+  let baseQuery = `
     FROM grades g
     LEFT JOIN users s ON g.student_id = s.id
     LEFT JOIN users t ON g.teacher_id = t.id
@@ -18,22 +15,22 @@ export const getAllGrades = async ({ student_id, teacher_id, limit, offset }) =>
   let paramIndex = 1;
 
   if (student_id) {
-    query += ` AND g.student_id = $${paramIndex++}`;
+    baseQuery += ` AND g.student_id = $${paramIndex++}`;
     params.push(student_id);
   }
   if (teacher_id) {
-    query += ` AND g.teacher_id = $${paramIndex++}`;
+    baseQuery += ` AND g.teacher_id = $${paramIndex++}`;
     params.push(teacher_id);
   }
 
-  const countQuery = query.replace(
-    "SELECT g.*, \n           s.full_name AS student_name, \n           t.full_name AS teacher_name",
-    "SELECT COUNT(*)"
-  );
-  const countResult = await pool.query(countQuery, params);
+  const countResult = await pool.query("SELECT COUNT(*)" + baseQuery, params);
   const total = parseInt(countResult.rows[0].count, 10);
 
-  query += ` ORDER BY g.semester, g.subject LIMIT $${paramIndex++} OFFSET $${paramIndex}`;
+  const query = `
+    SELECT g.*, 
+           s.full_name AS student_name, 
+           t.full_name AS teacher_name
+    ` + baseQuery + ` ORDER BY g.semester, g.subject LIMIT $${paramIndex++} OFFSET $${paramIndex}`;
   params.push(limit, offset);
 
   const result = await pool.query(query, params);
