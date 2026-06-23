@@ -1,12 +1,8 @@
-/**
- * RoleGuard — Restricts routes to specific user roles
- * Redirects unauthorized users to their own dashboard or home.
- */
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import useAuthStore from "../context/authStore";
 import { getDashboardPath } from "../utils/helpers";
 
-const RoleGuard = ({ children, allowedRoles = [] }) => {
+const RoleGuard = ({ allowedRoles = [] }) => {
   const user = useAuthStore((s) => s.user);
 
   if (!user) {
@@ -17,7 +13,7 @@ const RoleGuard = ({ children, allowedRoles = [] }) => {
     return <Navigate to={getDashboardPath(user.role)} replace />;
   }
 
-  return children;
+  return <Outlet />;
 };
 
 export default RoleGuard;
