@@ -3,20 +3,11 @@
  */
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import DashboardLayout from "../../layouts/DashboardLayout";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import Pagination from "../../components/Pagination";
 import { getContactMessages, deleteContactMessage } from "../../services/authService";
 import { formatDate } from "../../utils/helpers";
 
-const adminLinks = [
-  { to: "/admin", label: "Dashboard", icon: "📊", end: true },
-  { to: "/admin/users", label: "Users", icon: "👥" },
-  { to: "/admin/schedules", label: "Schedules", icon: "📅" },
-  { to: "/admin/announcements", label: "Announcements", icon: "📢" },
-  { to: "/admin/messages", label: "Messages", icon: "✉️" },
-  { to: "/admin/profile", label: "Profile", icon: "👤" },
-];
 
 const AdminMessages = () => {
   const [messages, setMessages] = useState([]);
@@ -51,7 +42,7 @@ const AdminMessages = () => {
   };
 
   return (
-    <DashboardLayout links={adminLinks} title="Contact Messages">
+    <>
       {loading ? (
         <LoadingSpinner className="py-20" />
       ) : messages.length === 0 ? (
@@ -76,7 +67,7 @@ const AdminMessages = () => {
         </div>
       )}
       <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
-    </DashboardLayout>
+    </>
   );
 };
 
