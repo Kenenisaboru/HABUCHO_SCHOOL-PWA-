@@ -8,7 +8,7 @@ const Sidebar = ({ links }) => {
   const user = useAuthStore((s) => s.user);
 
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-150 ${
+    `group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-150 ${
       isActive
         ? "bg-primary/10 text-primary dark:bg-primary/20"
         : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/40 dark:hover:text-slate-100"
