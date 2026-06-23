@@ -10,21 +10,32 @@ import { sendSuccess, sendError } from "../utils/response.js";
 
 export const register = async (req, res, next) => {
   try {
-    const { full_name, email, password, role } = req.body;
+    const { full_name, email, password } = req.body;
 
     if (!full_name || !email || !password) {
       return sendError(res, "Full name, email, and password are required");
     }
 
-    const validRoles = ["admin", "teacher", "student"];
-    const userRole = role && validRoles.includes(role) ? role : "student";
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return sendError(res, "Invalid email format");
+    }
+
+    // Validate password strength
+    if (password.length < 8) {
+      return sendError(res, "Password must be at least 8 characters long");
+    }
+
+    // Public registration is always "student" — admins/teachers are created by admin
+    const userRole = "student";
 
     const existing = await UserModel.findUserByEmail(email);
     if (existing) {
       return sendError(res, "Email already registered", 409);
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 12);
     const user = await UserModel.createUser({
       full_name,
       email,
