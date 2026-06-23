@@ -3,21 +3,12 @@
  */
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import DashboardLayout from "../../layouts/DashboardLayout";
 import StatCard from "../../components/StatCard";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import useAuthStore from "../../context/authStore";
 import { getGrades, getAnnouncements, getSchedules } from "../../services/authService";
 import { getGradeLetter } from "../../utils/helpers";
 
-const studentLinks = [
-  { to: "/student", label: "Dashboard", icon: "📊", end: true },
-  { to: "/student/grades", label: "My Grades", icon: "📝" },
-  { to: "/student/schedule", label: "Schedule", icon: "📅" },
-  { to: "/student/announcements", label: "Announcements", icon: "📢" },
-  { to: "/student/contact", label: "Contact", icon: "✉️" },
-  { to: "/student/profile", label: "Profile", icon: "👤" },
-];
 
 const StudentDashboard = () => {
   const user = useAuthStore((s) => s.user);
@@ -50,10 +41,10 @@ const StudentDashboard = () => {
     ? (grades.reduce((sum, g) => sum + parseFloat(g.score), 0) / grades.length).toFixed(1)
     : "N/A";
 
-  if (loading) return <DashboardLayout links={studentLinks} title="Student Dashboard"><LoadingSpinner className="py-20" /></DashboardLayout>;
+  if (loading) return <LoadingSpinner className="py-20" />;
 
   return (
-    <DashboardLayout links={studentLinks} title="Student Dashboard">
+    <>
       <p className="mb-6 text-lg">Welcome back, <span className="font-semibold text-blue-600">{user?.name}</span>!</p>
 
       <div className="grid gap-6 sm:grid-cols-3">
@@ -85,7 +76,7 @@ const StudentDashboard = () => {
           </div>
         )}
       </div>
-    </DashboardLayout>
+    </>
   );
 };
 
