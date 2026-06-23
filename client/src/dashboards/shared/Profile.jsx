@@ -37,7 +37,7 @@ const Profile = () => {
     <>
       <div className="mx-auto max-w-lg">
         <div className="card text-center">
-          <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-emerald-500 text-3xl font-bold text-white">
+          <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-linear-to-br from-blue-600 to-emerald-500 text-3xl font-bold text-white">
             {profile?.full_name?.charAt(0) || user?.name?.charAt(0) || "U"}
           </div>
           <h2 className="text-xl font-bold">{profile?.full_name || user?.name}</h2>
