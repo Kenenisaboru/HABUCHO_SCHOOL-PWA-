@@ -70,13 +70,15 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="mt-6 rounded-lg bg-gray-50 p-4 text-xs text-gray-500 dark:bg-gray-700">
-          <p className="mb-1 font-semibold">Demo Accounts:</p>
-          <p>Admin: admin@habucho.edu</p>
-          <p>Teacher: teacher@habucho.edu</p>
-          <p>Student: student@habucho.edu</p>
-          <p className="mt-1">Password: Password123!</p>
-        </div>
+        {import.meta.env.DEV && (
+          <div className="mt-6 rounded-lg bg-gray-50 p-4 text-xs text-gray-500 dark:bg-gray-700">
+            <p className="mb-1 font-semibold">Demo Accounts:</p>
+            <p>Admin: admin@habucho.edu</p>
+            <p>Teacher: teacher@habucho.edu</p>
+            <p>Student: student@habucho.edu</p>
+            <p className="mt-1">Password: Password123!</p>
+          </div>
+        )}
 
         <p className="mt-4 text-center text-sm text-gray-500">
           <Link to="/" className="text-blue-600 hover:underline">← Back to Home</Link>
