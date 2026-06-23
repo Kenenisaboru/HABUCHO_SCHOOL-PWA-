@@ -3,19 +3,10 @@
  */
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import DashboardLayout from "../../layouts/DashboardLayout";
 import SkeletonLoader from "../../components/SkeletonLoader";
 import { getAnnouncements } from "../../services/authService";
 import { formatDate } from "../../utils/helpers";
 
-const studentLinks = [
-  { to: "/student", label: "Dashboard", icon: "📊", end: true },
-  { to: "/student/grades", label: "My Grades", icon: "📝" },
-  { to: "/student/schedule", label: "Schedule", icon: "📅" },
-  { to: "/student/announcements", label: "Announcements", icon: "📢" },
-  { to: "/student/contact", label: "Contact", icon: "✉️" },
-  { to: "/student/profile", label: "Profile", icon: "👤" },
-];
 
 const StudentAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -36,7 +27,7 @@ const StudentAnnouncements = () => {
   }, []);
 
   return (
-    <DashboardLayout links={studentLinks} title="Announcements">
+    <>
       {loading ? (
         <SkeletonLoader count={3} />
       ) : announcements.length === 0 ? (
@@ -52,7 +43,7 @@ const StudentAnnouncements = () => {
           ))}
         </div>
       )}
-    </DashboardLayout>
+    </>
   );
 };
 
