@@ -1,22 +1,29 @@
-/**
- * DashboardLayout — Authenticated dashboard wrapper with Sidebar
- */
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation, Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import useAuthStore from "../context/authStore";
 import { useTheme } from "../context/ThemeContext";
 
-const DashboardLayout = ({ children, links, title }) => {
+const DashboardLayout = ({ links, title }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { logout } = useAuthStore();
   const { darkMode, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
     navigate("/");
   };
+
+  // Determine current active link label as title
+  const activeLink = links?.find((link) => {
+    if (link.end) {
+      return location.pathname === link.to;
+    }
+    return location.pathname.startsWith(link.to);
+  });
+  const displayTitle = activeLink ? activeLink.label : title || "Portal";
 
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 font-sans">
@@ -49,7 +56,7 @@ const DashboardLayout = ({ children, links, title }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
               </svg>
             </button>
-            <h1 className="text-md font-bold tracking-tight text-slate-900 dark:text-white">{title}</h1>
+            <h1 className="text-md font-bold tracking-tight text-slate-900 dark:text-white">{displayTitle}</h1>
           </div>
           <div className="flex items-center gap-3">
             <button 
@@ -67,7 +74,9 @@ const DashboardLayout = ({ children, links, title }) => {
           </div>
         </header>
 
-        <main className="flex-1 p-6 overflow-y-auto max-w-7xl w-full mx-auto">{children}</main>
+        <main className="flex-1 p-6 overflow-y-auto max-w-7xl w-full mx-auto">
+          <Outlet />
+        </main>
       </div>
     </div>
   );
