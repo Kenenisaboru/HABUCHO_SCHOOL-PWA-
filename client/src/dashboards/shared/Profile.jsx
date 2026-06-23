@@ -3,13 +3,12 @@
  */
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import DashboardLayout from "../../layouts/DashboardLayout";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import useAuthStore from "../../context/authStore";
 import { getProfile } from "../../services/authService";
 import { formatDate, capitalize } from "../../utils/helpers";
 
-const Profile = ({ links, title }) => {
+const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const user = useAuthStore((s) => s.user);
@@ -30,14 +29,12 @@ const Profile = ({ links, title }) => {
 
   if (loading) {
     return (
-      <DashboardLayout links={links} title={title}>
-        <LoadingSpinner className="py-20" />
-      </DashboardLayout>
+      <LoadingSpinner className="py-20" />
     );
   }
 
   return (
-    <DashboardLayout links={links} title={title}>
+    <>
       <div className="mx-auto max-w-lg">
         <div className="card text-center">
           <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-emerald-500 text-3xl font-bold text-white">
@@ -64,7 +61,7 @@ const Profile = ({ links, title }) => {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </>
   );
 };
 
