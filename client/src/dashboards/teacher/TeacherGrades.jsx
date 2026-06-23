@@ -4,18 +4,10 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import DashboardLayout from "../../layouts/DashboardLayout";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { getGrades, createGrade, updateGrade, deleteGrade, getStudents } from "../../services/authService";
 import { getGradeLetter } from "../../utils/helpers";
 
-const teacherLinks = [
-  { to: "/teacher", label: "Dashboard", icon: "📊", end: true },
-  { to: "/teacher/schedule", label: "My Schedule", icon: "📅" },
-  { to: "/teacher/grades", label: "Grades", icon: "📝" },
-  { to: "/teacher/announcements", label: "Announcements", icon: "📢" },
-  { to: "/teacher/profile", label: "Profile", icon: "👤" },
-];
 
 const TeacherGrades = () => {
   const [grades, setGrades] = useState([]);
@@ -84,7 +76,7 @@ const TeacherGrades = () => {
   };
 
   return (
-    <DashboardLayout links={teacherLinks} title="Grade Management">
+    <>
       <div className="mb-6 flex justify-end">
         <button onClick={openCreate} className="btn-primary">+ Add Grade</button>
       </div>
@@ -154,7 +146,7 @@ const TeacherGrades = () => {
           </div>
         </div>
       )}
-    </DashboardLayout>
+    </>
   );
 };
 
