@@ -2,19 +2,11 @@
  * Teacher Dashboard — Overview with assigned schedule
  */
 import { useEffect, useState } from "react";
-import DashboardLayout from "../../layouts/DashboardLayout";
 import StatCard from "../../components/StatCard";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { getSchedules, getGrades, getAnnouncements } from "../../services/authService";
 import { formatTime } from "../../utils/helpers";
 
-const teacherLinks = [
-  { to: "/teacher", label: "Dashboard", icon: "📊", end: true },
-  { to: "/teacher/schedule", label: "My Schedule", icon: "📅" },
-  { to: "/teacher/grades", label: "Grades", icon: "📝" },
-  { to: "/teacher/announcements", label: "Announcements", icon: "📢" },
-  { to: "/teacher/profile", label: "Profile", icon: "👤" },
-];
 
 const TeacherDashboard = () => {
   const [schedules, setSchedules] = useState([]);
@@ -42,10 +34,10 @@ const TeacherDashboard = () => {
     fetchData();
   }, []);
 
-  if (loading) return <DashboardLayout links={teacherLinks} title="Teacher Dashboard"><LoadingSpinner className="py-20" /></DashboardLayout>;
+  if (loading) return <LoadingSpinner className="py-20" />;
 
   return (
-    <DashboardLayout links={teacherLinks} title="Teacher Dashboard">
+    <>
       <div className="grid gap-6 sm:grid-cols-3">
         <StatCard title="My Classes" value={schedules.length} icon="📚" color="blue" />
         <StatCard title="Grades Entered" value={gradeCount} icon="📝" color="emerald" />
@@ -72,7 +64,7 @@ const TeacherDashboard = () => {
           </div>
         )}
       </div>
-    </DashboardLayout>
+    </>
   );
 };
 
