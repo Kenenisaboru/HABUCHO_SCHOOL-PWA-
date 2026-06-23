@@ -4,19 +4,10 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import DashboardLayout from "../../layouts/DashboardLayout";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { getSchedules, createSchedule, updateSchedule, deleteSchedule, getUsers } from "../../services/authService";
 import { formatTime } from "../../utils/helpers";
 
-const adminLinks = [
-  { to: "/admin", label: "Dashboard", icon: "📊", end: true },
-  { to: "/admin/users", label: "Users", icon: "👥" },
-  { to: "/admin/schedules", label: "Schedules", icon: "📅" },
-  { to: "/admin/announcements", label: "Announcements", icon: "📢" },
-  { to: "/admin/messages", label: "Messages", icon: "✉️" },
-  { to: "/admin/profile", label: "Profile", icon: "👤" },
-];
 
 const AdminSchedules = () => {
   const [schedules, setSchedules] = useState([]);
@@ -93,7 +84,7 @@ const AdminSchedules = () => {
   };
 
   return (
-    <DashboardLayout links={adminLinks} title="Schedule Management">
+    <>
       <div className="mb-6 flex justify-end">
         <button onClick={openCreate} className="btn-primary">+ Add Schedule</button>
       </div>
@@ -165,7 +156,7 @@ const AdminSchedules = () => {
           </div>
         </div>
       )}
-    </DashboardLayout>
+    </>
   );
 };
 
