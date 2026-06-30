@@ -59,10 +59,10 @@ const Profile = () => {
         <p className="text-sm text-slate-500 dark:text-slate-400">View your personal account details</p>
       </div>
 
-      <div className="card overflow-hidden !p-0">
+      <div className="card overflow-hidden p-0!">
         {/* Cover Photo / Header Area */}
         <div className="relative h-32 w-full bg-slate-900 sm:h-40">
-          <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-700 opacity-90" />
+          <div className="absolute inset-0 bg-linear-to-r from-emerald-600 to-teal-700 opacity-90" />
           <div
             className="absolute inset-0 opacity-[0.15]"
             style={{ backgroundImage: "radial-gradient(rgba(255,255,255,1) 1px, transparent 1px)", backgroundSize: "16px 16px" }}
@@ -73,7 +73,7 @@ const Profile = () => {
         <div className="relative px-6 pb-8 sm:px-10">
           {/* Avatar (overlapping cover) */}
           <div className="relative -mt-16 mb-4 flex justify-between items-end sm:-mt-20">
-            <div className={`flex h-32 w-32 items-center justify-center rounded-2xl border-4 border-white bg-gradient-to-br ${roleGradient} text-5xl font-extrabold text-white shadow-xl dark:border-slate-900`}>
+            <div className={`flex h-32 w-32 items-center justify-center rounded-2xl border-4 border-white bg-linear-to-br ${roleGradient} text-5xl font-extrabold text-white shadow-xl dark:border-slate-900`}>
               {displayData.name.charAt(0).toUpperCase()}
             </div>
             {/* Edit Button (Placeholder) */}
@@ -90,7 +90,7 @@ const Profile = () => {
             <h3 className="font-display text-2xl font-bold text-slate-900 dark:text-white">
               {displayData.name}
             </h3>
-            <span className={`mt-2 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r ${roleGradient.split(" shadow")[0]} px-3 py-1 text-xs font-bold capitalize tracking-wide text-white shadow-sm`}>
+            <span className={`mt-2 inline-flex items-center gap-1.5 rounded-full bg-linear-to-r ${roleGradient.split(" shadow")[0]} px-3 py-1 text-xs font-bold capitalize tracking-wide text-white shadow-sm`}>
               <span className="h-1.5 w-1.5 rounded-full bg-white/70 animate-pulse" />
               {displayData.role}
             </span>
