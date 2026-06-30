@@ -44,6 +44,7 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // --- API Routes ---
+app.use("/api", apiLimiter);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/announcements", announcementRoutes);

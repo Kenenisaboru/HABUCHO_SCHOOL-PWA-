@@ -27,7 +27,7 @@ export const authenticateUser = (req, res, next) => {
     };
 
     next();
-  } catch (error) {
+  } catch {
     return sendError(res, "Access denied. Invalid or expired token.", 401);
   }
 };
