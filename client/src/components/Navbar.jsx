@@ -76,7 +76,7 @@ const Navbar = () => {
           >
             <SchoolIcon />
             {/* Shimmer overlay */}
-            <div className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-[100%]" />
+            <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
           </div>
           <div className="hidden sm:block">
             <span className="font-display block text-sm font-extrabold leading-tight tracking-tight text-slate-900 dark:text-white">
