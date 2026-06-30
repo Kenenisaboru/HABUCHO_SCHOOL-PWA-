@@ -10,6 +10,7 @@ import {
   createGrade,
   updateGrade,
   deleteGrade,
+  bulkUpsert,
 } from "../controllers/gradeController.js";
 import { authenticateUser, authorizeRoles } from "../middleware/auth.js";
 import { validateGrade } from "../middleware/validate.js";
@@ -17,6 +18,7 @@ import { validateGrade } from "../middleware/validate.js";
 const router = Router();
 
 router.get("/", authenticateUser, authorizeRoles("admin", "teacher", "student"), getGrades);
+router.post("/bulk", authenticateUser, authorizeRoles("admin", "teacher"), bulkUpsert);
 router.post("/", authenticateUser, authorizeRoles("admin", "teacher"), validateGrade, createGrade);
 router.put("/:id", authenticateUser, authorizeRoles("admin", "teacher"), updateGrade);
 router.delete("/:id", authenticateUser, authorizeRoles("admin", "teacher"), deleteGrade);
