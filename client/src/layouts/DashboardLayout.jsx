@@ -137,7 +137,7 @@ const DashboardLayout = ({ links, title }) => {
             {/* User avatar + logout */}
             <div className="flex items-center gap-2">
               <div
-                className={`flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br ${avatarGradient} text-xs font-bold text-white shadow-sm`}
+                className={`flex h-8 w-8 items-center justify-center rounded-xl bg-linear-to-br ${avatarGradient} text-xs font-bold text-white shadow-sm`}
                 title={user?.name}
               >
                 {user?.name?.charAt(0)?.toUpperCase() || "U"}
