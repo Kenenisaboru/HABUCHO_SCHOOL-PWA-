@@ -1,6 +1,6 @@
 /**
  * Global Styles — Tailwind CSS v4 + custom theme variables
- * Theme: Emerald & Slate with dark mode support
+ * Theme: Emerald & Slate with dark mode support — Premium Edition
  */
 @import "tailwindcss";
 
@@ -16,20 +16,54 @@
   --color-emerald: #10b981;
   --color-emerald-dark: #059669;
 
+  /* Animations */
   --animate-fade-in: fade-in 0.5s ease-out forwards;
   --animate-slide-up: slide-up 0.6s ease-out forwards;
   --animate-float: float 6s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.5s linear infinite;
+  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+  --animate-bounce-soft: bounce-soft 1.4s ease-in-out infinite;
+  --animate-spin-slow: spin 8s linear infinite;
+  --animate-slide-in-left: slide-in-left 0.5s ease-out forwards;
+  --animate-slide-in-right: slide-in-right 0.5s ease-out forwards;
+  --animate-scale-in: scale-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+
   --keyframes-fade-in: {
     from { opacity: 0; }
     to { opacity: 1; }
   };
   --keyframes-slide-up: {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
   };
   --keyframes-float: {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-10px) rotate(1deg); }
+    66% { transform: translateY(-5px) rotate(-1deg); }
+  };
+  --keyframes-shimmer: {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  };
+  --keyframes-pulse-glow: {
+    0%, 100% { box-shadow: 0 0 20px rgba(5, 150, 105, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(5, 150, 105, 0.6), 0 0 60px rgba(16, 185, 129, 0.2); }
+  };
+  --keyframes-bounce-soft: {
+    0%, 100% { transform: translateY(0); animation-timing-function: cubic-bezier(0.8,0,1,1); }
+    50% { transform: translateY(-6px); animation-timing-function: cubic-bezier(0,0,0.2,1); }
+  };
+  --keyframes-slide-in-left: {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+  };
+  --keyframes-slide-in-right: {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  };
+  --keyframes-scale-in: {
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1); }
   };
 }
 
@@ -47,12 +81,16 @@ body.dark {
   @apply bg-slate-950 text-slate-100;
 }
 
-/* Typography */
+/* ============================================================
+   Typography
+   ============================================================ */
 .font-display {
   font-family: var(--font-display);
 }
 
-/* Cards & Buttons */
+/* ============================================================
+   Cards
+   ============================================================ */
 .card {
   @apply rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-slate-300/80 dark:border-slate-800/60 dark:bg-slate-900 dark:hover:border-slate-700/60;
 }
@@ -61,12 +99,38 @@ body.dark {
   @apply hover:-translate-y-1 hover:shadow-xl;
 }
 
+.card-glow {
+  @apply rounded-2xl border border-emerald-200/50 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-emerald-100/60 hover:shadow-xl hover:border-emerald-300/60 dark:border-emerald-800/30 dark:bg-slate-900 dark:hover:border-emerald-700/40 dark:hover:shadow-emerald-900/30;
+}
+
+/* Gradient border card */
+.card-gradient-border {
+  position: relative;
+  @apply rounded-2xl bg-white p-6 dark:bg-slate-900;
+}
+.card-gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(16,185,129,0.4), rgba(99,102,241,0.1), rgba(16,185,129,0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
 .btn-primary {
-  @apply inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:outline-none disabled:opacity-50 disabled:hover:translate-y-0;
+  @apply inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:shadow-emerald-500/20 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:outline-none disabled:opacity-50 disabled:hover:translate-y-0;
 }
 
 .btn-emerald {
-  @apply inline-flex items-center justify-center rounded-xl bg-emerald px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-emerald-dark hover:shadow-md hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-emerald/30 focus-visible:outline-none disabled:opacity-50;
+  @apply inline-flex items-center justify-center rounded-xl bg-emerald px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-emerald-dark hover:shadow-md hover:shadow-emerald-500/20 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-emerald/30 focus-visible:outline-none disabled:opacity-50;
 }
 
 .btn-outline {
@@ -77,27 +141,66 @@ body.dark {
   @apply inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold text-slate-600 transition-all duration-200 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800/60;
 }
 
+.btn-glow {
+  @apply inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5;
+  animation: var(--animate-pulse-glow);
+}
+
+/* ============================================================
+   Form Inputs
+   ============================================================ */
 .input-field {
   @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary focus:ring-4 focus:ring-primary/10 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-primary;
 }
 
+/* Floating label group */
+.input-float-group {
+  @apply relative;
+}
+.input-float {
+  @apply w-full rounded-xl border border-slate-200 bg-white px-4 pb-2.5 pt-6 text-sm text-slate-900 transition-all focus:border-primary focus:ring-4 focus:ring-primary/10 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-primary;
+}
+.input-float-label {
+  @apply pointer-events-none absolute left-4 top-3.5 text-xs font-medium text-slate-500 transition-all peer-placeholder-shown:top-3.5 peer-focus:top-2 dark:text-slate-400;
+}
+
+/* ============================================================
+   Skeleton
+   ============================================================ */
 .skeleton {
   @apply animate-pulse rounded-lg bg-slate-200/80 dark:bg-slate-800/80;
 }
 
-/* Page sections */
+/* ============================================================
+   Page Sections & Hero
+   ============================================================ */
 .page-hero {
-  @apply relative overflow-hidden bg-linear-to-br from-emerald-600 via-emerald-700 to-slate-900 px-4 py-16 text-white md:py-20;
+  @apply relative overflow-hidden px-4 py-20 text-white md:py-24;
+  background: linear-gradient(135deg, #064e3b 0%, #065f46 30%, #047857 60%, #0f172a 100%);
 }
 
 .page-hero::before {
   content: "";
-  @apply pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_50%)];
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 80% 20%, rgba(52, 211, 153, 0.15) 0%, transparent 50%),
+              radial-gradient(ellipse at 20% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+  pointer-events: none;
 }
 
 .page-hero::after {
   content: "";
-  @apply pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-emerald-400/20 blur-3xl;
+  @apply pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full blur-3xl;
+  background: rgba(52, 211, 153, 0.12);
+}
+
+/* Dot mesh overlay */
+.page-hero-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
 }
 
 .section-label {
@@ -112,22 +215,75 @@ body.dark {
   @apply mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-400;
 }
 
-/* Feature icon wrapper */
+/* ============================================================
+   Feature Icon
+   ============================================================ */
 .feature-icon {
-  @apply mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-primary/10 to-emerald/5 text-2xl transition-transform duration-300 group-hover:scale-110 dark:from-primary/20 dark:to-emerald/10;
+  @apply mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl text-2xl transition-transform duration-300 group-hover:scale-110;
+  background: linear-gradient(135deg, rgba(5,150,105,0.12), rgba(16,185,129,0.06));
 }
 
-/* Glass effect */
+/* ============================================================
+   Glass Effect
+   ============================================================ */
 .glass {
   @apply border border-white/20 bg-white/10 backdrop-blur-md;
 }
 
-/* Gradient text */
-.text-gradient {
-  @apply bg-linear-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent;
+.glass-card {
+  @apply border border-white/10 bg-white/5 backdrop-blur-xl;
 }
 
-/* Scrollbar */
+/* ============================================================
+   Text Utilities
+   ============================================================ */
+.text-gradient {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(135deg, #10b981, #059669, #0d9488);
+}
+
+.text-gradient-hero {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(135deg, #6ee7b7, #34d399, #10b981);
+}
+
+.text-shimmer {
+  background: linear-gradient(90deg, #10b981 0%, #34d399 30%, #10b981 60%, #059669 100%);
+  background-size: 200% auto;
+  @apply bg-clip-text text-transparent;
+  animation: var(--animate-shimmer);
+}
+
+/* ============================================================
+   Badge / Tag
+   ============================================================ */
+.badge {
+  @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold;
+}
+.badge-emerald {
+  @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400;
+}
+.badge-amber {
+  @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400;
+}
+.badge-red {
+  @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400;
+}
+.badge-blue {
+  @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400;
+}
+
+/* ============================================================
+   Divider
+   ============================================================ */
+.gradient-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(16,185,129,0.4), rgba(5,150,105,0.6), rgba(16,185,129,0.4), transparent);
+}
+
+/* ============================================================
+   Scrollbar
+   ============================================================ */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -139,6 +295,9 @@ body.dark {
   @apply rounded-full bg-slate-300 hover:bg-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600;
 }
 
+/* ============================================================
+   Reduced Motion
+   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
