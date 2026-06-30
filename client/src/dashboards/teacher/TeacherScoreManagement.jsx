@@ -75,7 +75,7 @@ const TeacherScoreManagement = () => {
 
       setStudents(roster);
       setGridData(newGridData);
-    } catch (err) {
+    } catch {
       toast.error("Failed to load roster or scores.");
     } finally {
       setLoading(false);
@@ -172,7 +172,7 @@ const TeacherScoreManagement = () => {
       toast.success("All scores saved successfully!");
       // Optionally reload
       loadData();
-    } catch (err) {
+    } catch {
       toast.error("Failed to save scores.");
     } finally {
       setSaving(false);

@@ -100,7 +100,7 @@ const NotFound = () => {
           className="mx-auto mt-4 max-w-md text-base leading-relaxed text-slate-400"
           style={{ animation: "slide-up 0.6s ease-out 0.3s both" }}
         >
-          The page you're looking for seems to have wandered off. Let us help you find your way back.
+          The page you&apos;re looking for seems to have wandered off. Let us help you find your way back.
         </p>
 
         {/* Primary actions */}

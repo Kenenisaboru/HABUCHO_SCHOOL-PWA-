@@ -131,7 +131,7 @@ const Contact = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="card card-gradient-border space-y-5 lg:col-span-3">
             <div className="border-b border-slate-100 pb-5 dark:border-slate-800">
               <h2 className="font-display text-xl font-bold text-slate-900 dark:text-white">Send a Message</h2>
-              <p className="mt-1 text-sm text-slate-500">We'll get back to you within 24 hours.</p>
+              <p className="mt-1 text-sm text-slate-500">We&apos;ll get back to you within 24 hours.</p>
             </div>
 
             {!token && (
