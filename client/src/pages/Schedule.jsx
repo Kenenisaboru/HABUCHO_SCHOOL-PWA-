@@ -4,11 +4,10 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import MainLayout from "../layouts/MainLayout";
+import PageHeader from "../components/PageHeader";
 import SkeletonLoader from "../components/SkeletonLoader";
 import { getSchedules } from "../services/authService";
 import { formatTime } from "../utils/helpers";
-
-const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
 const Schedule = () => {
   const [schedules, setSchedules] = useState([]);
@@ -48,23 +47,22 @@ const Schedule = () => {
 
   return (
     <MainLayout>
-      <section className="bg-gradient-to-r from-blue-600 to-emerald-500 px-4 py-12 text-white">
-        <div className="mx-auto max-w-7xl text-center">
-          <h1 className="text-3xl font-bold">Class Schedule</h1>
-          <p className="mt-2 text-blue-100">Weekly timetable for all grade levels</p>
-        </div>
-      </section>
+      <PageHeader
+        badge="Timetable"
+        title="Class Schedule"
+        subtitle="Weekly timetable for all grade levels"
+      />
 
-      <section className="mx-auto max-w-7xl px-4 py-12">
-        <div className="mb-6 flex gap-2">
+      <section className="mx-auto max-w-7xl px-4 py-16 md:py-20">
+        <div className="mb-8 flex flex-wrap gap-2">
           {["", "11", "12"].map((g) => (
             <button
               key={g}
               onClick={() => setGradeFilter(g)}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+              className={`rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
                 gradeFilter === g
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                  ? "bg-primary text-white shadow-md shadow-emerald-500/20"
+                  : "bg-white text-slate-700 ring-1 ring-slate-200 hover:ring-slate-300 dark:bg-slate-900 dark:text-slate-300 dark:ring-slate-700 dark:hover:ring-slate-600"
               }`}
             >
               {g ? `Grade ${g}` : "All Grades"}
@@ -75,46 +73,50 @@ const Schedule = () => {
         {loading ? (
           <SkeletonLoader count={5} type="table" />
         ) : (
-          <div className="overflow-x-auto rounded-xl shadow-md">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-blue-600 text-white">
-                <tr>
-                  <th className="px-4 py-3">Day</th>
-                  <th className="px-4 py-3">Time</th>
-                  <th className="px-4 py-3">Subject</th>
-                  <th className="px-4 py-3">Teacher</th>
-                  <th className="px-4 py-3">Grade</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.length === 0 ? (
-                  <tr>
-                    <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
-                      No schedules found
-                    </td>
+          <div className="overflow-hidden rounded-2xl border border-slate-200 shadow-lg dark:border-slate-800">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="bg-linear-to-r from-emerald-600 to-emerald-700 text-white">
+                    <th className="px-5 py-4 font-semibold">Day</th>
+                    <th className="px-5 py-4 font-semibold">Time</th>
+                    <th className="px-5 py-4 font-semibold">Subject</th>
+                    <th className="px-5 py-4 font-semibold">Teacher</th>
+                    <th className="px-5 py-4 font-semibold">Grade</th>
                   </tr>
-                ) : (
-                  filtered.map((s, i) => (
-                    <tr
-                      key={s.id}
-                      className={`border-b dark:border-gray-700 ${
-                        i % 2 === 0 ? "bg-white dark:bg-gray-800" : "bg-gray-50 dark:bg-gray-800/50"
-                      }`}
-                    >
-                      <td className="px-4 py-3 font-medium">{s.day}</td>
-                      <td className="px-4 py-3">{formatTime(s.start_time)} – {formatTime(s.end_time)}</td>
-                      <td className="px-4 py-3">{s.subject}</td>
-                      <td className="px-4 py-3">{s.teacher_name || "TBA"}</td>
-                      <td className="px-4 py-3">
-                        <span className="rounded-full bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
-                          Grade {s.grade_level}
-                        </span>
+                </thead>
+                <tbody>
+                  {filtered.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className="px-5 py-12 text-center text-slate-500">
+                        No schedules found
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    filtered.map((s, i) => (
+                      <tr
+                        key={s.id}
+                        className={`border-b border-slate-100 transition-colors hover:bg-emerald-50/50 dark:border-slate-800 dark:hover:bg-emerald-950/20 ${
+                          i % 2 === 0 ? "bg-white dark:bg-slate-900" : "bg-slate-50/80 dark:bg-slate-900/50"
+                        }`}
+                      >
+                        <td className="px-5 py-4 font-medium text-slate-900 dark:text-white">{s.day}</td>
+                        <td className="px-5 py-4 text-slate-600 dark:text-slate-400">
+                          {formatTime(s.start_time)} – {formatTime(s.end_time)}
+                        </td>
+                        <td className="px-5 py-4 font-medium text-slate-800 dark:text-slate-200">{s.subject}</td>
+                        <td className="px-5 py-4 text-slate-600 dark:text-slate-400">{s.teacher_name || "TBA"}</td>
+                        <td className="px-5 py-4">
+                          <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
+                            Grade {s.grade_level}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </section>
