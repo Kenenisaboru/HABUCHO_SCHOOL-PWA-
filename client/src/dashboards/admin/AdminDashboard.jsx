@@ -153,7 +153,7 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Greetings Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-800 to-slate-900 p-6 md:p-8 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-blue-700 via-indigo-800 to-slate-900 p-6 md:p-8 text-white shadow-xl">
         <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-white/5 blur-2xl"></div>
         <div className="absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-blue-500/10 blur-3xl"></div>
 
