@@ -36,6 +36,7 @@ export const getGrades = (params) => api.get("/grades", { params });
 export const createGrade = (data) => api.post("/grades", data);
 export const updateGrade = (id, data) => api.put(`/grades/${id}`, data);
 export const deleteGrade = (id) => api.delete(`/grades/${id}`);
+export const bulkUpsertGrades = (data) => api.post("/grades/bulk", data);
 
 // --- Contact ---
 export const submitContact = (data) => api.post("/contact", data);
