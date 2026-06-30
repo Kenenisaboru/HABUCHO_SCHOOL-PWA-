@@ -108,6 +108,8 @@ export const getStudents = async (req, res, next) => {
     const { users, total } = await UserModel.getAllUsers({
       role: "student",
       search: req.query.search,
+      grade_level: req.query.grade_level,
+      section: req.query.section,
       ...pagination,
     });
     return sendSuccess(res, { students: users, total });
