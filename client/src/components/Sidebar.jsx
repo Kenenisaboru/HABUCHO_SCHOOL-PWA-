@@ -49,13 +49,13 @@ const Sidebar = ({ links }) => {
       <div className="px-4 py-4">
         <div className="flex items-center gap-3 rounded-2xl bg-slate-50 p-3 dark:bg-slate-800/50">
           <div
-            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${roleGradient} text-sm font-bold text-white shadow-md`}
+            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-br ${roleGradient} text-sm font-bold text-white shadow-md`}
           >
             {user?.name?.charAt(0)?.toUpperCase() || "U"}
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-bold text-slate-800 dark:text-white">{user?.name}</p>
-            <span className={`inline-block rounded-full bg-gradient-to-r ${roleGradient} px-2 py-0.5 text-[10px] font-bold capitalize text-white`}>
+            <span className={`inline-block rounded-full bg-linear-to-r ${roleGradient} px-2 py-0.5 text-[10px] font-bold capitalize text-white`}>
               {user?.role}
             </span>
           </div>
