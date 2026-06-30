@@ -21,6 +21,14 @@ export const getGrades = async (req, res, next) => {
     if (req.query.student_id && req.user.role !== "student") {
       filters.student_id = req.query.student_id;
     }
+    
+    // Add new filters
+    if (req.query.academic_year) filters.academic_year = req.query.academic_year;
+    if (req.query.grade_level) filters.grade_level = req.query.grade_level;
+    if (req.query.section) filters.section = req.query.section;
+    if (req.query.subject) filters.subject = req.query.subject;
+    if (req.query.assessment_type) filters.assessment_type = req.query.assessment_type;
+    if (req.query.semester) filters.semester = req.query.semester;
 
     const { grades, total } = await GradeModel.getAllGrades(filters);
 
@@ -79,6 +87,28 @@ export const deleteGrade = async (req, res, next) => {
     const grade = await GradeModel.deleteGrade(req.params.id);
     if (!grade) return sendError(res, "Grade not found", 404);
     return sendSuccess(res, null, "Grade deleted");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const bulkUpsert = async (req, res, next) => {
+  try {
+    const { grades } = req.body;
+    
+    if (!grades || !Array.isArray(grades) || grades.length === 0) {
+      return sendError(res, "Invalid grades data provided");
+    }
+
+    // Force the teacher_id to be the currently logged-in teacher
+    const gradesWithTeacherId = grades.map(g => ({
+      ...g,
+      teacher_id: req.user.id
+    }));
+
+    await GradeModel.bulkUpsertGrades(gradesWithTeacherId);
+    
+    return sendSuccess(res, null, "Scores saved successfully");
   } catch (error) {
     next(error);
   }
