@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { loginUser } from "../services/authService";
+import { loginUser, registerUser } from "../services/authService";
 import useAuthStore from "../context/authStore";
 import { getDashboardPath } from "../utils/helpers";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -26,22 +26,31 @@ const FloatingShape = ({ size, top, left, delay, color }) => (
 );
 
 const Login = () => {
+  const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const setAuth = useAuthStore((s) => s.setAuth);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const res = await loginUser(data);
-      const { token, user } = res.data.data;
-      setAuth(token, user);
-      toast.success(`Welcome back, ${user.name}!`);
-      navigate(getDashboardPath(user.role));
+      if (isLogin) {
+        const res = await loginUser(data);
+        const { token, user } = res.data.data;
+        setAuth(token, user);
+        toast.success(`Welcome back, ${user.name}!`);
+        navigate(getDashboardPath(user.role));
+      } else {
+        const res = await registerUser(data);
+        const { token, user } = res.data.data;
+        setAuth(token, user);
+        toast.success(`Welcome, ${user.name}! Account created successfully.`);
+        navigate(getDashboardPath(user.role));
+      }
     } catch (err) {
-      toast.error(err.response?.data?.message || "Login failed. Please check your credentials.");
+      toast.error(err.response?.data?.message || (isLogin ? "Login failed. Please check your credentials." : "Registration failed. Please check your inputs."));
     } finally {
       setLoading(false);
     }
@@ -166,15 +175,56 @@ const Login = () => {
                 className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl shadow-md"
                 style={{ background: "linear-gradient(135deg, #059669, #047857)" }}
               >
-                <svg className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
-                </svg>
+                {isLogin ? (
+                  <svg className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+                  </svg>
+                ) : (
+                  <svg className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                  </svg>
+                )}
               </div>
-              <h1 className="font-display text-2xl font-extrabold text-slate-900 dark:text-white">Welcome Back</h1>
-              <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400">Sign in to your school portal</p>
+              <h1 className="font-display text-2xl font-extrabold text-slate-900 dark:text-white">
+                {isLogin ? "Welcome Back" : "Create Account"}
+              </h1>
+              <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400">
+                {isLogin ? "Sign in to your school portal" : "Sign up as a student to get started"}
+              </p>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+              {/* Full Name */}
+              {!isLogin && (
+                <div>
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700 dark:text-slate-300">
+                    Full Name
+                  </label>
+                  <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
+                      <svg className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                    <input
+                      type="text"
+                      className="input-field pl-10"
+                      placeholder="John Doe"
+                      autoComplete="name"
+                      {...register("full_name", { required: !isLogin ? "Full name is required" : false })}
+                    />
+                  </div>
+                  {errors.full_name && (
+                    <p className="mt-1.5 flex items-center gap-1 text-sm text-red-500">
+                      <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      {errors.full_name.message}
+                    </p>
+                  )}
+                </div>
+              )}
+
               {/* Email */}
               <div>
                 <label className="mb-1.5 block text-sm font-semibold text-slate-700 dark:text-slate-300">
@@ -254,16 +304,16 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="btn-primary w-full py-3.5 text-base mt-2"
+                className="btn-primary w-full py-3.5 text-base mt-2 cursor-pointer"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
                     <LoadingSpinner size="sm" />
-                    Signing In...
+                    {isLogin ? "Signing In..." : "Creating Account..."}
                   </span>
                 ) : (
                   <span className="flex items-center justify-center gap-2">
-                    Sign In
+                    {isLogin ? "Sign In" : "Create Account"}
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
@@ -272,8 +322,23 @@ const Login = () => {
               </button>
             </form>
 
-            {/* Demo credentials (dev only) */}
-            {import.meta.env.DEV && (
+            {/* Switch between Login / Registration */}
+            <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">
+              {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsLogin(!isLogin);
+                  reset();
+                }}
+                className="font-bold text-primary hover:text-emerald-500 transition-colors focus:outline-none cursor-pointer"
+              >
+                {isLogin ? "Create Account" : "Sign In"}
+              </button>
+            </p>
+
+            {/* Demo credentials (dev only - login mode only) */}
+            {isLogin && import.meta.env.DEV && (
               <div className="mt-6 rounded-xl border border-emerald-200/60 bg-emerald-50/80 p-4 dark:border-emerald-800/40 dark:bg-emerald-950/30">
                 <p className="mb-2 flex items-center gap-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300">
                   <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
