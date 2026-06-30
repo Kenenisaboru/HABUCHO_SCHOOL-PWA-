@@ -172,15 +172,15 @@ const Home = () => {
                 alt=""
                 fetchPriority={index === 0 ? "high" : "low"}
                 loading={index === 0 ? "eager" : "lazy"}
-                className={`h-full w-full object-cover transition-transform duration-[9000ms] ease-out ${
+                className={`h-full w-full object-cover transition-transform duration-9000 ease-out ${
                   index === currentImageIndex ? "scale-110" : "scale-100"
                 }`}
               />
             </div>
           ))}
           {/* Overlays */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-emerald-950/80 to-slate-950/70" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-r from-slate-950/95 via-emerald-950/80 to-slate-950/70" />
+          <div className="absolute inset-0 bg-linear-to-t from-slate-950/60 via-transparent to-transparent" />
           {/* Dot mesh */}
           <div
             className="absolute inset-0 opacity-[0.04]"
@@ -330,7 +330,7 @@ const Home = () => {
               ].map((item, i) => (
                 <Reveal key={item.label} delay={i * 80}>
                   <div
-                    className={`group card card-hover relative overflow-hidden bg-gradient-to-br ${item.bg} text-center !border-0`}
+                    className={`group card card-hover relative overflow-hidden bg-linear-to-br ${item.bg} text-center border-0!`}
                     style={{ background: `linear-gradient(135deg, var(--tw-gradient-stops))` }}
                   >
                     <div className="card-gradient-border absolute inset-0 rounded-2xl" />
@@ -367,7 +367,7 @@ const Home = () => {
             {features.map((f, i) => (
               <Reveal key={f.title} delay={i * 70}>
                 <div className="group card card-hover relative overflow-hidden text-center">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${f.color} opacity-0 transition-opacity duration-300 group-hover:opacity-100`} />
+                  <div className={`absolute inset-0 bg-linear-to-br ${f.color} opacity-0 transition-opacity duration-300 group-hover:opacity-100`} />
                   <div className="relative">
                     <div
                       className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl text-3xl transition-transform duration-300 group-hover:scale-110"
