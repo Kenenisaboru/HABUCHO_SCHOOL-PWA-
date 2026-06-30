@@ -92,8 +92,8 @@ const Contact = () => {
                 key={item.title}
                 className="group card card-hover flex items-start gap-4 !p-5 overflow-hidden relative"
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${item.color.split(" text-")[0]} opacity-0 transition-opacity duration-300 group-hover:opacity-100`} />
-                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-800/50">
+                <div className={`absolute inset-0 bg-linear-to-br ${item.color.split(" text-")[0]} opacity-0 transition-opacity duration-300 group-hover:opacity-100`} />
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-800/50">
                   <span className={item.color.split(" ")[2] + " " + item.color.split(" ")[3]}>{item.icon}</span>
                 </div>
                 <div className="relative">
@@ -104,7 +104,7 @@ const Contact = () => {
             ))}
 
             {/* Map placeholder */}
-            <div className="card overflow-hidden !p-0 mt-2">
+            <div className="card overflow-hidden p-0! mt-2">
               <div
                 className="relative flex h-44 items-center justify-center"
                 style={{ background: "linear-gradient(135deg, #064e3b, #065f46, #0f172a)" }}
