@@ -61,9 +61,9 @@ const AnnouncementCard = ({ a, index }) => {
       {/* Priority accent bar */}
       <div
         className={`absolute top-0 left-0 right-0 h-1 rounded-t-2xl ${
-          a.priority === "urgent" ? "bg-gradient-to-r from-red-500 to-red-400" :
-          a.priority === "important" ? "bg-gradient-to-r from-amber-500 to-amber-400" :
-          "bg-gradient-to-r from-emerald-500 to-emerald-400"
+          a.priority === "urgent" ? "bg-linear-to-r from-red-500 to-red-400" :
+          a.priority === "important" ? "bg-linear-to-r from-amber-500 to-amber-400" :
+          "bg-linear-to-r from-emerald-500 to-emerald-400"
         }`}
       />
 
