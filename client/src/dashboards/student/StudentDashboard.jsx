@@ -143,7 +143,7 @@ const StudentDashboard = () => {
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Greetings Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-900 p-6 md:p-8 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-blue-600 via-indigo-600 to-indigo-900 p-6 md:p-8 text-white shadow-xl">
         <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
         <div className="absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-blue-500/10 blur-3xl"></div>
 
@@ -230,7 +230,7 @@ const StudentDashboard = () => {
                       key={s.id}
                       className={`flex flex-col sm:flex-row sm:items-center justify-between rounded-2xl p-4 transition-all duration-200 border ${
                         active
-                          ? "bg-gradient-to-r from-blue-500/5 to-indigo-500/5 border-blue-500 shadow-sm"
+                          ? "bg-linear-to-r from-blue-500/5 to-indigo-500/5 border-blue-500 shadow-sm"
                           : "bg-slate-50 border-slate-100 dark:bg-slate-800/40 dark:border-slate-800/60"
                       }`}
                     >
@@ -288,7 +288,7 @@ const StudentDashboard = () => {
                     </div>
                     <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
                       <div
-                        className="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-600"
+                        className="h-full rounded-full bg-linear-to-r from-blue-500 to-indigo-600"
                         style={{ width: `${g.score}%` }}
                       ></div>
                     </div>
