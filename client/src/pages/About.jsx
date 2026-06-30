@@ -67,7 +67,7 @@ const About = () => {
 
           <div className="relative">
             {/* Vertical line */}
-            <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-500 via-emerald-400 to-transparent md:left-1/2 md:-translate-x-0.5" />
+            <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-linear-to-b from-emerald-500 via-emerald-400 to-transparent md:left-1/2 md:-translate-x-0.5" />
 
             <div className="space-y-10">
               {timeline.map((item, i) => (
@@ -160,7 +160,7 @@ const About = () => {
             {values.map((v, i) => (
               <Reveal key={v.title} delay={i * 70}>
                 <div className="group card card-hover relative overflow-hidden text-center">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${v.color} opacity-0 transition-opacity duration-300 group-hover:opacity-100`} />
+                  <div className={`absolute inset-0 bg-linear-to-br ${v.color} opacity-0 transition-opacity duration-300 group-hover:opacity-100`} />
                   <div className="relative">
                     <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl text-3xl transition-transform duration-300 group-hover:scale-110"
                       style={{ background: "linear-gradient(135deg, rgba(5,150,105,0.1), rgba(16,185,129,0.05))" }}>
