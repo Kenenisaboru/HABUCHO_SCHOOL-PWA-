@@ -168,7 +168,7 @@ const TeacherDashboard = () => {
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Dynamic Greetings Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-700 to-indigo-800 p-6 md:p-8 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-emerald-600 via-teal-700 to-indigo-800 p-6 md:p-8 text-white shadow-xl">
         <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
         <div className="absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-indigo-500/20 blur-3xl"></div>
         
@@ -268,7 +268,7 @@ const TeacherDashboard = () => {
                       key={s.id}
                       className={`flex flex-col sm:flex-row sm:items-center justify-between rounded-2xl p-4 transition-all duration-200 border ${
                         active
-                          ? "bg-gradient-to-r from-emerald-500/5 to-teal-500/5 border-emerald-500 shadow-sm"
+                          ? "bg-linear-to-r from-emerald-500/5 to-teal-500/5 border-emerald-500 shadow-sm"
                           : "bg-slate-50 border-slate-100 dark:bg-slate-800/40 dark:border-slate-800/60"
                       }`}
                     >
@@ -309,7 +309,7 @@ const TeacherDashboard = () => {
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               <button
                 onClick={() => setShowGradeModal(true)}
-                className="flex items-center gap-4 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 p-4 text-left text-white shadow-sm hover:shadow-md transition-all hover:scale-[1.02]"
+                className="flex items-center gap-4 rounded-2xl bg-linear-to-br from-emerald-500 to-teal-600 p-4 text-left text-white shadow-sm hover:shadow-md transition-all hover:scale-[1.02]"
               >
                 <span className="text-3xl bg-white/20 p-2 rounded-xl">📝</span>
                 <div>
@@ -320,7 +320,7 @@ const TeacherDashboard = () => {
 
               <button
                 onClick={() => setShowAnnouncementModal(true)}
-                className="flex items-center gap-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 p-4 text-left text-white shadow-sm hover:shadow-md transition-all hover:scale-[1.02]"
+                className="flex items-center gap-4 rounded-2xl bg-linear-to-br from-indigo-500 to-purple-600 p-4 text-left text-white shadow-sm hover:shadow-md transition-all hover:scale-[1.02]"
               >
                 <span className="text-3xl bg-white/20 p-2 rounded-xl">📢</span>
                 <div>
