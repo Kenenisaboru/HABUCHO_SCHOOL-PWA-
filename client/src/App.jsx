@@ -29,7 +29,7 @@ const AdminMessages = lazy(() => import("./dashboards/admin/AdminMessages"));
 // Teacher dashboards
 const TeacherDashboard = lazy(() => import("./dashboards/teacher/TeacherDashboard"));
 const TeacherSchedule = lazy(() => import("./dashboards/teacher/TeacherSchedule"));
-const TeacherGrades = lazy(() => import("./dashboards/teacher/TeacherGrades"));
+const TeacherScoreManagement = lazy(() => import("./dashboards/teacher/TeacherScoreManagement"));
 const TeacherAnnouncements = lazy(() => import("./dashboards/teacher/TeacherAnnouncements"));
 
 // Student dashboards
@@ -73,7 +73,7 @@ function App() {
             <Route element={<DashboardLayout links={teacherLinks} />}>
               <Route path="/teacher" element={<TeacherDashboard />} />
               <Route path="/teacher/schedule" element={<TeacherSchedule />} />
-              <Route path="/teacher/grades" element={<TeacherGrades />} />
+              <Route path="/teacher/grades" element={<TeacherScoreManagement />} />
               <Route path="/teacher/announcements" element={<TeacherAnnouncements />} />
               <Route path="/teacher/profile" element={<Profile />} />
             </Route>

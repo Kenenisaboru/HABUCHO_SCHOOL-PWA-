@@ -14,7 +14,7 @@ export const adminLinks = [
 export const teacherLinks = [
   { to: "/teacher", label: "Teacher Dashboard", icon: "📊", end: true },
   { to: "/teacher/schedule", label: "My Schedule", icon: "📅" },
-  { to: "/teacher/grades", label: "Manage Grades", icon: "📝" },
+  { to: "/teacher/grades", label: "Score Management", icon: "📝" },
   { to: "/teacher/announcements", label: "Announcements", icon: "📢" },
   { to: "/teacher/profile", label: "Profile", icon: "👤" },
 ];
