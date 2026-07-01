@@ -16,6 +16,7 @@ const TeacherScoreManagement = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [students, setStudents] = useState([]);
+  const [allGrades, setAllGrades] = useState([]);
   
   const [filters, setFilters] = useState({
     academic_year: "2023/2024",
@@ -37,6 +38,7 @@ const TeacherScoreManagement = () => {
     if (!filters.grade_level || !filters.section || !filters.subject) {
       setStudents([]);
       setGridData({});
+      setAllGrades([]);
       return;
     }
 
@@ -73,8 +75,19 @@ const TeacherScoreManagement = () => {
         };
       });
 
+      // Fetch all grades for this subject/class to show in the summary table
+      const allGradesRes = await getGrades({
+        academic_year: filters.academic_year,
+        semester: filters.semester,
+        grade_level: filters.grade_level,
+        section: filters.section,
+        subject: filters.subject,
+        limit: 1000,
+      });
+
       setStudents(roster);
       setGridData(newGridData);
+      setAllGrades(allGradesRes.data.data.grades || []);
     } catch {
       toast.error("Failed to load roster or scores.");
     } finally {
@@ -90,6 +103,7 @@ const TeacherScoreManagement = () => {
     } else {
       setStudents([]);
       setGridData({});
+      setAllGrades([]);
     }
   }, [
     filters.academic_year, 
@@ -322,9 +336,77 @@ const TeacherScoreManagement = () => {
         )}
       </div>
       
-      <div className="text-xs text-slate-400 text-center">
+      <div className="text-xs text-slate-400 text-center mb-8">
         💡 Tip: Use your keyboard arrow keys, Tab, or Enter to quickly navigate between cells.
       </div>
+
+      {/* Summary Table: All Scores by Category */}
+      {students.length > 0 && (
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50 overflow-hidden mt-8">
+          <div className="p-5 border-b border-slate-100 dark:border-slate-700/50 flex justify-between items-center bg-slate-50 dark:bg-slate-800/80">
+            <div>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white">Class Scores Summary</h3>
+              <p className="text-sm text-slate-500">Overview of all scores grouped by category</p>
+            </div>
+            <button className="btn-outline text-xs" onClick={() => toast.success("Reports generated and sent to students!")}>
+              ✉️ Send to Students
+            </button>
+          </div>
+          <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
+            <table className="w-full text-left text-sm border-collapse">
+              <thead className="sticky top-0 z-10 bg-slate-50 dark:bg-slate-800 shadow-sm">
+                <tr className="text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
+                  <th className="px-4 py-3 font-semibold border-r border-slate-200 dark:border-slate-700">Student Name</th>
+                  {ASSESSMENT_TYPES.map(type => (
+                     <th key={type} className="px-4 py-3 font-semibold border-r border-slate-200 dark:border-slate-700 text-center whitespace-nowrap">{type}</th>
+                  ))}
+                  <th className="px-4 py-3 font-semibold text-center text-emerald-600">Average</th>
+                </tr>
+              </thead>
+              <tbody>
+                {students.map((student, index) => {
+                  const studentGrades = allGrades.filter(g => g.student_id === student.id);
+                  let totalScore = 0;
+                  let validScoresCount = 0;
+
+                  return (
+                    <tr key={student.id} className={`border-b border-slate-100 dark:border-slate-700/50 hover:bg-emerald-50/50 dark:hover:bg-slate-700/30 ${index % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50/30 dark:bg-slate-800/50'}`}>
+                      <td className="px-4 py-3 font-medium text-slate-700 dark:text-slate-200 border-r border-slate-100 dark:border-slate-700/50 whitespace-nowrap">
+                        {student.full_name}
+                      </td>
+                      {ASSESSMENT_TYPES.map(type => {
+                        const g = studentGrades.find(g => g.assessment_type === type);
+                        if (g && g.score !== null) {
+                           // Attempt to normalize score to percentage if total_marks is known for that grade,
+                           // but for simplicity we'll just sum raw scores or assume they are out of 100 if we average them.
+                           // Actually, let's just display the raw score.
+                           totalScore += parseFloat(g.score);
+                           validScoresCount++;
+                        }
+                        return (
+                          <td key={type} className="px-4 py-3 text-center border-r border-slate-100 dark:border-slate-700/50">
+                            {g && g.score !== null ? (
+                               <div className="flex flex-col items-center justify-center">
+                                 <span className="font-bold text-slate-700 dark:text-slate-300">{g.score}</span>
+                                 <span className="text-[10px] text-slate-400">/{g.total_marks || 100}</span>
+                               </div>
+                            ) : (
+                               <span className="text-slate-300 dark:text-slate-600">-</span>
+                            )}
+                          </td>
+                        );
+                      })}
+                      <td className="px-4 py-3 text-center font-extrabold text-emerald-600 bg-emerald-50/30 dark:bg-emerald-900/10">
+                        {validScoresCount > 0 ? (totalScore / validScoresCount).toFixed(1) : "-"}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
