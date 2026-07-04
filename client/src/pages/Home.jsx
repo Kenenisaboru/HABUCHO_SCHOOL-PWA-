@@ -1,14 +1,10 @@
-/**
- * Home Page — Premium landing page with hero, features, stats, testimonials, CTA
- */
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import useFetch from "../hooks/useFetch";
 import { getPublicStats } from "../services/publicService";
 
-/* ── Count-up hook ─────────────────────────────────────────── */
-const useCountUp = (target, duration = 1800) => {
+const useCountUp = (target, duration = 2000) => {
   const [count, setCount] = useState(0);
   const [started, setStarted] = useState(false);
   const ref = useRef(null);
@@ -38,41 +34,52 @@ const useCountUp = (target, duration = 1800) => {
   }, [started, target, duration]);
 
   const suffix = String(target).replace(/[0-9]/g, "");
-  return { ref, display: started ? `${count}${suffix}` : "0${suffix}" };
+  return { ref, display: started ? `${count}${suffix}` : `0${suffix}` };
 };
 
-/* ── Stat Counter ──────────────────────────────────────────── */
-const StatCounter = ({ value, label }) => {
+const StatCounter = ({ value, label, delay }) => {
   const { ref, display } = useCountUp(value);
   return (
-    <div ref={ref} className="group text-center">
-      <p className="font-display text-4xl font-extrabold text-white tabular-nums md:text-5xl lg:text-6xl">
+    <div ref={ref} className="group relative flex flex-col items-center justify-center p-8 rounded-3xl bg-slate-900/40 border border-white/5 backdrop-blur-md overflow-hidden hover:bg-slate-800/60 transition-all duration-500" style={{ animation: `fade-in-up 0.8s ease-out ${delay}s forwards`, opacity: 0 }}>
+      <div className="absolute inset-0 bg-linear-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <h3 className="text-5xl md:text-6xl font-black bg-clip-text text-transparent bg-linear-to-r from-emerald-400 to-teal-300 tabular-nums z-10 mb-2 drop-shadow-lg">
         {display}
-      </p>
-      <p className="mt-2 text-sm font-semibold uppercase tracking-widest text-emerald-200">
+      </h3>
+      <p className="text-sm font-medium uppercase tracking-[0.2em] text-slate-400 z-10">
         {label}
       </p>
     </div>
   );
 };
 
-/* ── Scroll Reveal wrapper ─────────────────────────────────── */
-const Reveal = ({ children, delay = 0, className = "" }) => {
+const Reveal = ({ children, delay = 0, className = "", direction = "up" }) => {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.15 });
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
+  
+  const getTransform = () => {
+    if (visible) return "translate(0, 0)";
+    switch (direction) {
+      case "up": return "translateY(40px)";
+      case "down": return "translateY(-40px)";
+      case "left": return "translateX(40px)";
+      case "right": return "translateX(-40px)";
+      default: return "translateY(40px)";
+    }
+  };
+
   return (
     <div
       ref={ref}
       className={className}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(28px)",
-        transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
+        transform: getTransform(),
+        transition: `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
       }}
     >
       {children}
@@ -80,303 +87,203 @@ const Reveal = ({ children, delay = 0, className = "" }) => {
   );
 };
 
-/* ── Main Component ────────────────────────────────────────── */
 const Home = () => {
   const { data: statsData } = useFetch(getPublicStats, []);
 
-  const heroImages = [
-    "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1600&q=80",
-    "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600&q=80",
-    "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&q=80",
-    "https://images.unsplash.com/photo-1627556704302-624286467c65?w=1600&q=80",
-  ];
-
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, [heroImages.length]);
-
   const features = [
-    { icon: "📚", title: "Quality Education", desc: "Comprehensive curriculum for Grades 11–12 aligned with national standards", color: "from-emerald-400/20 to-emerald-600/10" },
-    { icon: "👨‍🏫", title: "Expert Teachers", desc: "Dedicated and experienced faculty members committed to student success", color: "from-blue-400/20 to-blue-600/10" },
-    { icon: "📊", title: "Grade Tracking", desc: "Real-time academic performance monitoring for students and parents", color: "from-violet-400/20 to-violet-600/10" },
-    { icon: "📅", title: "Smart Scheduling", desc: "Organized timetables and class management at your fingertips", color: "from-amber-400/20 to-amber-600/10" },
-    { icon: "📢", title: "Announcements", desc: "Stay updated instantly with school news, events, and notices", color: "from-rose-400/20 to-rose-600/10" },
-    { icon: "🔒", title: "Secure Portal", desc: "Role-based access control ensuring data privacy and security", color: "from-teal-400/20 to-teal-600/10" },
+    { icon: "🎓", title: "Elite Curriculum", desc: "Advanced placement tracks designed to guarantee university admission.", gradient: "from-emerald-400/20 to-teal-900/40" },
+    { icon: "👨‍🔬", title: "Modern Labs", desc: "State-of-the-art facilities for physics, chemistry, and computer science.", gradient: "from-blue-400/20 to-indigo-900/40" },
+    { icon: "📊", title: "Real-time Tracking", desc: "Instant access to grades, attendance, and academic analytics.", gradient: "from-violet-400/20 to-purple-900/40" },
+    { icon: "🌐", title: "Digital Campus", desc: "Fully integrated digital ecosystem for assignments and resources.", gradient: "from-amber-400/20 to-orange-900/40" },
+    { icon: "🛡️", title: "Secure Portal", desc: "Enterprise-grade security protecting all student and staff data.", gradient: "from-rose-400/20 to-red-900/40" },
+    { icon: "🤝", title: "Active Community", desc: "Vibrant clubs, sports, and extracurricular networks.", gradient: "from-cyan-400/20 to-blue-900/40" },
   ];
 
   const defaultStats = [
-    { value: "500+", label: "Students Enrolled" },
-    { value: "30+", label: "Expert Teachers" },
-    { value: "95%", label: "Pass Rate" },
-    { value: "25+", label: "Years of Excellence" },
+    { value: "1,200+", label: "Enrolled Students" },
+    { value: "50+", label: "Expert Faculty" },
+    { value: "98%", label: "University Placement" },
+    { value: "28+", label: "Years of Legacy" },
   ];
 
   const stats = statsData
     ? [
-        { value: statsData.students, label: "Students Enrolled" },
-        { value: statsData.teachers, label: "Expert Teachers" },
-        { value: statsData.passRate, label: "Pass Rate" },
-        { value: statsData.years, label: "Years of Excellence" },
+        { value: statsData.students, label: "Enrolled Students" },
+        { value: statsData.teachers, label: "Expert Faculty" },
+        { value: statsData.passRate, label: "University Placement" },
+        { value: statsData.years, label: "Years of Legacy" },
       ]
     : defaultStats;
 
   const testimonials = [
     {
-      name: "Abebe Kebede",
-      role: "Parent",
-      text: "Habucho School transformed my child's academic journey. The teachers are truly exceptional and deeply committed.",
-      stars: 5,
-      initials: "AK",
+      name: "Dr. Aster Tadesse",
+      role: "Alumni '15 & Surgeon",
+      text: "The rigorous academic environment at Habucho laid the undeniable foundation for my medical career. The faculty truly invests in your future.",
+      image: "https://i.pravatar.cc/150?img=5",
     },
     {
-      name: "Sara Tadesse",
-      role: "Alumni '22",
-      text: "The strong academic foundation I received here prepared me well for university life and beyond.",
-      stars: 5,
-      initials: "ST",
+      name: "Yared Melaku",
+      role: "Current Senior (Grade 12)",
+      text: "The new digital portal makes managing assignments and tracking my grades effortless. It's a massive upgrade to our daily workflow.",
+      image: "https://i.pravatar.cc/150?img=11",
     },
     {
-      name: "Dr. Hailu Getahun",
-      role: "Teacher",
-      text: "A wonderful environment for both teaching and learning. I am proud to be part of this community.",
-      stars: 5,
-      initials: "HG",
+      name: "Solomon Getachew",
+      role: "Parent of Two",
+      text: "Security, communication, and academic excellence. I have complete peace of mind knowing my children are receiving the best education in the region.",
+      image: "https://i.pravatar.cc/150?img=12",
     },
   ];
 
   return (
     <MainLayout>
-      {/* ══════════════════════════════════════════════════════
-          HERO SECTION
-      ══════════════════════════════════════════════════════ */}
-      <section
-        className="relative flex min-h-[95vh] items-center justify-center overflow-hidden px-4 text-white"
-        aria-label="Hero"
-      >
-        {/* Background slider */}
-        <div className="absolute inset-0 z-0 bg-slate-950">
-          {heroImages.map((src, index) => (
-            <div
-              key={src}
-              className={`absolute inset-0 transition-opacity duration-1500 ease-in-out ${
-                index === currentImageIndex ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <img
-                src={src}
-                alt=""
-                fetchPriority={index === 0 ? "high" : "low"}
-                loading={index === 0 ? "eager" : "lazy"}
-                className={`h-full w-full object-cover transition-transform duration-9000 ease-out ${
-                  index === currentImageIndex ? "scale-110" : "scale-100"
-                }`}
-              />
-            </div>
-          ))}
-          {/* Overlays */}
-          <div className="absolute inset-0 bg-linear-to-r from-slate-950/95 via-emerald-950/80 to-slate-950/70" />
-          <div className="absolute inset-0 bg-linear-to-t from-slate-950/60 via-transparent to-transparent" />
-          {/* Dot mesh */}
-          <div
-            className="absolute inset-0 opacity-[0.04]"
-            style={{ backgroundImage: "radial-gradient(rgba(255,255,255,1) 1px, transparent 1px)", backgroundSize: "24px 24px" }}
-          />
+      <style>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+        }
+        @keyframes fade-in-up {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 20px 0px rgba(16, 185, 129, 0.4); }
+          50% { box-shadow: 0 0 40px 10px rgba(16, 185, 129, 0.7); }
+        }
+        @keyframes blob {
+          0% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob { animation: blob 7s infinite; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+        
+        .glass-panel {
+          background: rgba(15, 23, 42, 0.6);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+      `}</style>
+
+      {/* ────────────────────────────────────────────────────────
+          HERO SECTION 
+      ───────────────────────────────────────────────────────── */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950 pt-20">
+        {/* Abstract Background */}
+        <div className="absolute inset-0 w-full h-full">
+          <div className="absolute top-0 -left-4 w-96 h-96 bg-emerald-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob"></div>
+          <div className="absolute top-0 -right-4 w-96 h-96 bg-teal-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob animation-delay-4000"></div>
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
         </div>
 
-        {/* Hero Content */}
-        <div className="relative z-10 mx-auto max-w-5xl text-center">
-          {/* Floating badge */}
-          <div
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-5 py-2 text-sm font-semibold text-emerald-300 backdrop-blur-sm opacity-0"
-            style={{ animation: "slide-up 0.6s ease-out 0.1s forwards" }}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+          <div 
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel mb-8"
+            style={{ animation: 'fade-in-up 0.8s ease-out forwards' }}
           >
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            Excellence Since 1995 · Grade 11 &amp; 12
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            </span>
+            <span className="text-sm font-medium tracking-wide text-emerald-300 uppercase">Next-Gen Digital Campus</span>
           </div>
 
-          <h1
-            className="font-display mb-6 text-5xl font-extrabold leading-tight tracking-tight opacity-0 md:text-7xl lg:text-8xl"
-            style={{ animation: "slide-up 0.7s ease-out 0.2s forwards" }}
+          <h1 
+            className="text-6xl md:text-8xl font-black text-white tracking-tight leading-[1.1] mb-8 max-w-5xl"
+            style={{ animation: 'fade-in-up 0.8s ease-out 0.2s forwards', opacity: 0 }}
           >
-            Welcome to{" "}
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: "linear-gradient(135deg, #6ee7b7, #34d399, #10b981)" }}
-            >
-              Habucho
+            Empowering the Future of <br className="hidden md:block"/>
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-400 via-teal-300 to-emerald-500">
+              Education
             </span>
-            <br />
-            <span className="text-white">Preparatory School</span>
           </h1>
 
-          <p
-            className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-300 opacity-0 md:text-xl"
-            style={{ animation: "fade-in 0.7s ease-out 0.4s forwards" }}
+          <p 
+            className="text-lg md:text-2xl text-slate-300 max-w-3xl mb-12 font-light leading-relaxed"
+            style={{ animation: 'fade-in-up 0.8s ease-out 0.4s forwards', opacity: 0 }}
           >
-            Empowering the next generation through excellence in education,
-            character building, and holistic development.
+            Habucho Preparatory School blends academic rigor with cutting-edge technology to prepare students for top-tier universities.
           </p>
 
-          <div
-            className="flex flex-wrap justify-center gap-4 opacity-0"
-            style={{ animation: "slide-up 0.6s ease-out 0.55s forwards" }}
+          <div 
+            className="flex flex-col sm:flex-row gap-6 w-full justify-center items-center"
+            style={{ animation: 'fade-in-up 0.8s ease-out 0.6s forwards', opacity: 0 }}
           >
-            <Link
-              to="/login"
-              className="btn-primary px-8 py-3.5 text-base shadow-lg shadow-emerald-900/40"
-              style={{ animation: "pulse-glow 2s ease-in-out infinite" }}
+            <Link 
+              to="/login" 
+              className="relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-slate-900 bg-emerald-400 rounded-full overflow-hidden group transition-all"
+              style={{ animation: 'pulse-glow 3s infinite' }}
             >
-              <svg className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-              </svg>
-              Student Portal
+              <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
+              <span className="relative flex items-center gap-2">
+                Access Portal
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+              </span>
             </Link>
-            <Link
-              to="/about"
-              className="btn-outline border-white/25 bg-white/8 px-8 py-3.5 text-base text-white backdrop-blur-sm hover:bg-white/15 hover:text-white dark:border-white/25 dark:bg-white/8 dark:text-white"
+            
+            <Link 
+              to="/about" 
+              className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white transition-all glass-panel rounded-full hover:bg-slate-800/80 hover:scale-105"
             >
-              Learn More
-              <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
+              Discover Our Story
             </Link>
           </div>
+        </div>
 
-          {/* Carousel dots */}
-          <div
-            className="mt-14 flex justify-center gap-2 opacity-0"
-            style={{ animation: "fade-in 0.6s ease-out 0.8s forwards" }}
-          >
-            {heroImages.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentImageIndex(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-500 ${
-                  i === currentImageIndex
-                    ? "w-10 bg-emerald-400 shadow-sm shadow-emerald-400/50"
-                    : "w-1.5 bg-white/30 hover:bg-white/50"
-                }`}
-              />
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce opacity-50">
+          <span className="text-xs tracking-widest text-emerald-400 uppercase">Scroll</span>
+          <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+      </section>
+
+      {/* ────────────────────────────────────────────────────────
+          STATS SECTION 
+      ───────────────────────────────────────────────────────── */}
+      <section className="py-24 bg-slate-950 relative border-t border-slate-900 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {stats.map((s, idx) => (
+              <StatCounter key={s.label} value={s.value} label={s.label} delay={idx * 0.1} />
             ))}
           </div>
         </div>
-
-        {/* Scroll indicator */}
-        <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0"
-          style={{ animation: "fade-in 1s ease-out 1.2s forwards" }}
-        >
-          <div
-            className="flex h-10 w-6 items-start justify-center rounded-full border border-white/20 p-1.5"
-            aria-hidden="true"
-          >
-            <div
-              className="h-2 w-0.5 rounded-full bg-white/60"
-              style={{ animation: "bounce-soft 1.4s ease-in-out infinite" }}
-            />
-          </div>
-        </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════
-          ABOUT PREVIEW
-      ══════════════════════════════════════════════════════ */}
-      <section className="px-4 py-24 md:py-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid items-center gap-14 lg:grid-cols-2">
-            <Reveal>
-              <span className="section-label">About Us</span>
-              <h2 className="section-title mt-3 mb-6">
-                Building Futures,<br />One Student at a Time
-              </h2>
-              <p className="leading-relaxed text-slate-600 dark:text-slate-400">
-                Founded in 1995, Habucho Preparatory School has been a beacon of educational
-                excellence in the Oromia region. We prepare Grade 11 &amp; 12 students for
-                national exams and university admission with a focus on academic rigor,
-                critical thinking, and personal growth.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <div className="flex items-center gap-2 rounded-xl bg-emerald-50 px-4 py-2.5 dark:bg-emerald-950/30">
-                  <span className="text-lg">✅</span>
-                  <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">Government Accredited</span>
-                </div>
-                <div className="flex items-center gap-2 rounded-xl bg-blue-50 px-4 py-2.5 dark:bg-blue-950/30">
-                  <span className="text-lg">🏆</span>
-                  <span className="text-sm font-semibold text-blue-700 dark:text-blue-400">Regional Top School</span>
-                </div>
-              </div>
-              <Link to="/about" className="btn-primary mt-8 inline-flex gap-2">
-                Discover Our Story
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-            </Reveal>
+      {/* ────────────────────────────────────────────────────────
+          FEATURES SECTION 
+      ───────────────────────────────────────────────────────── */}
+      <section className="py-32 bg-slate-900 relative overflow-hidden">
+        {/* Grid Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20"></div>
 
-            {/* Stats grid */}
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { num: "25+", label: "Years of Excellence", icon: "🎓", bg: "from-emerald-500/10 to-emerald-600/5" },
-                { num: "500+", label: "Graduates", icon: "👩‍🎓", bg: "from-blue-500/10 to-blue-600/5" },
-                { num: "95%", label: "Pass Rate", icon: "📈", bg: "from-violet-500/10 to-violet-600/5" },
-                { num: "30+", label: "Expert Teachers", icon: "👨‍🏫", bg: "from-amber-500/10 to-amber-600/5" },
-              ].map((item, i) => (
-                <Reveal key={item.label} delay={i * 80}>
-                  <div
-                    className={`group card card-hover relative overflow-hidden bg-linear-to-br ${item.bg} text-center border-0!`}
-                    style={{ background: `linear-gradient(135deg, var(--tw-gradient-stops))` }}
-                  >
-                    <div className="card-gradient-border absolute inset-0 rounded-2xl" />
-                    <span className="mb-2 block text-3xl">{item.icon}</span>
-                    <p className="font-display text-3xl font-bold text-primary dark:text-emerald-400">{item.num}</p>
-                    <p className="mt-1 text-xs font-semibold text-slate-500 dark:text-slate-400">{item.label}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-          FEATURES
-      ══════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden px-4 py-24 md:py-28">
-        {/* Background */}
-        <div className="absolute inset-0 bg-slate-100/70 dark:bg-slate-900/40" />
-        <div className="pointer-events-none absolute inset-0"
-          style={{ backgroundImage: "radial-gradient(rgba(5,150,105,0.04) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
-
-        <div className="relative mx-auto max-w-7xl">
-          <Reveal className="mb-16 text-center">
-            <span className="section-label">Why Habucho</span>
-            <h2 className="section-title mt-3">Everything You Need to Succeed</h2>
-            <p className="section-subtitle">
-              A modern school management experience designed for students, teachers, and parents.
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <Reveal className="text-center mb-20">
+            <h2 className="text-emerald-400 font-semibold tracking-widest uppercase text-sm mb-3">Why Choose Habucho</h2>
+            <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">Engineered for Excellence</h3>
+            <p className="text-slate-400 max-w-2xl mx-auto text-lg">
+              We provide a holistic educational environment supported by modern infrastructure and digital tools.
             </p>
           </Reveal>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((f, i) => (
-              <Reveal key={f.title} delay={i * 70}>
-                <div className="group card card-hover relative overflow-hidden text-center">
-                  <div className={`absolute inset-0 bg-linear-to-br ${f.color} opacity-0 transition-opacity duration-300 group-hover:opacity-100`} />
-                  <div className="relative">
-                    <div
-                      className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl text-3xl transition-transform duration-300 group-hover:scale-110"
-                      style={{ background: `linear-gradient(135deg, rgba(5,150,105,0.12), rgba(16,185,129,0.06))` }}
-                    >
+              <Reveal key={f.title} delay={i * 100}>
+                <div className="group relative h-full glass-panel rounded-3xl p-8 hover:bg-slate-800/80 transition-all duration-500 border border-slate-700/50 hover:border-emerald-500/30 overflow-hidden">
+                  <div className={`absolute inset-0 bg-linear-to-br ${f.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                  <div className="relative z-10">
+                    <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-3xl mb-6 shadow-lg border border-slate-700 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
                       {f.icon}
                     </div>
-                    <h3 className="mb-2 font-display text-lg font-bold text-slate-900 dark:text-white">{f.title}</h3>
-                    <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">{f.desc}</p>
+                    <h4 className="text-xl font-bold text-white mb-3 group-hover:text-emerald-400 transition-colors">{f.title}</h4>
+                    <p className="text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors">
+                      {f.desc}
+                    </p>
                   </div>
                 </div>
               </Reveal>
@@ -385,81 +292,40 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════
-          STATISTICS
-      ══════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden px-4 py-24">
-        {/* Layered gradient background */}
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(135deg, #064e3b 0%, #065f46 40%, #047857 70%, #0f172a 100%)" }}
-        />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,rgba(255,255,255,0.08),transparent_60%)]" />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.04]"
-          style={{ backgroundImage: "radial-gradient(rgba(255,255,255,1) 1px, transparent 1px)", backgroundSize: "24px 24px" }}
-        />
+      {/* ────────────────────────────────────────────────────────
+          TESTIMONIALS SECTION 
+      ───────────────────────────────────────────────────────── */}
+      <section className="py-32 bg-slate-950 relative">
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1/3 h-full bg-emerald-900/10 filter blur-[120px] rounded-full pointer-events-none"></div>
 
-        {/* Floating orbs */}
-        <div className="pointer-events-none absolute left-[10%] top-[20%] h-48 w-48 rounded-full bg-emerald-400/10 blur-3xl"
-          style={{ animation: "float 8s ease-in-out infinite" }} />
-        <div className="pointer-events-none absolute right-[5%] bottom-[10%] h-32 w-32 rounded-full bg-teal-400/10 blur-2xl"
-          style={{ animation: "float 6s ease-in-out infinite reverse" }} />
-
-        <div className="relative mx-auto grid max-w-5xl grid-cols-2 gap-12 md:grid-cols-4">
-          {stats.map((s) => (
-            <StatCounter key={s.label} value={s.value} label={s.label} />
-          ))}
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-          TESTIMONIALS
-      ══════════════════════════════════════════════════════ */}
-      <section className="px-4 py-24 md:py-28">
-        <div className="mx-auto max-w-7xl">
-          <Reveal className="mb-16 text-center">
-            <span className="section-label">Testimonials</span>
-            <h2 className="section-title mt-3">What Our Community Says</h2>
-            <p className="section-subtitle">Hear from the people who make Habucho School great.</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <Reveal className="text-center mb-20">
+            <h2 className="text-teal-400 font-semibold tracking-widest uppercase text-sm mb-3">Community Voices</h2>
+            <h3 className="text-4xl md:text-5xl font-bold text-white">Don't just take our word for it</h3>
           </Reveal>
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((t, i) => (
-              <Reveal key={t.name} delay={i * 100}>
-                <div className="group card card-hover relative flex h-full flex-col">
-                  {/* Quote mark */}
-                  <span
-                    className="absolute -top-3 left-6 font-display text-6xl leading-none text-emerald-200 dark:text-emerald-900 select-none"
-                    aria-hidden="true"
-                  >
-                    &ldquo;
-                  </span>
-
-                  {/* Stars */}
-                  <div className="mb-4 flex gap-1 pt-4">
-                    {Array.from({ length: t.stars }).map((_, si) => (
-                      <svg key={si} className="h-4 w-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
+              <Reveal key={t.name} delay={i * 150} direction="up">
+                <div className="glass-panel rounded-3xl p-8 h-full flex flex-col relative border border-slate-800 hover:border-teal-500/30 transition-all duration-300 group hover:-translate-y-2">
+                  <div className="text-emerald-500/20 text-6xl font-serif absolute top-4 right-6 group-hover:text-emerald-500/40 transition-colors">"</div>
+                  
+                  <div className="flex items-center gap-4 mb-6">
+                    <img src={t.image} alt={t.name} className="w-14 h-14 rounded-full border-2 border-emerald-500/50 object-cover" />
+                    <div>
+                      <h4 className="text-white font-bold text-lg">{t.name}</h4>
+                      <p className="text-teal-400 text-sm">{t.role}</p>
+                    </div>
                   </div>
-
-                  <p className="mb-6 flex-1 text-sm leading-relaxed text-slate-600 italic dark:text-slate-400">
-                    &ldquo;{t.text}&rdquo;
+                  
+                  <p className="text-slate-300 italic leading-relaxed grow text-lg">
+                    {t.text}
                   </p>
 
-                  <div className="flex items-center gap-3 border-t border-slate-100 pt-4 dark:border-slate-800">
-                    <div
-                      className="flex h-11 w-11 items-center justify-center rounded-full text-sm font-bold text-white shadow-md"
-                      style={{ background: "linear-gradient(135deg, #059669, #0891b2)" }}
-                    >
-                      {t.initials}
-                    </div>
-                    <div>
-                      <p className="font-bold text-slate-900 dark:text-white">{t.name}</p>
-                      <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400">{t.role}</p>
-                    </div>
+                  <div className="flex gap-1 mt-6">
+                    {[1,2,3,4,5].map(star => (
+                      <svg key={star} className="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    ))}
                   </div>
                 </div>
               </Reveal>
@@ -468,58 +334,38 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════
-          CTA SECTION
-      ══════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden px-4 py-24">
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)" }}
-        />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.12),transparent_60%)]" />
-        {/* Animated ring */}
-        <div
-          className="pointer-events-none absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-500/10"
-          style={{ animation: "spin 15s linear infinite" }}
-        />
-        <div
-          className="pointer-events-none absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-500/15"
-          style={{ animation: "spin 10s linear infinite reverse" }}
-        />
-
-        <Reveal className="relative mx-auto max-w-3xl text-center">
-          <span className="section-label mb-5 border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
-            Get Started Today
-          </span>
-          <h2 className="font-display text-4xl font-extrabold text-white md:text-5xl">
-            Ready to Join Our{" "}
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: "linear-gradient(135deg, #6ee7b7, #34d399)" }}
-            >
-              Community?
-            </span>
-          </h2>
-          <p className="mt-5 text-lg text-slate-400">
-            Join our community of learners and educators. Access your personalized dashboard today.
-          </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/login"
-              className="btn-primary px-10 py-4 text-base shadow-lg shadow-emerald-900/30"
-              style={{ animation: "pulse-glow 2s ease-in-out infinite" }}
-            >
-              Login to Portal →
-            </Link>
-            <Link
-              to="/contact"
-              className="btn-outline border-slate-700 bg-transparent px-10 py-4 text-base text-slate-300 hover:bg-slate-800 hover:text-white"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </Reveal>
+      {/* ────────────────────────────────────────────────────────
+          CTA SECTION 
+      ───────────────────────────────────────────────────────── */}
+      <section className="py-24 relative overflow-hidden bg-slate-900 border-t border-slate-800">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-emerald-900/40 via-slate-900 to-slate-950"></div>
+        
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <Reveal>
+            <h2 className="text-5xl md:text-6xl font-black text-white mb-6">
+              Ready to Shape Your <span className="text-emerald-400">Future?</span>
+            </h2>
+            <p className="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
+              Join thousands of successful alumni. Access your portal now to view schedules, grades, and school announcements.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link 
+                to="/login" 
+                className="px-10 py-5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-lg rounded-full transition-all hover:scale-105 shadow-[0_0_40px_rgba(16,185,129,0.4)]"
+              >
+                Login to Portal
+              </Link>
+              <Link 
+                to="/contact" 
+                className="px-10 py-5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-lg rounded-full transition-all border border-slate-600 hover:border-slate-500"
+              >
+                Contact Admissions
+              </Link>
+            </div>
+          </Reveal>
+        </div>
       </section>
+
     </MainLayout>
   );
 };
