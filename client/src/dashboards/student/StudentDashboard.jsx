@@ -54,7 +54,7 @@ const StudentDashboard = () => {
     // Clock ticker
     const timer = setInterval(() => {
       setCurrentTime(new Date());
-    }, 30000);
+    }, 1000);
 
     return () => clearInterval(timer);
   }, []);
