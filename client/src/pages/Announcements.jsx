@@ -3,40 +3,12 @@
  * rich card layout, and animated empty state
  */
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import MainLayout from "../layouts/MainLayout";
 import PageHeader from "../components/PageHeader";
 import SkeletonLoader from "../components/SkeletonLoader";
 import Pagination from "../components/Pagination";
 import { getAnnouncements } from "../services/authService";
 import { formatDate } from "../utils/helpers";
-
-const MOCK_ANNOUNCEMENTS = [
-  {
-    id: 1,
-    title: "Welcome to New Academic Year 2025/2026",
-    content: "We warmly welcome all students, parents, and staff to the 2025/2026 academic year. This year promises to be filled with growth, learning, and achievement.",
-    author_name: "Principal Bekele",
-    created_at: new Date().toISOString(),
-    priority: "important",
-  },
-  {
-    id: 2,
-    title: "Parent-Teacher Meeting — July 15",
-    content: "Parent-teacher meetings will be held on July 15, 2025 from 9:00 AM to 3:00 PM. All parents are encouraged to attend to discuss their child's academic progress.",
-    author_name: "Administration",
-    created_at: new Date(Date.now() - 86400000).toISOString(),
-    priority: "general",
-  },
-  {
-    id: 3,
-    title: "National Exam Preparation Workshop",
-    content: "A special exam preparation workshop will be held for all Grade 12 students starting next Monday. Attendance is mandatory for all students.",
-    author_name: "Academic Dept.",
-    created_at: new Date(Date.now() - 2 * 86400000).toISOString(),
-    priority: "urgent",
-  },
-];
 
 const priorityConfig = {
   urgent: { label: "Urgent", cls: "badge-red", dot: "bg-red-400" },
@@ -111,20 +83,19 @@ const Announcements = () => {
   const [activeFilter, setActiveFilter] = useState("All");
 
   useEffect(() => {
+    document.title = "Announcements — Habucho Preparatory School";
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setAnnouncements(MOCK_ANNOUNCEMENTS);
-          setLoading(false);
-          return;
-        }
         const res = await getAnnouncements({ page, limit: 6 });
-        setAnnouncements(res.data.data.announcements);
-        setTotalPages(res.data.data.pagination.totalPages);
+        setAnnouncements(res.data.data.announcements || []);
+        setTotalPages(res.data.data.pagination?.totalPages || 1);
       } catch {
-        toast.error("Failed to load announcements");
+        // API not reachable — show empty state (no fake data)
+        setAnnouncements([]);
       } finally {
         setLoading(false);
       }

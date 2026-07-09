@@ -3,21 +3,12 @@
  * color-coded days, grade filters, and animated layout
  */
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import MainLayout from "../layouts/MainLayout";
 import PageHeader from "../components/PageHeader";
 import SkeletonLoader from "../components/SkeletonLoader";
 import { getSchedules } from "../services/authService";
 import { formatTime } from "../utils/helpers";
 
-const MOCK_SCHEDULES = [
-  { id: 1, grade_level: "11", subject: "Mathematics", teacher_name: "Sarah Johnson", day: "Monday", start_time: "08:00:00", end_time: "09:30:00" },
-  { id: 2, grade_level: "11", subject: "Physics", teacher_name: "Michael Chen", day: "Monday", start_time: "09:45:00", end_time: "11:15:00" },
-  { id: 3, grade_level: "12", subject: "Biology", teacher_name: "Dr. Lemma", day: "Tuesday", start_time: "08:00:00", end_time: "09:30:00" },
-  { id: 4, grade_level: "11", subject: "English", teacher_name: "Tigist Alemu", day: "Wednesday", start_time: "10:00:00", end_time: "11:30:00" },
-  { id: 5, grade_level: "12", subject: "Chemistry", teacher_name: "Michael Chen", day: "Thursday", start_time: "08:00:00", end_time: "09:30:00" },
-  { id: 6, grade_level: "11", subject: "History", teacher_name: "Abebe Worku", day: "Friday", start_time: "11:00:00", end_time: "12:30:00" },
-];
 
 const dayColors = {
   Monday:    { bg: "bg-blue-100 dark:bg-blue-900/30",    text: "text-blue-700 dark:text-blue-400",    border: "border-blue-200 dark:border-blue-800" },
@@ -39,21 +30,19 @@ const Schedule = () => {
   const [viewMode, setViewMode] = useState("table"); // "table" | "card"
 
   useEffect(() => {
+    document.title = "Class Schedule — Habucho Preparatory School";
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setSchedules(MOCK_SCHEDULES);
-          setLoading(false);
-          return;
-        }
-        const params = { limit: 50 };
+        const params = { limit: 100 };
         if (gradeFilter) params.grade_level = gradeFilter;
         const res = await getSchedules(params);
-        setSchedules(res.data.data.schedules);
+        setSchedules(res.data.data.schedules || []);
       } catch {
-        toast.error("Failed to load schedule");
+        setSchedules([]);
       } finally {
         setLoading(false);
       }
