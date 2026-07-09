@@ -30,7 +30,15 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // --- Global Middleware ---
-app.use(helmet({ crossOriginResourcePolicy: false }));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    contentSecurityPolicy: false, // Let hosting platform handle page CSP; keep REST API unblocked for cross-origin JSON requests
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+    noSniff: true,
+    xssFilter: true,
+  })
+);
 
 const corsOptions = {
   origin: process.env.CLIENT_URL || "http://localhost:5173",
