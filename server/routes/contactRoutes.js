@@ -16,7 +16,7 @@ import { validateContact } from "../middleware/validate.js";
 
 const router = Router();
 
-router.post("/", authenticateUser, contactLimiter, validateContact, submitMessage);
+router.post("/", contactLimiter, validateContact, submitMessage);
 router.get("/", authenticateUser, authorizeRoles("admin"), getMessages);
 router.delete("/:id", authenticateUser, authorizeRoles("admin"), deleteMessage);
 

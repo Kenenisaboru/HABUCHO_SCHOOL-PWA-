@@ -1,7 +1,7 @@
 /**
  * Contact Page — Contact form for students and visitors
  */
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import MainLayout from "../layouts/MainLayout";
@@ -20,11 +20,11 @@ const Contact = () => {
   const token = useAuthStore((s) => s.token);
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
 
+  useEffect(() => {
+    document.title = "Contact Us — Habucho Preparatory School";
+  }, []);
+
   const onSubmit = async (data) => {
-    if (!token) {
-      toast.error("Please login to send a message");
-      return;
-    }
     try {
       await submitContact(data);
       toast.success("Message sent successfully!");
@@ -68,12 +68,6 @@ const Contact = () => {
               <p className="mt-1 text-sm text-slate-500">We'll get back to you as soon as possible.</p>
             </div>
 
-            {!token && (
-              <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-300">
-                Please <Link to="/login" className="font-semibold underline">login</Link> to submit a message.
-              </div>
-            )}
-
             <div>
               <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">Name</label>
               <input className="input-field" {...register("name", { required: "Name is required" })} />
@@ -92,7 +86,7 @@ const Contact = () => {
               {errors.message && <p className="mt-1.5 text-sm text-red-500">{errors.message.message}</p>}
             </div>
 
-            <button type="submit" disabled={isSubmitting || !token} className="btn-emerald w-full py-3">
+            <button type="submit" disabled={isSubmitting} className="btn-emerald w-full py-3">
               {isSubmitting ? "Sending..." : "Send Message"}
             </button>
           </form>
