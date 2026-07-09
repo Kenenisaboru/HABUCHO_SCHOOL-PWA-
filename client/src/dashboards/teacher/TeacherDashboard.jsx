@@ -3,6 +3,7 @@
  */
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import useAuthStore from "../../context/authStore";
@@ -61,7 +62,7 @@ const TeacherDashboard = () => {
     // Setup ticking clock for real-time tracking (live classes)
     const timer = setInterval(() => {
       setCurrentTime(new Date());
-    }, 30000); // Update every 30 seconds
+    }, 1000); // Update every second
 
     return () => clearInterval(timer);
   }, []);
@@ -306,15 +307,26 @@ const TeacherDashboard = () => {
           {/* Quick Actions & Modals */}
           <div className="card">
             <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 pb-4 dark:border-slate-800">Quick Actions</h2>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <div className="mt-6 grid gap-4 sm:grid-cols-3">
+              <Link
+                to="/teacher/grades"
+                className="flex items-center gap-4 rounded-2xl bg-linear-to-br from-emerald-500 to-teal-600 p-4 text-left text-white shadow-sm hover:shadow-md transition-all hover:scale-[1.02]"
+              >
+                <span className="text-3xl bg-white/20 p-2 rounded-xl">📊</span>
+                <div>
+                  <h3 className="font-bold">Excel Score Sheet</h3>
+                  <p className="text-xs text-teal-100">Enter marks for whole class</p>
+                </div>
+              </Link>
+
               <button
                 onClick={() => setShowGradeModal(true)}
-                className="flex items-center gap-4 rounded-2xl bg-linear-to-br from-emerald-500 to-teal-600 p-4 text-left text-white shadow-sm hover:shadow-md transition-all hover:scale-[1.02]"
+                className="flex items-center gap-4 rounded-2xl bg-linear-to-br from-teal-600 to-cyan-700 p-4 text-left text-white shadow-sm hover:shadow-md transition-all hover:scale-[1.02]"
               >
                 <span className="text-3xl bg-white/20 p-2 rounded-xl">📝</span>
                 <div>
-                  <h3 className="font-bold">Add Student Grade</h3>
-                  <p className="text-xs text-teal-100">Upload new grades & scores</p>
+                  <h3 className="font-bold">Single Grade Entry</h3>
+                  <p className="text-xs text-teal-100">Add individual score</p>
                 </div>
               </button>
 
