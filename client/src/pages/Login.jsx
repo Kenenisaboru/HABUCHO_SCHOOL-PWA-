@@ -2,7 +2,7 @@
  * Login Page — Premium authentication with glassmorphism form,
  * animated left panel, show/hide password, role hints
  */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -28,6 +28,10 @@ const FloatingShape = ({ size, top, left, delay, color }) => (
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    document.title = "Portal Login — Habucho Preparatory School";
+  }, []);
   const [showPassword, setShowPassword] = useState(false);
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const setAuth = useAuthStore((s) => s.setAuth);

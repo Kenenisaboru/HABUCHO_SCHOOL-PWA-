@@ -22,6 +22,10 @@ const FloatingParticle = ({ size, top, left, delay, opacity }) => (
 const NotFound = () => {
   const [glitch, setGlitch] = useState(false);
 
+  useEffect(() => {
+    document.title = "Page Not Found — Habucho Preparatory School";
+  }, []);
+
   // Periodically trigger glitch effect
   useEffect(() => {
     const trigger = () => {
