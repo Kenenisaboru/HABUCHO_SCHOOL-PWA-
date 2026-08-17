@@ -64,13 +64,13 @@ const About = () => {
 
         <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
           <Reveal>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 backdrop-blur-md mb-8">
-              <span className="text-emerald-400 font-medium tracking-wider text-sm uppercase">Our Story</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 backdrop-blur-md mb-6 sm:mb-8">
+              <span className="text-emerald-400 font-medium tracking-wider text-xs sm:text-sm uppercase">Our Story</span>
             </div>
-            <h1 className="text-6xl md:text-7xl font-black text-white mb-8 tracking-tight">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-white mb-6 sm:mb-8 tracking-tight">
               A Legacy of <span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-400 to-teal-300">Excellence</span>
             </h1>
-            <p className="text-xl md:text-2xl text-slate-400 font-light max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-xl md:text-2xl text-slate-400 font-light max-w-3xl mx-auto leading-relaxed px-2">
               Since 2007 E.C., Habucho Preparatory School has been shaping the minds of tomorrow's leaders, blending rich traditions with cutting-edge education.
             </p>
           </Reveal>
@@ -80,21 +80,21 @@ const About = () => {
       {/* ────────────────────────────────────────────────────────
           MISSION & VISION SECTION 
       ───────────────────────────────────────────────────────── */}
-      <section className="py-32 bg-slate-900 relative">
+      <section className="py-20 sm:py-32 bg-slate-900 relative">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-20"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
             
             <Reveal direction="left">
-              <div className="group relative p-10 rounded-[2.5rem] bg-slate-800/40 border border-slate-700/50 backdrop-blur-xl hover:bg-slate-800/60 transition-all duration-500 overflow-hidden">
+              <div className="group relative p-6 sm:p-10 rounded-3xl sm:rounded-[2.5rem] bg-slate-800/40 border border-slate-700/50 backdrop-blur-xl hover:bg-slate-800/60 transition-all duration-500 overflow-hidden">
                 <div className="absolute inset-0 bg-linear-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative z-10">
-                  <div className="w-20 h-20 bg-emerald-500/20 text-emerald-400 rounded-3xl flex items-center justify-center text-4xl mb-8 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-500/20 text-emerald-400 rounded-2xl sm:rounded-3xl flex items-center justify-center text-3xl sm:text-4xl mb-6 sm:mb-8 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500">
                     🎯
                   </div>
-                  <h2 className="text-4xl font-bold text-white mb-6">Our Mission</h2>
-                  <p className="text-lg text-slate-400 leading-relaxed">
+                  <h2 className="text-2xl sm:text-4xl font-bold text-white mb-4 sm:mb-6">Our Mission</h2>
+                  <p className="text-base sm:text-lg text-slate-400 leading-relaxed">
                     To provide accessible, high-quality preparatory education that empowers students with knowledge, critical thinking skills, and moral values, enabling them to become responsible citizens and future leaders.
                   </p>
                 </div>
@@ -102,14 +102,14 @@ const About = () => {
             </Reveal>
 
             <Reveal direction="right" delay={200}>
-              <div className="group relative p-10 rounded-[2.5rem] bg-slate-800/40 border border-slate-700/50 backdrop-blur-xl hover:bg-slate-800/60 transition-all duration-500 overflow-hidden mt-12 md:mt-0">
+              <div className="group relative p-6 sm:p-10 rounded-3xl sm:rounded-[2.5rem] bg-slate-800/40 border border-slate-700/50 backdrop-blur-xl hover:bg-slate-800/60 transition-all duration-500 overflow-hidden mt-6 md:mt-0">
                 <div className="absolute inset-0 bg-linear-to-br from-teal-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative z-10">
-                  <div className="w-20 h-20 bg-teal-500/20 text-teal-400 rounded-3xl flex items-center justify-center text-4xl mb-8 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-teal-500/20 text-teal-400 rounded-2xl sm:rounded-3xl flex items-center justify-center text-3xl sm:text-4xl mb-6 sm:mb-8 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
                     👁️
                   </div>
-                  <h2 className="text-4xl font-bold text-white mb-6">Our Vision</h2>
-                  <p className="text-lg text-slate-400 leading-relaxed">
+                  <h2 className="text-2xl sm:text-4xl font-bold text-white mb-4 sm:mb-6">Our Vision</h2>
+                  <p className="text-base sm:text-lg text-slate-400 leading-relaxed">
                     To be the leading preparatory school in the region, recognized for academic excellence, innovative teaching, and producing graduates who excel in higher education and contribute positively to society.
                   </p>
                 </div>
