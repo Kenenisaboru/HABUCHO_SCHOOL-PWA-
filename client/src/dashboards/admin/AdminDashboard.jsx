@@ -61,7 +61,7 @@ const AdminDashboard = () => {
       setStats(statsRes.data.data);
       setMessages(msgRes.data.data.messages || []);
       setTeachers(teacherRes.data.data.users || []);
-    } catch (err) {
+    } catch {
       toast.error("Failed to load admin dashboard data");
     } finally {
       setLoading(false);
