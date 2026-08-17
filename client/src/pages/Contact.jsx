@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import MainLayout from "../layouts/MainLayout";
 import PageHeader from "../components/PageHeader";
 import { submitContact } from "../services/authService";
-import useAuthStore from "../context/authStore";
 
 const contactItems = [
   { icon: "📍", title: "Address", value: "Arsi Aseko Town, Oromia Region, Ethiopia" },
@@ -17,7 +16,6 @@ const contactItems = [
 ];
 
 const Contact = () => {
-  const token = useAuthStore((s) => s.token);
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
 
   useEffect(() => {
