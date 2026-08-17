@@ -5,6 +5,11 @@ import Reveal from "../components/Reveal";
 import useFetch from "../hooks/useFetch";
 import { getPublicStats } from "../services/publicService";
 
+import kenenisaImg from "../Images/photo_2026-08-17_07-41-04.jpg";
+import nurelayImg from "../Images/photo_2026-08-17_07-40-50.jpg";
+import bezabihImg from "../Images/photo_2026-08-17_07-40-20.jpg";
+import ibrahimImg from "../Images/photo_2026-08-17_07-40-43.jpg";
+
 const useCountUp = (target, duration = 2000) => {
   const [count, setCount] = useState(0);
   const [started, setStarted] = useState(false);
@@ -90,32 +95,38 @@ const Home = () => {
     {
       name: "Ibrahim Jemal Elema",
       role: "Medicine Student, Haramaya University (Alumni)",
+      badge: "Medical Scholar",
       text: "Habucho Preparatory School laid the solid foundation and discipline that paved my way to studying Medicine at Haramaya University. The academic excellence and dedicated teachers here truly prepare you to achieve your highest dreams.",
-      image: "https://ui-avatars.com/api/?name=Ibrahim+Jemal&background=059669&color=fff&bold=true",
+      image: ibrahimImg,
     },
     {
       name: "Nurelay Mohammed",
       role: "Law Student, Wachamo University (Alumni)",
+      badge: "Legal Scholar",
       text: "The analytical thinking, debate culture, and leadership values fostered at Habucho empowered me to pursue Law with confidence. It is a school that turns raw ambition into real success.",
-      image: "https://ui-avatars.com/api/?name=Nurelay+Mohammed&background=0284c7&color=fff&bold=true",
+      image: nurelayImg,
     },
     {
       name: "Kenenisa Boru",
-      role: "4th Year HRU Student & Portal Developer (Alumni)",
+      role: "4th Year HRU Student & Lead Portal Developer (Alumni)",
+      badge: "Portal Architect",
       text: "Habucho instilled in us a passion for innovation and continuous growth. Developing this digital school portal is my proud contribution to give back to the institution that shaped my future.",
-      image: "https://ui-avatars.com/api/?name=Kenenisa+Boru&background=4f46e5&color=fff&bold=true",
+      image: kenenisaImg,
+      portfolio: "https://kenenisaboru.github.io/portfolio/",
     },
     {
       name: "Sudi Shemsedin",
       role: "4th Year Biomedical Engineering, Jimma University (Alumni)",
+      badge: "Biomedical Eng.",
       text: "From science labs and math competitions at Habucho to Biomedical Engineering at Jimma University, the relentless standard of excellence here inspired me to push boundaries.",
       image: "https://ui-avatars.com/api/?name=Sudi+Shemsedin&background=0d9488&color=fff&bold=true",
     },
     {
       name: "Bezabih Tesfaye",
       role: "Electrical & Computer Engineering, HRU (Alumni)",
+      badge: "ECE Scholar",
       text: "The rigorous STEM curriculum and tireless support from Habucho's teachers ignited my love for technology and engineering. This school builds tomorrow's innovators.",
-      image: "https://ui-avatars.com/api/?name=Bezabih+Tesfaye&background=6366f1&color=fff&bold=true",
+      image: bezabihImg,
     },
   ];
 
@@ -276,6 +287,203 @@ const Home = () => {
       </section>
 
       {/* ────────────────────────────────────────────────────────
+          WHAT THIS WEBSITE DOES / PLATFORM CAPABILITIES SECTION 
+      ───────────────────────────────────────────────────────── */}
+      <section className="py-32 bg-slate-950 relative overflow-hidden border-t border-slate-900">
+        {/* Glow ambient backgrounds */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-200 h-125 bg-linear-to-r from-emerald-500/10 via-teal-500/10 to-indigo-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <Reveal className="text-center mb-20">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-teal-500/30 bg-teal-500/10 text-teal-300 text-xs font-bold uppercase tracking-widest mb-4">
+              <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
+              Platform Capabilities & Features
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight mb-6">
+              What Does This <span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-400 via-teal-300 to-cyan-400">Portal Do?</span>
+            </h2>
+            <p className="text-slate-400 max-w-3xl mx-auto text-lg md:text-xl font-light leading-relaxed">
+              Habucho Preparatory School's digital platform is an all-in-one Progressive Web Application (PWA) designed to automate, simplify, and elevate every aspect of school management and academic tracking.
+            </p>
+          </Reveal>
+
+          {/* 3 Core Role Portals */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
+            
+            {/* Student Hub */}
+            <Reveal delay={100}>
+              <div className="glass-panel rounded-3xl p-8 h-full flex flex-col border border-slate-800 hover:border-emerald-500/40 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(16,185,129,0.12)]">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                    🎓
+                  </div>
+                  <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    Student Portal
+                  </span>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-emerald-300 transition-colors">
+                  For Students & Parents
+                </h3>
+                <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+                  Gives students 24/7 transparent access to their academic progress, schedules, and official school records.
+                </p>
+                <ul className="space-y-3 text-sm text-slate-300 grow mb-8">
+                  <li className="flex items-start gap-3">
+                    <span className="text-emerald-400 font-bold shrink-0">✓</span>
+                    <span><strong>Live Gradebook & Scorecards:</strong> View semester assessments, midterms, and final exam marks in real-time.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-emerald-400 font-bold shrink-0">✓</span>
+                    <span><strong>Instant PDF Report Cards:</strong> Download official, printable student report cards with calculated ranks.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-emerald-400 font-bold shrink-0">✓</span>
+                    <span><strong>Interactive Timetables:</strong> Access weekly period schedules for all grades (9–12) and streams.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-emerald-400 font-bold shrink-0">✓</span>
+                    <span><strong>Official Notice Board:</strong> Receive immediate school updates, exam dates, and event broadcasts.</span>
+                  </li>
+                </ul>
+                <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-emerald-400 font-semibold">
+                  <span>Self-service Academic Hub</span>
+                  <span>Fast & Mobile-Ready →</span>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Teacher Hub */}
+            <Reveal delay={200}>
+              <div className="glass-panel rounded-3xl p-8 h-full flex flex-col border border-slate-800 hover:border-teal-500/40 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(20,184,166,0.12)]">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                    👨‍🏫
+                  </div>
+                  <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/20">
+                    Teacher Suite
+                  </span>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-teal-300 transition-colors">
+                  For Teachers & Faculty
+                </h3>
+                <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+                  Eliminates paperwork with lightning-fast digital grade entry, roster management, and performance insights.
+                </p>
+                <ul className="space-y-3 text-sm text-slate-300 grow mb-8">
+                  <li className="flex items-start gap-3">
+                    <span className="text-teal-400 font-bold shrink-0">✓</span>
+                    <span><strong>Fast Score Entry:</strong> Input marks for quizzes, tests, projects, and final exams with one click.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-teal-400 font-bold shrink-0">✓</span>
+                    <span><strong>Automatic Computation:</strong> Instant calculation of totals, semester averages, rankings, and pass/fail statuses.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-teal-400 font-bold shrink-0">✓</span>
+                    <span><strong>Assigned Class Management:</strong> Filter and manage students by grade, section, and subject track.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-teal-400 font-bold shrink-0">✓</span>
+                    <span><strong>Teaching Schedule:</strong> Personal teaching timetables accessible from any device.</span>
+                  </li>
+                </ul>
+                <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-teal-400 font-semibold">
+                  <span>Automated Grading Suite</span>
+                  <span>Paperless Workflow →</span>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Admin Hub */}
+            <Reveal delay={300}>
+              <div className="glass-panel rounded-3xl p-8 h-full flex flex-col border border-slate-800 hover:border-cyan-500/40 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(6,182,212,0.12)]">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                    🏛️
+                  </div>
+                  <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                    Admin Command
+                  </span>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-cyan-300 transition-colors">
+                  For School Leadership
+                </h3>
+                <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+                  Complete centralized control over school records, user privileges, academic analytics, and school communications.
+                </p>
+                <ul className="space-y-3 text-sm text-slate-300 grow mb-8">
+                  <li className="flex items-start gap-3">
+                    <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                    <span><strong>User Account Management:</strong> Create, manage, and verify student, teacher, and administrator accounts.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                    <span><strong>Class & Stream Allocations:</strong> Assign teachers to sections and organize Natural/Social science tracks.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                    <span><strong>Central Announcement Dispatch:</strong> Broadcast high-priority alerts with category badges school-wide.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                    <span><strong>School Analytics & Security:</strong> Monitor enrollment figures, academic averages, and audit access logs.</span>
+                  </li>
+                </ul>
+                <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-cyan-400 font-semibold">
+                  <span>Central Operations Control</span>
+                  <span>Full Institutional Visibility →</span>
+                </div>
+              </div>
+            </Reveal>
+
+          </div>
+
+          {/* 4 Core Technology Pillars */}
+          <div className="rounded-3xl border border-slate-800 bg-slate-900/50 p-8 md:p-12 backdrop-blur-xl">
+            <h4 className="text-2xl md:text-3xl font-bold text-white mb-8 text-center">
+              Core Technologies Powering the Platform
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              
+              <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800/80 hover:border-emerald-500/30 transition-all group">
+                <div className="text-3xl mb-4">⚡</div>
+                <h5 className="text-white font-bold text-lg mb-2 group-hover:text-emerald-400 transition-colors">Offline-Ready PWA</h5>
+                <p className="text-slate-400 text-xs leading-relaxed">
+                  Installable on phones, tablets, and laptops. Caches key schedules and scorecards for offline viewing even without internet.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800/80 hover:border-teal-500/30 transition-all group">
+                <div className="text-3xl mb-4">📄</div>
+                <h5 className="text-white font-bold text-lg mb-2 group-hover:text-teal-400 transition-colors">Auto PDF Transcripts</h5>
+                <p className="text-slate-400 text-xs leading-relaxed">
+                  Instantly compiles marks into official, formatted PDF report cards ready for print, parent distribution, or university applications.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800/80 hover:border-cyan-500/30 transition-all group">
+                <div className="text-3xl mb-4">📊</div>
+                <h5 className="text-white font-bold text-lg mb-2 group-hover:text-cyan-400 transition-colors">Intelligent Ranking</h5>
+                <p className="text-slate-400 text-xs leading-relaxed">
+                  Automated computation algorithms sort class percentiles, total point averages, and rank standings without manual errors.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800/80 hover:border-indigo-500/30 transition-all group">
+                <div className="text-3xl mb-4">🔒</div>
+                <h5 className="text-white font-bold text-lg mb-2 group-hover:text-indigo-400 transition-colors">Protected & Encrypted</h5>
+                <p className="text-slate-400 text-xs leading-relaxed">
+                  JWT-authenticated sessions and role-guard middleware safeguard all student records, passwords, and sensitive exam marks.
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ────────────────────────────────────────────────────────
           TESTIMONIALS SECTION 
       ───────────────────────────────────────────────────────── */}
       <section className="py-32 bg-slate-950 relative">
@@ -290,25 +498,54 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map((t, i) => (
               <Reveal key={t.name} delay={i * 150} direction="up">
-                <div className="glass-panel rounded-3xl p-8 h-full flex flex-col relative border border-slate-800 hover:border-teal-500/30 transition-all duration-300 group hover:-translate-y-2">
-                  <div className="text-emerald-500/20 text-6xl font-serif absolute top-4 right-6 group-hover:text-emerald-500/40 transition-colors">"</div>
+                <div className="glass-panel rounded-3xl p-8 h-full flex flex-col relative border border-slate-800 hover:border-teal-500/40 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_12px_40px_rgba(16,185,129,0.15)]">
+                  <div className="text-emerald-500/20 text-6xl font-serif absolute top-4 right-6 group-hover:text-emerald-500/40 transition-colors pointer-events-none">"</div>
                   
                   <div className="flex items-center gap-4 mb-6">
-                    <img src={t.image} alt={t.name} className="w-14 h-14 rounded-full border-2 border-emerald-500/50 object-cover" />
-                    <div>
-                      <h4 className="text-white font-bold text-lg">{t.name}</h4>
-                      <p className="text-teal-400 text-sm">{t.role}</p>
+                    <div className="relative shrink-0">
+                      <img 
+                        src={t.image} 
+                        alt={t.name} 
+                        className="w-16 h-16 rounded-2xl border-2 border-emerald-500/60 object-cover shadow-lg group-hover:scale-105 group-hover:border-teal-400 transition-all duration-300" 
+                      />
+                      <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-slate-900 flex items-center justify-center">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                      </div>
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h4 className="text-white font-bold text-lg leading-tight group-hover:text-emerald-300 transition-colors">{t.name}</h4>
+                        {t.badge && (
+                          <span className="text-[10px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            {t.badge}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-teal-400 text-xs mt-1 font-medium leading-snug">{t.role}</p>
                     </div>
                   </div>
                   
-                  <p className="text-slate-300 italic leading-relaxed grow text-lg">
-                    {t.text}
+                  <p className="text-slate-300 italic leading-relaxed grow text-base">
+                    "{t.text}"
                   </p>
 
-                  <div className="flex gap-1 mt-6">
-                    {[1,2,3,4,5].map(star => (
-                      <svg key={star} className="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                    ))}
+                  <div className="flex items-center justify-between gap-4 mt-6 pt-4 border-t border-slate-800/80">
+                    <div className="flex gap-1">
+                      {[1,2,3,4,5].map(star => (
+                        <svg key={star} className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                      ))}
+                    </div>
+                    {t.portfolio && (
+                      <a 
+                        href={t.portfolio} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500 hover:text-slate-950 hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-200"
+                      >
+                        <span>Portfolio</span>
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                      </a>
+                    )}
                   </div>
                 </div>
               </Reveal>
