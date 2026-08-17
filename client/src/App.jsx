@@ -2,7 +2,7 @@
  * App.jsx — Root component with all routes and role-based protection
  * Refactored to use lazy loading, nested routes, and unified layouts.
  */
-import React, { lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RoleGuard from "./components/RoleGuard";
