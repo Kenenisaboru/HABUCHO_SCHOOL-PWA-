@@ -10,7 +10,27 @@ import { sendSuccess, sendError } from "../utils/response.js";
 
 export const register = async (req, res, next) => {
   try {
-    const { full_name, email, password } = req.body;
+    const {
+      full_name,
+      email,
+      password,
+      student_id,
+      gender,
+      date_of_birth,
+      grade_level,
+      section,
+      stream,
+      phone,
+      parent_name,
+      parent_phone,
+      address,
+      academic_year,
+      emergency_contact_name,
+      emergency_contact_phone,
+      blood_group,
+      previous_school,
+      remarks,
+    } = req.body;
 
     if (!full_name || !email || !password) {
       return sendError(res, "Full name, email, and password are required");
@@ -41,6 +61,22 @@ export const register = async (req, res, next) => {
       email,
       password: hashedPassword,
       role: userRole,
+      student_id,
+      gender,
+      date_of_birth,
+      grade_level,
+      section,
+      stream,
+      phone,
+      parent_name,
+      parent_phone,
+      address,
+      academic_year,
+      emergency_contact_name,
+      emergency_contact_phone,
+      blood_group,
+      previous_school,
+      remarks,
     });
 
     const token = generateToken(user);
@@ -49,7 +85,7 @@ export const register = async (req, res, next) => {
       res,
       {
         token,
-        user: { id: user.id, name: user.full_name, role: user.role },
+        user: { id: user.id, name: user.full_name, role: user.role, grade_level: user.grade_level, section: user.section, stream: user.stream },
       },
       "Registration successful",
       201
