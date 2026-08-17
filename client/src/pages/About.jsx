@@ -62,7 +62,7 @@ const About = () => {
               A Legacy of <span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-400 to-teal-300">Excellence</span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-400 font-light max-w-3xl mx-auto leading-relaxed">
-              Since 1995, Habucho Preparatory School has been shaping the minds of tomorrow's leaders, blending rich traditions with cutting-edge education.
+              Since 2007 E.C., Habucho Preparatory School has been shaping the minds of tomorrow's leaders, blending rich traditions with cutting-edge education.
             </p>
           </Reveal>
         </div>
@@ -112,16 +112,16 @@ const About = () => {
       </section>
 
       {/* ────────────────────────────────────────────────────────
-          HISTORY TIMELINE 
+          TIMELINE / HISTORY SECTION 
       ───────────────────────────────────────────────────────── */}
       <section className="py-32 bg-slate-950 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <Reveal className="text-center mb-20">
-            <h2 className="text-emerald-400 font-semibold tracking-widest uppercase text-sm mb-3">Journey</h2>
-            <h3 className="text-4xl md:text-5xl font-bold text-white">Our History</h3>
+          <Reveal className="text-center mb-24">
+            <h2 className="text-emerald-400 font-semibold tracking-widest uppercase text-sm mb-3">Our Heritage</h2>
+            <h3 className="text-4xl md:text-5xl font-bold text-white">The Journey of Habucho</h3>
           </Reveal>
 
-          <div className="relative max-w-4xl mx-auto py-10">
+          <div className="relative max-w-4xl mx-auto">
             <div className="timeline-line"></div>
 
             {/* Timeline Item 1 */}
@@ -129,10 +129,10 @@ const About = () => {
               <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.5)] z-10 group-hover:scale-125 transition-transform shrink-0 md:absolute md:left-1/2 md:-translate-x-1/2"></div>
               <Reveal direction="up" className="w-[calc(100%-3rem)] md:w-[calc(50%-3rem)] pl-8 md:pl-0 md:group-odd:pr-12 md:group-even:pl-12">
                 <div className="bg-slate-900/60 p-8 rounded-3xl border border-slate-800 backdrop-blur-md group-hover:border-emerald-500/30 transition-colors">
-                  <span className="text-emerald-400 font-bold text-xl mb-2 block">1995</span>
+                  <span className="text-emerald-400 font-bold text-xl mb-2 block">2007 E.C.</span>
                   <h4 className="text-2xl font-bold text-white mb-3">Foundation</h4>
                   <p className="text-slate-400">
-                    Habucho Preparatory School was established with a vision to provide quality secondary education to students in the Habucho region.
+                    Habucho Preparatory School was established in 2007 E.C. with a vision to provide quality secondary education to students in the Habucho region.
                   </p>
                 </div>
               </Reveal>
@@ -143,8 +143,8 @@ const About = () => {
               <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.5)] z-10 group-hover:scale-125 transition-transform shrink-0 md:absolute md:left-1/2 md:-translate-x-1/2"></div>
               <Reveal direction="up" delay={200} className="w-[calc(100%-3rem)] md:w-[calc(50%-3rem)] pl-8 md:pl-0 md:group-odd:pr-12 md:group-even:pl-12">
                 <div className="bg-slate-900/60 p-8 rounded-3xl border border-slate-800 backdrop-blur-md group-hover:border-emerald-500/30 transition-colors">
-                  <span className="text-emerald-400 font-bold text-xl mb-2 block">2010</span>
-                  <h4 className="text-2xl font-bold text-white mb-3">Expansion</h4>
+                  <span className="text-emerald-400 font-bold text-xl mb-2 block">2012 E.C.</span>
+                  <h4 className="text-2xl font-bold text-white mb-3">Academic Expansion</h4>
                   <p className="text-slate-400">
                     Expanded facilities to include modern science laboratories and comprehensive tracks for Natural and Social Sciences.
                   </p>
@@ -160,7 +160,7 @@ const About = () => {
                   <span className="text-emerald-400 font-bold text-xl mb-2 block">Today</span>
                   <h4 className="text-2xl font-bold text-white mb-3">Digital Transformation</h4>
                   <p className="text-slate-400">
-                    Over 25+ years of excellence, now stepping into a fully integrated digital era, ensuring real-time performance tracking and modern portals.
+                    Building on our proud legacy since 2007 E.C., now stepping into a fully integrated digital era, ensuring real-time performance tracking and modern portals.
                   </p>
                 </div>
               </Reveal>
