@@ -82,10 +82,10 @@ const About = () => {
       ───────────────────────────────────────────────────────── */}
       <section className="py-20 sm:py-32 bg-slate-900 relative">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-20"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid md:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
-            
+
             <Reveal direction="left">
               <div className="group relative p-6 sm:p-10 rounded-3xl sm:rounded-[2.5rem] bg-slate-800/40 border border-slate-700/50 backdrop-blur-xl hover:bg-slate-800/60 transition-all duration-500 overflow-hidden">
                 <div className="absolute inset-0 bg-linear-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -141,7 +141,7 @@ const About = () => {
                   <span className="text-emerald-400 font-bold text-xl mb-2 block">2007 E.C.</span>
                   <h4 className="text-2xl font-bold text-white mb-3">Foundation</h4>
                   <p className="text-slate-400">
-                    Habucho Preparatory School was established in 2007 E.C. with a vision to provide quality secondary education to students in the Habucho region.
+                    Habucho Preparatory School was established in 2007 E.C. with a vision to provide quality secondary education to students in the Aseko and across the hole oromia region student.
                   </p>
                 </div>
               </Reveal>
@@ -174,7 +174,7 @@ const About = () => {
                 </div>
               </Reveal>
             </div>
-            
+
           </div>
         </div>
       </section>
@@ -197,7 +197,7 @@ const About = () => {
                 <div className="group bg-slate-800/30 border border-slate-700/50 p-8 rounded-3xl backdrop-blur-sm hover:bg-slate-800/80 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden">
                   {/* Hover glow effect */}
                   <div className="absolute -inset-2 bg-linear-to-r from-emerald-500 to-teal-500 opacity-0 blur-xl group-hover:opacity-10 transition-opacity duration-500 -z-10"></div>
-                  
+
                   <div className="text-4xl mb-6 bg-slate-900/50 w-16 h-16 flex items-center justify-center rounded-2xl border border-slate-700 group-hover:border-emerald-500/50 group-hover:scale-110 transition-all duration-500 shadow-inner">
                     {v.icon}
                   </div>
@@ -304,10 +304,10 @@ const About = () => {
             ].map((alumnus) => (
               <Reveal key={alumnus.name}>
                 <div className="glass-panel p-6 rounded-3xl border border-slate-800 hover:border-emerald-500/40 transition-all duration-300 group hover:-translate-y-1.5 flex gap-4 items-start h-full">
-                  <img 
-                    src={alumnus.image} 
-                    alt={alumnus.name} 
-                    className="w-14 h-14 rounded-2xl border-2 border-emerald-500/50 object-cover shrink-0 group-hover:scale-105 transition-transform" 
+                  <img
+                    src={alumnus.image}
+                    alt={alumnus.name}
+                    className="w-14 h-14 rounded-2xl border-2 border-emerald-500/50 object-cover shrink-0 group-hover:scale-105 transition-transform"
                   />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
