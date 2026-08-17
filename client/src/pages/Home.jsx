@@ -60,6 +60,8 @@ const StatCounter = ({ value, label, delay }) => {
 
 
 const Home = () => {
+  const [activeCategory, setActiveCategory] = useState("all");
+
   useEffect(() => {
     document.title = "Habucho Preparatory School — Home";
   }, []);
@@ -93,30 +95,74 @@ const Home = () => {
 
   const testimonials = [
     {
+      name: "Kenenisa Boru",
+      role: "4th Year Information Science & Full-Stack Engineer, HRU",
+      category: "scholars",
+      badge: "Full-Stack Engineer & Architect",
+      text: "Habucho instilled in us a relentless drive for innovation and engineering excellence. Designing and developing this digital school portal is my proud contribution to give back to the institution that shaped my foundation.",
+      image: kenenisaImg,
+      portfolio: "https://kenenisaboru.github.io/portfolio/",
+    },
+    {
       name: "Ibrahim Jemal Elema",
       role: "Medicine Student, Haramaya University (Alumni)",
+      category: "scholars",
       badge: "Medical Scholar",
       text: "Habucho Preparatory School laid the solid foundation and discipline that paved my way to studying Medicine at Haramaya University. The academic excellence and dedicated teachers here truly prepare you to achieve your highest dreams.",
       image: ibrahimImg,
     },
     {
+      name: "Abdela Omer",
+      role: "5th Year Law Student, Wachamo University (Alumni)",
+      category: "scholars",
+      badge: "5th Year Law Scholar",
+      text: "Habucho fostered an intellectual environment that honed my critical reasoning and passion for justice. That foundational training carries me through my 5th year of Law at Wachamo University.",
+      image: "https://ui-avatars.com/api/?name=Abdela+Omer&background=0284c7&color=fff&bold=true",
+    },
+    {
+      name: "Kelil Mohammed",
+      role: "Operational Manager, Awash Bank (Alumni Elite)",
+      category: "elite",
+      badge: "Banking Executive",
+      text: "Habucho Preparatory School shapes character and true leadership. The resilience and vision built in our high school classrooms continue to propel our leadership and operations at Awash Bank.",
+      image: "https://ui-avatars.com/api/?name=Kelil+Mohammed&background=6366f1&color=fff&bold=true",
+    },
+    {
+      name: "Aliyi Husein",
+      role: "Auditor, Awash Bank (Alumni Elite)",
+      category: "elite",
+      badge: "Financial Auditor",
+      text: "The discipline, numerical accuracy, and ethics I learned at Habucho continue to be the cornerstone of my financial audit career at Awash Bank.",
+      image: "https://ui-avatars.com/api/?name=Aliyi+Husein&background=f59e0b&color=fff&bold=true",
+    },
+    {
+      name: "Fati Sulxan",
+      role: "Health Officer (Arba Minch Univ. Grad, Habucho Class of 11-12)",
+      category: "elite",
+      badge: "Healthcare Leader",
+      text: "Studying Grades 11 and 12 at Habucho changed the course of my life. The dedicated teachers inspired me to graduate in Health Science from Arba Minch University and serve the community with pride.",
+      image: "https://ui-avatars.com/api/?name=Fati+Sulxan&background=10b981&color=fff&bold=true",
+    },
+    {
       name: "Nurelay Mohammed",
       role: "Law Student, Wachamo University (Alumni)",
+      category: "scholars",
       badge: "Legal Scholar",
       text: "The analytical thinking, debate culture, and leadership values fostered at Habucho empowered me to pursue Law with confidence. It is a school that turns raw ambition into real success.",
       image: nurelayImg,
     },
     {
-      name: "Kenenisa Boru",
-      role: "4th Year HRU Student & Lead Portal Developer (Alumni)",
-      badge: "Portal Architect",
-      text: "Habucho instilled in us a passion for innovation and continuous growth. Developing this digital school portal is my proud contribution to give back to the institution that shaped my future.",
-      image: kenenisaImg,
-      portfolio: "https://kenenisaboru.github.io/portfolio/",
+      name: "Anawar Tahir Gobena",
+      role: "2nd Year Civil Engineering, Haramaya University (Alumni)",
+      category: "scholars",
+      badge: "Civil Engineering",
+      text: "The strong mathematical foundation and encouragement from Habucho's STEM faculty paved the way for my Civil Engineering journey at HRU.",
+      image: "https://ui-avatars.com/api/?name=Anawar+Tahir&background=059669&color=fff&bold=true",
     },
     {
       name: "Sudi Shemsedin",
       role: "4th Year Biomedical Engineering, Jimma University (Alumni)",
+      category: "scholars",
       badge: "Biomedical Eng.",
       text: "From science labs and math competitions at Habucho to Biomedical Engineering at Jimma University, the relentless standard of excellence here inspired me to push boundaries.",
       image: "https://ui-avatars.com/api/?name=Sudi+Shemsedin&background=0d9488&color=fff&bold=true",
@@ -124,11 +170,16 @@ const Home = () => {
     {
       name: "Bezabih Tesfaye",
       role: "Electrical & Computer Engineering, HRU (Alumni)",
+      category: "scholars",
       badge: "ECE Scholar",
       text: "The rigorous STEM curriculum and tireless support from Habucho's teachers ignited my love for technology and engineering. This school builds tomorrow's innovators.",
       image: bezabihImg,
     },
   ];
+
+  const filteredTestimonials = activeCategory === "all" 
+    ? testimonials 
+    : testimonials.filter((t) => t.category === activeCategory);
 
   return (
     <MainLayout>
@@ -490,13 +541,37 @@ const Home = () => {
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1/3 h-full bg-emerald-900/10 filter blur-[120px] rounded-full pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <Reveal className="text-center mb-20">
-            <h2 className="text-teal-400 font-semibold tracking-widest uppercase text-sm mb-3">Student Voices</h2>
-            <h3 className="text-4xl md:text-5xl font-bold text-white">Inspiring Journeys & Achievements</h3>
+          <Reveal className="text-center mb-12">
+            <h2 className="text-teal-400 font-semibold tracking-widest uppercase text-sm mb-3">Student Voices & Elite Alumni</h2>
+            <h3 className="text-4xl md:text-5xl font-bold text-white mb-4">Inspiring Journeys & Achievements</h3>
+            <p className="text-slate-400 max-w-2xl mx-auto text-base">
+              Discover stories from Habucho's proud university scholars, medical students, engineering pioneers, and industry leaders.
+            </p>
           </Reveal>
 
+          {/* Category Filter Tabs */}
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
+            {[
+              { id: "all", label: "🌟 All Achievers", count: testimonials.length },
+              { id: "scholars", label: "🎓 University Scholars", count: testimonials.filter((t) => t.category === "scholars").length },
+              { id: "elite", label: "💼 Industry & Banking Elite", count: testimonials.filter((t) => t.category === "elite").length },
+            ].map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer ${
+                  activeCategory === cat.id
+                    ? "bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/25 scale-105"
+                    : "bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 hover:text-white"
+                }`}
+              >
+                {cat.label} ({cat.count})
+              </button>
+            ))}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.map((t, i) => (
+            {filteredTestimonials.map((t, i) => (
               <Reveal key={t.name} delay={i * 150} direction="up">
                 <div className="glass-panel rounded-3xl p-8 h-full flex flex-col relative border border-slate-800 hover:border-teal-500/40 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_12px_40px_rgba(16,185,129,0.15)]">
                   <div className="text-emerald-500/20 text-6xl font-serif absolute top-4 right-6 group-hover:text-emerald-500/40 transition-colors pointer-events-none">"</div>
