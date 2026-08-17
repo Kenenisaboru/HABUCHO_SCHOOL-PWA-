@@ -2,6 +2,11 @@ import { useEffect } from "react";
 import MainLayout from "../layouts/MainLayout";
 import Reveal from "../components/Reveal";
 
+import kenenisaImg from "../Images/photo_2026-08-17_07-41-04.jpg";
+import nurelayImg from "../Images/photo_2026-08-17_07-40-50.jpg";
+import bezabihImg from "../Images/photo_2026-08-17_07-40-20.jpg";
+import ibrahimImg from "../Images/photo_2026-08-17_07-40-43.jpg";
+
 const About = () => {
   useEffect(() => {
     document.title = "About Us — Habucho Preparatory School";
@@ -194,6 +199,124 @@ const About = () => {
                   </div>
                   <h4 className="text-2xl font-bold text-white mb-4 group-hover:text-emerald-400 transition-colors">{v.title}</h4>
                   <p className="text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors">{v.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ────────────────────────────────────────────────────────
+          NOTABLE ALUMNI & STUDENT ACHIEVERS SECTION 
+      ───────────────────────────────────────────────────────── */}
+      <section className="py-32 bg-slate-950 relative overflow-hidden border-t border-slate-800">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-emerald-900/10 filter blur-[140px] rounded-full pointer-events-none"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <Reveal className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-4">
+              Pride of Habucho
+            </div>
+            <h3 className="text-4xl md:text-5xl font-bold text-white mb-4">Notable Alumni & Achievers</h3>
+            <p className="text-slate-400 max-w-2xl mx-auto text-lg">
+              Our graduates continue to excel across Medicine, Law, Engineering, Technology, Finance, and Public Health.
+            </p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                name: "Kenenisa Boru",
+                field: "Information Science & Full-Stack Engineering",
+                institution: "Haramaya University & Portal Architect",
+                badge: "Lead Portal Developer",
+                desc: "4th Year Information Science student and lead developer of the Habucho Digital Campus Web Application.",
+                image: kenenisaImg,
+              },
+              {
+                name: "Ibrahim Jemal Elema",
+                field: "Medicine & Surgery",
+                institution: "Haramaya University",
+                badge: "Medical Scholar",
+                desc: "Pursuing human medicine after completing rigorous academic preparation at Habucho.",
+                image: ibrahimImg,
+              },
+              {
+                name: "Abdela Omer",
+                field: "Law & Jurisprudence",
+                institution: "Wachamo University",
+                badge: "5th Year Law Scholar",
+                desc: "5th Year Law student championing legal scholarship and advocacy.",
+                image: "https://ui-avatars.com/api/?name=Abdela+Omer&background=0284c7&color=fff&bold=true",
+              },
+              {
+                name: "Kelil Mohammed",
+                field: "Banking Operations & Leadership",
+                institution: "Awash Bank",
+                badge: "Operational Manager",
+                desc: "Leading high-level banking operations and branch administration at Awash Bank.",
+                image: "https://ui-avatars.com/api/?name=Kelil+Mohammed&background=6366f1&color=fff&bold=true",
+              },
+              {
+                name: "Aliyi Husein",
+                field: "Financial Auditing & Accounting",
+                institution: "Awash Bank",
+                badge: "Bank Auditor",
+                desc: "Specializing in financial auditing, compliance, and institutional accuracy.",
+                image: "https://ui-avatars.com/api/?name=Aliyi+Husein&background=f59e0b&color=fff&bold=true",
+              },
+              {
+                name: "Fati Sulxan",
+                field: "Public Health & Medical Services",
+                institution: "Arba Minch University (Graduated)",
+                badge: "Health Officer",
+                desc: "Habucho Grade 11-12 graduate now serving society as a certified Health Officer.",
+                image: "https://ui-avatars.com/api/?name=Fati+Sulxan&background=10b981&color=fff&bold=true",
+              },
+              {
+                name: "Nurelay Mohammed",
+                field: "Law & Legal Studies",
+                institution: "Wachamo University",
+                badge: "Law Student",
+                desc: "Excelling in legal research, debate, and university leadership tracks.",
+                image: nurelayImg,
+              },
+              {
+                name: "Anawar Tahir Gobena",
+                field: "Civil Engineering",
+                institution: "Haramaya University",
+                badge: "2nd Year Civil Eng.",
+                desc: "Designing infrastructure solutions with strong foundations built at Habucho.",
+                image: "https://ui-avatars.com/api/?name=Anawar+Tahir&background=059669&color=fff&bold=true",
+              },
+              {
+                name: "Bezabih Tesfaye",
+                field: "Electrical & Computer Engineering",
+                institution: "Haramaya University",
+                badge: "ECE Scholar",
+                desc: "Engineering next-generation hardware and software computing systems.",
+                image: bezabihImg,
+              },
+            ].map((alumnus) => (
+              <Reveal key={alumnus.name}>
+                <div className="glass-panel p-6 rounded-3xl border border-slate-800 hover:border-emerald-500/40 transition-all duration-300 group hover:-translate-y-1.5 flex gap-4 items-start h-full">
+                  <img 
+                    src={alumnus.image} 
+                    alt={alumnus.name} 
+                    className="w-14 h-14 rounded-2xl border-2 border-emerald-500/50 object-cover shrink-0 group-hover:scale-105 transition-transform" 
+                  />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <h4 className="text-white font-bold text-base leading-tight group-hover:text-emerald-300 transition-colors">
+                        {alumnus.name}
+                      </h4>
+                      <span className="text-[9px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        {alumnus.badge}
+                      </span>
+                    </div>
+                    <p className="text-teal-400 text-xs font-semibold">{alumnus.institution}</p>
+                    <p className="text-slate-400 text-xs mt-2 leading-relaxed">{alumnus.desc}</p>
+                  </div>
                 </div>
               </Reveal>
             ))}
