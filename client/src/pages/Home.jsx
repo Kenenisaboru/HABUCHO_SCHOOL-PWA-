@@ -243,7 +243,7 @@ const Home = () => {
           </div>
 
           <h1 
-            className="text-6xl md:text-8xl font-black text-white tracking-tight leading-[1.1] mb-8 max-w-5xl"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[1.1] mb-6 sm:mb-8 max-w-5xl"
             style={{ animation: 'fade-in-up 0.8s ease-out 0.2s forwards', opacity: 0 }}
           >
             Empowering the Future of <br className="hidden md:block"/>
@@ -253,19 +253,19 @@ const Home = () => {
           </h1>
 
           <p 
-            className="text-lg md:text-2xl text-slate-300 max-w-3xl mb-12 font-light leading-relaxed"
+            className="text-base sm:text-lg md:text-2xl text-slate-300 max-w-3xl mb-8 sm:mb-12 font-light leading-relaxed px-2"
             style={{ animation: 'fade-in-up 0.8s ease-out 0.4s forwards', opacity: 0 }}
           >
             Habucho Preparatory School blends academic rigor with cutting-edge technology to prepare students for top-tier universities.
           </p>
 
           <div 
-            className="flex flex-col sm:flex-row gap-6 w-full justify-center items-center"
+            className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full max-w-md sm:max-w-none justify-center items-center px-4"
             style={{ animation: 'fade-in-up 0.8s ease-out 0.6s forwards', opacity: 0 }}
           >
             <Link 
               to="/login" 
-              className="relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-slate-900 bg-emerald-400 rounded-full overflow-hidden group transition-all"
+              className="w-full sm:w-auto relative inline-flex items-center justify-center px-8 py-4 text-base sm:text-lg font-bold text-slate-900 bg-emerald-400 rounded-full overflow-hidden group transition-all"
               style={{ animation: 'pulse-glow 3s infinite' }}
             >
               <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
@@ -277,7 +277,7 @@ const Home = () => {
             
             <Link 
               to="/about" 
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white transition-all glass-panel rounded-full hover:bg-slate-800/80 hover:scale-105"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base sm:text-lg font-semibold text-white transition-all glass-panel rounded-full hover:bg-slate-800/80 hover:scale-105"
             >
               Discover Our Story
             </Link>
@@ -294,9 +294,9 @@ const Home = () => {
       {/* ────────────────────────────────────────────────────────
           STATS SECTION 
       ───────────────────────────────────────────────────────── */}
-      <section className="py-24 bg-slate-950 relative border-t border-slate-900 z-10">
+      <section className="py-16 sm:py-24 bg-slate-950 relative border-t border-slate-900 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {stats.map((s, idx) => (
               <StatCounter key={s.label} value={s.value} label={s.label} delay={idx * 0.1} />
             ))}
