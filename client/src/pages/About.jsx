@@ -6,6 +6,10 @@ import kenenisaImg from "../Images/photo_2026-08-17_07-41-04.jpg";
 import nurelayImg from "../Images/photo_2026-08-17_07-40-50.jpg";
 import bezabihImg from "../Images/photo_2026-08-17_07-40-20.jpg";
 import ibrahimImg from "../Images/photo_2026-08-17_07-40-43.jpg";
+import fatiImg from "../Images/photo_2026-08-17_08-21-22.jpg";
+import kelilImg from "../Images/photo_2026-08-17_08-21-12.jpg";
+import abdelaImg from "../Images/photo_2026-08-17_08-21-12 (2).jpg";
+import aliyiImg from "../Images/photo_2026-08-17_08-21-55.jpg";
 
 const About = () => {
   useEffect(() => {
@@ -247,7 +251,7 @@ const About = () => {
                 institution: "Wachamo University",
                 badge: "5th Year Law Scholar",
                 desc: "5th Year Law student championing legal scholarship and advocacy.",
-                image: "https://ui-avatars.com/api/?name=Abdela+Omer&background=0284c7&color=fff&bold=true",
+                image: abdelaImg,
               },
               {
                 name: "Kelil Mohammed",
@@ -255,7 +259,7 @@ const About = () => {
                 institution: "Awash Bank",
                 badge: "Operational Manager",
                 desc: "Leading high-level banking operations and branch administration at Awash Bank.",
-                image: "https://ui-avatars.com/api/?name=Kelil+Mohammed&background=6366f1&color=fff&bold=true",
+                image: kelilImg,
               },
               {
                 name: "Aliyi Husein",
@@ -263,7 +267,7 @@ const About = () => {
                 institution: "Awash Bank",
                 badge: "Bank Auditor",
                 desc: "Specializing in financial auditing, compliance, and institutional accuracy.",
-                image: "https://ui-avatars.com/api/?name=Aliyi+Husein&background=f59e0b&color=fff&bold=true",
+                image: aliyiImg,
               },
               {
                 name: "Fati Sulxan",
@@ -271,7 +275,7 @@ const About = () => {
                 institution: "Arba Minch University (Graduated)",
                 badge: "Health Officer",
                 desc: "Habucho Grade 11-12 graduate now serving society as a certified Health Officer.",
-                image: "https://ui-avatars.com/api/?name=Fati+Sulxan&background=10b981&color=fff&bold=true",
+                image: fatiImg,
               },
               {
                 name: "Nurelay Mohammed",
