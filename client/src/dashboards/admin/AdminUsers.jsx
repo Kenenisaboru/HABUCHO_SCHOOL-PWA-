@@ -22,7 +22,7 @@ const AdminUsers = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [editingUser, setEditingUser] = useState(null);
 
-  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, watch } = useForm();
   const selectedRole = watch("role", "student");
 
   const fetchUsers = async () => {
