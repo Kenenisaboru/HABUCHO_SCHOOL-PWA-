@@ -88,22 +88,34 @@ const Home = () => {
 
   const testimonials = [
     {
-      name: "Dr. Aster Tadesse",
-      role: "Alumni '15 & Surgeon",
-      text: "The rigorous academic environment at Habucho laid the undeniable foundation for my medical career. The faculty truly invests in your future.",
-      image: "https://i.pravatar.cc/150?img=5",
+      name: "Ibrahim Jemal Elema",
+      role: "Medicine Student, Haramaya University (Alumni)",
+      text: "Habucho Preparatory School laid the solid foundation and discipline that paved my way to studying Medicine at Haramaya University. The academic excellence and dedicated teachers here truly prepare you to achieve your highest dreams.",
+      image: "https://ui-avatars.com/api/?name=Ibrahim+Jemal&background=059669&color=fff&bold=true",
     },
     {
-      name: "Yared Melaku",
-      role: "Current Senior (Grade 12)",
-      text: "The new digital portal makes managing assignments and tracking my grades effortless. It's a massive upgrade to our daily workflow.",
-      image: "https://i.pravatar.cc/150?img=11",
+      name: "Nurelay Mohammed",
+      role: "Law Student, Wachamo University (Alumni)",
+      text: "The analytical thinking, debate culture, and leadership values fostered at Habucho empowered me to pursue Law with confidence. It is a school that turns raw ambition into real success.",
+      image: "https://ui-avatars.com/api/?name=Nurelay+Mohammed&background=0284c7&color=fff&bold=true",
     },
     {
-      name: "Solomon Getachew",
-      role: "Parent of Two",
-      text: "Security, communication, and academic excellence. I have complete peace of mind knowing my children are receiving the best education in the region.",
-      image: "https://i.pravatar.cc/150?img=12",
+      name: "Kenenisa Boru",
+      role: "4th Year HRU Student & Portal Developer (Alumni)",
+      text: "Habucho instilled in us a passion for innovation and continuous growth. Developing this digital school portal is my proud contribution to give back to the institution that shaped my future.",
+      image: "https://ui-avatars.com/api/?name=Kenenisa+Boru&background=4f46e5&color=fff&bold=true",
+    },
+    {
+      name: "Sudi Shemsedin",
+      role: "4th Year Biomedical Engineering, Jimma University (Alumni)",
+      text: "From science labs and math competitions at Habucho to Biomedical Engineering at Jimma University, the relentless standard of excellence here inspired me to push boundaries.",
+      image: "https://ui-avatars.com/api/?name=Sudi+Shemsedin&background=0d9488&color=fff&bold=true",
+    },
+    {
+      name: "Bezabih Tesfaye",
+      role: "Electrical & Computer Engineering, HRU (Alumni)",
+      text: "The rigorous STEM curriculum and tireless support from Habucho's teachers ignited my love for technology and engineering. This school builds tomorrow's innovators.",
+      image: "https://ui-avatars.com/api/?name=Bezabih+Tesfaye&background=6366f1&color=fff&bold=true",
     },
   ];
 
@@ -271,11 +283,11 @@ const Home = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal className="text-center mb-20">
-            <h2 className="text-teal-400 font-semibold tracking-widest uppercase text-sm mb-3">Community Voices</h2>
-            <h3 className="text-4xl md:text-5xl font-bold text-white">Don't just take our word for it</h3>
+            <h2 className="text-teal-400 font-semibold tracking-widest uppercase text-sm mb-3">Student Voices</h2>
+            <h3 className="text-4xl md:text-5xl font-bold text-white">Inspiring Journeys & Achievements</h3>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map((t, i) => (
               <Reveal key={t.name} delay={i * 150} direction="up">
                 <div className="glass-panel rounded-3xl p-8 h-full flex flex-col relative border border-slate-800 hover:border-teal-500/30 transition-all duration-300 group hover:-translate-y-2">
