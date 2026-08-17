@@ -9,6 +9,10 @@ import kenenisaImg from "../Images/photo_2026-08-17_07-41-04.jpg";
 import nurelayImg from "../Images/photo_2026-08-17_07-40-50.jpg";
 import bezabihImg from "../Images/photo_2026-08-17_07-40-20.jpg";
 import ibrahimImg from "../Images/photo_2026-08-17_07-40-43.jpg";
+import fatiImg from "../Images/photo_2026-08-17_08-21-22.jpg";
+import kelilImg from "../Images/photo_2026-08-17_08-21-12.jpg";
+import abdelaImg from "../Images/photo_2026-08-17_08-21-12 (2).jpg";
+import aliyiImg from "../Images/photo_2026-08-17_08-21-55.jpg";
 
 const useCountUp = (target, duration = 2000) => {
   const [count, setCount] = useState(0);
@@ -117,7 +121,7 @@ const Home = () => {
       category: "scholars",
       badge: "5th Year Law Scholar",
       text: "Habucho fostered an intellectual environment that honed my critical reasoning and passion for justice. That foundational training carries me through my 5th year of Law at Wachamo University.",
-      image: "https://ui-avatars.com/api/?name=Abdela+Omer&background=0284c7&color=fff&bold=true",
+      image: abdelaImg,
     },
     {
       name: "Kelil Mohammed",
@@ -125,7 +129,7 @@ const Home = () => {
       category: "elite",
       badge: "Banking Executive",
       text: "Habucho Preparatory School shapes character and true leadership. The resilience and vision built in our high school classrooms continue to propel our leadership and operations at Awash Bank.",
-      image: "https://ui-avatars.com/api/?name=Kelil+Mohammed&background=6366f1&color=fff&bold=true",
+      image: kelilImg,
     },
     {
       name: "Aliyi Husein",
@@ -133,7 +137,7 @@ const Home = () => {
       category: "elite",
       badge: "Financial Auditor",
       text: "The discipline, numerical accuracy, and ethics I learned at Habucho continue to be the cornerstone of my financial audit career at Awash Bank.",
-      image: "https://ui-avatars.com/api/?name=Aliyi+Husein&background=f59e0b&color=fff&bold=true",
+      image: aliyiImg,
     },
     {
       name: "Fati Sulxan",
@@ -141,7 +145,7 @@ const Home = () => {
       category: "elite",
       badge: "Healthcare Leader",
       text: "Studying Grades 11 and 12 at Habucho changed the course of my life. The dedicated teachers inspired me to graduate in Health Science from Arba Minch University and serve the community with pride.",
-      image: "https://ui-avatars.com/api/?name=Fati+Sulxan&background=10b981&color=fff&bold=true",
+      image: fatiImg,
     },
     {
       name: "Nurelay Mohammed",
