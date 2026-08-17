@@ -30,7 +30,7 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-[400px] items-center justify-center">
+      <div className="flex min-h-100 items-center justify-center">
         <LoadingSpinner />
       </div>
     );
