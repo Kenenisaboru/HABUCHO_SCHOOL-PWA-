@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import StatCard from "../../components/StatCard";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import useAuthStore from "../../context/authStore";
 import {
@@ -41,7 +40,7 @@ const StudentDashboard = () => {
       setGrades(gradeRes.data.data.grades || []);
       setAnnouncements(annRes.data.data.announcements || []);
       setSchedules(schedRes.data.data.schedules || []);
-    } catch (err) {
+    } catch {
       toast.error("Failed to load dashboard records");
     } finally {
       setLoading(false);
