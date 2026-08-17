@@ -44,7 +44,10 @@ const AdminDashboard = () => {
   // Live ticking date-time
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  const { register: registerUser, handleSubmit: handleSubmitUser, reset: resetUser } = useForm();
+  const { register: registerUser, handleSubmit: handleSubmitUser, reset: resetUser, watch: watchUser } = useForm({
+    defaultValues: { role: "student", grade_level: "11", section: "A", stream: "Natural Science" }
+  });
+  const currentRole = watchUser("role", "student");
   const { register: registerSched, handleSubmit: handleSubmitSched, reset: resetSched } = useForm();
   const { register: registerAnn, handleSubmit: handleSubmitAnn, reset: resetAnn } = useForm();
 
@@ -301,8 +304,8 @@ const AdminDashboard = () => {
 
       {/* MODAL 1: ADD USER */}
       {showUserModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800 animate-slide-up border border-slate-100 dark:border-slate-700/60">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs overflow-y-auto">
+          <div className="my-8 w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800 animate-slide-up border border-slate-100 dark:border-slate-700/60 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-700">
               <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Add User Account</h2>
               <button onClick={() => setShowUserModal(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold">×</button>
@@ -310,28 +313,92 @@ const AdminDashboard = () => {
 
             <form onSubmit={handleSubmitUser(onUserSubmit)} className="mt-4 space-y-4">
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Full Name</label>
+                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Full Name *</label>
                 <input className="input-field" placeholder="John Doe" {...registerUser("full_name", { required: true })} />
               </div>
 
-              <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Email Address</label>
-                <input type="email" className="input-field" placeholder="user@habucho.edu" {...registerUser("email", { required: true })} />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Email Address *</label>
+                  <input type="email" className="input-field" placeholder="user@habucho.edu" {...registerUser("email", { required: true })} />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Password *</label>
+                  <input type="password" className="input-field" placeholder="••••••••" {...registerUser("password", { required: true, minLength: 6 })} />
+                </div>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Password</label>
-                <input type="password" className="input-field" placeholder="••••••••" {...registerUser("password", { required: true, minLength: 6 })} />
-              </div>
-
-              <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Role / Access Type</label>
+                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Role / Access Type *</label>
                 <select className="input-field" {...registerUser("role", { required: true })}>
                   <option value="student">Student</option>
                   <option value="teacher">Teacher</option>
                   <option value="admin">Administrator</option>
                 </select>
               </div>
+
+              {currentRole === "student" && (
+                <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-700">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                    Student Details & Placement
+                  </span>
+
+                  <div className="grid grid-cols-3 gap-2">
+                    <div>
+                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Grade</label>
+                      <select className="input-field text-xs" {...registerUser("grade_level")}>
+                        <option value="9">Grade 9</option>
+                        <option value="10">Grade 10</option>
+                        <option value="11">Grade 11</option>
+                        <option value="12">Grade 12</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Section</label>
+                      <select className="input-field text-xs" {...registerUser("section")}>
+                        <option value="A">Sec A</option>
+                        <option value="B">Sec B</option>
+                        <option value="C">Sec C</option>
+                        <option value="D">Sec D</option>
+                        <option value="E">Sec E</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Gender</label>
+                      <select className="input-field text-xs" {...registerUser("gender")}>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Academic Stream</label>
+                      <select className="input-field text-xs" {...registerUser("stream")}>
+                        <option value="Natural Science">Natural Science</option>
+                        <option value="Social Science">Social Science</option>
+                        <option value="General">General</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Student Phone</label>
+                      <input type="tel" className="input-field text-xs" placeholder="+251 9..." {...registerUser("phone")} />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Parent Name</label>
+                      <input className="input-field text-xs" placeholder="Parent/Guardian" {...registerUser("parent_name")} />
+                    </div>
+                    <div>
+                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Parent Phone</label>
+                      <input type="tel" className="input-field text-xs" placeholder="+251 9..." {...registerUser("parent_phone")} />
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="flex gap-3 pt-2">
                 <button type="submit" className="btn-emerald flex-1 shadow-sm">Save User</button>
