@@ -143,7 +143,7 @@ const AdminUsers = () => {
       {/* Search and Filters Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
         <div className="flex flex-wrap items-center gap-3 flex-1">
-          <div className="relative min-w-[220px]">
+          <div className="relative min-w-55">
             <input
               type="text"
               placeholder="Search by name, email, or ID..."
@@ -157,7 +157,7 @@ const AdminUsers = () => {
           </div>
 
           <select
-            className="input-field max-w-[140px] text-xs"
+            className="input-field max-w-35 text-xs"
             value={roleFilter}
             onChange={(e) => { setRoleFilter(e.target.value); setPage(1); }}
           >
@@ -168,7 +168,7 @@ const AdminUsers = () => {
           </select>
 
           <select
-            className="input-field max-w-[140px] text-xs"
+            className="input-field max-w-35 text-xs"
             value={gradeFilter}
             onChange={(e) => { setGradeFilter(e.target.value); setPage(1); }}
           >
@@ -609,3 +609,4 @@ const AdminUsers = () => {
 };
 
 export default AdminUsers;
+
