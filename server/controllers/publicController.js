@@ -19,7 +19,7 @@ export const getPublicStats = async (req, res, next) => {
         students: `${students}+`,
         teachers: `${teachers}+`,
         passRate: "95%", // Mock data as there's no overall pass rate table yet
-        years: `${new Date().getFullYear() - 2007}+`,
+        years: "2007 E.C.",
       },
     });
   } catch (err) {
