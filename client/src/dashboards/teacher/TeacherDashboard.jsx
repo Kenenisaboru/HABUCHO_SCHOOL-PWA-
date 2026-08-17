@@ -10,18 +10,16 @@ import useAuthStore from "../../context/authStore";
 import {
   getSchedules,
   getGrades,
-  getAnnouncements,
   getStudents,
   createGrade,
   createAnnouncement,
 } from "../../services/authService";
-import { formatTime, getGradeLetter, formatDate } from "../../utils/helpers";
+import { formatTime } from "../../utils/helpers";
 
 const TeacherDashboard = () => {
   const { user } = useAuthStore();
   const [schedules, setSchedules] = useState([]);
   const [grades, setGrades] = useState([]);
-  const [announcements, setAnnouncements] = useState([]);
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -38,18 +36,16 @@ const TeacherDashboard = () => {
   // Fetch all required dashboard data
   const fetchData = async () => {
     try {
-      const [schedRes, gradeRes, annRes, studRes] = await Promise.all([
+      const [schedRes, gradeRes, studRes] = await Promise.all([
         getSchedules({ limit: 50 }),
         getGrades({ limit: 100 }), // Get recent grades for calculations
-        getAnnouncements({ limit: 10 }),
         getStudents({ limit: 100 }),
       ]);
 
       setSchedules(schedRes.data.data.schedules || []);
       setGrades(gradeRes.data.data.grades || []);
-      setAnnouncements(annRes.data.data.announcements || []);
       setStudents(studRes.data.data.students || []);
-    } catch (err) {
+    } catch {
       toast.error("Failed to load dashboard statistics");
     } finally {
       setLoading(false);
