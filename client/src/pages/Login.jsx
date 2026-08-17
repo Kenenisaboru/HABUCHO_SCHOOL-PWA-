@@ -304,6 +304,73 @@ const Login = () => {
                 )}
               </div>
 
+              {/* Student Information Fields (Registration Only) */}
+              {!isLogin && (
+                <div className="space-y-4 pt-2 border-t border-slate-200 dark:border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                      Student Academic & Guardian Information
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Grade Level</label>
+                      <select className="input-field text-xs" {...register("grade_level")}>
+                        <option value="9">Grade 9</option>
+                        <option value="10">Grade 10</option>
+                        <option value="11">Grade 11</option>
+                        <option value="12">Grade 12</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Section</label>
+                      <select className="input-field text-xs" {...register("section")}>
+                        <option value="A">Section A</option>
+                        <option value="B">Section B</option>
+                        <option value="C">Section C</option>
+                        <option value="D">Section D</option>
+                        <option value="E">Section E</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Academic Stream</label>
+                      <select className="input-field text-xs" {...register("stream")}>
+                        <option value="Natural Science">Natural Science</option>
+                        <option value="Social Science">Social Science</option>
+                        <option value="General">General</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Gender</label>
+                      <select className="input-field text-xs" {...register("gender")}>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Student Phone</label>
+                      <input type="tel" className="input-field text-xs" placeholder="+251 9..." {...register("phone")} />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Parent Phone</label>
+                      <input type="tel" className="input-field text-xs" placeholder="+251 9..." {...register("parent_phone")} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Parent / Guardian Name</label>
+                    <input className="input-field text-xs" placeholder="Parent or Guardian Full Name" {...register("parent_name")} />
+                  </div>
+                </div>
+              )}
+
               {/* Submit */}
               <button
                 type="submit"
