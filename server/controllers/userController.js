@@ -45,10 +45,32 @@ export const getUserById = async (req, res, next) => {
 
 export const createUser = async (req, res, next) => {
   try {
-    const { full_name, email, password, role } = req.body;
+    const {
+      full_name,
+      email,
+      password,
+      role,
+      student_id,
+      gender,
+      date_of_birth,
+      grade_level,
+      section,
+      stream,
+      phone,
+      parent_name,
+      parent_phone,
+      address,
+      academic_year,
+      admission_date,
+      emergency_contact_name,
+      emergency_contact_phone,
+      blood_group,
+      previous_school,
+      remarks,
+    } = req.body;
 
     if (!full_name || !email || !password || !role) {
-      return sendError(res, "All fields are required");
+      return sendError(res, "Full name, email, password, and role are required");
     }
 
     const existing = await UserModel.findUserByEmail(email);
@@ -60,9 +82,26 @@ export const createUser = async (req, res, next) => {
       email,
       password: hashedPassword,
       role,
+      student_id,
+      gender,
+      date_of_birth,
+      grade_level,
+      section,
+      stream,
+      phone,
+      parent_name,
+      parent_phone,
+      address,
+      academic_year,
+      admission_date,
+      emergency_contact_name,
+      emergency_contact_phone,
+      blood_group,
+      previous_school,
+      remarks,
     });
 
-    return sendSuccess(res, user, "User created", 201);
+    return sendSuccess(res, user, "User created successfully", 201);
   } catch (error) {
     next(error);
   }
@@ -70,8 +109,54 @@ export const createUser = async (req, res, next) => {
 
 export const updateUser = async (req, res, next) => {
   try {
-    const { full_name, email, role, password } = req.body;
-    const updateData = { full_name, email, role };
+    const {
+      full_name,
+      email,
+      role,
+      password,
+      profile_picture,
+      student_id,
+      gender,
+      date_of_birth,
+      grade_level,
+      section,
+      stream,
+      phone,
+      parent_name,
+      parent_phone,
+      address,
+      academic_year,
+      admission_date,
+      emergency_contact_name,
+      emergency_contact_phone,
+      blood_group,
+      previous_school,
+      remarks,
+    } = req.body;
+
+    const updateData = {
+      full_name,
+      email,
+      role,
+      profile_picture,
+      student_id,
+      gender,
+      date_of_birth,
+      grade_level,
+      section,
+      stream,
+      phone,
+      parent_name,
+      parent_phone,
+      address,
+      academic_year,
+      admission_date,
+      emergency_contact_name,
+      emergency_contact_phone,
+      blood_group,
+      previous_school,
+      remarks,
+    };
 
     if (password) {
       updateData.password = await bcrypt.hash(password, 12);
@@ -80,7 +165,7 @@ export const updateUser = async (req, res, next) => {
     const user = await UserModel.updateUser(req.params.id, updateData);
     if (!user) return sendError(res, "User not found", 404);
 
-    return sendSuccess(res, user, "User updated");
+    return sendSuccess(res, user, "User updated successfully");
   } catch (error) {
     next(error);
   }
