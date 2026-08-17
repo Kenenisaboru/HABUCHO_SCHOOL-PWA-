@@ -68,7 +68,7 @@ const Footer = () => {
             </Link>
             <p className="mb-6 text-sm leading-relaxed text-slate-400">
               Empowering the next generation through excellence in education, character building,
-              and holistic development since 1995.
+              and holistic development since 2007 E.C.
             </p>
             {/* Social Icons */}
             <div className="flex gap-3">
