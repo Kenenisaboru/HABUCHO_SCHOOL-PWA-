@@ -80,7 +80,7 @@ const StudentGrades = () => {
                 </tr>
               </thead>
               <tbody>
-                {grades.map((g, i) => {
+                {grades.map((g) => {
                   const pct = getPercentage(g.score, g.total_marks || 100);
                   return (
                     <tr key={g.id} className={`border-b border-slate-100 dark:border-slate-700/50 hover:bg-emerald-50/50 dark:hover:bg-slate-700/30 transition-colors`}>
