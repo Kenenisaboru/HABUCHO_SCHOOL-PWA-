@@ -74,7 +74,7 @@ const Home = () => {
     { value: "1,200+", label: "Enrolled Students" },
     { value: "50+", label: "Expert Faculty" },
     { value: "98%", label: "University Placement" },
-    { value: "28+", label: "Years of Legacy" },
+    { value: "2007 E.C.", label: "Established" },
   ];
 
   const stats = statsData
@@ -82,7 +82,7 @@ const Home = () => {
         { value: statsData.students, label: "Enrolled Students" },
         { value: statsData.teachers, label: "Expert Faculty" },
         { value: statsData.passRate, label: "University Placement" },
-        { value: statsData.years, label: "Years of Legacy" },
+        { value: statsData.years || "2007 E.C.", label: "Established (E.C.)" },
       ]
     : defaultStats;
 
