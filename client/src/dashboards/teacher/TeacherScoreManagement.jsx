@@ -4,7 +4,7 @@
 import { useEffect, useState, useRef } from "react";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import { getStudents, getGrades, bulkUpsertGrades } from "../../services/authService";
+import { getStudents, getGrades, bulkUpsertGrades, sendScoresToStudents } from "../../services/authService";
 
 const ACADEMIC_YEARS = ["2023/2024", "2024/2025", "2025/2026"];
 const GRADE_LEVELS = ["9", "10", "11", "12"];
@@ -32,6 +32,9 @@ const TeacherScoreManagement = () => {
   // e.g., { 1: { score: 85, comments: "Good" } }
   const [gridData, setGridData] = useState({});
   const inputsRef = useRef({});
+  const [sending, setSending] = useState(false);
+  const [sendResult, setSendResult] = useState(null);
+  const [sendFormat, setSendFormat] = useState("both");
 
   // Fetch roster and existing grades when filters change
   const loadData = async () => {
@@ -212,6 +215,31 @@ const TeacherScoreManagement = () => {
     document.body.removeChild(link);
   };
 
+  const handleSendToStudents = async () => {
+    if (!filters.grade_level || !filters.section || !filters.subject) {
+      return toast.error("Select grade, section, and subject first");
+    }
+    setSending(true);
+    setSendResult(null);
+    try {
+      const res = await sendScoresToStudents({
+        grade_level: filters.grade_level,
+        section: filters.section,
+        subject: filters.subject,
+        academic_year: filters.academic_year,
+        semester: filters.semester,
+        format: sendFormat,
+      });
+      const data = res.data.data;
+      setSendResult(data);
+      toast.success(res.data.message);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to send scores");
+    } finally {
+      setSending(false);
+    }
+  };
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-2">
@@ -343,41 +371,37 @@ const TeacherScoreManagement = () => {
       {/* Summary Table: All Scores by Category */}
       {students.length > 0 && (
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50 overflow-hidden mt-8">
-          <div className="p-5 border-b border-slate-100 dark:border-slate-700/50 flex justify-between items-center bg-slate-50 dark:bg-slate-800/80">
-            <div>
-              <h3 className="text-lg font-bold text-slate-800 dark:text-white">Class Scores Summary</h3>
-              <p className="text-sm text-slate-500">Overview of all scores grouped by category</p>
+          <div className="p-5 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50 dark:bg-slate-800/80">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div>
+                <h3 className="text-lg font-bold text-slate-800 dark:text-white">Class Scores Summary</h3>
+                <p className="text-sm text-slate-500">Overview of all scores grouped by category</p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <select value={sendFormat} onChange={(e) => setSendFormat(e.target.value)} className="input-field py-1.5 text-xs w-auto">
+                  <option value="both">PDF + CSV</option>
+                  <option value="pdf">PDF Only</option>
+                  <option value="csv">CSV Only</option>
+                </select>
+                <button
+                  onClick={handleSendToStudents}
+                  disabled={sending || students.length === 0}
+                  className="btn-primary text-xs flex items-center gap-1.5"
+                >
+                  {sending ? (
+                    <><LoadingSpinner className="h-3 w-3" /> Sending...</>
+                  ) : (
+                    <><svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> Send to Students</>
+                  )}
+                </button>
+              </div>
             </div>
-            <button className="btn-outline text-xs flex items-center gap-1.5" onClick={() => {
-              import("jspdf").then(({ default: jsPDF }) => {
-                import("jspdf-autotable").then(() => {
-                  const doc = new jsPDF();
-                  doc.setFontSize(16);
-                  doc.text(`Class Scores Summary — ${selectedGrade} Section ${selectedSection}`, 14, 20);
-                  doc.setFontSize(10);
-                  doc.text(`Academic Year: ${selectedYear} | Semester: ${selectedSemester}`, 14, 28);
-
-                  const rows = students.map((s) => {
-                    const sg = allGrades.filter(g => g.student_id === s.id);
-                    const scores = ASSESSMENT_TYPES.map(t => sg.find(g => g.assessment_type === t)?.score ?? "-");
-                    const valid = sg.map(g => parseFloat(g.score)).filter(n => !isNaN(n));
-                    const avg = valid.length > 0 ? (valid.reduce((a, b) => a + b, 0) / valid.length).toFixed(1) : "-";
-                    return [s.full_name, ...scores, avg];
-                  });
-
-                  doc.autoTable({
-                    head: [["Student", ...ASSESSMENT_TYPES, "Avg"]],
-                    body: rows,
-                    startY: 34,
-                    styles: { fontSize: 8 },
-                  });
-                  doc.save(`scores-${selectedGrade}${selectedSection}-${selectedYear}.pdf`);
-                  toast.success("PDF exported — share it with students");
-                });
-              });
-            }}>
-              Export PDF for Students
-            </button>
+            {sendResult && (
+              <div className="mt-3 rounded-lg bg-emerald-50 p-3 text-xs text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300">
+                Sent to {sendResult.sent} of {sendResult.total} students.
+                {sendResult.failed > 0 && <> Failed: {sendResult.failed}. {sendResult.errors?.join("; ")}</>}
+              </div>
+            )}
           </div>
           <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
             <table className="w-full text-left text-sm border-collapse">
