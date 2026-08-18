@@ -6,7 +6,7 @@
  */
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -18,22 +18,35 @@ import gradeRoutes from "./routes/gradeRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import publicRoutes from "./routes/publicRoutes.js";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
+import { authenticateUser } from "./middleware/auth.js";
 
 import helmet from "helmet";
 import { apiLimiter } from "./middleware/rateLimiter.js";
-
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// --- Global Middleware ---
+app.set("trust proxy", 1);
+
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" },
-    contentSecurityPolicy: false, // Let hosting platform handle page CSP; keep REST API unblocked for cross-origin JSON requests
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        frameAncestors: ["'none'"],
+        baseUri: ["'self'"],
+        formAction: ["'self'"],
+      },
+    },
     referrerPolicy: { policy: "strict-origin-when-cross-origin" },
     noSniff: true,
     xssFilter: true,
@@ -45,13 +58,12 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-// Serve uploaded profile pictures
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", authenticateUser, express.static(path.join(__dirname, "uploads")));
 
-// --- API Routes ---
 app.use("/api", apiLimiter);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -61,12 +73,10 @@ app.use("/api/grades", gradeRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/public", publicRoutes);
 
-// Health check endpoint
 app.get("/api/health", (_req, res) => {
   res.json({ success: true, message: "Habucho School API is running" });
 });
 
-// --- Error Handling ---
 app.use(notFoundHandler);
 app.use(errorHandler);
 
