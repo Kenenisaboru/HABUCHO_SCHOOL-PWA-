@@ -8,7 +8,12 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "migrate": "node migrations/runMigrations.js",
-    "seed": "node migrations/seed.js"
+    "seed": "node migrations/seed.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
