@@ -17,7 +17,6 @@ const useFetch = (fetchFn, dependencies = [], immediate = true) => {
     setError(null);
     try {
       const response = await fetchFn();
-      // Most of our API responses wrap data in an outer "data" object and inner "data" payload
       const payload = response?.data?.data !== undefined ? response.data.data : response?.data;
       setData(payload);
       return payload;
@@ -31,11 +30,13 @@ const useFetch = (fetchFn, dependencies = [], immediate = true) => {
     }
   }, [fetchFn]);
 
+  const depsKey = JSON.stringify(dependencies);
+
   useEffect(() => {
     if (immediate) {
       execute();
     }
-  }, [execute, immediate, ...dependencies]);
+  }, [execute, immediate, depsKey]);
 
   return { data, loading, error, execute, setData };
 };
