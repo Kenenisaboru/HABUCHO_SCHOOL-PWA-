@@ -8,6 +8,14 @@ import * as UserModel from "../models/userModel.js";
 import { generateToken } from "../utils/jwt.js";
 import { sendSuccess, sendError } from "../utils/response.js";
 
+const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+  path: "/",
+};
+
 export const register = async (req, res, next) => {
   try {
     const {
@@ -36,18 +44,15 @@ export const register = async (req, res, next) => {
       return sendError(res, "Full name, email, and password are required");
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return sendError(res, "Invalid email format");
     }
 
-    // Validate password strength
     if (password.length < 8) {
       return sendError(res, "Password must be at least 8 characters long");
     }
 
-    // Public registration is always "student" — admins/teachers are created by admin
     const userRole = "student";
 
     const existing = await UserModel.findUserByEmail(email);
@@ -81,10 +86,11 @@ export const register = async (req, res, next) => {
 
     const token = generateToken(user);
 
+    res.cookie("token", token, COOKIE_OPTIONS);
+
     return sendSuccess(
       res,
       {
-        token,
         user: { id: user.id, name: user.full_name, role: user.role, grade_level: user.grade_level, section: user.section, stream: user.stream },
       },
       "Registration successful",
@@ -115,13 +121,19 @@ export const login = async (req, res, next) => {
 
     const token = generateToken(user);
 
+    res.cookie("token", token, COOKIE_OPTIONS);
+
     return sendSuccess(res, {
-      token,
       user: { id: user.id, name: user.full_name, role: user.role },
     }, "Login successful");
   } catch (error) {
     next(error);
   }
+};
+
+export const logout = async (req, res) => {
+  res.clearCookie("token", { path: "/" });
+  return sendSuccess(res, null, "Logged out successfully");
 };
 
 export const getProfile = async (req, res, next) => {
