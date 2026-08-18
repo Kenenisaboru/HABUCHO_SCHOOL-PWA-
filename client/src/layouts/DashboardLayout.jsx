@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation, Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import useAuthStore from "../context/authStore";
 import { useTheme } from "../context/ThemeContext";
+import api from "../services/api";
 
 const DashboardLayout = ({ links, title }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -11,7 +12,8 @@ const DashboardLayout = ({ links, title }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try { await api.post("/auth/logout"); } catch {}
     logout();
     navigate("/");
   };
