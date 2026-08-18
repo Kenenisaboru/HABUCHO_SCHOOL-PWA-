@@ -5,23 +5,29 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import Pagination from "../../components/Pagination";
 import { getAnnouncements, createAnnouncement, updateAnnouncement, deleteAnnouncement } from "../../services/authService";
 import { formatDate } from "../../utils/helpers";
 
+const PAGE_SIZE = 9;
 
 const AdminAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editing, setEditing] = useState(null);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const { register, handleSubmit, reset } = useForm();
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await getAnnouncements({ limit: 50 });
+      const res = await getAnnouncements({ page, limit: PAGE_SIZE });
       setAnnouncements(res.data.data.announcements);
+      setTotalPages(res.data.data.pagination?.totalPages || 1);
     } catch {
       toast.error("Failed to load announcements");
     } finally {
@@ -29,7 +35,15 @@ const AdminAnnouncements = () => {
     }
   };
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => { fetchData(); }, [page]);
+
+  useEffect(() => { setPage(1); }, [search]);
+
+  const filtered = announcements.filter((a) => {
+    if (!search) return true;
+    const q = search.toLowerCase();
+    return a.title?.toLowerCase().includes(q) || a.content?.toLowerCase().includes(q);
+  });
 
   const openCreate = () => {
     setEditing(null);
@@ -72,15 +86,29 @@ const AdminAnnouncements = () => {
 
   return (
     <>
-      <div className="mb-6 flex justify-end">
-        <button onClick={openCreate} className="btn-primary">+ New Announcement</button>
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="relative flex-1 max-w-sm">
+          <svg className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search announcements..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="input-field pl-9"
+          />
+        </div>
+        <button onClick={openCreate} className="btn-primary whitespace-nowrap">+ New Announcement</button>
       </div>
 
       {loading ? (
         <LoadingSpinner className="py-20" />
+      ) : filtered.length === 0 ? (
+        <p className="py-12 text-center text-slate-400">{search ? "No announcements match your search." : "No announcements yet."}</p>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2">
-          {announcements.map((a) => (
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {filtered.map((a) => (
             <div key={a.id} className="card">
               <h3 className="font-semibold">{a.title}</h3>
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 line-clamp-3">{a.content}</p>
@@ -95,6 +123,8 @@ const AdminAnnouncements = () => {
           ))}
         </div>
       )}
+
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
