@@ -7,6 +7,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuthStore from "../context/authStore";
 import { useTheme } from "../context/ThemeContext";
 import { getDashboardPath } from "../utils/helpers";
+import api from "../services/api";
 
 const SunIcon = () => (
   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -29,7 +30,7 @@ const SchoolIcon = () => (
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { token, user, logout } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const { darkMode, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
@@ -39,7 +40,8 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try { await api.post("/auth/logout"); } catch {}
     logout();
     navigate("/");
     setMenuOpen(false);
@@ -118,7 +120,7 @@ const Navbar = () => {
             {darkMode ? <SunIcon /> : <MoonIcon />}
           </button>
 
-          {token ? (
+          {user ? (
             <>
               <Link
                 to={getDashboardPath(user?.role)}
@@ -185,7 +187,7 @@ const Navbar = () => {
               </NavLink>
             ))}
           </div>
-          {token ? (
+          {user ? (
             <div className="mt-3 flex flex-col gap-2 border-t border-slate-100 pt-3 dark:border-slate-800/60">
               <Link
                 to={getDashboardPath(user?.role)}
