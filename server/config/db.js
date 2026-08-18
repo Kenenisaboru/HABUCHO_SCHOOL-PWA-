@@ -5,19 +5,24 @@
  * The pool reuses connections for better performance under load.
  */
 import pg from "pg";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const { Pool } = pg;
 
-// Connection pool — reads DATABASE_URL from environment variables
+const sslConfig =
+  process.env.NODE_ENV === "production"
+    ? { rejectUnauthorized: true, ca: process.env.DATABASE_SSL_CA || undefined }
+    : false;
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
-  max: 20, // Max clients in the pool
-  idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
-  connectionTimeoutMillis: 2000, // Error out if connection takes longer than 2 seconds
+  ssl: sslConfig,
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
+
+pool.on("error", (err) => {
+  console.error("Unexpected database pool error:", err.message);
 });
 
 /**
