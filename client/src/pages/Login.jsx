@@ -42,14 +42,14 @@ const Login = () => {
     try {
       if (isLogin) {
         const res = await loginUser(data);
-        const { token, user } = res.data.data;
-        setAuth(token, user);
+        const { user } = res.data.data;
+        setAuth(user);
         toast.success(`Welcome back, ${user.name}!`);
         navigate(getDashboardPath(user.role));
       } else {
         const res = await registerUser(data);
-        const { token, user } = res.data.data;
-        setAuth(token, user);
+        const { user } = res.data.data;
+        setAuth(user);
         toast.success(`Welcome, ${user.name}! Account created successfully.`);
         navigate(getDashboardPath(user.role));
       }
