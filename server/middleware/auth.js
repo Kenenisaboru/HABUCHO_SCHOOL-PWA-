@@ -1,23 +1,29 @@
 /**
  * Authentication Middleware
  * -------------------------
- * Verifies JWT from Authorization header and attaches user to request.
+ * Verifies JWT from Authorization header or httpOnly cookie.
  */
 import { verifyToken } from "../utils/jwt.js";
 import { sendError } from "../utils/response.js";
 
 /**
- * authenticateUser — Validates Bearer token and sets req.user
+ * authenticateUser — Validates Bearer token (header or cookie) and sets req.user
  */
 export const authenticateUser = (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
+    let token = null;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
+    } else if (req.cookies?.token) {
+      token = req.cookies.token;
+    }
+
+    if (!token) {
       return sendError(res, "Access denied. No token provided.", 401);
     }
 
-    const token = authHeader.split(" ")[1];
     const decoded = verifyToken(token);
 
     req.user = {
