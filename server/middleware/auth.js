@@ -26,6 +26,10 @@ export const authenticateUser = (req, res, next) => {
 
     const decoded = verifyToken(token);
 
+    if (decoded.type === "refresh") {
+      return sendError(res, "Access denied. Refresh tokens cannot be used for API access.", 401);
+    }
+
     req.user = {
       id: decoded.id,
       email: decoded.email,
