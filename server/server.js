@@ -5,6 +5,7 @@
  */
 import app from "./app.js";
 import { testConnection, default as pool } from "./config/db.js";
+import logger from "./utils/logger.js";
 
 const PORT = process.env.PORT || 5000;
 
@@ -12,19 +13,19 @@ const startServer = async () => {
   await testConnection();
 
   const server = app.listen(PORT, () => {
-    console.log(`\n🚀 Habucho School API running on http://localhost:${PORT}`);
-    console.log(`📚 Environment: ${process.env.NODE_ENV || "development"}\n`);
+    logger.info(`Habucho School API running on http://localhost:${PORT}`);
+    logger.info(`Environment: ${process.env.NODE_ENV || "development"}`);
   });
 
   const shutdown = async (signal) => {
-    console.log(`\n${signal} received. Shutting down gracefully...`);
+    logger.info(`${signal} received. Shutting down gracefully...`);
     server.close(async () => {
       await pool.end();
-      console.log("Database pool closed.");
+      logger.info("Database pool closed.");
       process.exit(0);
     });
     setTimeout(() => {
-      console.error("Forced shutdown after timeout.");
+      logger.error("Forced shutdown after timeout.");
       process.exit(1);
     }, 10000);
   };
