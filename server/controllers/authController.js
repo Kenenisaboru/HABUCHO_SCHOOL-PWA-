@@ -252,3 +252,61 @@ export const getProfile = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateProfile = async (req, res, next) => {
+  try {
+    const { full_name, phone } = req.body;
+    if (!full_name?.trim()) return sendError(res, "Full name is required");
+
+    const { rows } = await pool.query(
+      "UPDATE users SET full_name = $1, phone = $2, updated_at = NOW() WHERE id = $3 RETURNING id, full_name, email, role, phone",
+      [full_name.trim(), phone?.trim() || null, req.user.id]
+    );
+
+    if (!rows.length) return sendError(res, "User not found", 404);
+    return sendSuccess(res, rows[0], "Profile updated");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const uploadAvatar = async (req, res, next) => {
+  try {
+    if (!req.file) return sendError(res, "No image file provided");
+
+    const avatarPath = `/uploads/${req.file.filename}`;
+    await pool.query(
+      "UPDATE users SET avatar_url = $1, updated_at = NOW() WHERE id = $2",
+      [avatarPath, req.user.id]
+    );
+
+    return sendSuccess(res, { avatar_url: avatarPath }, "Avatar updated");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const changePassword = async (req, res, next) => {
+  try {
+    const { current_password, new_password } = req.body;
+    if (!current_password || !new_password) {
+      return sendError(res, "Current and new password are required");
+    }
+    if (new_password.length < 8) {
+      return sendError(res, "New password must be at least 8 characters");
+    }
+
+    const user = await UserModel.findUserById(req.user.id);
+    if (!user) return sendError(res, "User not found", 404);
+
+    const valid = await bcrypt.compare(current_password, user.password);
+    if (!valid) return sendError(res, "Current password is incorrect", 401);
+
+    const hashed = await bcrypt.hash(new_password, 12);
+    await pool.query("UPDATE users SET password = $1, updated_at = NOW() WHERE id = $2", [hashed, req.user.id]);
+
+    return sendSuccess(res, null, "Password changed successfully");
+  } catch (error) {
+    next(error);
+  }
+};
