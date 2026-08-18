@@ -14,8 +14,9 @@ ALTER TABLE grades ADD COLUMN IF NOT EXISTS comments TEXT;
 ALTER TABLE grades ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE grades ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
--- 3. Drop existing constraint on grades score (if it limits max to 100 rigidly)
+-- 3. Drop and re-add flexible score constraint (allows total_marks > 100)
 ALTER TABLE grades DROP CONSTRAINT IF EXISTS grades_score_check;
+ALTER TABLE grades ADD CONSTRAINT grades_score_check CHECK (score >= 0);
 
 -- Create indexes for the new filters to optimize queries
 CREATE INDEX IF NOT EXISTS idx_grades_academic_year ON grades(academic_year);
