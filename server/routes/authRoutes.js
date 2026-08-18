@@ -6,12 +6,16 @@
  * POST /api/auth/logout   — Clear auth cookies
  * POST /api/auth/refresh  — Get new access token using refresh token
  * GET  /api/auth/profile  — Get current user profile (protected)
+ * PUT  /api/auth/profile  — Update profile name/phone
+ * POST /api/auth/avatar   — Upload avatar image
+ * POST /api/auth/change-password — Change password
  */
 import { Router } from "express";
-import { register, login, logout, refreshAccessToken, getProfile, forgotPassword, resetPassword } from "../controllers/authController.js";
+import { register, login, logout, refreshAccessToken, getProfile, updateProfile, uploadAvatar, changePassword, forgotPassword, resetPassword } from "../controllers/authController.js";
 import { authenticateUser } from "../middleware/auth.js";
 import { authLimiter } from "../middleware/rateLimiter.js";
 import { validateRegister, validateLogin } from "../middleware/validate.js";
+import upload from "../middleware/upload.js";
 
 const router = Router();
 
@@ -22,5 +26,8 @@ router.post("/refresh", refreshAccessToken);
 router.post("/forgot-password", authLimiter, forgotPassword);
 router.post("/reset-password", authLimiter, resetPassword);
 router.get("/profile", authenticateUser, getProfile);
+router.put("/profile", authenticateUser, updateProfile);
+router.post("/avatar", authenticateUser, upload.single("avatar"), uploadAvatar);
+router.post("/change-password", authenticateUser, changePassword);
 
 export default router;
