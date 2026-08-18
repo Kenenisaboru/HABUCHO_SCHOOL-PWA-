@@ -9,6 +9,9 @@ import api from "./api.js";
 export const loginUser = (credentials) => api.post("/auth/login", credentials);
 export const registerUser = (data) => api.post("/auth/register", data);
 export const getProfile = () => api.get("/auth/profile");
+export const updateProfile = (data) => api.put("/auth/profile", data);
+export const uploadAvatar = (formData) => api.post("/auth/avatar", formData, { headers: { "Content-Type": "multipart/form-data" } });
+export const changePassword = (data) => api.post("/auth/change-password", data);
 
 // --- Users (Admin) ---
 export const getUsers = (params) => api.get("/users", { params });
