@@ -1,6 +1,7 @@
 /**
  * Reveal — Scroll-triggered entrance animation component.
  * Watches for intersection and animates children into view.
+ * Respects prefers-reduced-motion.
  *
  * Props:
  *   children  — content to animate
@@ -10,11 +11,17 @@
  */
 import { useRef, useState, useEffect } from "react";
 
+const prefersReducedMotion =
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 const Reveal = ({ children, delay = 0, className = "", direction = "up" }) => {
   const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(prefersReducedMotion);
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) setVisible(true); },
       { threshold: 0.1 }
@@ -41,7 +48,7 @@ const Reveal = ({ children, delay = 0, className = "", direction = "up" }) => {
       style={{
         opacity: visible ? 1 : 0,
         transform: getTransform(),
-        transition: `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
+        transition: prefersReducedMotion ? "none" : `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
       }}
     >
       {children}
