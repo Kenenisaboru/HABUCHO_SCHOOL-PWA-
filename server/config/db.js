@@ -5,6 +5,7 @@
  * The pool reuses connections for better performance under load.
  */
 import pg from "pg";
+import logger from "../utils/logger.js";
 
 const { Pool } = pg;
 
@@ -22,7 +23,7 @@ const pool = new Pool({
 });
 
 pool.on("error", (err) => {
-  console.error("Unexpected database pool error:", err.message);
+  logger.error(`Unexpected database pool error: ${err.message}`);
 });
 
 /**
@@ -31,10 +32,10 @@ pool.on("error", (err) => {
 export const testConnection = async () => {
   try {
     const client = await pool.connect();
-    console.log("✅ PostgreSQL connected successfully");
+    logger.info("PostgreSQL connected successfully");
     client.release();
   } catch (error) {
-    console.error("❌ PostgreSQL connection failed:", error.message);
+    logger.error(`PostgreSQL connection failed: ${error.message}`);
     process.exit(1);
   }
 };
