@@ -5,6 +5,7 @@
  */
 import multer from "multer";
 import path from "path";
+import crypto from "crypto";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -15,7 +16,8 @@ const storage = multer.diskStorage({
     cb(null, path.join(__dirname, "../uploads"));
   },
   filename: (_req, file, cb) => {
-    const uniqueName = `${Date.now()}-${file.originalname}`;
+    const ext = path.extname(file.originalname).toLowerCase();
+    const uniqueName = `${crypto.randomUUID()}${ext}`;
     cb(null, uniqueName);
   },
 });
@@ -33,6 +35,6 @@ const fileFilter = (_req, file, cb) => {
 
 export const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter,
 });
