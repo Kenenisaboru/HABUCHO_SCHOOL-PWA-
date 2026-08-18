@@ -2,16 +2,28 @@
  * Rate Limiter Middleware
  * ----------------------
  * Prevents brute-force attacks and API abuse.
- * Different limits for auth routes vs general API routes.
+ * Uses in-memory store by default; configure REDIS_URL for production clustering.
  */
 import rateLimit from "express-rate-limit";
 
-/**
- * Auth rate limiter — stricter limits for login/register
- * 20 requests per 15 minutes per IP
- */
+const getStore = () => {
+  if (process.env.REDIS_URL && process.env.NODE_ENV === "production") {
+    try {
+      const RedisStore = require("rate-limit-redis");
+      const Redis = require("ioredis");
+      const client = new Redis(process.env.REDIS_URL);
+      return new RedisStore({ sendCommand: (...args) => client.call(...args) });
+    } catch {
+      return undefined;
+    }
+  }
+  return undefined;
+};
+
+const store = getStore();
+
 export const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 15 * 60 * 1000,
   max: 20,
   message: {
     success: false,
@@ -19,12 +31,9 @@ export const authLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  ...(store && { store }),
 });
 
-/**
- * General API rate limiter
- * 100 requests per 15 minutes per IP
- */
 export const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -34,14 +43,11 @@ export const apiLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  ...(store && { store }),
 });
 
-/**
- * Contact form rate limiter — prevent spam
- * 5 messages per hour per IP
- */
 export const contactLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
+  windowMs: 60 * 60 * 1000,
   max: 5,
   message: {
     success: false,
@@ -49,4 +55,5 @@ export const contactLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  ...(store && { store }),
 });
