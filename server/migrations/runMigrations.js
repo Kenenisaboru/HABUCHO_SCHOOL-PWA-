@@ -4,6 +4,7 @@
  * Executes SQL migration files with tracking and transaction safety.
  * Run with: npm run migrate
  */
+import "dotenv/config";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
