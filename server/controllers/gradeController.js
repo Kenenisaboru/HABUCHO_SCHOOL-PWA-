@@ -5,6 +5,8 @@
  */
 import * as GradeModel from "../models/gradeModel.js";
 import { sendSuccess, sendError, getPagination } from "../utils/response.js";
+import { sendEmail, buildScoreReportEmail } from "../services/emailService.js";
+import pool from "../config/db.js";
 
 export const getGrades = async (req, res, next) => {
   try {
@@ -109,6 +111,133 @@ export const bulkUpsert = async (req, res, next) => {
     await GradeModel.bulkUpsertGrades(gradesWithTeacherId);
     
     return sendSuccess(res, null, "Scores saved successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const sendScoresToStudents = async (req, res, next) => {
+  try {
+    const { grade_level, section, subject, academic_year, semester, format } = req.body;
+
+    if (!grade_level || !section || !subject || !academic_year || !semester) {
+      return sendError(res, "grade_level, section, subject, academic_year, and semester are required");
+    }
+
+    if (!["pdf", "csv", "both"].includes(format)) {
+      return sendError(res, "Format must be pdf, csv, or both");
+    }
+
+    // Get students in the class with their email
+    const studentsRes = await pool.query(
+      `SELECT id, full_name, email FROM users
+       WHERE role = 'student' AND grade_level = $1 AND section = $2
+       ORDER BY full_name`,
+      [grade_level, section]
+    );
+    const students = studentsRes.rows;
+
+    if (students.length === 0) {
+      return sendError(res, "No students found in this class", 404);
+    }
+
+    // Get teacher info
+    const teacherRes = await pool.query("SELECT full_name FROM users WHERE id = $1", [req.user.id]);
+    const teacherName = teacherRes.rows[0]?.full_name || "Teacher";
+
+    // Get all grades for this class+subject+semester
+    const gradesRes = await pool.query(
+      `SELECT g.*, s.full_name AS student_name, s.email AS student_email
+       FROM grades g
+       LEFT JOIN users s ON g.student_id = s.id
+       WHERE g.grade_level = $1 AND g.section = $2 AND g.subject = $3
+         AND g.academic_year = $4 AND g.semester = $5
+       ORDER BY s.full_name, g.assessment_type`,
+      [grade_level, section, subject, academic_year, semester]
+    );
+    const allGrades = gradesRes.rows;
+
+    let sentCount = 0;
+    let failedCount = 0;
+    const errors = [];
+
+    for (const student of students) {
+      const studentGrades = allGrades.filter((g) => g.student_id === student.id);
+      if (studentGrades.length === 0) continue;
+      if (!student.email) {
+        failedCount++;
+        errors.push(`${student.full_name}: no email address`);
+        continue;
+      }
+
+      const validScores = studentGrades.map((g) => parseFloat(g.score)).filter((n) => !isNaN(n));
+      const averageScore =
+        validScores.length > 0
+          ? (validScores.reduce((a, b) => a + b, 0) / validScores.length).toFixed(1)
+          : "-";
+
+      const attachments = [];
+
+      if (format === "csv" || format === "both") {
+        const csvHeader = "Assessment,Score,Total Marks\n";
+        const csvRows = studentGrades
+          .map((g) => `${g.assessment_type},${g.score ?? ""},${g.total_marks || 100}`)
+          .join("\n");
+        const csvContent = csvHeader + csvRows + `\n\nAverage,,,${averageScore}`;
+        attachments.push({
+          filename: `scores_${subject.replace(/\s+/g, "_")}_${semester.replace(/\s+/g, "_")}.csv`,
+          content: Buffer.from(csvContent, "utf-8"),
+          contentType: "text/csv",
+        });
+      }
+
+      if (format === "pdf" || format === "both") {
+        const htmlReport = buildScoreReportEmail({
+          studentName: student.full_name,
+          teacherName,
+          subject,
+          academicYear: academic_year,
+          semester,
+          grades: studentGrades,
+          averageScore,
+        });
+        attachments.push({
+          filename: `report_${subject.replace(/\s+/g, "_")}_${semester.replace(/\s+/g, "_")}.html`,
+          content: Buffer.from(htmlReport, "utf-8"),
+          contentType: "text/html",
+        });
+      }
+
+      const htmlBody = buildScoreReportEmail({
+        studentName: student.full_name,
+        teacherName,
+        subject,
+        academicYear: academic_year,
+        semester,
+        grades: studentGrades,
+        averageScore,
+      });
+
+      const result = await sendEmail({
+        to: student.email,
+        subject: `Score Report — ${subject} (${semester}) — Habucho School`,
+        html: htmlBody,
+        attachments,
+      });
+
+      if (result.success) sentCount++;
+      else {
+        failedCount++;
+        errors.push(`${student.full_name}: ${result.error}`);
+      }
+    }
+
+    return sendSuccess(res, {
+      total: students.length,
+      sent: sentCount,
+      failed: failedCount,
+      errors: errors.length > 0 ? errors : undefined,
+    }, `Score reports sent to ${sentCount} student(s)`);
   } catch (error) {
     next(error);
   }
