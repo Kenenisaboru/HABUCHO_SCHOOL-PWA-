@@ -1,4 +1,5 @@
-import pool from "../config/db.js";
+import * as PublicModel from "../models/publicModel.js";
+import { sendSuccess } from "../utils/response.js";
 
 /**
  * @desc    Get public statistics for landing page
@@ -7,20 +8,12 @@ import pool from "../config/db.js";
  */
 export const getPublicStats = async (req, res, next) => {
   try {
-    const studentQuery = await pool.query("SELECT COUNT(*) FROM users WHERE role = 'student'");
-    const teacherQuery = await pool.query("SELECT COUNT(*) FROM users WHERE role = 'teacher'");
+    const students = await PublicModel.getStudentCount();
+    const teachers = await PublicModel.getTeacherCount();
 
-    const students = parseInt(studentQuery.rows[0].count, 10);
-    const teachers = parseInt(teacherQuery.rows[0].count, 10);
-
-    res.json({
-      success: true,
-      data: {
-        students: `${students}+`,
-        teachers: `${teachers}+`,
-        passRate: "95%", // Mock data as there's no overall pass rate table yet
-        years: "2007 E.C.",
-      },
+    return sendSuccess(res, {
+      students: `${students}+`,
+      teachers: `${teachers}+`,
     });
   } catch (err) {
     next(err);
