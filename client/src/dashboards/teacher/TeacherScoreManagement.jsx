@@ -348,8 +348,35 @@ const TeacherScoreManagement = () => {
               <h3 className="text-lg font-bold text-slate-800 dark:text-white">Class Scores Summary</h3>
               <p className="text-sm text-slate-500">Overview of all scores grouped by category</p>
             </div>
-            <button className="btn-outline text-xs" onClick={() => toast.success("Reports generated and sent to students!")}>
-              ✉️ Send to Students
+            <button className="btn-outline text-xs flex items-center gap-1.5" onClick={() => {
+              import("jspdf").then(({ default: jsPDF }) => {
+                import("jspdf-autotable").then(() => {
+                  const doc = new jsPDF();
+                  doc.setFontSize(16);
+                  doc.text(`Class Scores Summary — ${selectedGrade} Section ${selectedSection}`, 14, 20);
+                  doc.setFontSize(10);
+                  doc.text(`Academic Year: ${selectedYear} | Semester: ${selectedSemester}`, 14, 28);
+
+                  const rows = students.map((s) => {
+                    const sg = allGrades.filter(g => g.student_id === s.id);
+                    const scores = ASSESSMENT_TYPES.map(t => sg.find(g => g.assessment_type === t)?.score ?? "-");
+                    const valid = sg.map(g => parseFloat(g.score)).filter(n => !isNaN(n));
+                    const avg = valid.length > 0 ? (valid.reduce((a, b) => a + b, 0) / valid.length).toFixed(1) : "-";
+                    return [s.full_name, ...scores, avg];
+                  });
+
+                  doc.autoTable({
+                    head: [["Student", ...ASSESSMENT_TYPES, "Avg"]],
+                    body: rows,
+                    startY: 34,
+                    styles: { fontSize: 8 },
+                  });
+                  doc.save(`scores-${selectedGrade}${selectedSection}-${selectedYear}.pdf`);
+                  toast.success("PDF exported — share it with students");
+                });
+              });
+            }}>
+              Export PDF for Students
             </button>
           </div>
           <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
