@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation, Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import useAuthStore from "../context/authStore";
 import { useTheme } from "../context/ThemeContext";
+import { getRoleGradient } from "../utils/roleColors";
 import api from "../services/api";
 
 const DashboardLayout = ({ links, title }) => {
@@ -18,22 +19,19 @@ const DashboardLayout = ({ links, title }) => {
     navigate("/");
   };
 
-  // Determine current active link label as page title
   const activeLink = links?.find((link) => {
     if (link.end) return location.pathname === link.to;
     return location.pathname.startsWith(link.to);
   });
   const displayTitle = activeLink ? activeLink.label : title || "Dashboard";
 
-  const roleColors = {
-    admin: "from-violet-500 to-purple-600",
-    teacher: "from-blue-500 to-cyan-600",
-    student: "from-emerald-500 to-teal-600",
-  };
-  const avatarGradient = roleColors[user?.role] || roleColors.student;
+  const avatarGradient = getRoleGradient(user?.role);
 
   return (
     <div className="flex min-h-screen bg-slate-50 font-sans dark:bg-slate-950">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:rounded-lg focus:bg-emerald-600 focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white">
+        Skip to content
+      </a>
       <Sidebar links={links} />
 
       {/* Mobile sidebar overlay */}
@@ -155,7 +153,7 @@ const DashboardLayout = ({ links, title }) => {
         </header>
 
         {/* ── Main Content ─────────────────────────────── */}
-        <main className="mx-auto w-full max-w-7xl flex-1 overflow-y-auto p-4 md:p-6">
+        <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 overflow-y-auto p-4 md:p-6">
           <Outlet />
         </main>
       </div>
