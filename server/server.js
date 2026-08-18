@@ -3,6 +3,7 @@
  * --------------------
  * Starts the Express server and tests the database connection.
  */
+import "dotenv/config";
 import app from "./app.js";
 import { testConnection, default as pool } from "./config/db.js";
 import logger from "./utils/logger.js";
