@@ -1,31 +1,37 @@
 /**
  * Auth Store (Zustand)
  * --------------------
- * Global state for authentication — token, user, login/logout.
- * Persists token to localStorage for session continuity.
+ * Global state for authentication — user, login/logout.
+ * Token is stored in httpOnly cookie (not accessible via JS).
  */
 import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
-  token: localStorage.getItem("token") || null,
-  user: JSON.parse(localStorage.getItem("user") || "null"),
+  user: (() => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "null");
+    } catch {
+      return null;
+    }
+  })(),
 
-  /** Save token and user after successful login/register */
-  setAuth: (token, user) => {
-    localStorage.setItem("token", token);
+  setAuth: (user) => {
     localStorage.setItem("user", JSON.stringify(user));
-    set({ token, user });
+    set({ user });
   },
 
-  /** Clear auth state on logout */
   logout: () => {
-    localStorage.removeItem("token");
     localStorage.removeItem("user");
-    set({ token: null, user: null });
+    set({ user: null });
   },
 
-  /** Check if user is authenticated */
-  isAuthenticated: () => !!localStorage.getItem("token"),
+  isAuthenticated: () => {
+    try {
+      return !!JSON.parse(localStorage.getItem("user"));
+    } catch {
+      return false;
+    }
+  },
 }));
 
 export default useAuthStore;
