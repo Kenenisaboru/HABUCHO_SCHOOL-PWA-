@@ -4,17 +4,11 @@
  */
 import { NavLink, Link } from "react-router-dom";
 import useAuthStore from "../context/authStore";
+import { getRoleGradient } from "../utils/roleColors";
 
 const Sidebar = ({ links }) => {
   const user = useAuthStore((s) => s.user);
-
-  const roleColors = {
-    admin: "from-violet-500 to-purple-600",
-    teacher: "from-blue-500 to-cyan-600",
-    student: "from-emerald-500 to-teal-600",
-  };
-
-  const roleGradient = roleColors[user?.role] || roleColors.student;
+  const roleGradient = getRoleGradient(user?.role);
 
   const linkClass = ({ isActive }) =>
     `group relative flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 ${
@@ -76,8 +70,8 @@ const Sidebar = ({ links }) => {
                   {isActive && (
                     <span className="absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-r-full bg-primary dark:bg-emerald-400" />
                   )}
-                  <span className={`text-lg transition-transform duration-150 ${isActive ? "" : "group-hover:scale-110"}`}>
-                    {link.icon}
+                  <span className={`transition-transform duration-150 ${isActive ? "" : "group-hover:scale-110"}`}>
+                    {typeof link.icon === "function" ? <link.icon size={18} /> : <span className="text-lg">{link.icon}</span>}
                   </span>
                   {link.label}
                 </>
