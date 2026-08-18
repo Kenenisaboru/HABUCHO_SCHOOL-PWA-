@@ -4,6 +4,7 @@
  */
 import { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Home, School, Megaphone, CalendarDays, MessageSquare } from "lucide-react";
 import useAuthStore from "../context/authStore";
 import { useTheme } from "../context/ThemeContext";
 import { getDashboardPath } from "../utils/helpers";
@@ -48,11 +49,11 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { to: "/", label: "Home", icon: "🏠" },
-    { to: "/about", label: "About", icon: "🏫" },
-    { to: "/announcements", label: "News", icon: "📢" },
-    { to: "/schedule", label: "Schedule", icon: "📅" },
-    { to: "/contact", label: "Contact", icon: "✉️" },
+    { to: "/", label: "Home", icon: Home },
+    { to: "/about", label: "About", icon: School },
+    { to: "/announcements", label: "News", icon: Megaphone },
+    { to: "/schedule", label: "Schedule", icon: CalendarDays },
+    { to: "/contact", label: "Contact", icon: MessageSquare },
   ];
 
   const linkClass = ({ isActive }) =>
@@ -182,7 +183,7 @@ const Navbar = () => {
                 }
                 onClick={() => setMenuOpen(false)}
               >
-                <span className="text-base">{link.icon}</span>
+                <span className="text-base"><link.icon size={16} /></span>
                 {link.label}
               </NavLink>
             ))}
