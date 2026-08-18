@@ -4,6 +4,7 @@
  * Creates and exports a PostgreSQL connection pool using the `pg` package.
  * The pool reuses connections for better performance under load.
  */
+import "dotenv/config";
 import pg from "pg";
 import logger from "../utils/logger.js";
 
