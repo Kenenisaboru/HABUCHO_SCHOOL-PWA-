@@ -5,6 +5,7 @@
  * Token is stored in httpOnly cookie (not accessible via JS).
  */
 import { create } from "zustand";
+import { getProfile } from "../services/authService";
 
 const useAuthStore = create((set) => ({
   user: (() => {
@@ -23,6 +24,18 @@ const useAuthStore = create((set) => ({
   logout: () => {
     localStorage.removeItem("user");
     set({ user: null });
+  },
+
+  fetchUser: async () => {
+    try {
+      const res = await getProfile();
+      const u = res.data.data;
+      const userData = { id: u.id, name: u.full_name, role: u.role };
+      localStorage.setItem("user", JSON.stringify(userData));
+      set({ user: userData });
+    } catch {
+      // silent — token may be expired
+    }
   },
 
   isAuthenticated: () => {
