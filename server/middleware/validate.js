@@ -64,6 +64,26 @@ export const validateCreateUser = [
   handleValidationErrors,
 ];
 
+/** Validation rules for updating a user (admin) — all fields optional */
+export const validateUpdateUser = [
+  body("full_name")
+    .optional()
+    .trim()
+    .isLength({ min: 2, max: 100 }).withMessage("Full name must be 2–100 characters"),
+  body("email")
+    .optional()
+    .trim()
+    .isEmail().withMessage("Invalid email format")
+    .normalizeEmail(),
+  body("password")
+    .optional()
+    .isLength({ min: 8 }).withMessage("Password must be at least 8 characters"),
+  body("role")
+    .optional()
+    .isIn(["admin", "teacher", "student"]).withMessage("Role must be admin, teacher, or student"),
+  handleValidationErrors,
+];
+
 /** Validation rules for creating an announcement */
 export const validateAnnouncement = [
   body("title")
@@ -72,7 +92,21 @@ export const validateAnnouncement = [
     .isLength({ max: 200 }).withMessage("Title must not exceed 200 characters"),
   body("content")
     .trim()
-    .notEmpty().withMessage("Content is required"),
+    .notEmpty().withMessage("Content is required")
+    .isLength({ max: 10000 }).withMessage("Content must not exceed 10000 characters"),
+  handleValidationErrors,
+];
+
+/** Validation rules for updating an announcement */
+export const validateUpdateAnnouncement = [
+  body("title")
+    .optional()
+    .trim()
+    .isLength({ max: 200 }).withMessage("Title must not exceed 200 characters"),
+  body("content")
+    .optional()
+    .trim()
+    .isLength({ max: 10000 }).withMessage("Content must not exceed 10000 characters"),
   handleValidationErrors,
 ];
 
@@ -84,10 +118,46 @@ export const validateGrade = [
     .trim()
     .notEmpty().withMessage("Subject is required"),
   body("score")
-    .isFloat({ min: 0, max: 100 }).withMessage("Score must be between 0 and 100"),
+    .isFloat({ min: 0 }).withMessage("Score must be a non-negative number"),
   body("semester")
     .trim()
     .notEmpty().withMessage("Semester is required"),
+  handleValidationErrors,
+];
+
+/** Validation rules for updating a grade */
+export const validateUpdateGrade = [
+  body("student_id")
+    .optional()
+    .isInt({ min: 1 }).withMessage("Valid student ID is required"),
+  body("subject")
+    .optional()
+    .trim()
+    .notEmpty().withMessage("Subject cannot be empty"),
+  body("score")
+    .optional()
+    .isFloat({ min: 0 }).withMessage("Score must be a non-negative number"),
+  body("semester")
+    .optional()
+    .trim()
+    .notEmpty().withMessage("Semester cannot be empty"),
+  handleValidationErrors,
+];
+
+/** Validation rules for bulk grade upsert */
+export const validateBulkGrades = [
+  body("grades")
+    .isArray({ min: 1 }).withMessage("Grades must be a non-empty array"),
+  body("grades.*.student_id")
+    .isInt({ min: 1 }).withMessage("Each grade needs a valid student ID"),
+  body("grades.*.subject")
+    .trim()
+    .notEmpty().withMessage("Each grade needs a subject"),
+  body("grades.*.score")
+    .isFloat({ min: 0 }).withMessage("Each grade needs a non-negative score"),
+  body("grades.*.semester")
+    .trim()
+    .notEmpty().withMessage("Each grade needs a semester"),
   handleValidationErrors,
 ];
 
@@ -101,13 +171,43 @@ export const validateSchedule = [
     .notEmpty().withMessage("Subject is required"),
   body("day")
     .trim()
-    .notEmpty().withMessage("Day is required"),
+    .notEmpty().withMessage("Day is required")
+    .isIn(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"])
+    .withMessage("Day must be a valid weekday name"),
   body("start_time")
     .trim()
-    .notEmpty().withMessage("Start time is required"),
+    .notEmpty().withMessage("Start time is required")
+    .matches(/^([01]\d|2[0-3]):[0-5]\d$/).withMessage("Start time must be in HH:MM format"),
   body("end_time")
     .trim()
-    .notEmpty().withMessage("End time is required"),
+    .notEmpty().withMessage("End time is required")
+    .matches(/^([01]\d|2[0-3]):[0-5]\d$/).withMessage("End time must be in HH:MM format"),
+  handleValidationErrors,
+];
+
+/** Validation rules for updating a schedule */
+export const validateUpdateSchedule = [
+  body("grade_level")
+    .optional()
+    .trim()
+    .notEmpty().withMessage("Grade level cannot be empty"),
+  body("subject")
+    .optional()
+    .trim()
+    .notEmpty().withMessage("Subject cannot be empty"),
+  body("day")
+    .optional()
+    .trim()
+    .isIn(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"])
+    .withMessage("Day must be a valid weekday name"),
+  body("start_time")
+    .optional()
+    .trim()
+    .matches(/^([01]\d|2[0-3]):[0-5]\d$/).withMessage("Start time must be in HH:MM format"),
+  body("end_time")
+    .optional()
+    .trim()
+    .matches(/^([01]\d|2[0-3]):[0-5]\d$/).withMessage("End time must be in HH:MM format"),
   handleValidationErrors,
 ];
 
