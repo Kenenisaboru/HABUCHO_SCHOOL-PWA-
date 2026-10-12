@@ -5,7 +5,9 @@
  */
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? "/api" : "http://localhost:5000/api");
 
 const api = axios.create({
   baseURL: API_URL,
@@ -24,15 +26,23 @@ const processQueue = (error) => {
   failedQueue = [];
 };
 
+const isPublicRoute = () => {
+  const publicPaths = ["/", "/about", "/announcements", "/schedule", "/contact", "/login"];
+  return publicPaths.includes(window.location.pathname);
+};
+
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
-      if (originalRequest.url?.includes("/auth/refresh")) {
+      const hasStoredUser = !!localStorage.getItem("user");
+
+      // If already a refresh failure or guest user never had a session, do not attempt refresh
+      if (originalRequest.url?.includes("/auth/refresh") || !hasStoredUser) {
         localStorage.removeItem("user");
-        if (!window.location.pathname.includes("/login")) {
+        if (!isPublicRoute()) {
           window.location.href = "/login";
         }
         return Promise.reject(error);
@@ -56,7 +66,7 @@ api.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError);
         localStorage.removeItem("user");
-        if (!window.location.pathname.includes("/login")) {
+        if (!isPublicRoute()) {
           window.location.href = "/login";
         }
         return Promise.reject(refreshError);
