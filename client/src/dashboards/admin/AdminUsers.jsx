@@ -15,6 +15,7 @@ const AdminUsers = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [gradeFilter, setGradeFilter] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -25,13 +26,21 @@ const AdminUsers = () => {
   const { register, handleSubmit, reset, watch } = useForm();
   const selectedRole = watch("role", "student");
 
+  // Debounce search keystrokes to prevent request spam
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 350);
+    return () => clearTimeout(timer);
+  }, [search]);
+
   const fetchUsers = async () => {
     setLoading(true);
     try {
       const res = await getUsers({
         page,
         limit: 10,
-        search,
+        search: debouncedSearch,
         role: roleFilter,
         grade_level: gradeFilter,
       });
@@ -46,7 +55,7 @@ const AdminUsers = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [page, search, roleFilter, gradeFilter]);
+  }, [page, debouncedSearch, roleFilter, gradeFilter]);
 
   const openCreate = () => {
     setEditingUser(null);
