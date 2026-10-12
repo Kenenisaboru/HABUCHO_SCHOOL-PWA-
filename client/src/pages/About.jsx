@@ -27,30 +27,6 @@ const About = () => {
 
   return (
     <MainLayout>
-      <style>{`
-        @keyframes float-slow {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-30px) rotate(5deg); }
-        }
-        @keyframes slide-right {
-          from { transform: translateX(-100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-        .timeline-line {
-          position: absolute;
-          left: 50%;
-          top: 0;
-          bottom: 0;
-          width: 2px;
-          background: linear-gradient(to bottom, rgba(16, 185, 129, 0), rgba(16, 185, 129, 0.5) 20%, rgba(16, 185, 129, 0.5) 80%, rgba(16, 185, 129, 0));
-          transform: translateX(-50%);
-        }
-        @media (max-width: 768px) {
-          .timeline-line {
-            left: 20px;
-          }
-        }
-      `}</style>
 
       {/* ────────────────────────────────────────────────────────
           HERO/HEADER SECTION
