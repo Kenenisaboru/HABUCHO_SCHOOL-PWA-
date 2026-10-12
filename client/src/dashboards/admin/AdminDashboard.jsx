@@ -29,6 +29,26 @@ import { formatDate } from "../../utils/helpers";
 
 ChartJS.register(ArcElement, BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
+const ServerTimeBadge = () => {
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="flex shrink-0 items-center gap-3.5 rounded-2xl bg-white/10 p-4 backdrop-blur-lg border border-white/10 shadow-inner">
+      <span className="text-3xl">⏰</span>
+      <div>
+        <p className="text-xs font-medium text-slate-300 uppercase tracking-wider">Server Status</p>
+        <p className="text-lg font-bold">{time.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}</p>
+        <p className="text-xs text-slate-400">{time.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</p>
+      </div>
+    </div>
+  );
+};
+
 const AdminDashboard = () => {
   const { user } = useAuthStore();
   const [stats, setStats] = useState(null);
@@ -40,9 +60,6 @@ const AdminDashboard = () => {
   const [showUserModal, setShowUserModal] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [showAnnModal, setShowAnnModal] = useState(false);
-
-  // Live ticking date-time
-  const [currentTime, setCurrentTime] = useState(new Date());
 
   const { register: registerUser, handleSubmit: handleSubmitUser, reset: resetUser, watch: watchUser } = useForm({
     defaultValues: { role: "student", grade_level: "11", section: "A", stream: "Natural Science" }
@@ -70,13 +87,6 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchData();
-
-    // Clock ticker
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    return () => clearInterval(timer);
   }, []);
 
   // Form Submissions
@@ -147,7 +157,7 @@ const AdminDashboard = () => {
   };
 
   const getGreeting = () => {
-    const hrs = currentTime.getHours();
+    const hrs = new Date().getHours();
     if (hrs < 12) return "Good Morning";
     if (hrs < 18) return "Good Afternoon";
     return "Good Evening";
@@ -172,14 +182,7 @@ const AdminDashboard = () => {
               Welcome back to your command center. Monitor system activities, manage school lists, and update class routines.
             </p>
           </div>
-          <div className="flex shrink-0 items-center gap-3.5 rounded-2xl bg-white/10 p-4 backdrop-blur-lg border border-white/10 shadow-inner">
-            <span className="text-3xl">⏰</span>
-            <div>
-              <p className="text-xs font-medium text-slate-300 uppercase tracking-wider">Server Status</p>
-              <p className="text-lg font-bold">{currentTime.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}</p>
-              <p className="text-xs text-slate-400">{currentTime.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</p>
-            </div>
-          </div>
+          <ServerTimeBadge />
         </div>
       </div>
 
