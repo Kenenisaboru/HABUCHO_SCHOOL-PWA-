@@ -28,13 +28,17 @@ const StudentGrades = () => {
     fetchData();
   }, []);
 
-  const handleExport = () => {
+  const handleExport = async () => {
     if (grades.length === 0) {
       toast.error("No grades to export");
       return;
     }
-    exportGradesToPDF(grades, user?.name);
-    toast.success("PDF downloaded!");
+    try {
+      await exportGradesToPDF(grades, user?.name);
+      toast.success("PDF downloaded!");
+    } catch {
+      toast.error("Failed to generate PDF. Please try again.");
+    }
   };
 
   // Calculate percentage based on score and total_marks
