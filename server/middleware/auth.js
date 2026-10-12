@@ -59,3 +59,33 @@ export const authorizeRoles = (...allowedRoles) => {
     next();
   };
 };
+
+/**
+ * optionalAuth — Validates token if provided, but does not block guests if absent
+ */
+export const optionalAuth = (req, _res, next) => {
+  try {
+    let token = null;
+
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
+    } else if (req.cookies?.token) {
+      token = req.cookies.token;
+    }
+
+    if (token) {
+      const decoded = verifyToken(token);
+      if (decoded.type !== "refresh") {
+        req.user = {
+          id: decoded.id,
+          email: decoded.email,
+          role: decoded.role,
+        };
+      }
+    }
+  } catch {
+    // Proceed as unauthenticated guest
+  }
+  next();
+};
