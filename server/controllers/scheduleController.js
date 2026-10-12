@@ -14,7 +14,7 @@ export const getSchedules = async (req, res, next) => {
     if (req.query.grade_level) filters.grade_level = req.query.grade_level;
 
     // Teachers see only their assigned schedules
-    if (req.user.role === "teacher") {
+    if (req.user?.role === "teacher") {
       filters.teacher_id = req.user.id;
     }
 
