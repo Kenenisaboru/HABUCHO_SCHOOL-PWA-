@@ -177,8 +177,12 @@ const Profile = () => {
         <div className="relative px-6 pb-8 sm:px-10">
           <div className="relative -mt-16 mb-4 flex justify-between items-end sm:-mt-20">
             <div className="relative group">
-              <div className={`flex h-28 w-28 sm:h-36 sm:w-36 items-center justify-center rounded-3xl border-4 border-white bg-linear-to-br ${roleGradient} text-4xl sm:text-5xl font-extrabold text-white shadow-xl dark:border-slate-900`}>
-                {displayData.name.charAt(0).toUpperCase()}
+              <div className={`flex h-28 w-28 sm:h-36 sm:w-36 items-center justify-center rounded-3xl border-4 border-white bg-linear-to-br ${roleGradient} text-4xl sm:text-5xl font-extrabold text-white shadow-xl dark:border-slate-900 overflow-hidden`}>
+                {profile?.avatar_url ? (
+                  <img src={profile.avatar_url} alt={displayData.name} className="h-full w-full object-cover" />
+                ) : (
+                  displayData.name.charAt(0).toUpperCase()
+                )}
               </div>
               <label className="absolute inset-0 flex items-center justify-center rounded-3xl bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
                 <span className="text-xs font-bold text-white">Change</span>
