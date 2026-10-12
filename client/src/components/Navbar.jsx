@@ -8,7 +8,6 @@ import { Home, School, Megaphone, CalendarDays, MessageSquare } from "lucide-rea
 import useAuthStore from "../context/authStore";
 import { useTheme } from "../context/ThemeContext";
 import { getDashboardPath } from "../utils/helpers";
-import api from "../services/api";
 
 const SunIcon = () => (
   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -42,8 +41,7 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = async () => {
-    try { await api.post("/auth/logout"); } catch {}
-    logout();
+    await logout();
     navigate("/");
     setMenuOpen(false);
   };
