@@ -11,12 +11,12 @@ import {
   updateSchedule,
   deleteSchedule,
 } from "../controllers/scheduleController.js";
-import { authenticateUser, authorizeRoles } from "../middleware/auth.js";
+import { authenticateUser, authorizeRoles, optionalAuth } from "../middleware/auth.js";
 import { validateSchedule, validateUpdateSchedule } from "../middleware/validate.js";
 
 const router = Router();
 
-router.get("/", authenticateUser, authorizeRoles("admin", "teacher", "student"), getSchedules);
+router.get("/", optionalAuth, getSchedules);
 router.post("/", authenticateUser, authorizeRoles("admin"), validateSchedule, createSchedule);
 router.put("/:id", authenticateUser, authorizeRoles("admin"), validateUpdateSchedule, updateSchedule);
 router.delete("/:id", authenticateUser, authorizeRoles("admin"), deleteSchedule);
