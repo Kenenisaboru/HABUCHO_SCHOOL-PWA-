@@ -90,9 +90,9 @@ const Home = () => {
 
   const stats = statsData
     ? [
-        { value: statsData.students, label: "Enrolled Students" },
-        { value: statsData.teachers, label: "Expert Faculty" },
-        { value: statsData.passRate, label: "University Placement" },
+        { value: statsData.students || "1,200+", label: "Enrolled Students" },
+        { value: statsData.teachers || "50+", label: "Expert Faculty" },
+        { value: statsData.passRate || "98%", label: "University Placement" },
         { value: statsData.years || "2007 E.C.", label: "Established (E.C.)" },
       ]
     : defaultStats;
@@ -585,6 +585,10 @@ const Home = () => {
                       <img 
                         src={t.image} 
                         alt={t.name} 
+                        width="64"
+                        height="64"
+                        loading="lazy"
+                        decoding="async"
                         className="w-16 h-16 rounded-2xl border-2 border-emerald-500/60 object-cover shadow-lg group-hover:scale-105 group-hover:border-teal-400 transition-all duration-300" 
                       />
                       <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-slate-900 flex items-center justify-center">
