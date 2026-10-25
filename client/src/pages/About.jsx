@@ -29,7 +29,7 @@ const About = () => {
 
   return (
     <MainLayout>
-
+      <div className="about-page">
       {/* ────────────────────────────────────────────────────────
           HERO/HEADER SECTION
       ───────────────────────────────────────────────────────── */}
@@ -85,12 +85,12 @@ const About = () => {
             </div>
           </Reveal>
         </div>
-      </section>
+        </section>
 
       {/* ────────────────────────────────────────────────────────
           MISSION & VISION SECTION 
       ───────────────────────────────────────────────────────── */}
-      <section className="py-20 sm:py-32 bg-slate-900 relative">
+        <section className="py-20 sm:py-32 bg-slate-900 relative">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-20"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -128,12 +128,12 @@ const About = () => {
 
           </div>
         </div>
-      </section>
+        </section>
 
       {/* ────────────────────────────────────────────────────────
           TIMELINE / HISTORY SECTION 
       ───────────────────────────────────────────────────────── */}
-      <section id="our-journey" className="py-32 bg-slate-950 relative overflow-hidden">
+        <section id="our-journey" className="py-32 bg-slate-950 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal className="text-center mb-24">
             <h2 className="text-emerald-400 font-semibold tracking-widest uppercase text-sm mb-3">Our Heritage</h2>
@@ -187,12 +187,12 @@ const About = () => {
 
           </div>
         </div>
-      </section>
+        </section>
 
       {/* ────────────────────────────────────────────────────────
           CORE VALUES SECTION 
       ───────────────────────────────────────────────────────── */}
-      <section className="py-32 bg-slate-900 relative">
+        <section className="py-32 bg-slate-900 relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,var(--tw-gradient-stops))] from-teal-900/20 via-slate-900 to-slate-950 pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -218,12 +218,12 @@ const About = () => {
             ))}
           </div>
         </div>
-      </section>
+        </section>
 
       {/* ────────────────────────────────────────────────────────
           NOTABLE ALUMNI & STUDENT ACHIEVERS SECTION 
       ───────────────────────────────────────────────────────── */}
-      <section className="py-32 bg-slate-950 relative overflow-hidden border-t border-slate-800">
+        <section className="py-32 bg-slate-950 relative overflow-hidden border-t border-slate-800">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-emerald-900/10 filter blur-[140px] rounded-full pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -347,8 +347,8 @@ const About = () => {
             ))}
           </div>
         </div>
-      </section>
-
+        </section>
+      </div>
     </MainLayout>
   );
 };
