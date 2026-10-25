@@ -221,73 +221,107 @@ const Home = () => {
       {/* ────────────────────────────────────────────────────────
           HERO SECTION 
       ───────────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950 pt-20">
-        {/* Abstract Background */}
-        <div className="absolute inset-0 w-full h-full">
-          <div className="absolute top-0 -left-4 w-96 h-96 bg-emerald-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob"></div>
-          <div className="absolute top-0 -right-4 w-96 h-96 bg-teal-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob animation-delay-4000"></div>
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
-        </div>
+      <section className="home-hero relative isolate overflow-hidden px-4 py-16 text-white sm:px-6 sm:py-20 lg:min-h-[calc(100svh-4.25rem)] lg:py-14">
+        <div className="home-hero-glow" aria-hidden="true" />
+        <div className="home-hero-grid relative z-10 mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-2 lg:gap-8">
+          <div className="home-hero-copy">
+            <div className="home-hero-badge">
+              <span className="home-hero-pulse" aria-hidden="true" />
+              <span>NEXT-GEN DIGITAL CAMPUS</span>
+            </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
-          <div 
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel mb-8"
-            style={{ animation: 'fade-in-up 0.8s ease-out forwards' }}
-          >
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-            </span>
-            <span className="text-sm font-medium tracking-wide text-emerald-300 uppercase">Next-Gen Digital Campus</span>
+            <h1 className="home-hero-title">
+              Empowering the Future of{" "}
+              <span>Education</span>
+            </h1>
+
+            <p className="home-hero-description">
+              Discover quality teaching, modern facilities, and digital learning
+              that help every student build a brighter future.
+            </p>
+
+            <div className="home-hero-actions">
+              <Link to="/login" className="home-hero-primary">
+                Apply Now
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12h14m-6-6 6 6-6 6" />
+                </svg>
+              </Link>
+              <Link to="/about" className="home-hero-secondary">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="m10 8 6 4-6 4V8Z" />
+                </svg>
+                Take a Campus Tour
+              </Link>
+            </div>
+
+            <div className="home-hero-stats" aria-label="School at a glance">
+              <div>
+                <strong>2,500+</strong>
+                <span>Students</span>
+              </div>
+              <div>
+                <strong>120+</strong>
+                <span>Teachers</span>
+              </div>
+              <div>
+                <strong>25+</strong>
+                <span>Years</span>
+              </div>
+            </div>
           </div>
 
-          <h1 
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[1.1] mb-6 sm:mb-8 max-w-5xl"
-            style={{ animation: 'fade-in-up 0.8s ease-out 0.2s forwards', opacity: 0 }}
-          >
-            Empowering the Future of <br className="hidden md:block"/>
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-400 via-teal-300 to-emerald-500">
-              Education
-            </span>
-          </h1>
-
-          <p 
-            className="text-base sm:text-lg md:text-2xl text-slate-300 max-w-3xl mb-8 sm:mb-12 font-light leading-relaxed px-2"
-            style={{ animation: 'fade-in-up 0.8s ease-out 0.4s forwards', opacity: 0 }}
-          >
-            Habucho Preparatory School blends academic rigor with cutting-edge technology to prepare students for top-tier universities.
-          </p>
-
-          <div 
-            className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full max-w-md sm:max-w-none justify-center items-center px-4"
-            style={{ animation: 'fade-in-up 0.8s ease-out 0.6s forwards', opacity: 0 }}
-          >
-            <Link 
-              to="/login" 
-              className="w-full sm:w-auto relative inline-flex items-center justify-center px-8 py-4 text-base sm:text-lg font-bold text-slate-900 bg-emerald-400 rounded-full overflow-hidden group transition-all"
-              style={{ animation: 'pulse-glow 3s infinite' }}
-            >
-              <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
-              <span className="relative flex items-center gap-2">
-                Access Portal
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+          <div className="home-hero-visual" aria-label="A glimpse of life at Habucho">
+            <div className="home-hero-image home-hero-image-main">
+              <img
+                src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85"
+                alt="Students learning together in a bright, modern classroom"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div className="home-hero-image home-hero-image-lab">
+              <img
+                src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=700&q=85"
+                alt="Students exploring science in a school laboratory"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div className="home-hero-image home-hero-image-library">
+              <img
+                src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=700&q=85"
+                alt="Students reading and studying together"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div className="home-hero-card home-hero-card-pass">
+              <span className="home-hero-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="m5 12 4 4L19 6" />
+                  <circle cx="12" cy="12" r="9" />
+                </svg>
               </span>
-            </Link>
-            
-            <Link 
-              to="/about" 
-              className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base sm:text-lg font-semibold text-white transition-all glass-panel rounded-full hover:bg-slate-800/80 hover:scale-105"
-            >
-              Discover Our Story
-            </Link>
+              <span>
+                <strong>98% Pass Rate</strong>
+                <small>Academic excellence</small>
+              </span>
+            </div>
+            <div className="home-hero-card home-hero-card-classroom">
+              <span className="home-hero-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M3 9.5 12 5l9 4.5-9 4.5-9-4.5Z" />
+                  <path d="M7 12v4.5c2.8 2 7.2 2 10 0V12m4-2.5v6" />
+                </svg>
+              </span>
+              <span>
+                <strong>Smart Classrooms</strong>
+                <small>Learning without limits</small>
+              </span>
+            </div>
           </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce opacity-50">
-          <span className="text-xs tracking-widest text-emerald-400 uppercase">Scroll</span>
-          <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
         </div>
       </section>
 
