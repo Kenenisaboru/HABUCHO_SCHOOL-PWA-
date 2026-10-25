@@ -152,7 +152,7 @@ export const logout = async (req, res) => {
   return sendSuccess(res, null, "Logged out successfully");
 };
 
-export const refreshAccessToken = async (req, res) => {
+export const refreshAccessToken = async (req, res, next) => {
   try {
     const refreshToken = req.cookies?.refreshToken;
     if (!refreshToken) {
