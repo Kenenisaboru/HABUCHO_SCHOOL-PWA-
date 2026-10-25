@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import MainLayout from "../layouts/MainLayout";
 import Reveal from "../components/Reveal";
+import aboutClassroomImg from "../Images/about-classroom.webp";
+import aboutCampusImg from "../Images/about-campus.webp";
 
 import kenenisaImg from "../Images/photo_2026-08-17_07-41-04.jpg";
 import nurelayImg from "../Images/photo_2026-08-17_07-40-50.jpg";
@@ -55,16 +57,16 @@ const About = () => {
           <Reveal direction="left" delay={150} className="about-hero-visual">
             <div className="about-hero-photo about-hero-photo-main">
               <img
-                src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85"
-                alt="Students learning together in a bright, welcoming classroom"
+                src={aboutClassroomImg}
+                alt="Students and teachers working together in a bright classroom"
                 loading="lazy"
                 decoding="async"
               />
             </div>
             <div className="about-hero-photo about-hero-photo-detail">
               <img
-                src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=700&q=85"
-                alt="Students discovering science through hands-on learning"
+                src={aboutCampusImg}
+                alt="Habucho school life represented by a welcoming campus building"
                 loading="lazy"
                 decoding="async"
               />
