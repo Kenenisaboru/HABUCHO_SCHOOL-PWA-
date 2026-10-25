@@ -31,24 +31,56 @@ const About = () => {
       {/* ────────────────────────────────────────────────────────
           HERO/HEADER SECTION
       ───────────────────────────────────────────────────────── */}
-      <section className="relative pt-40 pb-32 overflow-hidden bg-slate-950">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-emerald-600/20 rounded-full blur-[100px] pointer-events-none" style={{ animation: 'float-slow 10s ease-in-out infinite' }}></div>
-          <div className="absolute bottom-1/4 left-1/4 w-120 h-120 bg-teal-600/10 rounded-full blur-[120px] pointer-events-none" style={{ animation: 'float-slow 12s ease-in-out infinite reverse' }}></div>
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
-        </div>
-
-        <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
-          <Reveal>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 backdrop-blur-md mb-6 sm:mb-8">
-              <span className="text-emerald-400 font-medium tracking-wider text-xs sm:text-sm uppercase">Our Story</span>
-            </div>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-white mb-6 sm:mb-8 tracking-tight">
-              A Legacy of <span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-400 to-teal-300">Excellence</span>
+      <section className="about-hero relative isolate overflow-hidden bg-[#030617] px-4 py-16 text-white sm:px-6 sm:py-20 lg:py-24">
+        <div className="about-hero-glow" aria-hidden="true" />
+        <div className="about-hero-grid relative z-10 mx-auto grid w-full max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <Reveal direction="right" className="about-hero-copy">
+            <div className="about-hero-badge">Our Story</div>
+            <h1 className="about-hero-title">
+              A Legacy of <span>Excellence</span>
             </h1>
-            <p className="text-base sm:text-xl md:text-2xl text-slate-400 font-light max-w-3xl mx-auto leading-relaxed px-2">
-              Since 2007 E.C., Habucho Preparatory School has been shaping the minds of tomorrow's leaders, blending rich traditions with cutting-edge education.
+            <p className="about-hero-description">
+              Since 2007 E.C., Habucho Preparatory School has been shaping the
+              minds of tomorrow&apos;s leaders, blending rich traditions with
+              modern, inspiring learning.
             </p>
+            <a className="about-hero-link" href="#our-journey">
+              Discover our journey
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h14m-6-6 6 6-6 6" />
+              </svg>
+            </a>
+          </Reveal>
+
+          <Reveal direction="left" delay={150} className="about-hero-visual">
+            <div className="about-hero-photo about-hero-photo-main">
+              <img
+                src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85"
+                alt="Students learning together in a bright, welcoming classroom"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div className="about-hero-photo about-hero-photo-detail">
+              <img
+                src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=700&q=85"
+                alt="Students discovering science through hands-on learning"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div className="about-hero-caption">
+              <span className="about-hero-caption-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="m5 12 4 4L19 6" />
+                  <circle cx="12" cy="12" r="9" />
+                </svg>
+              </span>
+              <span>
+                <strong>Learning with purpose</strong>
+                <small>Growing brighter futures together</small>
+              </span>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -99,7 +131,7 @@ const About = () => {
       {/* ────────────────────────────────────────────────────────
           TIMELINE / HISTORY SECTION 
       ───────────────────────────────────────────────────────── */}
-      <section className="py-32 bg-slate-950 relative overflow-hidden">
+      <section id="our-journey" className="py-32 bg-slate-950 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal className="text-center mb-24">
             <h2 className="text-emerald-400 font-semibold tracking-widest uppercase text-sm mb-3">Our Heritage</h2>
@@ -203,7 +235,8 @@ const About = () => {
             </p>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="alumni-timeline">
+            <div className="alumni-timeline-line" aria-hidden="true" />
             {[
               {
                 name: "Kenenisa Boru",
@@ -277,27 +310,37 @@ const About = () => {
                 desc: "Engineering next-generation hardware and software computing systems.",
                 image: bezabihImg,
               },
-            ].map((alumnus) => (
-              <Reveal key={alumnus.name}>
-                <div className="glass-panel p-6 rounded-3xl border border-slate-800 hover:border-emerald-500/40 transition-all duration-300 group hover:-translate-y-1.5 flex gap-4 items-start h-full">
+            ].map((alumnus, index) => (
+              <Reveal
+                key={alumnus.name}
+                delay={index * 70}
+                className={`alumni-timeline-item ${index % 2 === 0 ? "alumni-timeline-item-left" : "alumni-timeline-item-right"}`}
+              >
+                <span className="alumni-timeline-node" aria-hidden="true">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                </span>
+                <article className="alumni-card">
                   <img
                     src={alumnus.image}
                     alt={alumnus.name}
-                    className="w-14 h-14 rounded-2xl border-2 border-emerald-500/50 object-cover shrink-0 group-hover:scale-105 transition-transform"
+                    className="alumni-card-photo"
+                    loading="lazy"
+                    decoding="async"
                   />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <h4 className="text-white font-bold text-base leading-tight group-hover:text-emerald-300 transition-colors">
+                  <div className="alumni-card-content">
+                    <div className="alumni-card-heading">
+                      <h4>
                         {alumnus.name}
                       </h4>
-                      <span className="text-[9px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                      <span className="alumni-card-badge">
                         {alumnus.badge}
                       </span>
                     </div>
-                    <p className="text-teal-400 text-xs font-semibold">{alumnus.institution}</p>
-                    <p className="text-slate-400 text-xs mt-2 leading-relaxed">{alumnus.desc}</p>
+                    <p className="alumni-card-field">{alumnus.field}</p>
+                    <p className="alumni-card-institution">{alumnus.institution}</p>
+                    <p className="alumni-card-description">{alumnus.desc}</p>
                   </div>
-                </div>
+                </article>
               </Reveal>
             ))}
           </div>

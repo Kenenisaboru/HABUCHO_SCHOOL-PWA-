@@ -791,3 +791,553 @@ body.dark {
     font-size: 0.61rem;
   }
 }
+
+/* ============================================================
+   About Hero
+   ============================================================ */
+.about-hero {
+  min-height: 600px;
+}
+
+.about-hero-glow {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 68%;
+  background:
+    radial-gradient(ellipse at 56% 47%, rgba(16, 185, 129, 0.2), transparent 55%),
+    radial-gradient(ellipse at 90% 20%, rgba(20, 184, 166, 0.1), transparent 48%);
+  pointer-events: none;
+}
+
+.about-hero-grid {
+  min-height: inherit;
+}
+
+.about-hero-copy {
+  max-width: 610px;
+}
+
+.about-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  color: #6ee7b7;
+  background: rgba(6, 78, 59, 0.32);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.about-hero-title {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(2.7rem, 5.2vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 1.04;
+}
+
+.about-hero-title span {
+  background: linear-gradient(100deg, #34d399 8%, #2dd4bf 92%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.about-hero-description {
+  max-width: 570px;
+  margin: 1.4rem 0 0;
+  color: #aab7ca;
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.8;
+}
+
+.about-hero-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 1.8rem;
+  border-radius: 0.75rem;
+  color: #6ee7b7;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: color 180ms ease, gap 180ms ease;
+}
+
+.about-hero-link:hover {
+  gap: 0.9rem;
+  color: #a7f3d0;
+}
+
+.about-hero-link:focus-visible {
+  outline: 3px solid #a7f3d0;
+  outline-offset: 5px;
+}
+
+.about-hero-link svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.about-hero-visual {
+  position: relative;
+  width: 100%;
+  min-height: clamp(390px, 42vw, 540px);
+}
+
+.about-hero-photo {
+  position: absolute;
+  overflow: hidden;
+  border: 1px solid rgba(226, 232, 240, 0.3);
+  border-radius: 24px;
+  background: #10251f;
+}
+
+.about-hero-photo::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(3, 6, 23, 0.2));
+  content: "";
+  pointer-events: none;
+}
+
+.about-hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-hero-photo-main {
+  top: 4%;
+  right: 9%;
+  width: 80%;
+  height: 84%;
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.4),
+    0 0 70px rgba(16, 185, 129, 0.17);
+}
+
+.about-hero-photo-detail {
+  right: 0;
+  bottom: 0;
+  width: 39%;
+  height: 38%;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.about-hero-caption {
+  position: absolute;
+  z-index: 2;
+  bottom: 9%;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: calc(100% - 1rem);
+  border: 1px solid rgba(226, 232, 240, 0.2);
+  border-radius: 1rem;
+  padding: 0.85rem 1rem;
+  background: rgba(11, 22, 35, 0.76);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.about-hero-caption-icon {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 0.75rem;
+  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.16);
+}
+
+.about-hero-caption-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.about-hero-caption strong,
+.about-hero-caption small {
+  display: block;
+  white-space: nowrap;
+}
+
+.about-hero-caption strong {
+  color: #f8fafc;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.about-hero-caption small {
+  margin-top: 0.2rem;
+  color: #a7b2c2;
+  font-size: 0.7rem;
+}
+
+@media (max-width: 1023px) {
+  .about-hero {
+    min-height: 0;
+  }
+
+  .about-hero-visual {
+    width: min(100%, 650px);
+    min-height: clamp(390px, 72vw, 530px);
+    justify-self: center;
+  }
+}
+
+@media (max-width: 639px) {
+  .about-hero {
+    padding-top: 3.5rem;
+    padding-bottom: 3.75rem;
+  }
+
+  .about-hero-title {
+    font-size: clamp(2.6rem, 11vw, 4rem);
+  }
+
+  .about-hero-description {
+    margin-top: 1.1rem;
+    line-height: 1.7;
+  }
+
+  .about-hero-visual {
+    min-height: 370px;
+  }
+
+  .about-hero-photo {
+    border-radius: 18px;
+  }
+
+  .about-hero-photo-main {
+    top: 5%;
+    right: 7%;
+    width: 84%;
+    height: 79%;
+  }
+
+  .about-hero-photo-detail {
+    width: 42%;
+    height: 36%;
+  }
+
+  .about-hero-caption {
+    bottom: 8%;
+    gap: 0.55rem;
+    border-radius: 0.85rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .about-hero-caption-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.6rem;
+  }
+
+  .about-hero-caption strong {
+    font-size: 0.73rem;
+  }
+
+  .about-hero-caption small {
+    font-size: 0.61rem;
+  }
+}
+
+/* ============================================================
+   Alumni Achievement Timeline
+   ============================================================ */
+.alumni-timeline {
+  position: relative;
+  display: flex;
+  max-width: 960px;
+  flex-direction: column;
+  gap: 1.75rem;
+  margin-inline: auto;
+}
+
+.alumni-timeline-line {
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  left: calc(50% - 1px);
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(16, 185, 129, 0.56) 8%,
+    rgba(45, 212, 191, 0.35) 92%,
+    transparent
+  );
+}
+
+.alumni-timeline-item {
+  position: relative;
+  display: grid;
+  min-height: 190px;
+  grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr);
+  align-items: center;
+}
+
+.alumni-timeline-node {
+  z-index: 1;
+  display: grid;
+  width: 52px;
+  height: 52px;
+  grid-column: 2;
+  grid-row: 1;
+  place-items: center;
+  justify-self: center;
+  border: 1px solid rgba(110, 231, 183, 0.55);
+  border-radius: 50%;
+  color: #a7f3d0;
+  background: #071a1b;
+  box-shadow:
+    0 0 0 7px #030617,
+    0 0 28px rgba(16, 185, 129, 0.3);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.alumni-timeline-item:hover .alumni-timeline-node {
+  transform: scale(1.08);
+  box-shadow:
+    0 0 0 7px #030617,
+    0 0 38px rgba(16, 185, 129, 0.55);
+}
+
+.alumni-card {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 180px;
+  grid-row: 1;
+  align-items: flex-start;
+  gap: 1.1rem;
+  overflow: hidden;
+  border: 1px solid rgba(71, 85, 105, 0.58);
+  border-radius: 1.5rem;
+  padding: 1.35rem;
+  background: linear-gradient(145deg, rgba(15, 31, 43, 0.92), rgba(9, 17, 33, 0.92));
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.17);
+  transition: transform 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
+}
+
+.alumni-card::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(to bottom, #34d399, #14b8a6);
+  content: "";
+  opacity: 0.75;
+  transition: opacity 240ms ease;
+}
+
+.alumni-timeline-item-left .alumni-card {
+  grid-column: 1;
+}
+
+.alumni-timeline-item-right .alumni-card {
+  grid-column: 3;
+}
+
+.alumni-timeline-item-right .alumni-card::before {
+  inset: 0 0 0 auto;
+}
+
+.alumni-timeline-item-left .alumni-card:hover {
+  transform: translateX(-5px);
+}
+
+.alumni-timeline-item-right .alumni-card:hover {
+  transform: translateX(5px);
+}
+
+.alumni-card:hover {
+  border-color: rgba(52, 211, 153, 0.5);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.28), 0 0 30px rgba(16, 185, 129, 0.08);
+}
+
+.alumni-card:hover::before {
+  opacity: 1;
+}
+
+.alumni-card-photo {
+  width: 82px;
+  height: 94px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(52, 211, 153, 0.45);
+  border-radius: 1rem;
+  object-fit: cover;
+  object-position: center;
+  background: #0f2926;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+  transition: transform 240ms ease;
+}
+
+.alumni-card:hover .alumni-card-photo {
+  transform: scale(1.035);
+}
+
+.alumni-card-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.alumni-card-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.65rem;
+}
+
+.alumni-card-heading h4 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: 1.05rem;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+  transition: color 180ms ease;
+}
+
+.alumni-card:hover .alumni-card-heading h4 {
+  color: #a7f3d0;
+}
+
+.alumni-card-badge {
+  display: inline-flex;
+  border: 1px solid rgba(52, 211, 153, 0.22);
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.1);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.alumni-card-field {
+  margin: 0.55rem 0 0;
+  color: #5eead4;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.alumni-card-institution {
+  margin: 0.2rem 0 0;
+  color: #a5b4c7;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.alumni-card-description {
+  margin: 0.6rem 0 0;
+  color: #aab4c4;
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 767px) {
+  .alumni-timeline {
+    gap: 1.2rem;
+  }
+
+  .alumni-timeline-line {
+    left: 24px;
+  }
+
+  .alumni-timeline-item {
+    min-height: auto;
+    grid-template-columns: 48px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .alumni-timeline-node {
+    width: 42px;
+    height: 42px;
+    grid-column: 1;
+    margin-top: 1.15rem;
+    font-size: 0.68rem;
+    box-shadow:
+      0 0 0 5px #030617,
+      0 0 24px rgba(16, 185, 129, 0.28);
+  }
+
+  .alumni-card,
+  .alumni-timeline-item-left .alumni-card,
+  .alumni-timeline-item-right .alumni-card {
+    min-height: auto;
+    grid-column: 2;
+    padding: 1rem;
+  }
+
+  .alumni-timeline-item-left .alumni-card:hover,
+  .alumni-timeline-item-right .alumni-card:hover {
+    transform: translateY(-3px);
+  }
+
+  .alumni-card-photo {
+    width: 68px;
+    height: 78px;
+    border-radius: 0.8rem;
+  }
+}
+
+@media (max-width: 479px) {
+  .alumni-timeline-line {
+    left: 19px;
+  }
+
+  .alumni-timeline-item {
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .alumni-timeline-node {
+    width: 34px;
+    height: 34px;
+    margin-top: 1rem;
+    font-size: 0.6rem;
+  }
+
+  .alumni-card,
+  .alumni-timeline-item-left .alumni-card,
+  .alumni-timeline-item-right .alumni-card {
+    gap: 0.75rem;
+    border-radius: 1.1rem;
+    padding: 0.85rem;
+  }
+
+  .alumni-card-photo {
+    width: 56px;
+    height: 68px;
+  }
+
+  .alumni-card-heading h4 {
+    font-size: 0.92rem;
+  }
+
+  .alumni-card-badge {
+    font-size: 0.52rem;
+  }
+}
