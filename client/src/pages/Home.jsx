@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import Reveal from "../components/Reveal";
 import useFetch from "../hooks/useFetch";
 import { getPublicStats } from "../services/publicService";
+import classroomImg from "../Images/about-classroom.webp";
 
 import kenenisaImg from "../Images/photo_2026-08-17_07-41-04.jpg";
 import nurelayImg from "../Images/photo_2026-08-17_07-40-50.jpg";
@@ -14,43 +15,13 @@ import kelilImg from "../Images/photo_2026-08-17_08-21-12.jpg";
 import abdelaImg from "../Images/photo_2026-08-17_08-21-12 (2).jpg";
 import aliyiImg from "../Images/photo_2026-08-17_08-21-55.jpg";
 
-const useCountUp = (target, duration = 2000) => {
-  const [count, setCount] = useState(0);
-  const [started, setStarted] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setStarted(true); },
-      { threshold: 0.5 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!started) return;
-    const numericTarget = parseInt(String(target).replace(/\D/g, ""), 10) || 0;
-    if (numericTarget === 0) { setCount(target); return; }
-    let startTime = null;
-    const step = (ts) => {
-      if (!startTime) startTime = ts;
-      const progress = Math.min((ts - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.round(eased * numericTarget));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [started, target, duration]);
-
-  const suffix = String(target).replace(/[0-9]/g, "");
-  return { ref, display: started ? `${count}${suffix}` : `0${suffix}` };
-};
-
 const StatCounter = ({ value, label, delay }) => {
-  const { ref, display } = useCountUp(value);
+  const numericValue = String(value).match(/^([\d,]+)(.*)$/);
+  const display = numericValue
+    ? `${new Intl.NumberFormat("en-US").format(Number(numericValue[1].replace(/,/g, "")))}${numericValue[2]}`
+    : value;
   return (
-    <div ref={ref} className="group relative flex flex-col items-center justify-center p-8 rounded-3xl bg-slate-900/40 border border-white/5 backdrop-blur-md overflow-hidden hover:bg-slate-800/60 transition-all duration-500" style={{ animation: `fade-in-up 0.8s ease-out ${delay}s forwards`, opacity: 0 }}>
+    <div className="group relative flex flex-col items-center justify-center p-8 rounded-3xl bg-slate-900/40 border border-white/5 backdrop-blur-md overflow-hidden hover:bg-slate-800/60 transition-all duration-500" style={{ animation: `fade-in-up 0.8s ease-out ${delay}s forwards`, opacity: 0 }}>
       <div className="absolute inset-0 bg-linear-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       <h3 className="text-5xl md:text-6xl font-black bg-clip-text text-transparent bg-linear-to-r from-emerald-400 to-teal-300 tabular-nums z-10 mb-2 drop-shadow-lg">
         {display}
@@ -70,7 +41,7 @@ const Home = () => {
     document.title = "Habucho Preparatory School — Home";
   }, []);
 
-  const { data: statsData } = useFetch(getPublicStats, []);
+  const { data: statsData, loading: statsLoading, error: statsError } = useFetch(getPublicStats, []);
 
   const features = [
     { icon: "🎓", title: "Elite Curriculum", desc: "Advanced placement tracks designed to guarantee university admission.", gradient: "from-emerald-400/20 to-teal-900/40" },
@@ -81,21 +52,10 @@ const Home = () => {
     { icon: "🤝", title: "Active Community", desc: "Vibrant clubs, sports, and extracurricular networks.", gradient: "from-cyan-400/20 to-blue-900/40" },
   ];
 
-  const defaultStats = [
-    { value: "1,200+", label: "Enrolled Students" },
-    { value: "50+", label: "Expert Faculty" },
-    { value: "98%", label: "University Placement" },
-    { value: "2007 E.C.", label: "Established" },
-  ];
-
-  const stats = statsData
-    ? [
-        { value: statsData.students || "1,200+", label: "Enrolled Students" },
-        { value: statsData.teachers || "50+", label: "Expert Faculty" },
-        { value: statsData.passRate || "98%", label: "University Placement" },
-        { value: statsData.years || "2007 E.C.", label: "Established (E.C.)" },
-      ]
-    : defaultStats;
+  const stats = [
+    { value: statsData?.students, label: "Students" },
+    { value: statsData?.teachers, label: "Teachers" },
+  ].filter((stat) => stat.value !== undefined && stat.value !== null);
 
   const testimonials = [
     {
@@ -227,22 +187,22 @@ const Home = () => {
           <div className="home-hero-copy">
             <div className="home-hero-badge">
               <span className="home-hero-pulse" aria-hidden="true" />
-              <span>NEXT-GEN DIGITAL CAMPUS</span>
+              <span>HABUCHO PREPARATORY SCHOOL</span>
             </div>
 
             <h1 className="home-hero-title">
-              Empowering the Future of{" "}
-              <span>Education</span>
+              A strong foundation for{" "}
+              <span>what&apos;s next</span>
             </h1>
 
             <p className="home-hero-description">
-              Discover quality teaching, modern facilities, and digital learning
-              that help every student build a brighter future.
+              Explore Habucho Preparatory School, learn about our community, and
+              get in touch with the school about admissions.
             </p>
 
             <div className="home-hero-actions">
-              <Link to="/login" className="home-hero-primary">
-                Apply Now
+              <Link to="/contact" className="home-hero-primary">
+                Ask about admissions
                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12h14m-6-6 6 6-6 6" />
                 </svg>
@@ -252,39 +212,27 @@ const Home = () => {
                   <circle cx="12" cy="12" r="9" />
                   <path d="m10 8 6 4-6 4V8Z" />
                 </svg>
-                Take a Campus Tour
+                Discover the school
               </Link>
-            </div>
-
-            <div className="home-hero-stats" aria-label="School at a glance">
-              <div>
-                <strong>2,500+</strong>
-                <span>Students</span>
-              </div>
-              <div>
-                <strong>120+</strong>
-                <span>Teachers</span>
-              </div>
-              <div>
-                <strong>25+</strong>
-                <span>Years</span>
-              </div>
             </div>
           </div>
 
-          <div className="home-hero-visual" aria-label="A glimpse of life at Habucho">
+          <div className="home-hero-visual" aria-label="Illustrative classroom and school images">
             <div className="home-hero-image home-hero-image-main">
               <img
-                src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85"
-                alt="Students learning together in a bright, modern classroom"
-                loading="lazy"
+                src={classroomImg}
+                alt="Students working together in a classroom"
+                fetchPriority="high"
                 decoding="async"
               />
             </div>
+            <p className="absolute bottom-3 left-3 z-10 rounded-full bg-slate-950/75 px-3 py-1 text-xs text-slate-200 backdrop-blur">
+              Representative imagery
+            </p>
             <div className="home-hero-image home-hero-image-lab">
               <img
                 src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=700&q=85"
-                alt="Students exploring science in a school laboratory"
+                alt="Students exploring science in a laboratory"
                 loading="lazy"
                 decoding="async"
               />
@@ -297,30 +245,6 @@ const Home = () => {
                 decoding="async"
               />
             </div>
-            <div className="home-hero-card home-hero-card-pass">
-              <span className="home-hero-card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="m5 12 4 4L19 6" />
-                  <circle cx="12" cy="12" r="9" />
-                </svg>
-              </span>
-              <span>
-                <strong>98% Pass Rate</strong>
-                <small>Academic excellence</small>
-              </span>
-            </div>
-            <div className="home-hero-card home-hero-card-classroom">
-              <span className="home-hero-card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M3 9.5 12 5l9 4.5-9 4.5-9-4.5Z" />
-                  <path d="M7 12v4.5c2.8 2 7.2 2 10 0V12m4-2.5v6" />
-                </svg>
-              </span>
-              <span>
-                <strong>Smart Classrooms</strong>
-                <small>Learning without limits</small>
-              </span>
-            </div>
           </div>
         </div>
       </section>
@@ -328,13 +252,31 @@ const Home = () => {
       {/* ────────────────────────────────────────────────────────
           STATS SECTION 
       ───────────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-24 bg-slate-950 relative border-t border-slate-900 z-10">
+      <section aria-labelledby="school-stats-heading" className="relative z-10 border-t border-slate-900 bg-slate-950 py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {stats.map((s, idx) => (
-              <StatCounter key={s.label} value={s.value} label={s.label} delay={idx * 0.1} />
-            ))}
-          </div>
+          <h2 id="school-stats-heading" className="sr-only">School at a glance</h2>
+          {statsLoading ? (
+            <div role="status" aria-label="Loading school figures" className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+              {[0, 1].map((item) => (
+                <div key={item} className="flex min-h-36 flex-col items-center justify-center rounded-3xl border border-white/5 bg-slate-900/40 p-8">
+                  <span className="skeleton h-12 w-28" />
+                  <span className="skeleton mt-4 h-4 w-24" />
+                </div>
+              ))}
+            </div>
+          ) : stats.length > 0 ? (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+              {stats.map((stat, index) => (
+                <StatCounter key={stat.label} value={stat.value} label={stat.label} delay={index * 0.1} />
+              ))}
+            </div>
+          ) : (
+            <p role={statsError ? "alert" : "status"} className="mx-auto max-w-2xl text-center text-sm text-slate-400">
+              {statsError
+                ? "Current school figures are temporarily unavailable. Please contact the school for the latest information."
+                : "School figures will appear here when available."}
+            </p>
+          )}
         </div>
       </section>
 
@@ -683,14 +625,14 @@ const Home = () => {
               Ready to Shape Your <span className="text-emerald-400">Future?</span>
             </h2>
             <p className="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
-              Join thousands of successful alumni. Access your portal now to view schedules, grades, and school announcements.
+              Learn more about the school or sign in to the student and staff portal to view grades, schedules, and announcements.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link 
                 to="/login" 
                 className="px-10 py-5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-lg rounded-full transition-all hover:scale-105 shadow-[0_0_40px_rgba(16,185,129,0.4)]"
               >
-                Login to Portal
+                Student & Staff Portal
               </Link>
               <Link 
                 to="/contact" 
