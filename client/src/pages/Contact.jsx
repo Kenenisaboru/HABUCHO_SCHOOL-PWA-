@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import MainLayout from "../layouts/MainLayout";
-import PageHeader from "../components/PageHeader";
 import { submitContact } from "../services/authService";
 
 const contactItems = [
@@ -34,11 +33,30 @@ const Contact = () => {
 
   return (
     <MainLayout>
-      <PageHeader
-        badge="Get in Touch"
-        title="Contact Us"
-        subtitle="Reach out to the school administration — we're here to help"
-      />
+      <header className="relative isolate overflow-hidden border-b border-emerald-500/10 bg-slate-950 px-4 py-12 text-white sm:py-16">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(ellipse_at_right,rgba(16,185,129,0.16),transparent_70%)]"
+        />
+        <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-2xl">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-300">
+              Get in touch
+            </p>
+            <h1 className="font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+              How can we help?
+            </h1>
+            <p className="mt-3 max-w-xl text-base leading-relaxed text-slate-300">
+              Contact the Habucho school team with questions about admissions,
+              school life, or student support.
+            </p>
+          </div>
+          <a href="#contact-form" className="btn-primary shrink-0">
+            Send us a message
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </header>
 
       <section className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <div className="grid gap-10 lg:grid-cols-5">
@@ -60,7 +78,7 @@ const Contact = () => {
           </div>
 
           {/* Contact Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="card space-y-5 lg:col-span-3">
+          <form id="contact-form" onSubmit={handleSubmit(onSubmit)} className="card scroll-mt-24 space-y-5 lg:col-span-3">
             <div>
               <h2 className="font-display text-xl font-bold text-slate-900 dark:text-white">Send a Message</h2>
               <p className="mt-1 text-sm text-slate-500">We'll get back to you as soon as possible.</p>
