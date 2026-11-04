@@ -12,15 +12,23 @@ import {
   BookOpen,
   GraduationCap,
   MessageSquare,
+  Newspaper,
+  Images,
+  UsersRound,
 } from "lucide-react";
 
 export const adminLinks = [
-  { to: "/admin", label: "Admin Dashboard", icon: LayoutDashboard, end: true },
-  { to: "/admin/users", label: "Manage Users", icon: Users },
-  { to: "/admin/schedules", label: "Class Schedules", icon: CalendarDays },
-  { to: "/admin/announcements", label: "Announcements", icon: Megaphone },
-  { to: "/admin/messages", label: "Messages", icon: Mail },
-  { to: "/admin/profile", label: "Profile", icon: User },
+  // School Operations section
+  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true, section: "School Operations" },
+  { to: "/admin/users", label: "Manage Users", icon: Users, section: "School Operations" },
+  { to: "/admin/schedules", label: "Class Schedules", icon: CalendarDays, section: "School Operations" },
+  { to: "/admin/announcements", label: "Announcements", icon: Megaphone, section: "School Operations" },
+  { to: "/admin/messages", label: "Messages", icon: Mail, section: "School Operations" },
+  { to: "/admin/profile", label: "Profile", icon: User, section: "School Operations" },
+  // Website Management section
+  { to: "/admin/events", label: "News & Events", icon: Newspaper, section: "Website Management" },
+  { to: "/admin/gallery", label: "Gallery", icon: Images, section: "Website Management" },
+  { to: "/admin/staff", label: "Staff Profiles", icon: UsersRound, section: "Website Management" },
 ];
 
 export const teacherLinks = [
