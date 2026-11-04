@@ -17,6 +17,14 @@ const Sidebar = ({ links }) => {
         : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/50 dark:hover:text-slate-100"
     }`;
 
+  // Group links by section for organized navigation display
+  const groupedLinks = links.reduce((acc, link) => {
+    const section = link.section || "Navigation";
+    if (!acc[section]) acc[section] = [];
+    acc[section].push(link);
+    return acc;
+  }, {});
+
   return (
     <aside className="hidden w-64 shrink-0 flex-col border-r border-slate-200/80 bg-white dark:border-slate-800/60 dark:bg-slate-900 lg:flex">
       {/* School branding header */}
@@ -58,27 +66,31 @@ const Sidebar = ({ links }) => {
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto px-3 pb-4">
-        <p className="mb-2 px-1 text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">
-          Navigation
-        </p>
-        <div className="space-y-0.5">
-          {links.map((link) => (
-            <NavLink key={link.to} to={link.to} end={link.end} className={linkClass}>
-              {({ isActive }) => (
-                <>
-                  {/* Active indicator bar */}
-                  {isActive && (
-                    <span className="absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-r-full bg-primary dark:bg-emerald-400" />
+        {Object.entries(groupedLinks).map(([sectionName, sectionLinks]) => (
+          <div key={sectionName}>
+            <p className="mb-2 mt-4 px-1 text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">
+              {sectionName}
+            </p>
+            <div className="space-y-0.5">
+              {sectionLinks.map((link) => (
+                <NavLink key={link.to} to={link.to} end={link.end} className={linkClass}>
+                  {({ isActive }) => (
+                    <>
+                      {/* Active indicator bar */}
+                      {isActive && (
+                        <span className="absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-r-full bg-primary dark:bg-emerald-400" />
+                      )}
+                      <span className={`transition-transform duration-150 ${isActive ? "" : "group-hover:scale-110"}`}>
+                        {typeof link.icon === "function" ? <link.icon size={18} /> : <span className="text-lg">{link.icon}</span>}
+                      </span>
+                      {link.label}
+                    </>
                   )}
-                  <span className={`transition-transform duration-150 ${isActive ? "" : "group-hover:scale-110"}`}>
-                    {typeof link.icon === "function" ? <link.icon size={18} /> : <span className="text-lg">{link.icon}</span>}
-                  </span>
-                  {link.label}
-                </>
-              )}
-            </NavLink>
-          ))}
-        </div>
+                </NavLink>
+              ))}
+            </div>
+          </div>
+        ))}
       </nav>
 
       {/* Footer */}
