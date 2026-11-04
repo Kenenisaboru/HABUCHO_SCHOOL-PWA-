@@ -12,7 +12,7 @@ This plan implements Phase 1 MVP of the Habucho Preparatory School public websit
     - Follow the exact SQL from the design document's Migration 011 section
     - _Requirements: 9.1, 9.7, 9.8_
 
-  - [-] 1.2 Create migration 012: gallery_images table
+  - [x] 1.2 Create migration 012: gallery_images table
     - Create `server/migrations/012_create_gallery_images.sql` with the gallery_images table schema (id, title, caption, image_path, display_order, created_by, created_at, updated_at), indexes on display_order and created_at DESC, and the `update_gallery_images_updated_at` trigger
     - _Requirements: 9.2, 9.7, 9.8_
 
@@ -28,7 +28,7 @@ This plan implements Phase 1 MVP of the Habucho Preparatory School public websit
     - Create `server/migrations/015_create_academic_programs.sql` with the academic_programs table schema (id, name, description, category, display_order, is_active, created_by, created_at, updated_at), indexes on display_order, is_active, and category, and the `update_academic_programs_updated_at` trigger
     - _Requirements: 9.5, 9.7, 9.8_
 
-  - [-] 1.6 Create migration 016: website_settings table
+  - [x] 1.6 Create migration 016: website_settings table
     - Create `server/migrations/016_create_website_settings.sql` with the website_settings table schema (id, key UNIQUE, value, description, updated_by, updated_at) and index on key
     - No updated_at trigger needed for this table per design (only has updated_at, no created_at)
     - _Requirements: 9.6, 9.8_
@@ -82,14 +82,14 @@ This plan implements Phase 1 MVP of the Habucho Preparatory School public websit
     - **Property 4: Reference number uniqueness** — For any two distinct valid admission submissions, generated Reference_Numbers SHALL be different
     - **Validates: Requirements 3.7**
 
-- [ ] 3. Backend middleware — Extend upload and validation middleware
-  - [-] 3.1 Extend upload.js with documentUpload for PDF support
+- [x] 3. Backend middleware — Extend upload and validation middleware
+  - [x] 3.1 Extend upload.js with documentUpload for PDF support
     - Add `documentUpload` export to `server/middleware/upload.js` — a new multer instance accepting images (jpeg, png, gif, webp) AND PDFs with the same 5 MB limit
     - Add `DOCUMENT_ALLOWED_MIMES` set including `application/pdf`, `documentFileFilter` with magic-byte validation extended for PDF (%PDF prefix), and export `documentUpload`
     - Keep existing `upload` export unchanged
     - _Requirements: 3.3, 3.6_
 
-  - [-] 3.2 Extend validate.js with validation rules for events, staff, and admissions
+  - [x] 3.2 Extend validate.js with validation rules for events, staff, and admissions
     - Add to `server/middleware/validate.js`: `validateEvent`, `validateUpdateEvent`, `validateStaff`, `validateUpdateStaff`, `validateAdmissionStatus` following the existing `body()` + `handleValidationErrors` pattern
     - validateEvent: title required (max 255), content optional (max 10000), event_date optional ISO8601, category optional (max 50)
     - validateStaff: name required (max 100), title required (max 100), department/bio optional, display_order optional int
@@ -179,39 +179,39 @@ This plan implements Phase 1 MVP of the Habucho Preparatory School public websit
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 7. Frontend services — Create/extend service files for API communication
-  - [-] 7.1 Extend publicService.js with public API functions
+  - [x] 7.1 Extend publicService.js with public API functions
     - Add to `client/src/services/publicService.js`: `getAcademicPrograms()`, `getGalleryImages()`, `getPublicEvents()`, `submitAdmission(formData)` (POST with multipart/form-data header), `checkAdmissionStatus(referenceNumber)` (GET)
     - Keep existing `getPublicStats` export unchanged
     - _Requirements: 14.1_
 
-  - [~] 7.2 Create eventService.js
+  - [x] 7.2 Create eventService.js
     - Create `client/src/services/eventService.js` importing `api` from `./api`
     - Export: `getEvents(page, limit)`, `getEventById(id)`, `createEvent(formData)` (POST multipart), `updateEvent(id, formData)` (PUT multipart), `deleteEvent(id)`
     - _Requirements: 14.2_
 
-  - [~] 7.3 Create galleryService.js
+  - [x] 7.3 Create galleryService.js
     - Create `client/src/services/galleryService.js` importing `api` from `./api`
     - Export: `getGalleryImages()`, `createGalleryImage(formData)` (POST multipart), `deleteGalleryImage(id)`
     - _Requirements: 14.2_
 
-  - [~] 7.4 Create staffService.js
+  - [x] 7.4 Create staffService.js
     - Create `client/src/services/staffService.js` importing `api` from `./api`
     - Export: `getStaffProfiles()`, `getStaffProfileById(id)`, `createStaffProfile(formData)` (POST multipart), `updateStaffProfile(id, formData)` (PUT multipart), `deleteStaffProfile(id)`
     - _Requirements: 14.2_
 
-  - [~] 7.5 Create admissionService.js
+  - [-] 7.5 Create admissionService.js
     - Create `client/src/services/admissionService.js` importing `api` from `./api`
     - Export: `getAdmissions(page, limit)`, `getAdmissionById(id)`, `updateAdmissionStatus(id, status)` (PUT with `{ status }` body)
     - _Requirements: 14.2_
 
 - [ ] 8. Frontend navigation and config — Update navigation for new pages and sections
-  - [~] 8.1 Modify navLinks.js with section grouping for admin sidebar
+  - [-] 8.1 Modify navLinks.js with section grouping for admin sidebar
     - Update `client/src/config/navLinks.js` `adminLinks` array: add `section: "School Operations"` to all existing items, add 3 new items with `section: "Website Management"` (News & Events at `/admin/events` with `Newspaper` icon, Gallery at `/admin/gallery` with `Images` icon, Staff Profiles at `/admin/staff` with `UsersRound` icon)
     - Import `Newspaper`, `Images`, `UsersRound` from lucide-react
     - Keep `teacherLinks` and `studentLinks` unchanged
     - _Requirements: 10.1, 10.2, 10.4, 10.5_
 
-  - [~] 8.2 Modify Navbar.jsx with new public page links
+  - [-] 8.2 Modify Navbar.jsx with new public page links
     - Add to the `navLinks` array in `client/src/components/Navbar.jsx`: `{ to: "/academics", label: "Academics", icon: BookOpen }`, `{ to: "/admissions", label: "Admissions", icon: GraduationCap }`, `{ to: "/gallery", label: "Gallery", icon: Images }` between About and News
     - Import `BookOpen`, `GraduationCap`, `Images` from lucide-react
     - _Requirements: 13.5_
