@@ -6,7 +6,7 @@ This plan implements Phase 1 MVP of the Habucho Preparatory School public websit
 
 ## Tasks
 
-- [ ] 1. Database migrations — Create 6 new migration files (011-016)
+- [x] 1. Database migrations — Create 6 new migration files (011-016)
   - [x] 1.1 Create migration 011: events table
     - Create `server/migrations/011_create_events.sql` with the events table schema (id, title, content, event_date, category, status, image_path, created_by, created_at, updated_at), indexes on event_date DESC, category, and status, and the `update_events_updated_at` BEFORE UPDATE trigger using the existing `update_updated_at_column()` function
     - Follow the exact SQL from the design document's Migration 011 section
@@ -24,7 +24,7 @@ This plan implements Phase 1 MVP of the Habucho Preparatory School public websit
     - Create `server/migrations/014_create_staff_profiles.sql` with the staff_profiles table schema (id, name, title, department, bio, photo_path, display_order, is_active, created_by, created_at, updated_at), indexes on display_order and is_active, and the `update_staff_profiles_updated_at` trigger
     - _Requirements: 9.4, 9.7, 9.8_
 
-  - [ ] 1.5 Create migration 015: academic_programs table
+  - [x] 1.5 Create migration 015: academic_programs table
     - Create `server/migrations/015_create_academic_programs.sql` with the academic_programs table schema (id, name, description, category, display_order, is_active, created_by, created_at, updated_at), indexes on display_order, is_active, and category, and the `update_academic_programs_updated_at` trigger
     - _Requirements: 9.5, 9.7, 9.8_
 
@@ -38,30 +38,30 @@ This plan implements Phase 1 MVP of the Habucho Preparatory School public websit
     - **Validates: Requirements 9.7**
 
 - [ ] 2. Backend models — Create/extend model files for new entities
-  - [~] 2.1 Extend publicModel.js with program, gallery, and event queries
+  - [ ] 2.1 Extend publicModel.js with program, gallery, and event queries
     - Add `getActivePrograms()`, `getGalleryImages()`, and `getPublishedEvents()` functions to `server/models/publicModel.js` following the existing `pool.query` pattern
     - `getActivePrograms`: SELECT from academic_programs WHERE is_active = TRUE ORDER BY display_order, id
     - `getGalleryImages`: SELECT from gallery_images ORDER BY display_order, id
     - `getPublishedEvents`: SELECT from events WHERE status = 'published' ORDER BY event_date DESC, id
     - _Requirements: 11.1, 11.2, 11.3_
 
-  - [~] 2.2 Create eventModel.js with CRUD functions
+  - [x] 2.2 Create eventModel.js with CRUD functions
     - Create `server/models/eventModel.js` importing `pool` from `config/db.js`
     - Export: `getAllEvents({ limit, offset })` (paginated with count), `getEventById(id)`, `createEvent({ title, content, event_date, category, status, image_path, created_by })`, `updateEvent(id, fields)` using COALESCE pattern, `deleteEvent(id)`, `countEvents()`
     - Follow the exact queries from the design document's eventModel.js section
     - _Requirements: 6.3, 6.4, 6.5, 12.1_
 
-  - [~] 2.3 Create galleryModel.js with CRUD functions
+  - [x] 2.3 Create galleryModel.js with CRUD functions
     - Create `server/models/galleryModel.js` importing `pool` from `config/db.js`
     - Export: `getAllGalleryImages()`, `createGalleryImage({ title, caption, image_path, display_order, created_by })`, `deleteGalleryImage(id)` (returns image_path for file cleanup), `countGalleryImages()`
     - _Requirements: 7.3, 7.4, 12.2_
 
-  - [~] 2.4 Create staffModel.js with CRUD functions
+  - [x] 2.4 Create staffModel.js with CRUD functions
     - Create `server/models/staffModel.js` importing `pool` from `config/db.js`
     - Export: `getAllStaffProfiles()`, `getStaffProfileById(id)`, `createStaffProfile({ name, title, department, bio, photo_path, display_order, created_by })`, `updateStaffProfile(id, fields)` using COALESCE pattern including is_active, `deleteStaffProfile(id)` (returns photo_path for file cleanup), `countStaffProfiles()`
     - _Requirements: 8.3, 8.4, 8.5, 12.3_
 
-  - [~] 2.5 Create admissionModel.js with application CRUD functions
+  - [x] 2.5 Create admissionModel.js with application CRUD functions
     - Create `server/models/admissionModel.js` importing `pool` from `config/db.js`
     - Export: `getAllApplications({ limit, offset })` (paginated with count), `getApplicationById(id)`, `getByReferenceNumber(referenceNumber)`, `createApplication(data)` (inserts all 13 fields + document_paths array + status 'pending'), `updateStatus(id, { status, reviewed_by, reviewed_at })`
     - _Requirements: 3.4, 4.2, 12.4, 12.5_
@@ -101,20 +101,20 @@ This plan implements Phase 1 MVP of the Habucho Preparatory School public websit
     - **Validates: Requirements 3.5, 6.6, 8.6**
 
 - [ ] 4. Backend controllers — Create/extend controller files for new entities
-  - [~] 4.1 Extend publicController.js with public endpoint handlers
+  - [-] 4.1 Extend publicController.js with public endpoint handlers
     - Add to `server/controllers/publicController.js`: `getPublicPrograms`, `getPublicGallery`, `getPublicEvents`, `submitAdmission`, `getAdmissionStatus`
     - `submitAdmission` uses `documentUpload` middleware (applied in routes), extracts `req.body` fields and `req.files` paths, generates reference number via `generateReferenceNumber()` (crypto.randomBytes), calls `AdmissionModel.createApplication`, returns `{ referenceNumber }` with 201 status
     - `getAdmissionStatus` queries by `req.params.referenceNumber`, returns `{ status, applicantName, submittedAt }` or 404
     - Import `AdmissionModel` and `crypto` as needed; use existing `sendSuccess`/`sendError` helpers
     - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 11.8_
 
-  - [~] 4.2 Create eventController.js with CRUD handlers
+  - [-] 4.2 Create eventController.js with CRUD handlers
     - Create `server/controllers/eventController.js` importing `* as EventModel` and `sendSuccess`/`sendError`/`getPagination`
     - Export: `getEvents` (paginated), `getEventById`, `createEvent` (extracts image_path from `req.file`, sets `created_by` from `req.user.id`), `updateEvent` (extracts image_path from `req.file`), `deleteEvent`
     - `deleteEvent` should also `fs.unlink` the image file if one exists, catching errors gracefully
     - _Requirements: 6.3, 6.4, 6.5, 12.1, 12.7, 12.8_
 
-  - [~] 4.3 Create galleryController.js with CRUD handlers
+  - [ ] 4.3 Create galleryController.js with CRUD handlers
     - Create `server/controllers/galleryController.js` importing `* as GalleryModel` and `sendSuccess`/`sendError`
     - Export: `getGalleryImages`, `createGalleryImage` (extracts image_path from `req.file`, sets `created_by` from `req.user.id`), `deleteGalleryImage` (uses model's returned `image_path` to `fs.unlink` the file)
     - _Requirements: 7.3, 7.4, 12.2, 12.8_
@@ -178,7 +178,7 @@ This plan implements Phase 1 MVP of the Habucho Preparatory School public websit
 - [~] 6. Checkpoint — Backend complete
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 7. Frontend services — Create/extend service files for API communication
+- [x] 7. Frontend services — Create/extend service files for API communication
   - [x] 7.1 Extend publicService.js with public API functions
     - Add to `client/src/services/publicService.js`: `getAcademicPrograms()`, `getGalleryImages()`, `getPublicEvents()`, `submitAdmission(formData)` (POST with multipart/form-data header), `checkAdmissionStatus(referenceNumber)` (GET)
     - Keep existing `getPublicStats` export unchanged
@@ -199,24 +199,24 @@ This plan implements Phase 1 MVP of the Habucho Preparatory School public websit
     - Export: `getStaffProfiles()`, `getStaffProfileById(id)`, `createStaffProfile(formData)` (POST multipart), `updateStaffProfile(id, formData)` (PUT multipart), `deleteStaffProfile(id)`
     - _Requirements: 14.2_
 
-  - [-] 7.5 Create admissionService.js
+  - [x] 7.5 Create admissionService.js
     - Create `client/src/services/admissionService.js` importing `api` from `./api`
     - Export: `getAdmissions(page, limit)`, `getAdmissionById(id)`, `updateAdmissionStatus(id, status)` (PUT with `{ status }` body)
     - _Requirements: 14.2_
 
-- [ ] 8. Frontend navigation and config — Update navigation for new pages and sections
-  - [-] 8.1 Modify navLinks.js with section grouping for admin sidebar
+- [x] 8. Frontend navigation and config — Update navigation for new pages and sections
+  - [x] 8.1 Modify navLinks.js with section grouping for admin sidebar
     - Update `client/src/config/navLinks.js` `adminLinks` array: add `section: "School Operations"` to all existing items, add 3 new items with `section: "Website Management"` (News & Events at `/admin/events` with `Newspaper` icon, Gallery at `/admin/gallery` with `Images` icon, Staff Profiles at `/admin/staff` with `UsersRound` icon)
     - Import `Newspaper`, `Images`, `UsersRound` from lucide-react
     - Keep `teacherLinks` and `studentLinks` unchanged
     - _Requirements: 10.1, 10.2, 10.4, 10.5_
 
-  - [-] 8.2 Modify Navbar.jsx with new public page links
+  - [x] 8.2 Modify Navbar.jsx with new public page links
     - Add to the `navLinks` array in `client/src/components/Navbar.jsx`: `{ to: "/academics", label: "Academics", icon: BookOpen }`, `{ to: "/admissions", label: "Admissions", icon: GraduationCap }`, `{ to: "/gallery", label: "Gallery", icon: Images }` between About and News
     - Import `BookOpen`, `GraduationCap`, `Images` from lucide-react
     - _Requirements: 13.5_
 
-  - [~] 8.3 Modify Sidebar.jsx to render section labels
+  - [x] 8.3 Modify Sidebar.jsx to render section labels
     - Update `client/src/components/Sidebar.jsx` to group `links` by their `section` field using `reduce`, then render each group with a non-clickable section label header (`<p>` with uppercase tracking-widest styling) above its links
     - Replace the single "Navigation" label and flat link list with the grouped rendering pattern from the design document
     - _Requirements: 10.3_
