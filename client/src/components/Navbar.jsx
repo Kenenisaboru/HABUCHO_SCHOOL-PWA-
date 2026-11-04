@@ -4,7 +4,7 @@
  */
 import { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Home, School, Megaphone, CalendarDays, MessageSquare } from "lucide-react";
+import { Home, School, Megaphone, CalendarDays, MessageSquare, BookOpen, GraduationCap, Images } from "lucide-react";
 import useAuthStore from "../context/authStore";
 import { useTheme } from "../context/ThemeContext";
 import { getDashboardPath } from "../utils/helpers";
@@ -49,6 +49,9 @@ const Navbar = () => {
   const navLinks = [
     { to: "/", label: "Home", icon: Home },
     { to: "/about", label: "About", icon: School },
+    { to: "/academics", label: "Academics", icon: BookOpen },
+    { to: "/admissions", label: "Admissions", icon: GraduationCap },
+    { to: "/gallery", label: "Gallery", icon: Images },
     { to: "/announcements", label: "News", icon: Megaphone },
     { to: "/schedule", label: "Schedule", icon: CalendarDays },
     { to: "/contact", label: "Contact", icon: MessageSquare },
