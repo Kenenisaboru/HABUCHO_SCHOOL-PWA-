@@ -227,3 +227,97 @@ export const validateContact = [
     .isLength({ max: 2000 }).withMessage("Message must not exceed 2000 characters"),
   handleValidationErrors,
 ];
+
+/** Validation rules for creating an event */
+export const validateEvent = [
+  body("title")
+    .trim()
+    .notEmpty().withMessage("Title is required")
+    .isLength({ max: 255 }).withMessage("Title must not exceed 255 characters"),
+  body("content")
+    .optional()
+    .isLength({ max: 10000 }).withMessage("Content must not exceed 10000 characters"),
+  body("event_date")
+    .optional()
+    .isISO8601().withMessage("Invalid date format"),
+  body("category")
+    .optional()
+    .isLength({ max: 50 }).withMessage("Category must not exceed 50 characters"),
+  handleValidationErrors,
+];
+
+/** Validation rules for updating an event — all fields optional */
+export const validateUpdateEvent = [
+  body("title")
+    .optional()
+    .trim()
+    .isLength({ max: 255 }).withMessage("Title must not exceed 255 characters"),
+  body("content")
+    .optional()
+    .isLength({ max: 10000 }).withMessage("Content must not exceed 10000 characters"),
+  body("event_date")
+    .optional()
+    .isISO8601().withMessage("Invalid date format"),
+  body("category")
+    .optional()
+    .isLength({ max: 50 }).withMessage("Category must not exceed 50 characters"),
+  body("status")
+    .optional()
+    .isIn(["published", "draft"]).withMessage("Status must be published or draft"),
+  handleValidationErrors,
+];
+
+/** Validation rules for creating a staff profile */
+export const validateStaff = [
+  body("name")
+    .trim()
+    .notEmpty().withMessage("Name is required")
+    .isLength({ max: 100 }).withMessage("Name must not exceed 100 characters"),
+  body("title")
+    .trim()
+    .notEmpty().withMessage("Title is required")
+    .isLength({ max: 100 }).withMessage("Title must not exceed 100 characters"),
+  body("department")
+    .optional()
+    .isLength({ max: 100 }).withMessage("Department must not exceed 100 characters"),
+  body("bio")
+    .optional()
+    .isLength({ max: 5000 }).withMessage("Bio must not exceed 5000 characters"),
+  body("display_order")
+    .optional()
+    .isInt({ min: 0 }).withMessage("Display order must be a non-negative integer"),
+  handleValidationErrors,
+];
+
+/** Validation rules for updating a staff profile — all fields optional */
+export const validateUpdateStaff = [
+  body("name")
+    .optional()
+    .trim()
+    .isLength({ max: 100 }).withMessage("Name must not exceed 100 characters"),
+  body("title")
+    .optional()
+    .trim()
+    .isLength({ max: 100 }).withMessage("Title must not exceed 100 characters"),
+  body("department")
+    .optional()
+    .isLength({ max: 100 }).withMessage("Department must not exceed 100 characters"),
+  body("bio")
+    .optional()
+    .isLength({ max: 5000 }).withMessage("Bio must not exceed 5000 characters"),
+  body("display_order")
+    .optional()
+    .isInt({ min: 0 }).withMessage("Display order must be a non-negative integer"),
+  body("is_active")
+    .optional()
+    .isBoolean().withMessage("is_active must be a boolean"),
+  handleValidationErrors,
+];
+
+/** Validation rules for updating admission application status */
+export const validateAdmissionStatus = [
+  body("status")
+    .isIn(["pending", "under_review", "approved", "rejected"])
+    .withMessage("Status must be pending, under_review, approved, or rejected"),
+  handleValidationErrors,
+];
