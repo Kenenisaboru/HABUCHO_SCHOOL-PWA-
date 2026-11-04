@@ -100,10 +100,10 @@ const documentFileFilter = async (req, file, cb) => {
     const type = await fileTypeFromBuffer(buffer.subarray(0, bytesRead));
     if (type && DOCUMENT_ALLOWED_MIMES.has(type.mime)) {
       cb(null, true);
-    } else if (buffer.subarray(0, 4).toString("latin1") === "%PDF") {
-      cb(null, true); // PDF magic bytes
     } else if (DOCUMENT_ALLOWED_MIMES.has(file.mimetype)) {
       cb(null, true);
+    } else if (buffer.subarray(0, 4).toString("ascii") === "%PDF") {
+      cb(null, true); // PDF magic bytes
     } else {
       cb(new Error("File content does not match allowed types"), false);
     }
