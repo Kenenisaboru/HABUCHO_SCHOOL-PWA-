@@ -28,7 +28,7 @@ This plan implements Phase 1 MVP of the Habucho Preparatory School public websit
     - Create `server/migrations/015_create_academic_programs.sql` with the academic_programs table schema (id, name, description, category, display_order, is_active, created_by, created_at, updated_at), indexes on display_order, is_active, and category, and the `update_academic_programs_updated_at` trigger
     - _Requirements: 9.5, 9.7, 9.8_
 
-  - [~] 1.6 Create migration 016: website_settings table
+  - [-] 1.6 Create migration 016: website_settings table
     - Create `server/migrations/016_create_website_settings.sql` with the website_settings table schema (id, key UNIQUE, value, description, updated_by, updated_at) and index on key
     - No updated_at trigger needed for this table per design (only has updated_at, no created_at)
     - _Requirements: 9.6, 9.8_
@@ -83,13 +83,13 @@ This plan implements Phase 1 MVP of the Habucho Preparatory School public websit
     - **Validates: Requirements 3.7**
 
 - [ ] 3. Backend middleware — Extend upload and validation middleware
-  - [~] 3.1 Extend upload.js with documentUpload for PDF support
+  - [-] 3.1 Extend upload.js with documentUpload for PDF support
     - Add `documentUpload` export to `server/middleware/upload.js` — a new multer instance accepting images (jpeg, png, gif, webp) AND PDFs with the same 5 MB limit
     - Add `DOCUMENT_ALLOWED_MIMES` set including `application/pdf`, `documentFileFilter` with magic-byte validation extended for PDF (%PDF prefix), and export `documentUpload`
     - Keep existing `upload` export unchanged
     - _Requirements: 3.3, 3.6_
 
-  - [~] 3.2 Extend validate.js with validation rules for events, staff, and admissions
+  - [-] 3.2 Extend validate.js with validation rules for events, staff, and admissions
     - Add to `server/middleware/validate.js`: `validateEvent`, `validateUpdateEvent`, `validateStaff`, `validateUpdateStaff`, `validateAdmissionStatus` following the existing `body()` + `handleValidationErrors` pattern
     - validateEvent: title required (max 255), content optional (max 10000), event_date optional ISO8601, category optional (max 50)
     - validateStaff: name required (max 100), title required (max 100), department/bio optional, display_order optional int
@@ -179,7 +179,7 @@ This plan implements Phase 1 MVP of the Habucho Preparatory School public websit
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 7. Frontend services — Create/extend service files for API communication
-  - [~] 7.1 Extend publicService.js with public API functions
+  - [-] 7.1 Extend publicService.js with public API functions
     - Add to `client/src/services/publicService.js`: `getAcademicPrograms()`, `getGalleryImages()`, `getPublicEvents()`, `submitAdmission(formData)` (POST with multipart/form-data header), `checkAdmissionStatus(referenceNumber)` (GET)
     - Keep existing `getPublicStats` export unchanged
     - _Requirements: 14.1_
