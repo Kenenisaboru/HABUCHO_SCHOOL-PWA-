@@ -22,8 +22,8 @@ const StatCounter = ({ value, label, delay }) => {
     : value;
   return (
     <div className="group relative flex flex-col items-center justify-center p-8 rounded-3xl bg-slate-900/40 border border-white/5 backdrop-blur-md overflow-hidden hover:bg-slate-800/60 transition-all duration-500" style={{ animation: `fade-in-up 0.8s ease-out ${delay}s forwards`, opacity: 0 }}>
-      <div className="absolute inset-0 bg-linear-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      <h3 className="text-5xl md:text-6xl font-black bg-clip-text text-transparent bg-linear-to-r from-emerald-400 to-teal-300 tabular-nums z-10 mb-2 drop-shadow-lg">
+      <div className="absolute inset-0 bg-linear-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <h3 className="text-5xl md:text-6xl font-black bg-clip-text text-transparent bg-linear-to-r from-blue-400 via-sky-300 to-amber-300 tabular-nums z-10 mb-2 drop-shadow-lg">
         {display}
       </h3>
       <p className="text-sm font-medium uppercase tracking-[0.2em] text-slate-400 z-10">
@@ -38,18 +38,18 @@ const Home = () => {
   const [activeCategory, setActiveCategory] = useState("all");
 
   useEffect(() => {
-    document.title = "Habucho Preparatory School — Home";
+    document.title = "Habucho Preparatory School Ã¢â‚¬â€ Home";
   }, []);
 
   const { data: statsData, loading: statsLoading, error: statsError } = useFetch(getPublicStats, []);
 
   const features = [
-    { icon: "🎓", title: "Elite Curriculum", desc: "Advanced placement tracks designed to guarantee university admission.", gradient: "from-emerald-400/20 to-teal-900/40" },
-    { icon: "👨‍🔬", title: "Modern Labs", desc: "State-of-the-art facilities for physics, chemistry, and computer science.", gradient: "from-blue-400/20 to-indigo-900/40" },
-    { icon: "📊", title: "Real-time Tracking", desc: "Instant access to grades, attendance, and academic analytics.", gradient: "from-violet-400/20 to-purple-900/40" },
-    { icon: "🌐", title: "Digital Campus", desc: "Fully integrated digital ecosystem for assignments and resources.", gradient: "from-amber-400/20 to-orange-900/40" },
-    { icon: "🛡️", title: "Secure Portal", desc: "Enterprise-grade security protecting all student and staff data.", gradient: "from-rose-400/20 to-red-900/40" },
-    { icon: "🤝", title: "Active Community", desc: "Vibrant clubs, sports, and extracurricular networks.", gradient: "from-cyan-400/20 to-blue-900/40" },
+    { icon: "Ã°Å¸Å½â€œ", title: "Elite Curriculum", desc: "Advanced placement tracks designed to guarantee university admission.", gradient: "from-emerald-400/20 to-teal-900/40" },
+    { icon: "Ã°Å¸â€˜Â¨Ã¢â‚¬ÂÃ°Å¸â€Â¬", title: "Modern Labs", desc: "State-of-the-art facilities for physics, chemistry, and computer science.", gradient: "from-blue-400/20 to-indigo-900/40" },
+    { icon: "Ã°Å¸â€œÅ ", title: "Real-time Tracking", desc: "Instant access to grades, attendance, and academic analytics.", gradient: "from-violet-400/20 to-purple-900/40" },
+    { icon: "Ã°Å¸Å’Â", title: "Digital Campus", desc: "Fully integrated digital ecosystem for assignments and resources.", gradient: "from-amber-400/20 to-orange-900/40" },
+    { icon: "Ã°Å¸â€ºÂ¡Ã¯Â¸Â", title: "Secure Portal", desc: "Enterprise-grade security protecting all student and staff data.", gradient: "from-rose-400/20 to-red-900/40" },
+    { icon: "Ã°Å¸Â¤Â", title: "Active Community", desc: "Vibrant clubs, sports, and extracurricular networks.", gradient: "from-cyan-400/20 to-blue-900/40" },
   ];
 
   const stats = [
@@ -178,9 +178,9 @@ const Home = () => {
         }
       `}</style>
 
-      {/* ────────────────────────────────────────────────────────
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
           HERO SECTION 
-      ───────────────────────────────────────────────────────── */}
+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <section className="home-hero relative isolate overflow-hidden px-4 py-16 text-white sm:px-6 sm:py-20 lg:min-h-[calc(100svh-4.25rem)] lg:py-14">
         <div className="home-hero-glow" aria-hidden="true" />
         <div className="home-hero-grid relative z-10 mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-2 lg:gap-8">
@@ -200,19 +200,22 @@ const Home = () => {
               get in touch with the school about admissions.
             </p>
 
-            <div className="home-hero-actions">
-              <Link to="/contact" className="home-hero-primary">
-                Ask about admissions
+            <div className="home-hero-actions flex-wrap gap-3">
+              <Link to="/admissions" className="home-hero-primary shadow-lg shadow-blue-500/25">
+                Apply for Admission
                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12h14m-6-6 6 6-6 6" />
                 </svg>
               </Link>
-              <Link to="/about" className="home-hero-secondary">
+              <Link to="/academics" className="home-hero-secondary">
                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
                   <circle cx="12" cy="12" r="9" />
                   <path d="m10 8 6 4-6 4V8Z" />
                 </svg>
-                Discover the school
+                Explore Academics
+              </Link>
+              <Link to="/gallery" className="home-hero-secondary border-amber-400/40 text-amber-300 hover:text-white">
+                Campus Gallery
               </Link>
             </div>
           </div>
@@ -249,9 +252,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ────────────────────────────────────────────────────────
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
           STATS SECTION 
-      ───────────────────────────────────────────────────────── */}
+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <section aria-labelledby="school-stats-heading" className="relative z-10 border-t border-slate-900 bg-slate-950 py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 id="school-stats-heading" className="sr-only">School at a glance</h2>
@@ -280,16 +283,16 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ────────────────────────────────────────────────────────
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
           FEATURES SECTION 
-      ───────────────────────────────────────────────────────── */}
+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <section className="py-32 bg-slate-900 relative overflow-hidden">
         {/* Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal className="text-center mb-20">
-            <h2 className="text-emerald-400 font-semibold tracking-widest uppercase text-sm mb-3">Why Choose Habucho</h2>
+            <h2 className="text-blue-400 font-semibold tracking-widest uppercase text-sm mb-3">Why Choose Habucho</h2>
             <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">Engineered for Excellence</h3>
             <p className="text-slate-400 max-w-2xl mx-auto text-lg">
               We provide a holistic educational environment supported by modern infrastructure and digital tools.
@@ -305,7 +308,7 @@ const Home = () => {
                     <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-3xl mb-6 shadow-lg border border-slate-700 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
                       {f.icon}
                     </div>
-                    <h4 className="text-xl font-bold text-white mb-3 group-hover:text-emerald-400 transition-colors">{f.title}</h4>
+                    <h4 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">{f.title}</h4>
                     <p className="text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors">
                       {f.desc}
                     </p>
@@ -317,12 +320,12 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ────────────────────────────────────────────────────────
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
           WHAT THIS WEBSITE DOES / PLATFORM CAPABILITIES SECTION 
-      ───────────────────────────────────────────────────────── */}
+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <section className="py-32 bg-slate-950 relative overflow-hidden border-t border-slate-900">
         {/* Glow ambient backgrounds */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-200 h-125 bg-linear-to-r from-emerald-500/10 via-teal-500/10 to-indigo-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-200 h-125 bg-linear-to-r from-blue-500/10 via-teal-500/10 to-indigo-500/10 rounded-full blur-[140px] pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal className="text-center mb-20">
@@ -346,9 +349,9 @@ const Home = () => {
               <div className="glass-panel rounded-3xl p-8 h-full flex flex-col border border-slate-800 hover:border-emerald-500/40 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(16,185,129,0.12)]">
                 <div className="flex items-center justify-between mb-6">
                   <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-                    🎓
+                    Ã°Å¸Å½â€œ
                   </div>
-                  <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-emerald-500/10 text-blue-400 border border-emerald-500/20">
                     Student Portal
                   </span>
                 </div>
@@ -360,25 +363,25 @@ const Home = () => {
                 </p>
                 <ul className="space-y-3 text-sm text-slate-300 grow mb-8">
                   <li className="flex items-start gap-3">
-                    <span className="text-emerald-400 font-bold shrink-0">✓</span>
+                    <span className="text-blue-400 font-bold shrink-0">Ã¢Å“â€œ</span>
                     <span><strong>Live Gradebook & Scorecards:</strong> View semester assessments, midterms, and final exam marks in real-time.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-emerald-400 font-bold shrink-0">✓</span>
+                    <span className="text-blue-400 font-bold shrink-0">Ã¢Å“â€œ</span>
                     <span><strong>Instant PDF Report Cards:</strong> Download official, printable student report cards with calculated ranks.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-emerald-400 font-bold shrink-0">✓</span>
-                    <span><strong>Interactive Timetables:</strong> Access weekly period schedules for all grades (9–12) and streams.</span>
+                    <span className="text-blue-400 font-bold shrink-0">Ã¢Å“â€œ</span>
+                    <span><strong>Interactive Timetables:</strong> Access weekly period schedules for all grades (9Ã¢â‚¬â€œ12) and streams.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-emerald-400 font-bold shrink-0">✓</span>
+                    <span className="text-blue-400 font-bold shrink-0">Ã¢Å“â€œ</span>
                     <span><strong>Official Notice Board:</strong> Receive immediate school updates, exam dates, and event broadcasts.</span>
                   </li>
                 </ul>
-                <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-emerald-400 font-semibold">
+                <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-blue-400 font-semibold">
                   <span>Self-service Academic Hub</span>
-                  <span>Fast & Mobile-Ready →</span>
+                  <span>Fast & Mobile-Ready Ã¢â€ â€™</span>
                 </div>
               </div>
             </Reveal>
@@ -388,7 +391,7 @@ const Home = () => {
               <div className="glass-panel rounded-3xl p-8 h-full flex flex-col border border-slate-800 hover:border-teal-500/40 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(20,184,166,0.12)]">
                 <div className="flex items-center justify-between mb-6">
                   <div className="w-14 h-14 rounded-2xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-                    👨‍🏫
+                    Ã°Å¸â€˜Â¨Ã¢â‚¬ÂÃ°Å¸ÂÂ«
                   </div>
                   <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/20">
                     Teacher Suite
@@ -402,25 +405,25 @@ const Home = () => {
                 </p>
                 <ul className="space-y-3 text-sm text-slate-300 grow mb-8">
                   <li className="flex items-start gap-3">
-                    <span className="text-teal-400 font-bold shrink-0">✓</span>
+                    <span className="text-teal-400 font-bold shrink-0">Ã¢Å“â€œ</span>
                     <span><strong>Fast Score Entry:</strong> Input marks for quizzes, tests, projects, and final exams with one click.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-teal-400 font-bold shrink-0">✓</span>
+                    <span className="text-teal-400 font-bold shrink-0">Ã¢Å“â€œ</span>
                     <span><strong>Automatic Computation:</strong> Instant calculation of totals, semester averages, rankings, and pass/fail statuses.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-teal-400 font-bold shrink-0">✓</span>
+                    <span className="text-teal-400 font-bold shrink-0">Ã¢Å“â€œ</span>
                     <span><strong>Assigned Class Management:</strong> Filter and manage students by grade, section, and subject track.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-teal-400 font-bold shrink-0">✓</span>
+                    <span className="text-teal-400 font-bold shrink-0">Ã¢Å“â€œ</span>
                     <span><strong>Teaching Schedule:</strong> Personal teaching timetables accessible from any device.</span>
                   </li>
                 </ul>
                 <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-teal-400 font-semibold">
                   <span>Automated Grading Suite</span>
-                  <span>Paperless Workflow →</span>
+                  <span>Paperless Workflow Ã¢â€ â€™</span>
                 </div>
               </div>
             </Reveal>
@@ -430,7 +433,7 @@ const Home = () => {
               <div className="glass-panel rounded-3xl p-8 h-full flex flex-col border border-slate-800 hover:border-cyan-500/40 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(6,182,212,0.12)]">
                 <div className="flex items-center justify-between mb-6">
                   <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-                    🏛️
+                    Ã°Å¸Ââ€ºÃ¯Â¸Â
                   </div>
                   <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
                     Admin Command
@@ -444,25 +447,25 @@ const Home = () => {
                 </p>
                 <ul className="space-y-3 text-sm text-slate-300 grow mb-8">
                   <li className="flex items-start gap-3">
-                    <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                    <span className="text-cyan-400 font-bold shrink-0">Ã¢Å“â€œ</span>
                     <span><strong>User Account Management:</strong> Create, manage, and verify student, teacher, and administrator accounts.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                    <span className="text-cyan-400 font-bold shrink-0">Ã¢Å“â€œ</span>
                     <span><strong>Class & Stream Allocations:</strong> Assign teachers to sections and organize Natural/Social science tracks.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                    <span className="text-cyan-400 font-bold shrink-0">Ã¢Å“â€œ</span>
                     <span><strong>Central Announcement Dispatch:</strong> Broadcast high-priority alerts with category badges school-wide.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                    <span className="text-cyan-400 font-bold shrink-0">Ã¢Å“â€œ</span>
                     <span><strong>School Analytics & Security:</strong> Monitor enrollment figures, academic averages, and audit access logs.</span>
                   </li>
                 </ul>
                 <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-cyan-400 font-semibold">
                   <span>Central Operations Control</span>
-                  <span>Full Institutional Visibility →</span>
+                  <span>Full Institutional Visibility Ã¢â€ â€™</span>
                 </div>
               </div>
             </Reveal>
@@ -477,15 +480,15 @@ const Home = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               
               <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800/80 hover:border-emerald-500/30 transition-all group">
-                <div className="text-3xl mb-4">⚡</div>
-                <h5 className="text-white font-bold text-lg mb-2 group-hover:text-emerald-400 transition-colors">Offline-Ready PWA</h5>
+                <div className="text-3xl mb-4">Ã¢Å¡Â¡</div>
+                <h5 className="text-white font-bold text-lg mb-2 group-hover:text-blue-400 transition-colors">Offline-Ready PWA</h5>
                 <p className="text-slate-400 text-xs leading-relaxed">
                   Installable on phones, tablets, and laptops. Caches key schedules and scorecards for offline viewing even without internet.
                 </p>
               </div>
 
               <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800/80 hover:border-teal-500/30 transition-all group">
-                <div className="text-3xl mb-4">📄</div>
+                <div className="text-3xl mb-4">Ã°Å¸â€œâ€ž</div>
                 <h5 className="text-white font-bold text-lg mb-2 group-hover:text-teal-400 transition-colors">Auto PDF Transcripts</h5>
                 <p className="text-slate-400 text-xs leading-relaxed">
                   Instantly compiles marks into official, formatted PDF report cards ready for print, parent distribution, or university applications.
@@ -493,7 +496,7 @@ const Home = () => {
               </div>
 
               <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800/80 hover:border-cyan-500/30 transition-all group">
-                <div className="text-3xl mb-4">📊</div>
+                <div className="text-3xl mb-4">Ã°Å¸â€œÅ </div>
                 <h5 className="text-white font-bold text-lg mb-2 group-hover:text-cyan-400 transition-colors">Intelligent Ranking</h5>
                 <p className="text-slate-400 text-xs leading-relaxed">
                   Automated computation algorithms sort class percentiles, total point averages, and rank standings without manual errors.
@@ -501,7 +504,7 @@ const Home = () => {
               </div>
 
               <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800/80 hover:border-indigo-500/30 transition-all group">
-                <div className="text-3xl mb-4">🔒</div>
+                <div className="text-3xl mb-4">Ã°Å¸â€â€™</div>
                 <h5 className="text-white font-bold text-lg mb-2 group-hover:text-indigo-400 transition-colors">Protected & Encrypted</h5>
                 <p className="text-slate-400 text-xs leading-relaxed">
                   JWT-authenticated sessions and role-guard middleware safeguard all student records, passwords, and sensitive exam marks.
@@ -514,9 +517,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ────────────────────────────────────────────────────────
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
           TESTIMONIALS SECTION 
-      ───────────────────────────────────────────────────────── */}
+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <section className="py-32 bg-slate-950 relative">
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1/3 h-full bg-emerald-900/10 filter blur-[120px] rounded-full pointer-events-none"></div>
 
@@ -532,9 +535,9 @@ const Home = () => {
           {/* Category Filter Tabs */}
           <div className="flex flex-wrap justify-center gap-3 mb-12">
             {[
-              { id: "all", label: "🌟 All Achievers", count: testimonials.length },
-              { id: "scholars", label: "🎓 University Scholars", count: testimonials.filter((t) => t.category === "scholars").length },
-              { id: "elite", label: "💼 Industry & Banking Elite", count: testimonials.filter((t) => t.category === "elite").length },
+              { id: "all", label: "Ã°Å¸Å’Å¸ All Achievers", count: testimonials.length },
+              { id: "scholars", label: "Ã°Å¸Å½â€œ University Scholars", count: testimonials.filter((t) => t.category === "scholars").length },
+              { id: "elite", label: "Ã°Å¸â€™Â¼ Industry & Banking Elite", count: testimonials.filter((t) => t.category === "elite").length },
             ].map((cat) => (
               <button
                 key={cat.id}
@@ -575,7 +578,7 @@ const Home = () => {
                       <div className="flex items-center gap-2 flex-wrap">
                         <h4 className="text-white font-bold text-lg leading-tight group-hover:text-emerald-300 transition-colors">{t.name}</h4>
                         {t.badge && (
-                          <span className="text-[10px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          <span className="text-[10px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-blue-400 border border-emerald-500/20">
                             {t.badge}
                           </span>
                         )}
@@ -613,16 +616,16 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ────────────────────────────────────────────────────────
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
           CTA SECTION 
-      ───────────────────────────────────────────────────────── */}
+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <section className="py-24 relative overflow-hidden bg-slate-900 border-t border-slate-800">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-emerald-900/40 via-slate-900 to-slate-950"></div>
         
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <Reveal>
             <h2 className="text-5xl md:text-6xl font-black text-white mb-6">
-              Ready to Shape Your <span className="text-emerald-400">Future?</span>
+              Ready to Shape Your <span className="text-blue-400">Future?</span>
             </h2>
             <p className="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
               Learn more about the school or sign in to the student and staff portal to view grades, schedules, and announcements.

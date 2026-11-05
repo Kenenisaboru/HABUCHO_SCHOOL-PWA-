@@ -25,7 +25,8 @@ export const adminLinks = [
   { to: "/admin/announcements", label: "Announcements", icon: Megaphone, section: "School Operations" },
   { to: "/admin/messages", label: "Messages", icon: Mail, section: "School Operations" },
   { to: "/admin/profile", label: "Profile", icon: User, section: "School Operations" },
-  // Website Management section
+  // Website & Admissions Management section
+  { to: "/admin/admissions", label: "Admissions", icon: GraduationCap, section: "Website Management" },
   { to: "/admin/events", label: "News & Events", icon: Newspaper, section: "Website Management" },
   { to: "/admin/gallery", label: "Gallery", icon: Images, section: "Website Management" },
   { to: "/admin/staff", label: "Staff Profiles", icon: UsersRound, section: "Website Management" },

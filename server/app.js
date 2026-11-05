@@ -1,14 +1,14 @@
 /**
  * Express Application Setup
  * -------------------------
- * Configures middleware, routes, and error handling.
- * Separated from server.js for testability.
+ * Configures middleware, routes, security, and error handling.
  */
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
+import helmet from "helmet";
 
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -17,10 +17,12 @@ import scheduleRoutes from "./routes/scheduleRoutes.js";
 import gradeRoutes from "./routes/gradeRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import publicRoutes from "./routes/publicRoutes.js";
-import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
-import { authenticateUser } from "./middleware/auth.js";
+import eventRoutes from "./routes/eventRoutes.js";
+import galleryRoutes from "./routes/galleryRoutes.js";
+import staffRoutes from "./routes/staffRoutes.js";
+import admissionRoutes from "./routes/admissionRoutes.js";
 
-import helmet from "helmet";
+import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 import { apiLimiter } from "./middleware/rateLimiter.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -39,7 +41,7 @@ app.use(
         scriptSrc: ["'self'"],
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        imgSrc: ["'self'", "data:", "https:"],
+        imgSrc: ["'self'", "data:", "https:", "blob:"],
         connectSrc: ["'self'"],
         objectSrc: ["'none'"],
         frameAncestors: ["'none'"],
@@ -62,8 +64,10 @@ app.use(cookieParser());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-app.use("/uploads", authenticateUser, express.static(path.join(__dirname, "uploads")));
+// Static uploads directory (accessible for gallery, staff photos, event images)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// API Endpoints
 app.use("/api", apiLimiter);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -72,9 +76,13 @@ app.use("/api/schedules", scheduleRoutes);
 app.use("/api/grades", gradeRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/public", publicRoutes);
+app.use("/api/events", eventRoutes);
+app.use("/api/gallery", galleryRoutes);
+app.use("/api/staff", staffRoutes);
+app.use("/api/admissions", admissionRoutes);
 
 app.get("/api/health", (_req, res) => {
-  res.json({ success: true, message: "Habucho School API is running" });
+  res.json({ success: true, message: "Habucho School API is running in Pro Mode" });
 });
 
 app.use(notFoundHandler);

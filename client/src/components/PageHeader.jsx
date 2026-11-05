@@ -1,6 +1,6 @@
 /**
  * PageHeader — Premium hero banner for inner public pages
- * with dot-mesh overlay, staggered animations, and scroll arrow
+ * with dot-mesh overlay, staggered animations, and academic sapphire/gold ambient light
  */
 const PageHeader = ({ title, subtitle, badge }) => {
   return (
@@ -9,15 +9,19 @@ const PageHeader = ({ title, subtitle, badge }) => {
       <div className="page-hero-dots" />
 
       {/* Animated floating orbs */}
-      <div className="pointer-events-none absolute right-[10%] top-[15%] h-32 w-32 rounded-full bg-emerald-400/10 blur-2xl"
-        style={{ animation: "float 7s ease-in-out infinite" }} />
-      <div className="pointer-events-none absolute left-[5%] bottom-[10%] h-24 w-24 rounded-full bg-teal-400/10 blur-2xl"
-        style={{ animation: "float 9s ease-in-out infinite reverse" }} />
+      <div
+        className="pointer-events-none absolute right-[10%] top-[15%] h-36 w-36 rounded-full bg-blue-500/20 blur-3xl"
+        style={{ animation: "float 7s ease-in-out infinite" }}
+      />
+      <div
+        className="pointer-events-none absolute left-[5%] bottom-[10%] h-32 w-32 rounded-full bg-amber-400/15 blur-3xl"
+        style={{ animation: "float 9s ease-in-out infinite reverse" }}
+      />
 
       <div className="relative z-10 mx-auto max-w-7xl text-center">
         {badge && (
           <span
-            className="section-label glass mb-5 inline-block text-white/90 opacity-0"
+            className="section-label glass mb-5 inline-block text-amber-300 font-bold tracking-widest border border-amber-400/20 opacity-0"
             style={{ animation: "slide-up 0.5s ease-out 0.1s forwards" }}
           >
             {badge}
@@ -31,7 +35,7 @@ const PageHeader = ({ title, subtitle, badge }) => {
         </h1>
         {subtitle && (
           <p
-            className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-emerald-100/85 opacity-0"
+            className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-blue-100/90 opacity-0"
             style={{ animation: "slide-up 0.6s ease-out 0.35s forwards" }}
           >
             {subtitle}

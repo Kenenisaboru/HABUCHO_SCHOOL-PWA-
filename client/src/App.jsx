@@ -13,6 +13,9 @@ import { adminLinks, teacherLinks, studentLinks } from "./config/navLinks";
 // Public pages
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
+const Academics = lazy(() => import("./pages/Academics"));
+const Admissions = lazy(() => import("./pages/Admissions"));
+const Gallery = lazy(() => import("./pages/Gallery"));
 const Announcements = lazy(() => import("./pages/Announcements"));
 const Schedule = lazy(() => import("./pages/Schedule"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -25,6 +28,10 @@ const AdminUsers = lazy(() => import("./dashboards/admin/AdminUsers"));
 const AdminSchedules = lazy(() => import("./dashboards/admin/AdminSchedules"));
 const AdminAnnouncements = lazy(() => import("./dashboards/admin/AdminAnnouncements"));
 const AdminMessages = lazy(() => import("./dashboards/admin/AdminMessages"));
+const AdminEvents = lazy(() => import("./dashboards/admin/AdminEvents"));
+const AdminGallery = lazy(() => import("./dashboards/admin/AdminGallery"));
+const AdminStaff = lazy(() => import("./dashboards/admin/AdminStaff"));
+const AdminAdmissions = lazy(() => import("./dashboards/admin/AdminAdmissions"));
 
 // Teacher dashboards
 const TeacherDashboard = lazy(() => import("./dashboards/teacher/TeacherDashboard"));
@@ -44,11 +51,20 @@ const Profile = lazy(() => import("./dashboards/shared/Profile"));
 
 function App() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner className="py-20" /></div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
+          <LoadingSpinner className="py-20" />
+        </div>
+      }
+    >
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/academics" element={<Academics />} />
+        <Route path="/admissions" element={<Admissions />} />
+        <Route path="/gallery" element={<Gallery />} />
         <Route path="/announcements" element={<Announcements />} />
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/contact" element={<Contact />} />
@@ -64,6 +80,10 @@ function App() {
               <Route path="/admin/schedules" element={<AdminSchedules />} />
               <Route path="/admin/announcements" element={<AdminAnnouncements />} />
               <Route path="/admin/messages" element={<AdminMessages />} />
+              <Route path="/admin/admissions" element={<AdminAdmissions />} />
+              <Route path="/admin/events" element={<AdminEvents />} />
+              <Route path="/admin/gallery" element={<AdminGallery />} />
+              <Route path="/admin/staff" element={<AdminStaff />} />
               <Route path="/admin/profile" element={<Profile />} />
             </Route>
           </Route>
