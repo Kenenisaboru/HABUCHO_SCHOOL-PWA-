@@ -27,7 +27,7 @@ const DashboardLayout = ({ links, title }) => {
   const avatarGradient = getRoleGradient(user?.role);
 
   return (
-    <div className="flex min-h-screen bg-slate-50 font-sans dark:bg-slate-950">
+    <div className="flex h-screen min-h-0 overflow-hidden bg-slate-50 font-sans dark:bg-slate-950">
       <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-100 focus:rounded-lg focus:bg-emerald-600 focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white">
         Skip to content
       </a>
@@ -67,7 +67,7 @@ const DashboardLayout = ({ links, title }) => {
         </div>
       )}
 
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
         {/* ── Top Bar ─────────────────────────────────────── */}
         <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200/80 bg-white/90 px-4 backdrop-blur-xl dark:border-slate-800/60 dark:bg-slate-900/90 md:px-6">
           <div className="flex items-center gap-3">
@@ -145,7 +145,7 @@ const DashboardLayout = ({ links, title }) => {
         </header>
 
         {/* ── Main Content ─────────────────────────────── */}
-        <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 overflow-y-auto p-4 md:p-6">
+        <main id="main-content" className="mx-auto min-h-0 w-full max-w-7xl flex-1 overflow-y-auto p-4 md:p-6">
           <Outlet />
         </main>
       </div>

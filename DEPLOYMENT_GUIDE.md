@@ -204,6 +204,8 @@ npm i -g vercel
 vercel
 ```
 
+The Vite client includes `client/vercel.json` so direct visits and browser refreshes on React routes (for example `/login`) load the app entry point.
+
 #### 4. Configure Environment
 In Vercel dashboard:
 - Go to Settings → Environment Variables
@@ -231,6 +233,8 @@ npm run build
 Build command: npm run build
 Publish directory: dist
 ```
+
+The client publishes `public/_redirects` with the build so Netlify serves `index.html` for client-side routes on direct visits and browser refreshes.
 
 #### 4. Add Environment Variables
 In Netlify dashboard:

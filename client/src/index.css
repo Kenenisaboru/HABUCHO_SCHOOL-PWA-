@@ -131,6 +131,23 @@ body.dark {
   @apply inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:shadow-blue-500/25 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:outline-none disabled:opacity-50 disabled:hover:translate-y-0;
 }
 
+.portal-login-button {
+  color: #10233d;
+  background-color: #e9c779;
+  box-shadow: 0 4px 14px rgba(30, 64, 100, 0.18);
+}
+
+.portal-login-button:hover {
+  color: #10233d;
+  background-color: #f1d594;
+  box-shadow: 0 6px 18px rgba(30, 64, 100, 0.24);
+}
+
+.portal-login-button:focus-visible {
+  outline: 2px solid #98743c;
+  outline-offset: 3px;
+}
+
 .btn-emerald {
   @apply inline-flex items-center justify-center rounded-xl bg-emerald px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-emerald-dark hover:shadow-md hover:shadow-blue-500/25 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-emerald/30 focus-visible:outline-none disabled:opacity-50;
 }
@@ -459,6 +476,18 @@ body:has(.home-page) nav .btn-primary {
 
 body:has(.home-page) nav .btn-primary:hover {
   background-color: #e5c27c;
+}
+
+body:has(.home-page) nav .portal-login-button {
+  color: #10233d;
+  background-color: #e9c779;
+  box-shadow: 0 4px 14px rgba(30, 64, 100, 0.18);
+}
+
+body:has(.home-page) nav .portal-login-button:hover {
+  color: #10233d;
+  background-color: #f1d594;
+  box-shadow: 0 6px 18px rgba(30, 64, 100, 0.24);
 }
 
 .home-hero {

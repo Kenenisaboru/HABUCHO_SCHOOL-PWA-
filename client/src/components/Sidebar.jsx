@@ -27,7 +27,7 @@ const Sidebar = ({ links }) => {
   }, {});
 
   return (
-    <aside className="hidden w-64 shrink-0 flex-col border-r border-slate-200/80 bg-white dark:border-slate-800/80 dark:bg-slate-900 lg:flex">
+    <aside className="hidden h-screen min-h-0 w-64 shrink-0 flex-col border-r border-slate-200/80 bg-white dark:border-slate-800/80 dark:bg-slate-900 lg:flex">
       {/* School branding header */}
       <div className="border-b border-slate-100 p-5 dark:border-slate-800/80">
         <Link to="/" className="group flex items-center gap-3">
@@ -64,7 +64,7 @@ const Sidebar = ({ links }) => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto px-3 pb-4">
+      <nav className="min-h-0 flex-1 overflow-y-auto px-3 pb-4">
         {Object.entries(groupedLinks).map(([sectionName, sectionLinks]) => (
           <div key={sectionName}>
             <p className="mb-2 mt-4 px-2 text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">

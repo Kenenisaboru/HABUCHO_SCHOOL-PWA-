@@ -141,7 +141,7 @@ const Navbar = () => {
           ) : (
             <Link
               to="/login"
-              className="btn-primary px-3.5 py-1.5 text-xs gap-1.5 shadow-sm"
+              className="btn-primary portal-login-button px-3.5 py-1.5 text-xs gap-1.5 shadow-sm"
             >
               <LogIn className="h-3.5 w-3.5" />
               <span>Portal Login</span>
@@ -212,7 +212,7 @@ const Navbar = () => {
             ) : (
               <Link
                 to="/login"
-                className="btn-primary block py-2 text-center text-xs"
+                className="btn-primary portal-login-button block py-2 text-center text-xs"
                 onClick={() => setMenuOpen(false)}
               >
                 Login to Portal
