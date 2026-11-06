@@ -25,7 +25,7 @@ const processQueue = (error) => {
 };
 
 const isPublicRoute = () => {
-  const publicPaths = ["/", "/about", "/announcements", "/schedule", "/contact", "/login"];
+  const publicPaths = ["/", "/about", "/admissions", "/gallery", "/contact", "/login"];
   return publicPaths.includes(window.location.pathname);
 };
 
