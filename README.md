@@ -148,13 +148,23 @@ cd client
 npm install
 
 # Link to local API
-echo "VITE_API_URL=http://localhost:5000/api" > .env.local
+echo "VITE_API_URL=/api" > .env.local
 
 # Start the Vite development server
 npm run dev
 ```
 *The UI will be available at `http://localhost:5173`*
 </details>
+
+### 🐳 Docker
+
+From the repository root, start the application with:
+
+```bash
+docker compose up --build
+```
+
+The API container connects to the Compose PostgreSQL service without database TLS and applies pending migrations before starting. Set `DB_PASSWORD` and `JWT_SECRET` in the environment before deploying with non-development data. Set `DATABASE_SSL=true` when your database provider requires SSL.
 
 ---
 
