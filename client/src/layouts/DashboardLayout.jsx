@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar";
 import useAuthStore from "../context/authStore";
 import { useTheme } from "../context/ThemeContext";
 import { getRoleGradient } from "../utils/roleColors";
+import SchoolLogo from "../components/SchoolLogo";
 
 const DashboardLayout = ({ links, title }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -47,14 +48,7 @@ const DashboardLayout = ({ links, title }) => {
             {/* Mobile sidebar header */}
             <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800/60">
               <div className="flex items-center gap-3">
-                <div
-                  className="flex h-8 w-8 items-center justify-center rounded-xl text-white"
-                  style={{ background: "linear-gradient(135deg, #059669, #047857)" }}
-                >
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                  </svg>
-                </div>
+                <SchoolLogo className="h-9 w-9" />
                 <span className="font-display text-sm font-bold text-slate-900 dark:text-white">Habucho Portal</span>
               </div>
               <button
