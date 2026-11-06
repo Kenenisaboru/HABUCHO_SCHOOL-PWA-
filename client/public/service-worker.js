@@ -6,13 +6,15 @@
  * This file serves as a reference implementation for project defense.
  */
 
-const CACHE_NAME = "habucho-school-v1";
+const CACHE_NAME = "habucho-school-v2";
 const STATIC_ASSETS = [
   "/",
   "/index.html",
   "/manifest.json",
+  "/school-logo.webp",
   "/icons/icon-192x192.png",
   "/icons/icon-512x512.png",
+  "/icons/icon-512x512-maskable.png",
 ];
 
 // Install — cache static assets
