@@ -20,6 +20,7 @@ import {
 import useAuthStore from "../context/authStore";
 import { useTheme } from "../context/ThemeContext";
 import { getDashboardPath } from "../utils/helpers";
+import SchoolLogo from "./SchoolLogo";
 
 const SunIcon = () => (
   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -30,12 +31,6 @@ const SunIcon = () => (
 const MoonIcon = () => (
   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-  </svg>
-);
-
-const SchoolIcon = () => (
-  <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
   </svg>
 );
 
@@ -87,13 +82,7 @@ const Navbar = () => {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6">
         {/* Logo */}
         <Link to="/" className="group flex items-center gap-3" aria-label="Habucho Preparatory School home">
-          <div
-            className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl shadow-md shadow-blue-500/25 transition-all duration-300 group-hover:scale-105 group-hover:shadow-blue-500/40"
-            style={{ background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #0f172a 100%)" }}
-          >
-            <SchoolIcon />
-            <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-          </div>
+          <SchoolLogo className="h-11 w-11 shadow-md transition-transform duration-300 group-hover:scale-105" />
           <div>
             <div className="flex items-center gap-1.5">
               <span className="font-display text-base font-black tracking-tight text-slate-900 dark:text-white">
