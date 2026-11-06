@@ -3,6 +3,7 @@
  * social links, animated gradient separator, and royal sapphire/amber branding
  */
 import { Link } from "react-router-dom";
+import SchoolLogo from "./SchoolLogo";
 
 const FooterLink = ({ to, children }) => (
   <li>
@@ -48,14 +49,7 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link to="/" className="group mb-5 inline-flex items-center gap-3">
-              <div
-                className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl shadow-lg shadow-blue-900/40 transition-transform duration-300 group-hover:scale-105"
-                style={{ background: "linear-gradient(135deg, #2563eb, #1d4ed8, #0f172a)" }}
-              >
-                <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-                </svg>
-              </div>
+              <SchoolLogo className="h-11 w-11 shadow-lg shadow-blue-900/40 transition-transform duration-300 group-hover:scale-105" />
               <div>
                 <span className="font-display block text-base font-extrabold text-white">Habucho</span>
                 <span className="block text-[10px] font-semibold uppercase tracking-widest text-amber-400">
