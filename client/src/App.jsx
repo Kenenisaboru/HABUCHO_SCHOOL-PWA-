@@ -13,11 +13,8 @@ import { adminLinks, teacherLinks, studentLinks } from "./config/navLinks";
 // Public pages
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
-const Academics = lazy(() => import("./pages/Academics"));
 const Admissions = lazy(() => import("./pages/Admissions"));
 const Gallery = lazy(() => import("./pages/Gallery"));
-const Announcements = lazy(() => import("./pages/Announcements"));
-const Schedule = lazy(() => import("./pages/Schedule"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Login = lazy(() => import("./pages/Login"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -62,11 +59,8 @@ function App() {
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/academics" element={<Academics />} />
         <Route path="/admissions" element={<Admissions />} />
         <Route path="/gallery" element={<Gallery />} />
-        <Route path="/announcements" element={<Announcements />} />
-        <Route path="/schedule" element={<Schedule />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
 
