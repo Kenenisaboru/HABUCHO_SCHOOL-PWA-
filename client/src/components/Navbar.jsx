@@ -7,10 +7,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   Home,
   School,
-  Megaphone,
-  CalendarDays,
   MessageSquare,
-  BookOpen,
   GraduationCap,
   Images,
   LogIn,
@@ -56,11 +53,8 @@ const Navbar = () => {
   const navLinks = [
     { to: "/", label: "Home", icon: Home },
     { to: "/about", label: "About", icon: School },
-    { to: "/academics", label: "Academics", icon: BookOpen },
     { to: "/admissions", label: "Admissions", icon: GraduationCap },
     { to: "/gallery", label: "Gallery", icon: Images },
-    { to: "/announcements", label: "News", icon: Megaphone },
-    { to: "/schedule", label: "Schedule", icon: CalendarDays },
     { to: "/contact", label: "Contact", icon: MessageSquare },
   ];
 
