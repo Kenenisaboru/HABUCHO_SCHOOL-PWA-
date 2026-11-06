@@ -1,10 +1,28 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import {
+  BarChart3,
+  BookOpen,
+  Briefcase,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  FileText,
+  FlaskConical,
+  GraduationCap,
+  Lock,
+  Monitor,
+  ShieldCheck,
+  Star,
+  Users,
+  Zap,
+} from "lucide-react";
 import MainLayout from "../layouts/MainLayout";
 import Reveal from "../components/Reveal";
 import useFetch from "../hooks/useFetch";
 import { getPublicStats } from "../services/publicService";
 import classroomImg from "../Images/about-classroom.webp";
+import aboutCampusImg from "../Images/about-campus.webp";
 import collaborativeClassroomImg from "../Images/NAxYCGkrrCcJo__YuGjKdq_161NaTbpIZZwr3hc30SNUBQOGJ2l3FpQVJSknWS6GuyY7JuwtmXPT6coDe_blPsJG05ohqBW5ENnsykjgySw7XG5CbFkYtZLbQcqIWGOnmKka_rnZwGoCFGfWPZtGqlxePER-_eyq-mojSmHZC5bSSR8xj.jpg";
 import campusImg from "../Images/6qyj6zYI2n_DY-8a45W37sE_ZQtqHZQhV3sXjM_SV-i7gt7D1TbfWIyyEXx64X3FlBS3NdOeTe4Curnt4SJaisZ2WAczAE1fnmj_Crz6JRpgm5KUKzr1OWLTF0DzG6jNBGPjb14CF8hntMUWhGQe4vckkacS6pXABdFWCjMlk_2u0KQjbc0hg2tIiPNDkYUy.jpg";
 
@@ -38,26 +56,41 @@ const StatCounter = ({ value, label, delay }) => {
 
 const Home = () => {
   const [activeCategory, setActiveCategory] = useState("all");
+  const [activeHomeSlide, setActiveHomeSlide] = useState(0);
 
   useEffect(() => {
-    document.title = "Habucho Preparatory School Ã¢â‚¬â€ Home";
+    document.title = "Habucho Preparatory School - Home";
   }, []);
 
   const { data: statsData, loading: statsLoading, error: statsError } = useFetch(getPublicStats, []);
 
   const features = [
-    { icon: "Ã°Å¸Å½â€œ", title: "Elite Curriculum", desc: "Advanced placement tracks designed to guarantee university admission.", gradient: "from-emerald-400/20 to-teal-900/40" },
-    { icon: "Ã°Å¸â€˜Â¨Ã¢â‚¬ÂÃ°Å¸â€Â¬", title: "Modern Labs", desc: "State-of-the-art facilities for physics, chemistry, and computer science.", gradient: "from-blue-400/20 to-indigo-900/40" },
-    { icon: "Ã°Å¸â€œÅ ", title: "Real-time Tracking", desc: "Instant access to grades, attendance, and academic analytics.", gradient: "from-violet-400/20 to-purple-900/40" },
-    { icon: "Ã°Å¸Å’Â", title: "Digital Campus", desc: "Fully integrated digital ecosystem for assignments and resources.", gradient: "from-amber-400/20 to-orange-900/40" },
-    { icon: "Ã°Å¸â€ºÂ¡Ã¯Â¸Â", title: "Secure Portal", desc: "Enterprise-grade security protecting all student and staff data.", gradient: "from-rose-400/20 to-red-900/40" },
-    { icon: "Ã°Å¸Â¤Â", title: "Active Community", desc: "Vibrant clubs, sports, and extracurricular networks.", gradient: "from-cyan-400/20 to-blue-900/40" },
+    { icon: BookOpen, title: "Elite Curriculum", desc: "Advanced placement tracks designed to guarantee university admission.", gradient: "from-emerald-400/20 to-teal-900/40" },
+    { icon: FlaskConical, title: "Modern Labs", desc: "State-of-the-art facilities for physics, chemistry, and computer science.", gradient: "from-blue-400/20 to-indigo-900/40" },
+    { icon: BarChart3, title: "Real-time Tracking", desc: "Instant access to grades, attendance, and academic analytics.", gradient: "from-violet-400/20 to-purple-900/40" },
+    { icon: Monitor, title: "Digital Campus", desc: "Fully integrated digital ecosystem for assignments and resources.", gradient: "from-amber-400/20 to-orange-900/40" },
+    { icon: ShieldCheck, title: "Secure Portal", desc: "Enterprise-grade security protecting all student and staff data.", gradient: "from-rose-400/20 to-red-900/40" },
+    { icon: Users, title: "Active Community", desc: "Vibrant clubs, sports, and extracurricular networks.", gradient: "from-cyan-400/20 to-blue-900/40" },
   ];
 
   const stats = [
     { value: statsData?.students, label: "Students" },
     { value: statsData?.teachers, label: "Teachers" },
   ].filter((stat) => stat.value !== undefined && stat.value !== null);
+
+  const homeSlides = [
+    { src: aboutCampusImg, alt: "School building and grounds, shown as representative campus imagery", title: "A welcoming place to learn" },
+    { src: collaborativeClassroomImg, alt: "Students learning together in a classroom, shown as representative imagery", title: "Learning together" },
+    { src: classroomImg, alt: "Teacher supporting students in a classroom, shown as representative imagery", title: "Supportive classroom learning" },
+    { src: campusImg, alt: "School campus building, shown as representative campus imagery", title: "A foundation for future growth" },
+  ];
+
+  const homeLearningFeatures = [
+    { icon: BookOpen, title: "Academic Excellence", description: "Build a strong foundation through focused learning and steady progress.", color: "bg-[#118b6b]" },
+    { icon: Users, title: "Holistic Growth", description: "Develop knowledge, confidence, and character as part of a caring community.", color: "bg-[#0d795e]" },
+    { icon: Monitor, title: "Connected Learning", description: "Use Habucho's digital portal to stay connected with learning and school progress.", color: "bg-[#09684f]" },
+    { icon: GraduationCap, title: "Supportive Teachers", description: "Learn with guidance from educators who encourage students to reach their goals.", color: "bg-[#075640]" },
+  ];
 
   const testimonials = [
     {
@@ -149,6 +182,7 @@ const Home = () => {
 
   return (
     <MainLayout>
+      <div className="home-page">
       <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
@@ -209,12 +243,12 @@ const Home = () => {
                   <path d="M5 12h14m-6-6 6 6-6 6" />
                 </svg>
               </Link>
-              <Link to="/academics" className="home-hero-secondary">
+              <Link to="/about" className="home-hero-secondary">
                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
                   <circle cx="12" cy="12" r="9" />
                   <path d="m10 8 6 4-6 4V8Z" />
                 </svg>
-                Explore Academics
+                About Our School
               </Link>
               <Link to="/gallery" className="home-hero-secondary border-amber-400/40 text-amber-300 hover:text-white">
                 Campus Gallery
@@ -257,6 +291,143 @@ const Home = () => {
       {/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
           STATS SECTION 
       Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
+      <section aria-labelledby="habucho-community-heading" className="relative overflow-hidden bg-[#f7f4ed] px-4 pb-16 pt-12 sm:px-6 sm:pb-24 sm:pt-16">
+        <div className="mx-auto max-w-7xl">
+          <div className="relative z-10 grid overflow-hidden rounded-2xl border border-[#e7e0d2] bg-white shadow-[0_24px_70px_rgba(10,25,48,0.12)] sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["01", "Academic focus", "Strong foundations for the next step"],
+              ["02", "Personal growth", "Confidence, curiosity, and character"],
+              ["03", "School community", "Learning through connection and care"],
+              ["04", "Future ready", "Skills to take on new opportunities"],
+            ].map(([number, title, description]) => (
+              <div key={number} className="flex items-center gap-4 border-b border-[#e7e0d2] px-5 py-5 last:border-b-0 sm:even:border-l lg:border-b-0 lg:border-l lg:first:border-l-0">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#f3efe5] text-sm font-bold text-[#98743c]">
+                  {number}
+                </span>
+                <div>
+                  <h3 className="text-sm font-bold text-[#10233d]">{title}</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-slate-500">{description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid items-center gap-10 pt-14 sm:pt-20 lg:grid-cols-2 lg:gap-16">
+            <div className="relative">
+              <div className="absolute -bottom-4 -left-4 h-2/3 w-2/3 rounded-3xl bg-[#d5ad63]/20" aria-hidden="true" />
+              <div className="relative overflow-hidden rounded-3xl border border-[#e7e0d2] bg-[#10233d] shadow-[0_24px_60px_rgba(10,25,48,0.18)]">
+                <img
+                  src={aboutCampusImg}
+                  alt="School building and grounds, shown as representative campus imagery"
+                  className="aspect-[4/3] w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div className="absolute -right-3 bottom-5 rounded-xl border border-white/60 bg-white/95 px-4 py-3 shadow-lg sm:right-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#98743c]">Habucho Preparatory School</p>
+                <p className="mt-1 text-sm font-semibold text-[#10233d]">A place to learn and grow</p>
+              </div>
+            </div>
+
+            <div className="max-w-xl">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#98743c]">The Habucho community</p>
+              <h2 id="habucho-community-heading" className="mt-4 text-3xl font-semibold leading-tight tracking-tight text-[#10233d] sm:text-4xl lg:text-5xl">
+                A community built around every student&apos;s potential.
+              </h2>
+              <p className="mt-5 text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+                At Habucho, learning is shaped by committed educators, a supportive school community, and the belief that every student can build a bright future.
+              </p>
+              <ul className="mt-6 space-y-3 text-sm text-[#263b55] sm:text-base">
+                {["A welcoming community that helps students thrive", "A strong academic foundation for future goals", "Learning that values curiosity and character"].map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <Check className="mt-0.5 h-5 w-5 shrink-0 text-[#98743c]" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                to="/about"
+                className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#10233d] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#1b3555] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#98743c]"
+              >
+                Discover our school
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                  <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="habucho-learning-heading" className="bg-[#f7f4ed] px-4 pb-16 pt-14 sm:px-6 sm:pb-24 sm:pt-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#98743c]">Habucho Preparatory School</p>
+            <h2 id="habucho-learning-heading" className="mt-4 text-3xl font-semibold leading-tight tracking-tight text-[#10233d] sm:text-4xl lg:text-5xl">
+              Empowering Habucho students to build a brighter future
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base sm:leading-7">
+              We support students with a strong academic foundation, opportunities to grow, and a school community that believes in their potential.
+            </p>
+            <Link
+              to="/admissions"
+              className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#0b5544] px-5 py-3 text-sm font-semibold text-white shadow-md shadow-[#0b5544]/15 transition-colors hover:bg-[#084535] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#98743c]"
+            >
+              Explore admissions
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+          </div>
+
+          <div className="relative mx-auto mt-10 max-w-5xl overflow-hidden rounded-2xl border border-[#e7e0d2] bg-[#10233d] shadow-[0_24px_60px_rgba(10,25,48,0.18)] sm:mt-12">
+            <img
+              src={homeSlides[activeHomeSlide].src}
+              alt={homeSlides[activeHomeSlide].alt}
+              className="aspect-[4/3] w-full object-cover sm:aspect-[16/7]"
+              loading="lazy"
+              decoding="async"
+            />
+            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-gradient-to-t from-[#061225]/85 via-[#061225]/40 to-transparent px-4 pb-4 pt-14 sm:px-7 sm:pb-6">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#f1d8a2]">Habucho Preparatory School</p>
+                <p className="mt-1 text-base font-semibold text-white sm:text-lg">{homeSlides[activeHomeSlide].title}</p>
+                <p className="mt-1 text-xs text-white/75">Representative school imagery</p>
+              </div>
+              <div className="flex shrink-0 gap-2">
+                <button
+                  type="button"
+                  aria-label="Show previous school image"
+                  onClick={() => setActiveHomeSlide((index) => (index - 1 + homeSlides.length) % homeSlides.length)}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/60 bg-white/90 text-[#0b5544] transition-colors hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f1d8a2]"
+                >
+                  <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Show next school image"
+                  onClick={() => setActiveHomeSlide((index) => (index + 1) % homeSlides.length)}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/60 bg-white/90 text-[#0b5544] transition-colors hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f1d8a2]"
+                >
+                  <ChevronRight className="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 grid overflow-hidden rounded-2xl shadow-[0_16px_40px_rgba(10,25,48,0.12)] sm:grid-cols-2 lg:grid-cols-4">
+            {homeLearningFeatures.map(({ icon: Icon, title, description, color }) => (
+              <article key={title} className={`${color} min-h-48 px-5 py-6 text-white sm:px-6`}>
+                <Icon className="h-7 w-7 text-[#f1d8a2]" strokeWidth={1.8} aria-hidden="true" />
+                <h3 className="mt-5 text-sm font-bold">{title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-white/80">{description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section aria-labelledby="school-stats-heading" className="relative z-10 border-t border-slate-900 bg-slate-950 py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 id="school-stats-heading" className="sr-only">School at a glance</h2>
@@ -308,7 +479,7 @@ const Home = () => {
                   <div className={`absolute inset-0 bg-linear-to-br ${f.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
                   <div className="relative z-10">
                     <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-3xl mb-6 shadow-lg border border-slate-700 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
-                      {f.icon}
+                      <f.icon className="h-7 w-7" aria-hidden="true" />
                     </div>
                     <h4 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">{f.title}</h4>
                     <p className="text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors">
@@ -351,7 +522,7 @@ const Home = () => {
               <div className="glass-panel rounded-3xl p-8 h-full flex flex-col border border-slate-800 hover:border-emerald-500/40 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(16,185,129,0.12)]">
                 <div className="flex items-center justify-between mb-6">
                   <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-                    Ã°Å¸Å½â€œ
+                    <GraduationCap className="h-7 w-7" aria-hidden="true" />
                   </div>
                   <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-emerald-500/10 text-blue-400 border border-emerald-500/20">
                     Student Portal
@@ -365,25 +536,25 @@ const Home = () => {
                 </p>
                 <ul className="space-y-3 text-sm text-slate-300 grow mb-8">
                   <li className="flex items-start gap-3">
-                    <span className="text-blue-400 font-bold shrink-0">Ã¢Å“â€œ</span>
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-blue-400" aria-hidden="true" />
                     <span><strong>Live Gradebook & Scorecards:</strong> View semester assessments, midterms, and final exam marks in real-time.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-blue-400 font-bold shrink-0">Ã¢Å“â€œ</span>
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-blue-400" aria-hidden="true" />
                     <span><strong>Instant PDF Report Cards:</strong> Download official, printable student report cards with calculated ranks.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-blue-400 font-bold shrink-0">Ã¢Å“â€œ</span>
-                    <span><strong>Interactive Timetables:</strong> Access weekly period schedules for all grades (9Ã¢â‚¬â€œ12) and streams.</span>
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-blue-400" aria-hidden="true" />
+                    <span><strong>Interactive Timetables:</strong> Access weekly period schedules for Grades 9-12 and streams.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-blue-400 font-bold shrink-0">Ã¢Å“â€œ</span>
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-blue-400" aria-hidden="true" />
                     <span><strong>Official Notice Board:</strong> Receive immediate school updates, exam dates, and event broadcasts.</span>
                   </li>
                 </ul>
                 <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-blue-400 font-semibold">
                   <span>Self-service Academic Hub</span>
-                  <span>Fast & Mobile-Ready Ã¢â€ â€™</span>
+                  <span>Fast and Mobile-Ready</span>
                 </div>
               </div>
             </Reveal>
@@ -393,7 +564,7 @@ const Home = () => {
               <div className="glass-panel rounded-3xl p-8 h-full flex flex-col border border-slate-800 hover:border-teal-500/40 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(20,184,166,0.12)]">
                 <div className="flex items-center justify-between mb-6">
                   <div className="w-14 h-14 rounded-2xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-                    Ã°Å¸â€˜Â¨Ã¢â‚¬ÂÃ°Å¸ÂÂ«
+                    <Users className="h-7 w-7" aria-hidden="true" />
                   </div>
                   <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/20">
                     Teacher Suite
@@ -407,25 +578,25 @@ const Home = () => {
                 </p>
                 <ul className="space-y-3 text-sm text-slate-300 grow mb-8">
                   <li className="flex items-start gap-3">
-                    <span className="text-teal-400 font-bold shrink-0">Ã¢Å“â€œ</span>
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-400" aria-hidden="true" />
                     <span><strong>Fast Score Entry:</strong> Input marks for quizzes, tests, projects, and final exams with one click.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-teal-400 font-bold shrink-0">Ã¢Å“â€œ</span>
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-400" aria-hidden="true" />
                     <span><strong>Automatic Computation:</strong> Instant calculation of totals, semester averages, rankings, and pass/fail statuses.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-teal-400 font-bold shrink-0">Ã¢Å“â€œ</span>
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-400" aria-hidden="true" />
                     <span><strong>Assigned Class Management:</strong> Filter and manage students by grade, section, and subject track.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-teal-400 font-bold shrink-0">Ã¢Å“â€œ</span>
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-400" aria-hidden="true" />
                     <span><strong>Teaching Schedule:</strong> Personal teaching timetables accessible from any device.</span>
                   </li>
                 </ul>
                 <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-teal-400 font-semibold">
                   <span>Automated Grading Suite</span>
-                  <span>Paperless Workflow Ã¢â€ â€™</span>
+                  <span>Paperless Workflow</span>
                 </div>
               </div>
             </Reveal>
@@ -435,7 +606,7 @@ const Home = () => {
               <div className="glass-panel rounded-3xl p-8 h-full flex flex-col border border-slate-800 hover:border-cyan-500/40 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(6,182,212,0.12)]">
                 <div className="flex items-center justify-between mb-6">
                   <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-                    Ã°Å¸Ââ€ºÃ¯Â¸Â
+                    <Briefcase className="h-7 w-7" aria-hidden="true" />
                   </div>
                   <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
                     Admin Command
@@ -449,25 +620,25 @@ const Home = () => {
                 </p>
                 <ul className="space-y-3 text-sm text-slate-300 grow mb-8">
                   <li className="flex items-start gap-3">
-                    <span className="text-cyan-400 font-bold shrink-0">Ã¢Å“â€œ</span>
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" aria-hidden="true" />
                     <span><strong>User Account Management:</strong> Create, manage, and verify student, teacher, and administrator accounts.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-cyan-400 font-bold shrink-0">Ã¢Å“â€œ</span>
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" aria-hidden="true" />
                     <span><strong>Class & Stream Allocations:</strong> Assign teachers to sections and organize Natural/Social science tracks.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-cyan-400 font-bold shrink-0">Ã¢Å“â€œ</span>
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" aria-hidden="true" />
                     <span><strong>Central Announcement Dispatch:</strong> Broadcast high-priority alerts with category badges school-wide.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-cyan-400 font-bold shrink-0">Ã¢Å“â€œ</span>
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" aria-hidden="true" />
                     <span><strong>School Analytics & Security:</strong> Monitor enrollment figures, academic averages, and audit access logs.</span>
                   </li>
                 </ul>
                 <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-cyan-400 font-semibold">
                   <span>Central Operations Control</span>
-                  <span>Full Institutional Visibility Ã¢â€ â€™</span>
+                  <span>Full Institutional Visibility</span>
                 </div>
               </div>
             </Reveal>
@@ -482,7 +653,7 @@ const Home = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               
               <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800/80 hover:border-emerald-500/30 transition-all group">
-                <div className="text-3xl mb-4">Ã¢Å¡Â¡</div>
+                <Zap className="mb-4 h-8 w-8 text-amber-400" aria-hidden="true" />
                 <h5 className="text-white font-bold text-lg mb-2 group-hover:text-blue-400 transition-colors">Offline-Ready PWA</h5>
                 <p className="text-slate-400 text-xs leading-relaxed">
                   Installable on phones, tablets, and laptops. Caches key schedules and scorecards for offline viewing even without internet.
@@ -490,7 +661,7 @@ const Home = () => {
               </div>
 
               <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800/80 hover:border-teal-500/30 transition-all group">
-                <div className="text-3xl mb-4">Ã°Å¸â€œâ€ž</div>
+                <FileText className="mb-4 h-8 w-8 text-teal-400" aria-hidden="true" />
                 <h5 className="text-white font-bold text-lg mb-2 group-hover:text-teal-400 transition-colors">Auto PDF Transcripts</h5>
                 <p className="text-slate-400 text-xs leading-relaxed">
                   Instantly compiles marks into official, formatted PDF report cards ready for print, parent distribution, or university applications.
@@ -498,7 +669,7 @@ const Home = () => {
               </div>
 
               <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800/80 hover:border-cyan-500/30 transition-all group">
-                <div className="text-3xl mb-4">Ã°Å¸â€œÅ </div>
+                <BarChart3 className="mb-4 h-8 w-8 text-cyan-400" aria-hidden="true" />
                 <h5 className="text-white font-bold text-lg mb-2 group-hover:text-cyan-400 transition-colors">Intelligent Ranking</h5>
                 <p className="text-slate-400 text-xs leading-relaxed">
                   Automated computation algorithms sort class percentiles, total point averages, and rank standings without manual errors.
@@ -506,7 +677,7 @@ const Home = () => {
               </div>
 
               <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800/80 hover:border-indigo-500/30 transition-all group">
-                <div className="text-3xl mb-4">Ã°Å¸â€â€™</div>
+                <Lock className="mb-4 h-8 w-8 text-indigo-400" aria-hidden="true" />
                 <h5 className="text-white font-bold text-lg mb-2 group-hover:text-indigo-400 transition-colors">Protected & Encrypted</h5>
                 <p className="text-slate-400 text-xs leading-relaxed">
                   JWT-authenticated sessions and role-guard middleware safeguard all student records, passwords, and sensitive exam marks.
@@ -537,9 +708,9 @@ const Home = () => {
           {/* Category Filter Tabs */}
           <div className="flex flex-wrap justify-center gap-3 mb-12">
             {[
-              { id: "all", label: "Ã°Å¸Å’Å¸ All Achievers", count: testimonials.length },
-              { id: "scholars", label: "Ã°Å¸Å½â€œ University Scholars", count: testimonials.filter((t) => t.category === "scholars").length },
-              { id: "elite", label: "Ã°Å¸â€™Â¼ Industry & Banking Elite", count: testimonials.filter((t) => t.category === "elite").length },
+              { id: "all", label: "All Achievers", count: testimonials.length, icon: Star },
+              { id: "scholars", label: "University Scholars", count: testimonials.filter((t) => t.category === "scholars").length, icon: GraduationCap },
+              { id: "elite", label: "Industry & Banking Leaders", count: testimonials.filter((t) => t.category === "elite").length, icon: Briefcase },
             ].map((cat) => (
               <button
                 key={cat.id}
@@ -550,6 +721,7 @@ const Home = () => {
                     : "bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 hover:text-white"
                 }`}
               >
+                <cat.icon className="h-4 w-4" aria-hidden="true" />
                 {cat.label} ({cat.count})
               </button>
             ))}
@@ -650,6 +822,7 @@ const Home = () => {
         </div>
       </section>
 
+      </div>
     </MainLayout>
   );
 };
