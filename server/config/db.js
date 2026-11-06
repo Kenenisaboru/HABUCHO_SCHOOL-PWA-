@@ -10,13 +10,24 @@ import logger from "../utils/logger.js";
 
 const { Pool } = pg;
 
-const sslConfig =
-  process.env.NODE_ENV === "production"
-    ? { rejectUnauthorized: true, ca: process.env.DATABASE_SSL_CA || undefined }
-    : false;
+let sslConfig = false;
+if (
+  process.env.DATABASE_SSL !== "false" &&
+  (process.env.NODE_ENV === "production" || process.env.DATABASE_SSL === "true")
+) {
+  sslConfig = { rejectUnauthorized: true, ca: process.env.DATABASE_SSL_CA || undefined };
+}
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  ...(process.env.DATABASE_URL
+    ? { connectionString: process.env.DATABASE_URL }
+    : {
+        host: process.env.DB_HOST || "localhost",
+        port: Number(process.env.DB_PORT || 5432),
+        user: process.env.DB_USER || "postgres",
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME || "habucho_school",
+      }),
   ssl: sslConfig,
   max: 20,
   idleTimeoutMillis: 30000,
