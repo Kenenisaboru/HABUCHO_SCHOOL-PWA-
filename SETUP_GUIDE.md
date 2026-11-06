@@ -181,22 +181,22 @@ Create a file named `.env.local` in the client folder:
 
 **Windows (Command Prompt):**
 ```bash
-echo VITE_API_URL=http://localhost:5000/api > .env.local
+echo VITE_API_URL=/api > .env.local
 ```
 
 **Windows (PowerShell):**
 ```bash
-"VITE_API_URL=http://localhost:5000/api" | Out-File -FilePath .env.local
+"VITE_API_URL=/api" | Out-File -FilePath .env.local
 ```
 
 **Mac/Linux:**
 ```bash
-echo "VITE_API_URL=http://localhost:5000/api" > .env.local
+echo "VITE_API_URL=/api" > .env.local
 ```
 
 Or manually create `.env.local` file with content:
 ```env
-VITE_API_URL=http://localhost:5000/api
+VITE_API_URL=/api
 ```
 
 ### 3.4 Start Frontend Dev Server
