@@ -66,7 +66,7 @@ const About = () => {
             <div className="about-hero-photo about-hero-photo-detail">
               <img
                 src={aboutCampusImg}
-                alt="Habucho school life represented by a welcoming campus building"
+                alt="A brick school building shown as representative campus imagery"
                 loading="lazy"
                 decoding="async"
               />
