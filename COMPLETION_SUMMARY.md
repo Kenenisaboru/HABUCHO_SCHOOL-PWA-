@@ -302,7 +302,7 @@ npm run dev
 # Frontend Setup (New Terminal)
 cd client
 npm install
-echo "VITE_API_URL=http://localhost:5000/api" > .env.local
+echo "VITE_API_URL=/api" > .env.local
 npm run dev
 
 # Open http://localhost:5173/ in browser
