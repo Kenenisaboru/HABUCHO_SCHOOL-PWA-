@@ -184,7 +184,7 @@ npm run dev
 # 3. Frontend setup (NEW TERMINAL)
 cd ../client
 npm install
-echo "VITE_API_URL=http://localhost:5000/api" > .env.local
+echo "VITE_API_URL=/api" > .env.local
 npm run dev
 ```
 
