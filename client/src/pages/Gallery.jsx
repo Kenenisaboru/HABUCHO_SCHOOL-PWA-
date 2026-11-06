@@ -14,49 +14,39 @@ import Reveal from "../components/Reveal";
 import SkeletonLoader from "../components/SkeletonLoader";
 import useFetch from "../hooks/useFetch";
 import { getGalleryImages } from "../services/publicService";
+import classroomImg from "../Images/about-classroom.webp";
+import campusImg from "../Images/about-campus.webp";
+import collaborativeClassroomImg from "../Images/NAxYCGkrrCcJo__YuGjKdq_161NaTbpIZZwr3hc30SNUBQOGJ2l3FpQVJSknWS6GuyY7JuwtmXPT6coDe_blPsJG05ohqBW5ENnsykjgySw7XG5CbFkYtZLbQcqIWGOnmKka_rnZwGoCFGfWPZtGqlxePER-_eyq-mojSmHZC5bSSR8xj.jpg";
+import campusBuildingImg from "../Images/6qyj6zYI2n_DY-8a45W37sE_ZQtqHZQhV3sXjM_SV-i7gt7D1TbfWIyyEXx64X3FlBS3NdOeTe4Curnt4SJaisZ2WAczAE1fnmj_Crz6JRpgm5KUKzr1OWLTF0DzG6jNBGPjb14CF8hntMUWhGQe4vckkacS6pXABdFWCjMlk_2u0KQjbc0hg2tIiPNDkYUy.jpg";
 
 const FALLBACK_GALLERY = [
   {
     id: 101,
-    title: "Advanced Chemistry & Molecular Biology Lab",
-    caption: "Senior Grade 12 students conducting titration experiments in our newly equipped science wing.",
-    category: "Laboratories",
-    image_path: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=80",
+    title: "Collaborative classroom learning",
+    caption: "Representative classroom imagery illustrating a collaborative learning environment.",
+    category: "Classroom",
+    image_path: collaborativeClassroomImg,
   },
   {
     id: 102,
-    title: "Central Academic Quadrangle & Study Gardens",
-    caption: "Our peaceful green campus spaces where preparatory students collaborate during open study hours.",
-    category: "Campus Life",
-    image_path: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80",
+    title: "A modern campus setting",
+    caption: "Representative campus architecture; contact the school for current facilities information.",
+    category: "Campus",
+    image_path: campusBuildingImg,
   },
   {
     id: 103,
-    title: "Habucho Robotics & Digital Systems Workshop",
-    caption: "Students debugging automated micro-controller circuits for the regional innovation challenge.",
-    category: "Laboratories",
-    image_path: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
+    title: "Learning together",
+    caption: "Representative imagery of students and teachers sharing a classroom.",
+    category: "Classroom",
+    image_path: classroomImg,
   },
   {
     id: 104,
-    title: "Annual Commencement & Honors Convocation",
-    caption: "Celebrating our top national exam achievers and university scholarship awardees.",
-    category: "Graduation",
-    image_path: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: 105,
-    title: "Interscholastic Athletics & Basketball Arena",
-    caption: "Fostering athletic discipline and team camaraderie on our multipurpose sports grounds.",
-    category: "Sports & Arts",
-    image_path: "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: 106,
-    title: "Digital Multimedia & Reading Hall",
-    caption: "Quiet research floor with high-speed academic database access and collaborative cubicles.",
-    category: "Campus Life",
-    image_path: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80",
+    title: "A welcoming school building",
+    caption: "Representative school architecture used to illustrate the student experience.",
+    category: "Campus",
+    image_path: campusImg,
   },
 ];
 
