@@ -10,6 +10,7 @@ import { loginUser, registerUser } from "../services/authService";
 import useAuthStore from "../context/authStore";
 import { getDashboardPath } from "../utils/helpers";
 import LoadingSpinner from "../components/LoadingSpinner";
+import SchoolLogo from "../components/SchoolLogo";
 
 const FloatingShape = ({ size, top, left, delay, color }) => (
   <div
@@ -54,7 +55,14 @@ const Login = () => {
         navigate(getDashboardPath(user.role));
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || (isLogin ? "Login failed. Please check your credentials." : "Registration failed. Please check your inputs."));
+      const fallbackMessage = isLogin
+        ? "Login failed. Please check your credentials."
+        : "Registration failed. Please check your inputs.";
+      const message = err.response?.data?.message ||
+        (err.request
+          ? "Cannot reach the server. Check that the backend is running and try again."
+          : fallbackMessage);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -87,14 +95,7 @@ const Login = () => {
 
         {/* Top: Logo */}
         <Link to="/" className="relative z-10 flex items-center gap-3 group">
-          <div
-            className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl shadow-lg shadow-black/30 transition-transform duration-300 group-hover:scale-105"
-            style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(10px)" }}
-          >
-            <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-            </svg>
-          </div>
+          <SchoolLogo className="h-12 w-12 shadow-lg shadow-black/30 transition-transform duration-300 group-hover:scale-105" />
           <div>
             <span className="font-display block text-base font-extrabold text-white">Habucho School</span>
             <span className="block text-[10px] font-semibold uppercase tracking-widest text-emerald-300/80">Preparatory School Portal</span>
@@ -160,14 +161,7 @@ const Login = () => {
           {/* Mobile logo */}
           <div className="mb-8 lg:hidden">
             <Link to="/" className="flex items-center gap-3">
-              <div
-                className="flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold text-white shadow-md"
-                style={{ background: "linear-gradient(135deg, #059669, #047857)" }}
-              >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                </svg>
-              </div>
+              <SchoolLogo className="h-10 w-10" />
               <span className="font-display text-lg font-extrabold text-slate-900 dark:text-white">Habucho School</span>
             </Link>
           </div>
