@@ -22,11 +22,8 @@ const Footer = () => {
 
   const quickLinks = [
     { to: "/about", label: "About Habucho" },
-    { to: "/academics", label: "Academics & Tracks" },
     { to: "/admissions", label: "Online Admissions" },
     { to: "/gallery", label: "Campus Gallery" },
-    { to: "/announcements", label: "News & Events" },
-    { to: "/schedule", label: "Class Schedules" },
     { to: "/contact", label: "Contact School" },
   ];
 
