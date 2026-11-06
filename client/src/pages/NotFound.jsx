@@ -39,7 +39,7 @@ const NotFound = () => {
   const suggestedLinks = [
     { to: "/", label: "Go Home", icon: "🏠" },
     { to: "/about", label: "About Us", icon: "🏫" },
-    { to: "/announcements", label: "News", icon: "📢" },
+    { to: "/admissions", label: "Admissions", icon: "🎓" },
     { to: "/login", label: "Login", icon: "🔐" },
   ];
 
