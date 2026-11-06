@@ -551,7 +551,7 @@ body.dark {
     0 0 65px rgba(16, 185, 129, 0.15);
 }
 
-.home-hero-image-lab {
+.home-hero-image-detail {
   z-index: 2;
   top: 0;
   right: 0;
@@ -559,7 +559,7 @@ body.dark {
   height: 37%;
 }
 
-.home-hero-image-library {
+.home-hero-image-campus {
   z-index: 2;
   right: 0;
   bottom: 0;
@@ -753,12 +753,12 @@ body.dark {
     height: 72%;
   }
 
-  .home-hero-image-lab {
+  .home-hero-image-detail {
     width: 39%;
     height: 35%;
   }
 
-  .home-hero-image-library {
+  .home-hero-image-campus {
     width: 42%;
     height: 34%;
   }
@@ -1347,4 +1347,3 @@ body.dark {
     font-size: 0.52rem;
   }
 }
-
