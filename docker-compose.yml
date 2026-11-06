@@ -37,8 +37,10 @@ services:
       DB_USER: ${DB_USER:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-postgres}
       DB_NAME: ${DB_NAME:-habucho_school}
+      DATABASE_SSL: "${DATABASE_SSL:-false}"
       JWT_SECRET: ${JWT_SECRET:-habucho_super_secret_jwt_key_2026}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-habucho_super_secret_refresh_key_2026}
+    command: ["sh", "-c", "npm run migrate && npm start"]
     ports:
       - "5000:5000"
     volumes:
