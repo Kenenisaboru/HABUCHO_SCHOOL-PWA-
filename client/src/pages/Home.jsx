@@ -5,6 +5,8 @@ import Reveal from "../components/Reveal";
 import useFetch from "../hooks/useFetch";
 import { getPublicStats } from "../services/publicService";
 import classroomImg from "../Images/about-classroom.webp";
+import collaborativeClassroomImg from "../Images/NAxYCGkrrCcJo__YuGjKdq_161NaTbpIZZwr3hc30SNUBQOGJ2l3FpQVJSknWS6GuyY7JuwtmXPT6coDe_blPsJG05ohqBW5ENnsykjgySw7XG5CbFkYtZLbQcqIWGOnmKka_rnZwGoCFGfWPZtGqlxePER-_eyq-mojSmHZC5bSSR8xj.jpg";
+import campusImg from "../Images/6qyj6zYI2n_DY-8a45W37sE_ZQtqHZQhV3sXjM_SV-i7gt7D1TbfWIyyEXx64X3FlBS3NdOeTe4Curnt4SJaisZ2WAczAE1fnmj_Crz6JRpgm5KUKzr1OWLTF0DzG6jNBGPjb14CF8hntMUWhGQe4vckkacS6pXABdFWCjMlk_2u0KQjbc0hg2tIiPNDkYUy.jpg";
 
 import kenenisaImg from "../Images/photo_2026-08-17_07-41-04.jpg";
 import nurelayImg from "../Images/photo_2026-08-17_07-40-50.jpg";
@@ -223,8 +225,8 @@ const Home = () => {
           <div className="home-hero-visual" aria-label="Illustrative classroom and school images">
             <div className="home-hero-image home-hero-image-main">
               <img
-                src={classroomImg}
-                alt="Students working together in a classroom"
+                src={collaborativeClassroomImg}
+                alt="Students learning together in a classroom"
                 fetchPriority="high"
                 decoding="async"
               />
@@ -232,18 +234,18 @@ const Home = () => {
             <p className="absolute bottom-3 left-3 z-10 rounded-full bg-slate-950/75 px-3 py-1 text-xs text-slate-200 backdrop-blur">
               Representative imagery
             </p>
-            <div className="home-hero-image home-hero-image-lab">
+            <div className="home-hero-image home-hero-image-detail">
               <img
-                src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=700&q=85"
-                alt="Students exploring science in a laboratory"
+                src={classroomImg}
+                alt="Students and a teacher working together in a classroom"
                 loading="lazy"
                 decoding="async"
               />
             </div>
-            <div className="home-hero-image home-hero-image-library">
+            <div className="home-hero-image home-hero-image-campus">
               <img
-                src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=700&q=85"
-                alt="Students reading and studying together"
+                src={campusImg}
+                alt="A school building and its grounds, shown as representative campus imagery"
                 loading="lazy"
                 decoding="async"
               />
