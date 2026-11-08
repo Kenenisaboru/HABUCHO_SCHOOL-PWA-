@@ -78,12 +78,9 @@ const Navbar = () => {
         <Link to="/" className="group flex items-center gap-3" aria-label="Habucho Preparatory School home">
           <SchoolLogo className="h-11 w-11 shadow-md transition-transform duration-300 group-hover:scale-105" />
           <div>
-            <div className="flex items-center gap-1.5">
+            <div>
               <span className="font-display text-base font-black tracking-tight text-slate-900 dark:text-white">
                 HABUCHO
-              </span>
-              <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-amber-600 dark:bg-amber-400/15 dark:text-amber-400">
-                PRO
               </span>
             </div>
             <span className="block text-[10px] font-medium tracking-wider text-slate-500 uppercase dark:text-slate-400">
