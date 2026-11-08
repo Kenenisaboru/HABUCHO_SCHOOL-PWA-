@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in the root .env file}
       POSTGRES_DB: ${DB_NAME:-habucho_school}
     ports:
       - "5432:5432"
@@ -35,16 +35,16 @@ services:
       DB_HOST: postgres
       DB_PORT: 5432
       DB_USER: ${DB_USER:-postgres}
-      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in the root .env file}
       DB_NAME: ${DB_NAME:-habucho_school}
       DATABASE_SSL: "${DATABASE_SSL:-false}"
-      JWT_SECRET: ${JWT_SECRET:-habucho_super_secret_jwt_key_2026}
-      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-habucho_super_secret_refresh_key_2026}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in the root .env file}
     command: ["sh", "-c", "npm run migrate && npm start"]
     ports:
       - "5000:5000"
     volumes:
       - ./server/uploads:/app/uploads
+      - ./server/private_uploads:/app/private_uploads
 
   client:
     build:
