@@ -134,28 +134,28 @@ const AdminAdmissions = () => {
       {/* Stats Summary */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <StatCard
-          icon={GraduationCap}
-          label="Total Applications"
+          icon={<GraduationCap />}
+          title="Total Applications"
           value={totalCount}
           color="blue"
         />
         <StatCard
-          icon={Clock}
-          label="Pending Review"
+          icon={<Clock />}
+          title="Pending Review"
           value={applications.filter((a) => a.status === "pending").length}
-          color="amber"
+          color="orange"
         />
         <StatCard
-          icon={CheckCircle2}
-          label="Approved"
+          icon={<CheckCircle2 />}
+          title="Approved"
           value={applications.filter((a) => a.status === "approved").length}
           color="emerald"
         />
         <StatCard
-          icon={XCircle}
-          label="Rejected"
+          icon={<XCircle />}
+          title="Rejected"
           value={applications.filter((a) => a.status === "rejected").length}
-          color="red"
+          color="orange"
         />
       </div>
 
