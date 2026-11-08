@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Backend API for Habucho Preparatory School Management System",
   "type": "module",
+  "engines": {
+    "node": ">=22.12.0 <25"
+  },
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
