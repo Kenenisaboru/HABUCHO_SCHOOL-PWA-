@@ -106,8 +106,8 @@ const AdminGallery = () => {
       {/* Summary Card */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <StatCard
-          icon={Images}
-          label="Gallery Images"
+          icon={<Images />}
+          title="Gallery Images"
           value={images.length}
           color="blue"
         />
