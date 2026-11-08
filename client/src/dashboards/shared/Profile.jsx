@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import useAuthStore from "../../context/authStore";
 import { getProfile, updateProfile, uploadAvatar, changePassword } from "../../services/authService";
+import { getAssetUrl } from "../../services/api";
 import { formatDate } from "../../utils/helpers";
 import { getRoleGradient } from "../../utils/roleColors";
 
@@ -179,7 +180,7 @@ const Profile = () => {
             <div className="relative group">
               <div className={`flex h-28 w-28 sm:h-36 sm:w-36 items-center justify-center rounded-3xl border-4 border-white bg-linear-to-br ${roleGradient} text-4xl sm:text-5xl font-extrabold text-white shadow-xl dark:border-slate-900 overflow-hidden`}>
                 {profile?.avatar_url ? (
-                  <img src={profile.avatar_url} alt={displayData.name} className="h-full w-full object-cover" />
+                  <img src={getAssetUrl(profile.avatar_url)} alt={displayData.name} className="h-full w-full object-cover" />
                 ) : (
                   displayData.name.charAt(0).toUpperCase()
                 )}
