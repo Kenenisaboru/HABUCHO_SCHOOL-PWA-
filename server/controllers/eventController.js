@@ -6,6 +6,7 @@
 import fs from "fs";
 import * as EventModel from "../models/eventModel.js";
 import { sendSuccess, sendError, getPagination } from "../utils/response.js";
+import { getUploadPath } from "../utils/uploadStorage.js";
 
 export const getEvents = async (req, res, next) => {
   try {
@@ -81,8 +82,8 @@ export const deleteEvent = async (req, res, next) => {
     if (!existing) return sendError(res, "Event not found", 404);
 
     if (existing.image_path) {
-      const filePath = existing.image_path.replace(/^\/uploads\//, "uploads/");
-      fs.unlink(filePath, () => {});
+      const filePath = getUploadPath(existing.image_path);
+      if (filePath) fs.unlink(filePath, () => {});
     }
 
     await EventModel.deleteEvent(req.params.id);
