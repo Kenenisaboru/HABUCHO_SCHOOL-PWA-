@@ -82,7 +82,7 @@ export const getPublicEvents = async (_req, res, next) => {
  */
 export const submitAdmission = async (req, res, next) => {
   try {
-    const documentPaths = (req.files || []).map((file) => file.path.replace(/\\/g, "/"));
+    const documentPaths = (req.files || []).map((file) => file.filename);
     const referenceNumber = generateReferenceNumber();
 
     const application = await AdmissionModel.createApplication({
