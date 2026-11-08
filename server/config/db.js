@@ -10,6 +10,10 @@ import logger from "../utils/logger.js";
 
 const { Pool } = pg;
 
+if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL is required in production.");
+}
+
 let sslConfig = false;
 if (
   process.env.DATABASE_SSL !== "false" &&
