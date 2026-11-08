@@ -15,7 +15,7 @@ import { register, login, logout, refreshAccessToken, getProfile, updateProfile,
 import { authenticateUser } from "../middleware/auth.js";
 import { authLimiter } from "../middleware/rateLimiter.js";
 import { validateRegister, validateLogin } from "../middleware/validate.js";
-import upload from "../middleware/upload.js";
+import upload, { validateImageUploads } from "../middleware/upload.js";
 
 const router = Router();
 
@@ -27,7 +27,7 @@ router.post("/forgot-password", authLimiter, forgotPassword);
 router.post("/reset-password", authLimiter, resetPassword);
 router.get("/profile", authenticateUser, getProfile);
 router.put("/profile", authenticateUser, updateProfile);
-router.post("/avatar", authenticateUser, upload.single("avatar"), uploadAvatar);
+router.post("/avatar", authenticateUser, upload.single("avatar"), validateImageUploads, uploadAvatar);
 router.post("/change-password", authenticateUser, changePassword);
 
 export default router;
