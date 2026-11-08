@@ -11,6 +11,10 @@ import pool, { testConnection } from "../config/db.js";
 const DEFAULT_PASSWORD = "Password123!";
 
 const seed = async () => {
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("Demo data cannot be seeded in production.");
+  }
+
   await testConnection();
 
   const hashedPassword = await bcrypt.hash(DEFAULT_PASSWORD, 10);
