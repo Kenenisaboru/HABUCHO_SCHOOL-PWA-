@@ -5,7 +5,18 @@
  */
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "/api";
+const resolveApiUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl && envUrl !== "/api") {
+    return envUrl;
+  }
+  if (typeof window !== "undefined" && window.location.hostname.endsWith("onrender.com")) {
+    return "https://habucho-school-pwa-zc34.onrender.com/api";
+  }
+  return "/api";
+};
+
+const API_URL = resolveApiUrl();
 
 export const getAssetUrl = (assetPath) => {
   if (typeof assetPath !== "string" || !assetPath.startsWith("/uploads/")) return assetPath;

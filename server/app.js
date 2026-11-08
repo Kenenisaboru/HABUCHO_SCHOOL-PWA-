@@ -29,14 +29,18 @@ import { UPLOAD_DIR } from "./utils/uploadStorage.js";
 const app = express();
 
 const isProduction = process.env.NODE_ENV === "production";
-const allowedOrigins = (process.env.CLIENT_URL || (isProduction ? "" : "http://localhost:5173"))
+const defaultOrigins = [
+  "http://localhost:5173",
+  "http://localhost:4173",
+  "https://habucho-school-pwa-0.onrender.com",
+];
+
+const envOrigins = (process.env.CLIENT_URL || "")
   .split(",")
-  .map((origin) => origin.trim())
+  .map((origin) => origin.trim().replace(/\/+$/, ""))
   .filter(Boolean);
 
-if (isProduction && allowedOrigins.length === 0) {
-  throw new Error("CLIENT_URL is required in production.");
-}
+const allowedOrigins = Array.from(new Set([...defaultOrigins, ...envOrigins]));
 
 app.set("trust proxy", 1);
 
@@ -50,7 +54,7 @@ app.use(
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
         imgSrc: ["'self'", "data:", "https:", "blob:"],
-        connectSrc: ["'self'"],
+        connectSrc: ["'self'", "https:", "http:"],
         objectSrc: ["'none'"],
         frameAncestors: ["'none'"],
         baseUri: ["'self'"],
@@ -65,7 +69,15 @@ app.use(
 
 const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    if (!origin) return callback(null, true);
+    const normalized = origin.replace(/\/+$/, "");
+    if (
+      allowedOrigins.includes(normalized) ||
+      normalized.endsWith(".onrender.com") ||
+      !isProduction
+    ) {
+      return callback(null, true);
+    }
     return callback(new Error("Origin is not allowed by CORS"));
   },
   credentials: true,

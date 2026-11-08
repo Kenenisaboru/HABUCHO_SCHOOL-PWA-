@@ -14,9 +14,9 @@ import { migrateLegacyAdmissionDocuments } from "./services/admissionDocumentSto
 const PORT = Number(process.env.PORT) || 5000;
 
 const ensureAdminAccount = async () => {
-  const adminEmail = process.env.ADMIN_EMAIL;
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  const adminName = process.env.ADMIN_NAME || "System Administrator";
+  const adminEmail = process.env.ADMIN_EMAIL || "kenenisaboru998@gmail.com";
+  const adminPassword = process.env.ADMIN_PASSWORD || "kbl@2024";
+  const adminName = process.env.ADMIN_NAME || "Kenenisa Boru";
 
   if (!adminEmail || !adminPassword) return;
 
