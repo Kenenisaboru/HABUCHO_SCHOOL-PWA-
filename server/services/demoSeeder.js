@@ -219,7 +219,112 @@ export const seedDemoData = async (pool) => {
       );
     }
 
-    logger.info("Demo data populated successfully: 40 students (10 in each Grade 9, 10, 11, 12), 4 teachers, full schedules, and grade records.");
+    // 7. Staff Profiles (visible on the public website — will impress your teacher!)
+    const existingStaff = await pool.query("SELECT COUNT(*) FROM staff_profiles");
+    if (parseInt(existingStaff.rows[0].count, 10) === 0) {
+      await pool.query(
+        `INSERT INTO staff_profiles (name, title, department, bio, display_order, is_active) VALUES
+         ('Dr. Alemayehu Bekele', 'School Director / Principal', 'Administration',
+          'Dr. Alemayehu holds a PhD in Educational Leadership from Addis Ababa University. With over 25 years of experience in Ethiopian education, he has led Habucho Preparatory School since its founding, fostering a culture of academic excellence and holistic student development.', 1, true),
+         ('Mrs. Tsehay Gebremedhin', 'Vice Principal – Academic Affairs', 'Administration',
+          'Mrs. Tsehay oversees the academic curriculum and teacher development. She holds an MA in Curriculum Design and has been instrumental in achieving the school''s consistently high national exam pass rates.', 2, true),
+         ('Mr. Tesfaye Abebe', 'Head of Natural Sciences', 'Natural Sciences',
+          'Mr. Tesfaye is a dedicated physics and chemistry educator with 18 years of experience. He established the school''s advanced science laboratory and mentors students for the National Science Olympiad.', 3, true),
+         ('Mrs. Sarah Johnson', 'Senior Mathematics Teacher', 'Mathematics',
+          'Mrs. Johnson brings a passion for making mathematics accessible and engaging. She has developed innovative teaching methods that have significantly improved student performance across all grade levels.', 4, true),
+         ('Mr. Michael Chen', 'Physics Teacher & ICT Coordinator', 'Natural Sciences',
+          'Mr. Chen integrates technology into science education and manages the school''s computer labs. He leads the Science and Technology Club and has guided students to win regional competitions.', 5, true),
+         ('Mrs. Aster Belachew', 'English Language & Literature', 'Languages',
+          'Mrs. Aster is an accomplished linguist fluent in English, Amharic, and Afaan Oromo. She coordinates the school''s debating society and creative writing program.', 6, true),
+         ('Mr. Daniel Gebre', 'Biology Teacher & Lab Manager', 'Natural Sciences',
+          'Mr. Daniel manages the biology laboratory and organizes field study trips. His hands-on teaching approach has inspired many students to pursue careers in medicine and environmental science.', 7, true),
+         ('Mrs. Hiwot Tadesse', 'School Counselor', 'Student Services',
+          'Mrs. Hiwot provides academic and emotional counseling to students. She holds a degree in Psychology and ensures every student has the support they need to thrive.', 8, true),
+         ('Mr. Kebede Worku', 'Physical Education & Sports Director', 'Sports',
+          'Mr. Kebede is a former national athlete who now channels his passion into training the next generation. Under his guidance, the school''s athletics team has won multiple inter-school championships.', 9, true),
+         ('Mrs. Fatima Abdi', 'Librarian & Resource Center Manager', 'Library',
+          'Mrs. Fatima manages the school''s extensive library and digital resource center with over 12,000 books and online databases, fostering a love of reading and independent research among students.', 10, true)`
+      );
+    }
+
+    // 8. School Events (upcoming and past — shows a vibrant school life)
+    const existingEvents = await pool.query("SELECT COUNT(*) FROM events");
+    if (parseInt(existingEvents.rows[0].count, 10) === 0) {
+      await pool.query(
+        `INSERT INTO events (title, content, event_date, category, status) VALUES
+         ('Annual Science Fair 2025', 'Grade 11 and 12 Natural Science students will present their innovative research projects. Topics include renewable energy solutions, water purification, and AI in agriculture. Open to all parents and community members.', '2025-01-20', 'Academic', 'published'),
+         ('Inter-School Athletics Championship', 'Habucho School hosts the regional athletics meet. Over 500 student athletes from 12 schools will compete in track and field, volleyball, and football.', '2025-02-15', 'Sports', 'published'),
+         ('Ethiopian National Day Celebration', 'Join us for cultural performances, traditional music, poetry recitals, and a special address by the school director honoring Ethiopia''s rich heritage.', '2025-03-02', 'Cultural', 'published'),
+         ('Parent-Teacher Conference – Semester 1', 'Parents are invited to review their children''s academic progress, meet with subject teachers, and discuss strategies for continued improvement.', '2025-01-25', 'Meeting', 'published'),
+         ('Grade 12 University Guidance Workshop', 'University admissions officers from Addis Ababa University, Jimma University, and Hawassa University will present information about programs, scholarships, and application procedures.', '2025-02-08', 'Academic', 'published'),
+         ('World Environment Day – Tree Planting', 'Students and staff will plant 500 indigenous trees in the school compound and nearby community areas as part of our commitment to environmental sustainability.', '2025-06-05', 'Community', 'published'),
+         ('Habucho School Graduation Ceremony 2025', 'Celebrating the achievements of our Grade 12 graduating class. Ceremony includes keynote speakers, award presentations, and cultural performances by students.', '2025-07-10', 'Ceremony', 'published'),
+         ('National Exam Prep Bootcamp – Grade 12', 'An intensive 2-week preparation program covering all examination subjects with practice tests, time management strategies, and study techniques.', '2025-04-01', 'Academic', 'published')`
+      );
+    }
+
+    // 9. Academic Programs (showcased on the public website)
+    const existingPrograms = await pool.query("SELECT COUNT(*) FROM academic_programs");
+    if (parseInt(existingPrograms.rows[0].count, 10) === 0) {
+      await pool.query(
+        `INSERT INTO academic_programs (name, description, category, display_order, is_active) VALUES
+         ('Natural Science Stream', 'A rigorous program covering Mathematics, Physics, Chemistry, and Biology. Prepares students for university programs in engineering, medicine, technology, and scientific research. Features fully equipped laboratories and hands-on experimental learning.', 'Preparatory', 1, true),
+         ('Social Science Stream', 'Comprehensive study of History, Geography, Economics, and Civics. Prepares students for careers in law, business, public administration, journalism, and international relations.', 'Preparatory', 2, true),
+         ('General Secondary Education (Grade 9–10)', 'Foundation program that builds strong academic skills across all core subjects including Mathematics, English, Amharic, Sciences, and Social Studies. Students are prepared for the national Grade 10 examination.', 'Secondary', 3, true),
+         ('English Language Excellence Program', 'An intensive English program featuring debate clubs, creative writing workshops, public speaking competitions, and Cambridge English preparation to build globally competitive communication skills.', 'Enrichment', 4, true),
+         ('Science & Technology Club', 'Extracurricular program where students explore robotics, coding with Python, 3D printing, and participate in national science olympiads and innovation competitions.', 'Extracurricular', 5, true),
+         ('Athletics & Physical Education', 'Comprehensive sports program including track and field, football, volleyball, and basketball. Regular inter-school competitions develop teamwork, discipline, and physical fitness.', 'Extracurricular', 6, true),
+         ('Community Service & Leadership', 'Students develop leadership skills through community outreach projects including tutoring younger students, environmental cleanup campaigns, and visits to local charities.', 'Extracurricular', 7, true),
+         ('University Preparation & Career Guidance', 'Dedicated counseling and mentorship program for Grade 12 students. Includes mock entrance exams, university application workshops, scholarship guidance, and career aptitude assessments.', 'Support', 8, true)`
+      );
+    }
+
+    // 10. Website Settings (school branding and info)
+    const existingSettings = await pool.query("SELECT COUNT(*) FROM website_settings");
+    if (parseInt(existingSettings.rows[0].count, 10) === 0) {
+      await pool.query(
+        `INSERT INTO website_settings (key, value, description) VALUES
+         ('school_name', 'Habucho Preparatory School', 'Official school name'),
+         ('school_motto', 'Excellence Through Knowledge, Character Through Discipline', 'School motto displayed on the website'),
+         ('school_phone', '+251 46 220 1234', 'Main school phone number'),
+         ('school_email', 'info@habuchoschool.edu.et', 'Official school email address'),
+         ('school_address', 'Habucho Town, West Arsi Zone, Oromia Region, Ethiopia', 'School physical address'),
+         ('school_founded', '2005', 'Year the school was established'),
+         ('school_students_count', '480', 'Approximate number of enrolled students'),
+         ('school_teachers_count', '32', 'Number of teaching staff'),
+         ('school_description', 'Habucho Preparatory School is a premier educational institution committed to nurturing academically excellent and morally upright students. Our modern facilities, dedicated faculty, and comprehensive curriculum prepare students for success in national examinations and beyond.', 'About the school paragraph'),
+         ('school_vision', 'To be the leading preparatory school in the Oromia region, producing graduates who excel in higher education and contribute meaningfully to the development of Ethiopia and the world.', 'School vision statement'),
+         ('school_mission', 'To provide quality education in a safe and inclusive learning environment, developing students'' intellectual abilities, critical thinking, and ethical values through innovative teaching and holistic development programs.', 'School mission statement')`
+      );
+    }
+
+    // 11. Contact Messages (makes the admin inbox look realistic)
+    const existingContacts = await pool.query("SELECT COUNT(*) FROM contact_messages");
+    if (parseInt(existingContacts.rows[0].count, 10) === 0) {
+      await pool.query(
+        `INSERT INTO contact_messages (name, email, message) VALUES
+         ('Ato Bekele Hailu', 'bekele.h@gmail.com', 'I am interested in enrolling my daughter for Grade 9 starting next academic year. Could you please share the admission requirements and deadlines?'),
+         ('W/ro Mulu Tadesse', 'mulu.t@yahoo.com', 'Thank you for the excellent education my son has received at Habucho. His grades have improved tremendously since joining. We are truly grateful to all his teachers.'),
+         ('Dr. Hassen Abdulla', 'hassen.a@gmail.com', 'I am a university professor and would like to offer a guest lecture on Environmental Science for your Grade 12 students. Please let me know if this would be possible.'),
+         ('Ato Girma Tolessa', 'girma.t@outlook.com', 'We recently moved to the area and are looking for a quality preparatory school for our two children (Grades 10 and 11). Can we schedule a school tour?'),
+         ('W/ro Sara Ahmed', 'sara.ahmed@gmail.com', 'The parent-teacher conference was very well organized. I appreciate the transparent communication about my child''s progress. Keep up the great work!')`
+      );
+    }
+
+    // 12. Admission Applications (shows the admissions pipeline)
+    const existingAdmissions = await pool.query("SELECT COUNT(*) FROM admission_applications");
+    if (parseInt(existingAdmissions.rows[0].count, 10) === 0) {
+      await pool.query(
+        `INSERT INTO admission_applications (reference_number, applicant_name, email, phone, date_of_birth, gender, grade_level, parent_name, parent_phone, address, previous_school, message, status, document_paths) VALUES
+         ('HPS-ADM-2025-001', 'Hanna Tekle', 'hanna.tekle@gmail.com', '+251 91 777 1234', '2010-04-15', 'Female', '9', 'Tekle Woldegiorgis', '+251 91 777 1235', 'Shashemene, West Arsi', 'Shashemene Primary School', 'My daughter has consistently been top of her class and we believe Habucho is the best school for her preparatory education.', 'pending', '{}'),
+         ('HPS-ADM-2025-002', 'Yonas Berhane', 'yonas.b@gmail.com', '+251 92 888 2345', '2010-07-22', 'Male', '9', 'Berhane Gebremedhin', '+251 92 888 2346', 'Hawassa, Sidama', 'Hawassa International Academy', 'We are relocating to Habucho town and would like Yonas to continue his education at your prestigious school.', 'approved', '{}'),
+         ('HPS-ADM-2025-003', 'Tsion Alemu', 'tsion.a@yahoo.com', '+251 93 999 3456', '2009-12-08', 'Female', '10', 'Alemu Desta', '+251 93 999 3457', 'Dodola, West Arsi', 'Dodola Secondary School', 'Tsion is passionate about science and would thrive in your Natural Science stream.', 'approved', '{}'),
+         ('HPS-ADM-2025-004', 'Kedir Mohammed', 'kedir.m@gmail.com', '+251 94 111 4567', '2008-09-30', 'Male', '11', 'Mohammed Abdi', '+251 94 111 4568', 'Robe, Bale', 'Robe Preparatory School', 'Requesting transfer to Habucho for the Social Science stream. Kedir has strong academic records.', 'pending', '{}'),
+         ('HPS-ADM-2025-005', 'Meti Gemechu', 'meti.g@outlook.com', '+251 95 222 5678', '2010-01-18', 'Female', '9', 'Gemechu Hundessa', '+251 95 222 5679', 'Kofele, West Arsi', 'Kofele Primary School', 'We have heard wonderful things about your school from the community. Excited to apply!', 'rejected', '{}')`
+      );
+    }
+
+    logger.info("🎉 Full demo data populated: 40 students, 4 teachers, 10 staff profiles, 8 events, 8 programs, 5 admissions, 5 contact messages, and school settings.");
   } catch (error) {
     logger.error(`Error seeding demo data: ${error.message}`);
   }
