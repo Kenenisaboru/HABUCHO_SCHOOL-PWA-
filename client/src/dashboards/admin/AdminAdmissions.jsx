@@ -26,6 +26,7 @@ import {
 } from "../../services/admissionService";
 
 const PAGE_SIZE = 10;
+const API_BASE_URL = (import.meta.env.VITE_API_URL || "/api").replace(/\/$/, "");
 
 const AdminAdmissions = () => {
   const [applications, setApplications] = useState([]);
@@ -330,10 +331,11 @@ const AdminAdmissions = () => {
                 <div>
                   <span className="text-slate-400 font-semibold block mb-2">Uploaded Certificates & Transcripts</span>
                   <div className="flex flex-wrap gap-2">
-                    {selectedApp.document_paths.map((docPath, i) => (
-                      <a
+                    {selectedApp.document_paths.map((docPath, i) => {
+                      const filename = docPath.split(/[\\/]/).pop();
+                      return <a
                         key={i}
-                        href={docPath}
+                        href={`${API_BASE_URL}/admissions/${selectedApp.id}/documents/${encodeURIComponent(filename)}`}
                         target="_blank"
                         rel="noreferrer"
                         className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs text-primary hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-800 dark:text-blue-400"
@@ -342,7 +344,7 @@ const AdminAdmissions = () => {
                         <span>Document #{i + 1}</span>
                         <ExternalLink className="h-3 w-3 opacity-60" />
                       </a>
-                    ))}
+                    })}
                   </div>
                 </div>
               )}
