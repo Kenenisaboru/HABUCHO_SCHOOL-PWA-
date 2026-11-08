@@ -146,14 +146,14 @@ const AdminStaff = () => {
       {/* Summary Card */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <StatCard
-          icon={UsersRound}
-          label="Total Faculty & Staff"
+          icon={<UsersRound />}
+          title="Total Faculty & Staff"
           value={staff.length}
           color="blue"
         />
         <StatCard
-          icon={UserCheck}
-          label="Active Profiles"
+          icon={<UserCheck />}
+          title="Active Profiles"
           value={staff.filter((s) => s.is_active !== false).length}
           color="emerald"
         />
