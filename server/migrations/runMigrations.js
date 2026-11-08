@@ -28,7 +28,7 @@ const getAppliedMigrations = async (client) => {
   return new Set(rows.map((r) => r.filename));
 };
 
-const runMigrations = async () => {
+export const runMigrations = async (closePoolAfter = true) => {
   await testConnection();
 
   const client = await pool.connect();
@@ -47,12 +47,12 @@ const runMigrations = async () => {
     const pending = files.filter((f) => !applied.has(f));
 
     if (pending.length === 0) {
-      console.log("\n✅ All migrations already applied.\n");
+      console.log("✅ All migrations already applied.");
       await client.query("COMMIT");
       return;
     }
 
-    console.log(`\n📦 Running ${pending.length} pending migration(s)...\n`);
+    console.log(`📦 Running ${pending.length} pending migration(s)...`);
 
     for (const file of pending) {
       const filePath = path.join(migrationsDir, file);
@@ -63,15 +63,28 @@ const runMigrations = async () => {
     }
 
     await client.query("COMMIT");
-    console.log("\n✅ All migrations completed successfully.\n");
+    console.log("✅ All migrations completed successfully.");
   } catch (error) {
     await client.query("ROLLBACK");
-    console.error("\n❌ Migration failed, rolled back:", error.message);
-    process.exit(1);
+    console.error("❌ Migration failed, rolled back:", error.message);
+    if (closePoolAfter) {
+      process.exit(1);
+    }
+    throw error;
   } finally {
     client.release();
-    await pool.end();
+    if (closePoolAfter) {
+      await pool.end();
+    }
   }
 };
 
-runMigrations();
+const isMainModule =
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
+
+if (isMainModule) {
+  runMigrations(true)
+    .then(() => process.exit(0))
+    .catch(() => process.exit(1));
+}

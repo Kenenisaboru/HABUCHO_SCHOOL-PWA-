@@ -18,4 +18,4 @@ EXPOSE 5000
 ENV NODE_ENV=production
 ENV PORT=5000
 
-CMD ["sh", "-c", "npm run migrate && node server.js"]
+CMD ["node", "server.js"]

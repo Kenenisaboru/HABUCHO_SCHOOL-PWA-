@@ -7,12 +7,14 @@ import "dotenv/config";
 import app from "./app.js";
 import { testConnection, default as pool } from "./config/db.js";
 import logger from "./utils/logger.js";
+import { runMigrations } from "./migrations/runMigrations.js";
 import { migrateLegacyAdmissionDocuments } from "./services/admissionDocumentStorage.js";
 
 const PORT = Number(process.env.PORT) || 5000;
 
 const startServer = async () => {
   await testConnection();
+  await runMigrations(false);
   await migrateLegacyAdmissionDocuments();
 
   const server = app.listen(PORT, "0.0.0.0", () => {
