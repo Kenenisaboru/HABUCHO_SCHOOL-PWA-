@@ -8,7 +8,7 @@ import {
   getAdmissionStatus,
 } from "../controllers/publicController.js";
 import { apiLimiter } from "../middleware/rateLimiter.js";
-import { documentUpload } from "../middleware/upload.js";
+import { documentUpload, validateDocumentUploads } from "../middleware/upload.js";
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ router.get("/stats", getPublicStats);
 router.get("/programs", getPublicPrograms);
 router.get("/gallery", getPublicGallery);
 router.get("/events", getPublicEvents);
-router.post("/admissions", documentUpload.array("documents", 5), submitAdmission);
+router.post("/admissions", documentUpload.array("documents", 5), validateDocumentUploads, submitAdmission);
 router.get("/admissions/status/:referenceNumber", getAdmissionStatus);
 
 export default router;
