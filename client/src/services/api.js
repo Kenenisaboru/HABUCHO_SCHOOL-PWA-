@@ -6,8 +6,12 @@
 import axios from "axios";
 
 const resolveApiUrl = () => {
-  const envUrl = import.meta.env.VITE_API_URL;
+  let envUrl = import.meta.env.VITE_API_URL;
   if (envUrl && envUrl !== "/api") {
+    envUrl = envUrl.trim().replace(/\/+$/, "");
+    if (!envUrl.endsWith("/api")) {
+      envUrl += "/api";
+    }
     return envUrl;
   }
   if (typeof window !== "undefined" && window.location.hostname.endsWith("onrender.com")) {

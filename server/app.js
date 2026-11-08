@@ -100,19 +100,19 @@ app.get("/api/health", async (_req, res) => {
   }
 });
 
-// API Endpoints
-app.use("/api", apiLimiter);
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/announcements", announcementRoutes);
-app.use("/api/schedules", scheduleRoutes);
-app.use("/api/grades", gradeRoutes);
-app.use("/api/contact", contactRoutes);
-app.use("/api/public", publicRoutes);
-app.use("/api/events", eventRoutes);
-app.use("/api/gallery", galleryRoutes);
-app.use("/api/staff", staffRoutes);
-app.use("/api/admissions", admissionRoutes);
+// API Endpoints (supports both /api/* and root /* paths)
+app.use(["/api", "/"], apiLimiter);
+app.use(["/api/auth", "/auth"], authRoutes);
+app.use(["/api/users", "/users"], userRoutes);
+app.use(["/api/announcements", "/announcements"], announcementRoutes);
+app.use(["/api/schedules", "/schedules"], scheduleRoutes);
+app.use(["/api/grades", "/grades"], gradeRoutes);
+app.use(["/api/contact", "/contact"], contactRoutes);
+app.use(["/api/public", "/public"], publicRoutes);
+app.use(["/api/events", "/events"], eventRoutes);
+app.use(["/api/gallery", "/gallery"], galleryRoutes);
+app.use(["/api/staff", "/staff"], staffRoutes);
+app.use(["/api/admissions", "/admissions"], admissionRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
