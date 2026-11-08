@@ -14,6 +14,7 @@ import Reveal from "../components/Reveal";
 import SkeletonLoader from "../components/SkeletonLoader";
 import useFetch from "../hooks/useFetch";
 import { getGalleryImages } from "../services/publicService";
+import { getAssetUrl } from "../services/api";
 import classroomImg from "../Images/about-classroom.webp";
 import campusImg from "../Images/about-campus.webp";
 import collaborativeClassroomImg from "../Images/NAxYCGkrrCcJo__YuGjKdq_161NaTbpIZZwr3hc30SNUBQOGJ2l3FpQVJSknWS6GuyY7JuwtmXPT6coDe_blPsJG05ohqBW5ENnsykjgySw7XG5CbFkYtZLbQcqIWGOnmKka_rnZwGoCFGfWPZtGqlxePER-_eyq-mojSmHZC5bSSR8xj.jpg";
@@ -152,7 +153,7 @@ const Gallery = () => {
                     {/* Image with zoom effect */}
                     <div className="relative aspect-4/3 overflow-hidden bg-slate-100 dark:bg-slate-800">
                       <img
-                        src={img.image_path}
+                        src={getAssetUrl(img.image_path)}
                         alt={img.title}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
@@ -228,7 +229,7 @@ const Gallery = () => {
             className="relative max-w-5xl max-h-[90vh] flex flex-col items-center overflow-hidden rounded-2xl bg-slate-950 border border-slate-800 shadow-2xl"
           >
             <img
-              src={selectedImage.image_path}
+              src={getAssetUrl(selectedImage.image_path)}
               alt={selectedImage.title}
               className="max-h-[70vh] w-auto max-w-full object-contain"
             />
