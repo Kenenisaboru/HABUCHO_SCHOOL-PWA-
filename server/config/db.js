@@ -14,10 +14,15 @@ if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is required in production.");
 }
 
+const isRemoteUrl =
+  typeof process.env.DATABASE_URL === "string" &&
+  !process.env.DATABASE_URL.includes("localhost") &&
+  !process.env.DATABASE_URL.includes("127.0.0.1");
+
 let sslConfig = false;
 if (
-  process.env.DATABASE_SSL !== "false" &&
-  (process.env.NODE_ENV === "production" || process.env.DATABASE_SSL === "true")
+  process.env.DATABASE_SSL === "true" ||
+  (process.env.DATABASE_SSL !== "false" && (process.env.NODE_ENV === "production" || isRemoteUrl))
 ) {
   sslConfig = {
     rejectUnauthorized:
