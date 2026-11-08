@@ -33,12 +33,7 @@ const Sidebar = ({ links }) => {
         <Link to="/" className="group flex items-center gap-3">
           <SchoolLogo className="h-10 w-10 shadow-md transition-transform duration-200 group-hover:scale-105" />
           <div>
-            <div className="flex items-center gap-1.5">
-              <p className="font-display text-sm font-extrabold text-slate-900 dark:text-white">Habucho</p>
-              <span className="rounded bg-amber-500/10 px-1 py-0.2 text-[9px] font-bold text-amber-600 dark:text-amber-400">
-                PRO
-              </span>
-            </div>
+            <p className="font-display text-sm font-extrabold text-slate-900 dark:text-white">Habucho</p>
             <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
               Management Portal
             </p>
