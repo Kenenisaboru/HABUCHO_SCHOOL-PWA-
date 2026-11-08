@@ -154,22 +154,22 @@ const AdminEvents = () => {
       {/* Stats Summary */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard
-          icon={Calendar}
-          label="Total Events"
+          icon={<Calendar />}
+          title="Total Events"
           value={totalCount}
           color="blue"
         />
         <StatCard
-          icon={CheckCircle}
-          label="Published"
+          icon={<CheckCircle />}
+          title="Published"
           value={events.filter((e) => e.status === "published").length}
           color="emerald"
         />
         <StatCard
-          icon={FileText}
-          label="Drafts"
+          icon={<FileText />}
+          title="Drafts"
           value={events.filter((e) => e.status === "draft").length}
-          color="amber"
+          color="orange"
         />
       </div>
 
