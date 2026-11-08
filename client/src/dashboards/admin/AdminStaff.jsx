@@ -19,6 +19,7 @@ import {
   updateStaffProfile,
   deleteStaffProfile,
 } from "../../services/staffService";
+import { getAssetUrl } from "../../services/api";
 
 const AdminStaff = () => {
   const [staff, setStaff] = useState([]);
@@ -197,7 +198,7 @@ const AdminStaff = () => {
                     <div className="flex items-center gap-3">
                       {item.photo_path ? (
                         <img
-                          src={item.photo_path}
+                          src={getAssetUrl(item.photo_path)}
                           alt={item.name}
                           className="h-10 w-10 rounded-full object-cover shrink-0"
                         />
