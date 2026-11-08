@@ -6,6 +6,7 @@
 import fs from "fs";
 import * as GalleryModel from "../models/galleryModel.js";
 import { sendSuccess, sendError } from "../utils/response.js";
+import { getUploadPath } from "../utils/uploadStorage.js";
 
 export const getGalleryImages = async (_req, res, next) => {
   try {
@@ -45,8 +46,8 @@ export const deleteGalleryImage = async (req, res, next) => {
     if (!deleted) return sendError(res, "Gallery image not found", 404);
 
     if (deleted.image_path) {
-      const filePath = deleted.image_path.replace(/^\/uploads\//, "uploads/");
-      fs.unlink(filePath, () => {});
+      const filePath = getUploadPath(deleted.image_path);
+      if (filePath) fs.unlink(filePath, () => {});
     }
 
     return sendSuccess(res, { id: req.params.id }, "Image removed from gallery successfully");
