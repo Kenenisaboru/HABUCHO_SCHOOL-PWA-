@@ -4,13 +4,11 @@
  * Handles file uploads with magic-byte validation.
  */
 import multer from "multer";
+import fs from "node:fs/promises";
 import path from "path";
 import crypto from "crypto";
 import { fileTypeFromBuffer } from "file-type";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { PRIVATE_UPLOAD_DIR, UPLOAD_DIR } from "../utils/uploadStorage.js";
 
 const ALLOWED_MIMES = new Set([
   "image/jpeg",
@@ -19,10 +17,8 @@ const ALLOWED_MIMES = new Set([
   "image/webp",
 ]);
 
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, path.join(__dirname, "../uploads"));
-  },
+const createStorage = (directory) => multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, directory),
   filename: (_req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();
     const uniqueName = `${crypto.randomUUID()}${ext}`;
@@ -30,37 +26,22 @@ const storage = multer.diskStorage({
   },
 });
 
-const fileFilter = async (req, file, cb) => {
-  const ext = path.extname(file.originalname).toLowerCase();
-  const extAllowed = /\.(jpe?g|png|gif|webp)$/.test(ext);
-  if (!extAllowed) {
-    return cb(new Error("Only image files are allowed"), false);
-  }
+const storage = createStorage(UPLOAD_DIR);
+const privateStorage = createStorage(PRIVATE_UPLOAD_DIR);
 
-  try {
-    const buffer = Buffer.alloc(4100);
-    const fd = await import("fs").then((fs) =>
-      fs.promises.open(file.path, "r")
-    );
-    const { bytesRead } = await fd.read(buffer, 0, 4100, 0);
-    await fd.close();
-
-    const type = await fileTypeFromBuffer(buffer.subarray(0, bytesRead));
-    if (type && ALLOWED_MIMES.has(type.mime)) {
-      cb(null, true);
-    } else if (ALLOWED_MIMES.has(file.mimetype)) {
-      cb(null, true);
-    } else {
-      cb(new Error("File content does not match allowed image types"), false);
-    }
-  } catch {
-    if (ALLOWED_MIMES.has(file.mimetype)) {
-      cb(null, true);
-    } else {
-      cb(new Error("Could not verify file type"), false);
-    }
+const createExtensionFilter = (extensions, message) => (_req, file, cb) => {
+  if (!extensions.has(path.extname(file.originalname).toLowerCase())) {
+    const error = new Error(message);
+    error.statusCode = 400;
+    return cb(error, false);
   }
+  cb(null, true);
 };
+
+const fileFilter = createExtensionFilter(
+  new Set([".jpg", ".jpeg", ".png", ".gif", ".webp"]),
+  "Only image files are allowed"
+);
 
 export const upload = multer({
   storage,
@@ -82,44 +63,49 @@ const DOCUMENT_ALLOWED_MIMES = new Set([
   "application/pdf",
 ]);
 
-const documentFileFilter = async (req, file, cb) => {
-  const ext = path.extname(file.originalname).toLowerCase();
-  const extAllowed = /\.(jpe?g|png|gif|webp|pdf)$/.test(ext);
-  if (!extAllowed) {
-    return cb(new Error("Only image and PDF files are allowed"), false);
-  }
+const documentFileFilter = createExtensionFilter(
+  new Set([".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf"]),
+  "Only image and PDF files are allowed"
+);
+
+const validateUploadedFiles = (allowedMimes) => async (req, _res, next) => {
+  const files = [req.file, ...(Array.isArray(req.files) ? req.files : [])].filter(Boolean);
 
   try {
-    const buffer = Buffer.alloc(4100);
-    const fd = await import("fs").then((fs) =>
-      fs.promises.open(file.path, "r")
-    );
-    const { bytesRead } = await fd.read(buffer, 0, 4100, 0);
-    await fd.close();
+    for (const file of files) {
+      const handle = await fs.open(file.path, "r");
+      const buffer = Buffer.alloc(4100);
+      let bytesRead;
+      try {
+        ({ bytesRead } = await handle.read(buffer, 0, buffer.length, 0));
+      } finally {
+        await handle.close();
+      }
 
-    const type = await fileTypeFromBuffer(buffer.subarray(0, bytesRead));
-    if (type && DOCUMENT_ALLOWED_MIMES.has(type.mime)) {
-      cb(null, true);
-    } else if (DOCUMENT_ALLOWED_MIMES.has(file.mimetype)) {
-      cb(null, true);
-    } else if (buffer.subarray(0, 4).toString("ascii") === "%PDF") {
-      cb(null, true); // PDF magic bytes
-    } else {
-      cb(new Error("File content does not match allowed types"), false);
+      const content = buffer.subarray(0, bytesRead);
+      const type = await fileTypeFromBuffer(content);
+      const isPdf = allowedMimes.has("application/pdf") && content.subarray(0, 4).toString("ascii") === "%PDF";
+      if ((!type || !allowedMimes.has(type.mime)) && !isPdf) {
+        const error = new Error("File content does not match an allowed type");
+        error.statusCode = 400;
+        throw error;
+      }
     }
-  } catch {
-    if (DOCUMENT_ALLOWED_MIMES.has(file.mimetype)) {
-      cb(null, true);
-    } else {
-      cb(new Error("Could not verify file type"), false);
-    }
+    return next();
+  } catch (error) {
+    await Promise.all(files.map((file) => fs.unlink(file.path).catch(() => {})));
+    if (!error.statusCode) error.statusCode = 400;
+    return next(error);
   }
 };
 
 export const documentUpload = multer({
-  storage,
+  storage: privateStorage,
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: documentFileFilter,
 });
+
+export const validateImageUploads = validateUploadedFiles(ALLOWED_MIMES);
+export const validateDocumentUploads = validateUploadedFiles(DOCUMENT_ALLOWED_MIMES);
 
 export default upload;
