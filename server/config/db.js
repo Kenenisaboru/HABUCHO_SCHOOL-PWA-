@@ -19,7 +19,11 @@ if (
   process.env.DATABASE_SSL !== "false" &&
   (process.env.NODE_ENV === "production" || process.env.DATABASE_SSL === "true")
 ) {
-  sslConfig = { rejectUnauthorized: true, ca: process.env.DATABASE_SSL_CA || undefined };
+  sslConfig = {
+    rejectUnauthorized:
+      process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === "true" || !!process.env.DATABASE_SSL_CA,
+    ca: process.env.DATABASE_SSL_CA || undefined,
+  };
 }
 
 const pool = new Pool({
