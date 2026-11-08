@@ -6,6 +6,7 @@
 import fs from "fs";
 import * as StaffModel from "../models/staffModel.js";
 import { sendSuccess, sendError } from "../utils/response.js";
+import { getUploadPath } from "../utils/uploadStorage.js";
 
 export const getStaffProfiles = async (_req, res, next) => {
   try {
@@ -71,8 +72,8 @@ export const deleteStaffProfile = async (req, res, next) => {
     if (!deleted) return sendError(res, "Staff profile not found", 404);
 
     if (deleted.photo_path) {
-      const filePath = deleted.photo_path.replace(/^\/uploads\//, "uploads/");
-      fs.unlink(filePath, () => {});
+      const filePath = getUploadPath(deleted.photo_path);
+      if (filePath) fs.unlink(filePath, () => {});
     }
 
     return sendSuccess(res, { id: req.params.id }, "Staff profile deleted successfully");
