@@ -202,9 +202,6 @@ export const forgotPassword = async (req, res, next) => {
       [hashedToken, expires, user.id]
     );
 
-    console.log(`[PASSWORD RESET] Token for ${email}: ${resetToken}`);
-    console.log(`[PASSWORD RESET] Expires at: ${expires.toISOString()}`);
-
     return sendSuccess(res, null, "If the email exists, a reset link has been sent.");
   } catch (error) {
     next(error);
