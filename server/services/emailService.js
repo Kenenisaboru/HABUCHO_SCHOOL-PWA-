@@ -12,7 +12,7 @@ const getTransporter = () => {
   if (transporter) return transporter;
 
   if (!process.env.SMTP_HOST) {
-    console.warn("[EMAIL] SMTP not configured — emails will be logged to console");
+    console.warn("[EMAIL] SMTP is not configured; email was not sent.");
     return null;
   }
 
@@ -42,8 +42,7 @@ export const sendEmail = async ({ to, subject, html, attachments = [] }) => {
   const transport = getTransporter();
 
   if (!transport) {
-    console.log(`[EMAIL MOCK] To: ${to}\nSubject: ${subject}\nAttachments: ${attachments.map(a => a.filename).join(", ") || "none"}`);
-    return { success: true, mocked: true };
+    return { success: false, error: "Email service is not configured" };
   }
 
   try {
@@ -56,7 +55,7 @@ export const sendEmail = async ({ to, subject, html, attachments = [] }) => {
     });
     return { success: true };
   } catch (error) {
-    console.error(`[EMAIL ERROR] Failed to send to ${to}:`, error.message);
+    console.error("[EMAIL ERROR] Email delivery failed:", error.message);
     return { success: false, error: error.message };
   }
 };
