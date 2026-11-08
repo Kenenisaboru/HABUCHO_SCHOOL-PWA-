@@ -5,6 +5,9 @@
  */
 import * as AdmissionModel from "../models/admissionModel.js";
 import { sendSuccess, sendError, getPagination } from "../utils/response.js";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { getPrivateUploadPath } from "../utils/uploadStorage.js";
 
 export const getAdmissions = async (req, res, next) => {
   try {
@@ -32,6 +35,31 @@ export const getAdmissionById = async (req, res, next) => {
     return sendSuccess(res, application);
   } catch (err) {
     next(err);
+  }
+};
+
+export const downloadAdmissionDocument = async (req, res, next) => {
+  try {
+    const application = await AdmissionModel.getApplicationById(req.params.id);
+    if (!application) return sendError(res, "Admission application not found", 404);
+
+    const filename = path.basename(req.params.filename);
+    const ownedDocuments = (application.document_paths || []).map((storedPath) =>
+      path.basename(String(storedPath).replace(/\\/g, "/"))
+    );
+    if (!ownedDocuments.includes(filename)) {
+      return sendError(res, "Admission document not found", 404);
+    }
+
+    const filePath = getPrivateUploadPath(filename);
+    if (!filePath) return sendError(res, "Admission document not found", 404);
+    await fs.access(filePath);
+    return res.download(filePath, filename, (error) => {
+      if (error && !res.headersSent) next(error);
+    });
+  } catch (error) {
+    if (error.code === "ENOENT") return sendError(res, "Admission document not found", 404);
+    return next(error);
   }
 };
 
