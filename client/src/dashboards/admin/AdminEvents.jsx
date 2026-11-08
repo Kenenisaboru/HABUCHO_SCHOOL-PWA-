@@ -22,6 +22,7 @@ import {
   updateEvent,
   deleteEvent,
 } from "../../services/eventService";
+import { getAssetUrl } from "../../services/api";
 
 const PAGE_SIZE = 8;
 
@@ -211,7 +212,7 @@ const AdminEvents = () => {
                     <div className="flex items-center gap-3">
                       {item.image_path ? (
                         <img
-                          src={item.image_path}
+                          src={getAssetUrl(item.image_path)}
                           alt={item.title}
                           className="h-10 w-10 rounded-lg object-cover shrink-0"
                         />
