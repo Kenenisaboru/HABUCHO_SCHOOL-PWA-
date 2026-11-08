@@ -105,11 +105,11 @@ Open `.env` in VS Code or Notepad and update:
 ```env
 PORT=5000
 DATABASE_URL=postgresql://postgres:your_password@localhost:5432/habucho_school
-JWT_SECRET=habucho_school_secret_key_2026_super_secret
+JWT_SECRET=<generate-a-unique-secret>
 NODE_ENV=development
 ```
 
-**IMPORTANT:** Replace `your_password` with your PostgreSQL password.
+**IMPORTANT:** Replace `your_password` with your PostgreSQL password and generate a unique JWT secret. Never reuse a sample secret in production.
 
 ### 2.5 Run Database Migrations
 
