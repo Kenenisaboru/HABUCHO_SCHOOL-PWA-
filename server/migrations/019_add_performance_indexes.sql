@@ -6,3 +6,4 @@ CREATE INDEX IF NOT EXISTS idx_admissions_status_created ON admission_applicatio
 CREATE INDEX IF NOT EXISTS idx_schedules_teacher_day ON schedules(teacher_id, day_of_week);
 CREATE INDEX IF NOT EXISTS idx_schedules_class_day ON schedules(grade_level, section, day_of_week);
 CREATE INDEX IF NOT EXISTS idx_announcements_audience ON announcements(target_audience, created_at DESC);
+
