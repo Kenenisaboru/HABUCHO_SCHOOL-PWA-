@@ -6,6 +6,7 @@
 import * as GradeModel from "../models/gradeModel.js";
 import { sendSuccess, sendError, getPagination } from "../utils/response.js";
 import { sendEmail, buildScoreReportEmail } from "../services/emailService.js";
+import { logAuditEvent } from "../services/auditService.js";
 import pool from "../config/db.js";
 
 export const getGrades = async (req, res, next) => {
@@ -109,6 +110,18 @@ export const bulkUpsert = async (req, res, next) => {
     }));
 
     await GradeModel.bulkUpsertGrades(gradesWithTeacherId);
+
+    await logAuditEvent({
+      user: req.user,
+      action: "GRADE_BULK_UPSERT",
+      entityType: "grade",
+      details: {
+        count: grades.length,
+        subject: grades[0]?.subject,
+        academic_year: grades[0]?.academic_year,
+      },
+      ip: req.ip,
+    });
     
     return sendSuccess(res, null, "Scores saved successfully");
   } catch (error) {
