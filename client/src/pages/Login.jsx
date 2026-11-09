@@ -4,9 +4,9 @@
  */
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { loginUser, registerUser } from "../services/authService";
+import { loginUser, registerUser, forgotPassword, resetPassword } from "../services/authService";
 import useAuthStore from "../context/authStore";
 import { getDashboardPath } from "../utils/helpers";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -29,14 +29,59 @@ const FloatingShape = ({ size, top, left, delay, color }) => (
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const resetToken = searchParams.get("token");
+  const isResetMode = searchParams.get("mode") === "reset" && !!resetToken;
+
+  const [showForgotModal, setShowForgotModal] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotLoading, setForgotLoading] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [resetLoading, setResetLoading] = useState(false);
 
   useEffect(() => {
-    document.title = "Portal Login — Habucho Preparatory School";
-  }, []);
+    document.title = isResetMode
+      ? "Reset Password — Habucho Preparatory School"
+      : "Portal Login — Habucho Preparatory School";
+  }, [isResetMode]);
+
   const [showPassword, setShowPassword] = useState(false);
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const setAuth = useAuthStore((s) => s.setAuth);
   const navigate = useNavigate();
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    if (!forgotEmail) return toast.error("Please enter your email");
+    setForgotLoading(true);
+    try {
+      await forgotPassword({ email: forgotEmail });
+      toast.success("If that email is registered, password reset instructions have been sent.");
+      setShowForgotModal(false);
+      setForgotEmail("");
+    } catch {
+      toast.error("Failed to submit reset request. Please try again.");
+    } finally {
+      setForgotLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    if (newPassword.length < 8) return toast.error("Password must be at least 8 characters");
+    if (newPassword !== confirmPassword) return toast.error("Passwords do not match");
+    setResetLoading(true);
+    try {
+      await resetPassword({ token: resetToken, password: newPassword });
+      toast.success("Password reset successfully! You can now log in with your new password.");
+      navigate("/login");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Password reset failed or token expired.");
+    } finally {
+      setResetLoading(false);
+    }
+  };
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -184,14 +229,55 @@ const Login = () => {
                 )}
               </div>
               <h1 className="font-display text-2xl font-extrabold text-slate-900 dark:text-white">
-                {isLogin ? "Welcome Back" : "Create Account"}
+                {isResetMode ? "Set New Password" : isLogin ? "Welcome Back" : "Create Account"}
               </h1>
               <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400">
-                {isLogin ? "Sign in to your school portal" : "Sign up as a student to get started"}
+                {isResetMode
+                  ? "Enter your new credentials below"
+                  : isLogin
+                  ? "Sign in to your school portal"
+                  : "Sign up as a student to get started"}
               </p>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+            {isResetMode ? (
+              <form onSubmit={handleResetPassword} className="space-y-4">
+                <div>
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700 dark:text-slate-300">
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="input-field"
+                    placeholder="At least 8 characters"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700 dark:text-slate-300">
+                    Confirm New Password
+                  </label>
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="input-field"
+                    placeholder="Repeat new password"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={resetLoading}
+                  className="btn-primary w-full py-3.5 text-base mt-2 cursor-pointer"
+                >
+                  {resetLoading ? "Updating Password..." : "Save New Password"}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
               {/* Full Name */}
               {!isLogin && (
                 <div>
@@ -296,6 +382,17 @@ const Login = () => {
                     {errors.password.message}
                   </p>
                 )}
+                {isLogin && (
+                  <div className="flex justify-end mt-1.5">
+                    <button
+                      type="button"
+                      onClick={() => setShowForgotModal(true)}
+                      className="text-xs font-semibold text-primary hover:text-emerald-500 transition-colors cursor-pointer"
+                    >
+                      Forgot password?
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Student Information Fields (Registration Only) */}
@@ -386,21 +483,24 @@ const Login = () => {
                 )}
               </button>
             </form>
+          )}
 
             {/* Switch between Login / Registration */}
-            <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">
-              {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
-              <button
-                type="button"
-                onClick={() => {
-                  setIsLogin(!isLogin);
-                  reset();
-                }}
-                className="font-bold text-primary hover:text-emerald-500 transition-colors focus:outline-none cursor-pointer"
-              >
-                {isLogin ? "Create Account" : "Sign In"}
-              </button>
-            </p>
+            {!isResetMode && (
+              <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">
+                {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsLogin(!isLogin);
+                    reset();
+                  }}
+                  className="font-bold text-primary hover:text-emerald-500 transition-colors focus:outline-none cursor-pointer"
+                >
+                  {isLogin ? "Create Account" : "Sign In"}
+                </button>
+              </p>
+            )}
 
             {/* Demo credentials (dev only - login mode only) */}
             {isLogin && import.meta.env.DEV && (
@@ -428,6 +528,60 @@ const Login = () => {
           </p>
         </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      {showForgotModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-slate-900 border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span>🔐</span> Reset Your Password
+              </h3>
+              <button
+                type="button"
+                onClick={() => setShowForgotModal(false)}
+                className="rounded-lg p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
+              Enter your registered account email. We will generate and dispatch a secure recovery link.
+            </p>
+            <form onSubmit={handleForgotPassword} className="mt-4 space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={forgotEmail}
+                  onChange={(e) => setForgotEmail(e.target.value)}
+                  className="input-field text-sm"
+                  placeholder="name@habucho.edu"
+                  required
+                />
+              </div>
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowForgotModal(false)}
+                  className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-800 dark:text-slate-400 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={forgotLoading}
+                  className="btn-primary px-5 py-2 text-sm cursor-pointer"
+                >
+                  {forgotLoading ? "Sending Link..." : "Send Reset Link"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
