@@ -5,6 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { getStudents, getGrades, bulkUpsertGrades, sendScoresToStudents } from "../../services/authService";
+import { getOfflineDraft, saveOfflineDraft, clearOfflineDraft } from "../../utils/offlineStorage";
 
 const ACADEMIC_YEARS = ["2023/2024", "2024/2025", "2025/2026"];
 const GRADE_LEVELS = ["9", "10", "11", "12"];
