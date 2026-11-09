@@ -9,6 +9,7 @@ import crypto from "crypto";
 import * as UserModel from "../models/userModel.js";
 import { generateAccessToken, generateRefreshToken, verifyToken } from "../utils/jwt.js";
 import { sendSuccess, sendError } from "../utils/response.js";
+import { sendEmail, buildPasswordResetEmail } from "../services/emailService.js";
 import pool from "../config/db.js";
 
 const ACCESS_COOKIE_OPTIONS = {
@@ -191,16 +192,28 @@ export const forgotPassword = async (req, res, next) => {
     if (!email) return sendError(res, "Email is required");
 
     const user = await UserModel.findUserByEmail(email);
-    if (!user) return sendSuccess(res, null, "If the email exists, a reset link has been sent.");
+    if (!user) {
+      // Return success even if email not found to prevent user enumeration
+      return sendSuccess(res, null, "If the email exists, a reset link has been sent.");
+    }
 
     const resetToken = crypto.randomBytes(32).toString("hex");
-    const hashedToken = await bcrypt.hash(resetToken, 10);
-    const expires = new Date(Date.now() + 60 * 60 * 1000);
+    const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+    const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
     await pool.query(
       "UPDATE users SET password_reset_token = $1, password_reset_expires = $2 WHERE id = $3",
       [hashedToken, expires, user.id]
     );
+
+    const clientUrl = (process.env.CLIENT_URL || "http://localhost:5173").split(",")[0].trim().replace(/\/+$/, "");
+    const resetUrl = `${clientUrl}/login?token=${resetToken}&mode=reset`;
+
+    await sendEmail({
+      to: user.email,
+      subject: "Password Reset Request - Habucho Preparatory School",
+      html: buildPasswordResetEmail({ userName: user.full_name, resetUrl }),
+    });
 
     return sendSuccess(res, null, "If the email exists, a reset link has been sent.");
   } catch (error) {
@@ -215,19 +228,17 @@ export const resetPassword = async (req, res, next) => {
 
     if (password.length < 8) return sendError(res, "Password must be at least 8 characters long");
 
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
     const { rows } = await pool.query(
-      "SELECT id, password_reset_token, password_reset_expires FROM users WHERE password_reset_token IS NOT NULL"
+      "SELECT id, email FROM users WHERE password_reset_token = $1 AND password_reset_expires > NOW()",
+      [hashedToken]
     );
 
-    let matchedUser = null;
-    for (const row of rows) {
-      if (row.password_reset_expires < new Date()) continue;
-      const isMatch = await bcrypt.compare(token, row.password_reset_token);
-      if (isMatch) { matchedUser = row; break; }
+    if (rows.length === 0) {
+      return sendError(res, "Invalid or expired reset token", 400);
     }
 
-    if (!matchedUser) return sendError(res, "Invalid or expired reset token", 400);
-
+    const matchedUser = rows[0];
     const hashedPassword = await bcrypt.hash(password, 12);
     await pool.query(
       "UPDATE users SET password = $1, password_reset_token = NULL, password_reset_expires = NULL WHERE id = $2",
