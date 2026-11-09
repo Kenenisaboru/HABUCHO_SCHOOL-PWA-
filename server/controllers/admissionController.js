@@ -8,6 +8,7 @@ import { sendSuccess, sendError, getPagination } from "../utils/response.js";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { getPrivateUploadPath } from "../utils/uploadStorage.js";
+import { logAuditEvent } from "../services/auditService.js";
 
 export const getAdmissions = async (req, res, next) => {
   try {
@@ -78,6 +79,15 @@ export const updateAdmissionStatus = async (req, res, next) => {
     });
 
     if (!application) return sendError(res, "Admission application not found", 404);
+
+    await logAuditEvent({
+      user: req.user,
+      action: "ADMISSION_STATUS_UPDATE",
+      entityType: "admission",
+      entityId: req.params.id,
+      details: { new_status: status },
+      ip: req.ip,
+    });
 
     return sendSuccess(res, application, `Application status updated to ${status}`);
   } catch (err) {
