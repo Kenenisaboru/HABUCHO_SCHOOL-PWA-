@@ -12,6 +12,8 @@ export const getProfile = () => api.get("/auth/profile");
 export const updateProfile = (data) => api.put("/auth/profile", data);
 export const uploadAvatar = (formData) => api.post("/auth/avatar", formData, { headers: { "Content-Type": "multipart/form-data" } });
 export const changePassword = (data) => api.post("/auth/change-password", data);
+export const forgotPassword = (data) => api.post("/auth/forgot-password", data);
+export const resetPassword = (data) => api.post("/auth/reset-password", data);
 
 // --- Users (Admin) ---
 export const getUsers = (params) => api.get("/users", { params });
