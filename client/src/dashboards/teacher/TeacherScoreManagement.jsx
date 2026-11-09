@@ -89,6 +89,18 @@ const TeacherScoreManagement = () => {
         limit: 1000,
       });
 
+      // Check for locally cached offline draft in case of unsaved inputs
+      const draftKey = `grades_${filters.academic_year}_${filters.semester}_${filters.grade_level}_${filters.section}_${filters.subject}_${filters.assessment_type}`;
+      const savedDraft = await getOfflineDraft(draftKey);
+      if (savedDraft && Object.keys(savedDraft).length > 0) {
+        Object.entries(savedDraft).forEach(([id, val]) => {
+          if (newGridData[id]) {
+            newGridData[id] = { ...newGridData[id], ...val };
+          }
+        });
+        toast("Restored unsaved scores from offline draft", { icon: "💾" });
+      }
+
       setStudents(roster);
       setGridData(newGridData);
       setAllGrades(allGradesRes.data.data.grades || []);
@@ -123,13 +135,20 @@ const TeacherScoreManagement = () => {
   };
 
   const handleGridChange = (studentId, field, value) => {
-    setGridData(prev => ({
-      ...prev,
-      [studentId]: {
-        ...prev[studentId],
-        [field]: value
+    setGridData(prev => {
+      const updated = {
+        ...prev,
+        [studentId]: {
+          ...prev[studentId],
+          [field]: value
+        }
+      };
+      if (filters.grade_level && filters.section && filters.subject) {
+        const draftKey = `grades_${filters.academic_year}_${filters.semester}_${filters.grade_level}_${filters.section}_${filters.subject}_${filters.assessment_type}`;
+        saveOfflineDraft(draftKey, updated);
       }
-    }));
+      return updated;
+    });
   };
 
   // Keyboard navigation logic
@@ -187,11 +206,12 @@ const TeacherScoreManagement = () => {
     setSaving(true);
     try {
       await bulkUpsertGrades({ grades: payload });
+      const draftKey = `grades_${filters.academic_year}_${filters.semester}_${filters.grade_level}_${filters.section}_${filters.subject}_${filters.assessment_type}`;
+      await clearOfflineDraft(draftKey);
       toast.success("All scores saved successfully!");
-      // Optionally reload
       loadData();
     } catch {
-      toast.error("Failed to save scores.");
+      toast.error("Failed to save scores. Your inputs are safely preserved offline.");
     } finally {
       setSaving(false);
     }
