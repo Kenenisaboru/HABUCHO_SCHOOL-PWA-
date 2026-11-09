@@ -21,3 +21,4 @@
     "seed:demo": "npm --workspace=server run seed:demo"
   }
 }
+
