@@ -61,6 +61,38 @@ export const sendEmail = async ({ to, subject, html, attachments = [] }) => {
 };
 
 /**
+ * Build the HTML email body for password reset
+ */
+export const buildPasswordResetEmail = ({ userName, resetUrl }) => {
+  return `
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="utf-8"></head>
+    <body style="font-family:system-ui,-apple-system,sans-serif;background:#f8fafc;margin:0;padding:24px;">
+      <div style="max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+        <div style="background:linear-gradient(135deg,#059669,#047857);padding:24px 32px;">
+          <h1 style="color:#fff;font-size:20px;margin:0;">Habucho Preparatory School</h1>
+          <p style="color:rgba(255,255,255,0.8);font-size:13px;margin:4px 0 0;">Account Security Notification</p>
+        </div>
+        <div style="padding:24px 32px;">
+          <p style="color:#334155;font-size:14px;margin:0 0 16px;">Dear <strong>${userName}</strong>,</p>
+          <p style="color:#334155;font-size:14px;margin:0 0 16px;">We received a request to reset your password for the Habucho School portal. Click the button below to choose a new password:</p>
+
+          <div style="text-align:center;margin:28px 0;">
+            <a href="${resetUrl}" style="background:#059669;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;display:inline-block;">Reset My Password</a>
+          </div>
+
+          <p style="color:#64748b;font-size:13px;line-height:1.5;">This link will expire in 60 minutes. If you did not request a password reset, you can safely ignore this email — your password will remain unchanged.</p>
+          <hr style="border:none;border-top:1px solid #e2e8f0;margin:24px 0;" />
+          <p style="color:#94a3b8;font-size:11px;">If the button above does not work, copy and paste this link into your browser:<br/><a href="${resetUrl}" style="color:#059669;">${resetUrl}</a></p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+};
+
+/**
  * Build the HTML email body for a score report
  */
 export const buildScoreReportEmail = ({ studentName, teacherName, subject, academicYear, semester, grades, averageScore }) => {
