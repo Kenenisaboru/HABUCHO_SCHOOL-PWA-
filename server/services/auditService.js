@@ -45,3 +45,4 @@ export const logAuditEvent = async ({
     logger.error(`[AUDIT LOG ERROR] Failed to record audit log: ${error.message}`);
   }
 };
+
