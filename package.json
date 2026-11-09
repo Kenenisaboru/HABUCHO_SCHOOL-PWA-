@@ -1,0 +1,23 @@
+{
+  "name": "habucho-school-pwa",
+  "version": "1.0.0",
+  "description": "Habucho Preparatory School Management System - Monorepo",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev:server": "npm --workspace=server run dev",
+    "dev:client": "npm --workspace=client run dev",
+    "build:client": "npm --workspace=client run build",
+    "test:server": "npm --workspace=server test",
+    "test:client": "npm --workspace=client test",
+    "test": "npm --workspace=server test && npm --workspace=client test",
+    "lint:server": "npm --workspace=server run lint",
+    "lint:client": "npm --workspace=client run lint",
+    "lint": "npm --workspace=server run lint && npm --workspace=client run lint",
+    "migrate": "npm --workspace=server run migrate",
+    "seed:demo": "npm --workspace=server run seed:demo"
+  }
+}
