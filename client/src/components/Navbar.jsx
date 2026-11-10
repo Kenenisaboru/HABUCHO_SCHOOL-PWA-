@@ -1,6 +1,6 @@
 /**
  * Navbar — Top navigation bar with premium royal sapphire & amber design,
- * scroll-aware blur effect, animated indicators, and responsive mobile menu
+ * scroll-aware blur effect, responsive desktop nav, and slide-over mobile sidebar drawer.
  */
 import { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ import {
   LogIn,
   LayoutDashboard,
   LogOut,
+  X,
 } from "lucide-react";
 import useAuthStore from "../context/authStore";
 import { useTheme } from "../context/ThemeContext";
@@ -67,7 +68,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 z-40 transition-all duration-300 ${
         scrolled
           ? "border-b border-slate-200/80 bg-white/90 shadow-md shadow-slate-200/40 backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/90 dark:shadow-black/40"
           : "border-b border-transparent bg-white/70 backdrop-blur-md dark:bg-slate-950/70"
@@ -89,8 +90,8 @@ const Navbar = () => {
           </div>
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden items-center gap-0.5 lg:flex">
+        {/* Desktop Nav (visible on md screens and up) */}
+        <div className="hidden items-center gap-0.5 md:flex">
           {navLinks.map((link) => (
             <NavLink key={link.to} to={link.to} end={link.to === "/"} className={linkClass}>
               {({ isActive }) => (
@@ -145,9 +146,9 @@ const Navbar = () => {
             </Link>
           )}
 
-          {/* Mobile Hamburger */}
+          {/* Mobile Hamburger Toggle */}
           <button
-            className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-600 transition-colors hover:bg-slate-100 lg:hidden dark:text-slate-300 dark:hover:bg-slate-800"
+            className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-600 transition-colors hover:bg-slate-100 md:hidden dark:text-slate-300 dark:hover:bg-slate-800"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle navigation"
             aria-expanded={menuOpen}
@@ -161,63 +162,119 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
-      <div
-        className={`overflow-hidden transition-all duration-300 ease-in-out lg:hidden ${
-          menuOpen ? "max-h-[32rem] opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <div className="border-t border-slate-200/80 bg-white/95 px-4 py-4 backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/95">
-          <div className="grid grid-cols-2 gap-1 sm:grid-cols-3">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                end={link.to === "/"}
-                className={({ isActive }) =>
-                  `flex items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-200 ${
-                    isActive
-                      ? "bg-blue-50 text-primary dark:bg-blue-950/50 dark:text-blue-400 font-semibold"
-                      : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800/60"
-                  }`
-                }
-                onClick={() => setMenuOpen(false)}
-              >
-                <link.icon size={15} />
-                <span>{link.label}</span>
-              </NavLink>
-            ))}
-          </div>
+      {/* Mobile Slide-Over Sidebar Drawer */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          {/* Backdrop overlay */}
+          <div
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            onClick={() => setMenuOpen(false)}
+          />
 
-          <div className="mt-4 border-t border-slate-200/80 pt-3 dark:border-slate-800/80">
-            {user ? (
-              <div className="flex gap-2">
-                <Link
-                  to={getDashboardPath(user?.role)}
-                  className="btn-primary flex-1 py-2 text-center text-xs"
+          {/* Drawer content sliding from the right */}
+          <div
+            className="fixed inset-y-0 right-0 flex w-72 max-w-[85vw] flex-col bg-white shadow-2xl dark:bg-slate-900 border-l border-slate-200/80 dark:border-slate-800"
+            style={{ animation: "slide-in-right 0.25s ease-out" }}
+          >
+            {/* Drawer Header */}
+            <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <SchoolLogo className="h-8 w-8" />
+                <div>
+                  <p className="font-display text-sm font-extrabold text-slate-900 dark:text-white">HABUCHO</p>
+                  <p className="text-[9px] font-semibold uppercase tracking-wider text-slate-400">Preparatory School</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="flex h-8 w-8 items-center justify-center rounded-xl text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800"
+                aria-label="Close menu"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* User profile card if logged in */}
+            {user && (
+              <div className="border-b border-slate-100 p-4 dark:border-slate-800">
+                <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-2.5 dark:bg-slate-800/60">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-xs font-bold text-white shadow-xs">
+                    {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-xs font-bold text-slate-800 dark:text-white">{user?.name}</p>
+                    <span className="text-[10px] uppercase font-bold text-emerald-600 dark:text-emerald-400">{user?.role}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Vertical Navigation Links */}
+            <nav className="flex-1 overflow-y-auto p-4 space-y-1.5">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  end={link.to === "/"}
                   onClick={() => setMenuOpen(false)}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 rounded-xl px-4 py-3 text-xs font-semibold transition-all ${
+                      isActive
+                        ? "bg-blue-50 text-primary dark:bg-blue-950/50 dark:text-blue-400 font-bold"
+                        : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/60"
+                    }`
+                  }
                 >
-                  Dashboard
-                </Link>
+                  <link.icon className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+                  <span>{link.label}</span>
+                </NavLink>
+              ))}
+            </nav>
+
+            {/* Drawer Bottom Actions */}
+            <div className="border-t border-slate-100 p-4 space-y-3 dark:border-slate-800">
+              <div className="flex items-center justify-between py-1 px-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
+                <span>Theme</span>
                 <button
-                  onClick={handleLogout}
-                  className="btn-outline px-4 py-2 text-xs"
+                  onClick={toggleTheme}
+                  className="flex items-center gap-1.5 rounded-lg border border-slate-200 px-2.5 py-1 text-xs dark:border-slate-700 dark:bg-slate-800 text-slate-700 dark:text-slate-200"
                 >
-                  Logout
+                  {darkMode ? <SunIcon /> : <MoonIcon />}
+                  <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>
                 </button>
               </div>
-            ) : (
-              <Link
-                to="/login"
-                className="btn-primary portal-login-button block py-2 text-center text-xs"
-                onClick={() => setMenuOpen(false)}
-              >
-                Login to Portal
-              </Link>
-            )}
+
+              {user ? (
+                <div className="flex gap-2">
+                  <Link
+                    to={getDashboardPath(user?.role)}
+                    className="btn-primary flex-1 py-2.5 text-center text-xs font-bold gap-1.5 justify-center flex items-center"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <LayoutDashboard className="h-3.5 w-3.5" />
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="btn-outline px-3 py-2.5 text-xs text-rose-600 dark:text-rose-400"
+                  >
+                    <LogOut className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  to="/login"
+                  className="btn-primary portal-login-button flex items-center justify-center gap-2 py-2.5 text-xs font-bold w-full"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <LogIn className="h-4 w-4" />
+                  <span>Login to Portal</span>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 };
