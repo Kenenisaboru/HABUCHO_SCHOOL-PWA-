@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { getGrades, createGrade, updateGrade, deleteGrade, getStudents } from "../../services/authService";
-import { getGradeLetter } from "../../utils/helpers";
+import { getPassStatus } from "../../utils/helpers";
 
 
 const TeacherGrades = () => {
@@ -91,7 +91,7 @@ const TeacherGrades = () => {
                 <th className="px-4 py-3">Student</th>
                 <th className="px-4 py-3">Subject</th>
                 <th className="px-4 py-3">Score</th>
-                <th className="px-4 py-3">Grade</th>
+                <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">Semester</th>
                 <th className="px-4 py-3">Actions</th>
               </tr>
@@ -103,8 +103,9 @@ const TeacherGrades = () => {
                   <td className="px-4 py-3">{g.subject}</td>
                   <td className="px-4 py-3 font-medium">{g.score}</td>
                   <td className="px-4 py-3">
-                    <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-bold text-blue-700">
-                      {getGradeLetter(parseFloat(g.score))}
+                    <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${parseFloat(g.score) >= 50 ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"
+                      }`}>
+                      {getPassStatus(g.score)}
                     </span>
                   </td>
                   <td className="px-4 py-3">{g.semester}</td>
