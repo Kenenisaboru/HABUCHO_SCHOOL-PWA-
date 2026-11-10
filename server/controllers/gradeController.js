@@ -7,6 +7,7 @@ import * as GradeModel from "../models/gradeModel.js";
 import { sendSuccess, sendError, getPagination } from "../utils/response.js";
 import { sendEmail, buildScoreReportEmail } from "../services/emailService.js";
 import { logAuditEvent } from "../services/auditService.js";
+import { recalculateRankings } from "../services/academicCalculationEngine.js";
 import pool from "../config/db.js";
 
 export const getGrades = async (req, res, next) => {
@@ -251,6 +252,142 @@ export const sendScoresToStudents = async (req, res, next) => {
       failed: failedCount,
       errors: errors.length > 0 ? errors : undefined,
     }, `Score reports sent to ${sentCount} student(s)`);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Teacher submits a batch of scores for Admin approval
+ */
+export const submitGradesForApproval = async (req, res, next) => {
+  try {
+    const { academic_year, semester, subject, grade_level, section } = req.body;
+    if (!academic_year || !semester || !subject || !grade_level || !section) {
+      return sendError(res, "academic_year, semester, subject, grade_level, and section are required", 400);
+    }
+
+    const result = await pool.query(
+      `UPDATE grades
+       SET submission_status = 'submitted', submitted_at = CURRENT_TIMESTAMP
+       WHERE teacher_id = $1 AND academic_year = $2 AND semester = $3 AND subject = $4
+         AND grade_level = $5 AND section = $6
+       RETURNING id`,
+      [req.user.id, academic_year, semester, subject, grade_level, section]
+    );
+
+    await logAuditEvent({
+      user: req.user,
+      action: "GRADE_SUBMIT_FOR_APPROVAL",
+      entityType: "grade_batch",
+      details: { academic_year, semester, subject, grade_level, section, count: result.rowCount },
+      ip: req.ip,
+    });
+
+    return sendSuccess(res, { count: result.rowCount }, "Scores submitted for administrative approval");
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Admin: Get pending score submission batches
+ */
+export const getPendingSubmissions = async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT g.academic_year, g.semester, g.subject, g.grade_level, g.section,
+              g.teacher_id, t.full_name AS teacher_name,
+              COUNT(DISTINCT g.student_id) AS student_count,
+              COUNT(g.id) AS total_scores,
+              MIN(g.submitted_at) AS submitted_at,
+              g.submission_status
+       FROM grades g
+       LEFT JOIN users t ON g.teacher_id = t.id
+       WHERE g.submission_status = 'submitted'
+       GROUP BY g.academic_year, g.semester, g.subject, g.grade_level, g.section, g.teacher_id, t.full_name, g.submission_status
+       ORDER BY MIN(g.submitted_at) ASC`
+    );
+
+    return sendSuccess(res, rows);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Admin: Approve a batch of grades and recalculate rankings
+ */
+export const approveGradesBatch = async (req, res, next) => {
+  try {
+    const { academic_year, semester, subject, grade_level, section } = req.body;
+    if (!academic_year || !semester || !subject || !grade_level || !section) {
+      return sendError(res, "academic_year, semester, subject, grade_level, and section are required", 400);
+    }
+
+    const result = await pool.query(
+      `UPDATE grades
+       SET submission_status = 'approved',
+           approved_by = $1,
+           approved_at = CURRENT_TIMESTAMP,
+           rejection_reason = NULL
+       WHERE academic_year = $2 AND semester = $3 AND subject = $4
+         AND grade_level = $5 AND section = $6
+       RETURNING id`,
+      [req.user.id, academic_year, semester, subject, grade_level, section]
+    );
+
+    // Recalculate rankings automatically after approval
+    try {
+      await recalculateRankings(academic_year, semester);
+    } catch (calcErr) {
+      // Log calculation error without blocking response
+      console.error("Recalculate rankings warning:", calcErr.message);
+    }
+
+    await logAuditEvent({
+      user: req.user,
+      action: "GRADE_BATCH_APPROVED",
+      entityType: "grade_batch",
+      details: { academic_year, semester, subject, grade_level, section, count: result.rowCount },
+      ip: req.ip,
+    });
+
+    return sendSuccess(res, { count: result.rowCount }, "Scores approved and rankings updated");
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Admin: Reject a batch of grades with reason
+ */
+export const rejectGradesBatch = async (req, res, next) => {
+  try {
+    const { academic_year, semester, subject, grade_level, section, reason } = req.body;
+    if (!academic_year || !semester || !subject || !grade_level || !section || !reason) {
+      return sendError(res, "academic_year, semester, subject, grade_level, section, and reason are required", 400);
+    }
+
+    const result = await pool.query(
+      `UPDATE grades
+       SET submission_status = 'rejected',
+           rejection_reason = $1
+       WHERE academic_year = $2 AND semester = $3 AND subject = $4
+         AND grade_level = $5 AND section = $6
+       RETURNING id`,
+      [reason, academic_year, semester, subject, grade_level, section]
+    );
+
+    await logAuditEvent({
+      user: req.user,
+      action: "GRADE_BATCH_REJECTED",
+      entityType: "grade_batch",
+      details: { academic_year, semester, subject, grade_level, section, reason, count: result.rowCount },
+      ip: req.ip,
+    });
+
+    return sendSuccess(res, { count: result.rowCount }, "Scores rejected and returned to teacher");
   } catch (error) {
     next(error);
   }
