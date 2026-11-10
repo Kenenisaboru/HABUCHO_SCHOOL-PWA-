@@ -12,6 +12,10 @@ import {
   deleteGrade,
   bulkUpsert,
   sendScoresToStudents,
+  submitGradesForApproval,
+  getPendingSubmissions,
+  approveGradesBatch,
+  rejectGradesBatch,
 } from "../controllers/gradeController.js";
 import { authenticateUser, authorizeRoles } from "../middleware/auth.js";
 import { validateGrade, validateUpdateGrade, validateBulkGrades } from "../middleware/validate.js";
@@ -19,6 +23,10 @@ import { validateGrade, validateUpdateGrade, validateBulkGrades } from "../middl
 const router = Router();
 
 router.get("/", authenticateUser, authorizeRoles("admin", "teacher", "student"), getGrades);
+router.get("/pending-submissions", authenticateUser, authorizeRoles("admin"), getPendingSubmissions);
+router.post("/submit", authenticateUser, authorizeRoles("admin", "teacher"), submitGradesForApproval);
+router.post("/approve-batch", authenticateUser, authorizeRoles("admin"), approveGradesBatch);
+router.post("/reject-batch", authenticateUser, authorizeRoles("admin"), rejectGradesBatch);
 router.post("/send-to-students", authenticateUser, authorizeRoles("admin", "teacher"), sendScoresToStudents);
 router.post("/bulk", authenticateUser, authorizeRoles("admin", "teacher"), validateBulkGrades, bulkUpsert);
 router.post("/", authenticateUser, authorizeRoles("admin", "teacher"), validateGrade, createGrade);
