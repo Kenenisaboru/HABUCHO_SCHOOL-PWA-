@@ -101,7 +101,23 @@ export const bulkUpsertGrades = async (gradesData) => {
     
     // Process each grade update/insert sequentially to avoid complex multi-row upserts with dynamic constraints
     for (const data of gradesData) {
-      const { student_id, teacher_id, subject, score, semester, academic_year, grade_level, section, assessment_type, total_marks, comments } = data;
+      const {
+        student_id,
+        teacher_id,
+        subject,
+        subject_id,
+        score,
+        semester,
+        academic_year,
+        grade_level,
+        section,
+        assessment_type,
+        total_marks,
+        comments,
+        submission_status,
+      } = data;
+      
+      const status = submission_status || "draft";
       
       // Check if this specific grade record already exists
       const checkRes = await client.query(
@@ -112,14 +128,36 @@ export const bulkUpsertGrades = async (gradesData) => {
       if (checkRes.rows.length > 0) {
         // Update
         await client.query(
-          "UPDATE grades SET score = $1, total_marks = $2, comments = $3, teacher_id = $4, updated_at = CURRENT_TIMESTAMP WHERE id = $5",
-          [score, total_marks, comments, teacher_id, checkRes.rows[0].id]
+          `UPDATE grades 
+           SET score = $1, total_marks = $2, comments = $3, teacher_id = $4,
+               submission_status = COALESCE($5, submission_status),
+               subject_id = COALESCE($6, subject_id),
+               updated_at = CURRENT_TIMESTAMP 
+           WHERE id = $7`,
+          [score, total_marks, comments, teacher_id, status, subject_id || null, checkRes.rows[0].id]
         );
       } else {
         // Insert
         await client.query(
-          "INSERT INTO grades (student_id, teacher_id, subject, score, semester, academic_year, grade_level, section, assessment_type, total_marks, comments) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
-          [student_id, teacher_id, subject, score, semester, academic_year, grade_level, section, assessment_type, total_marks, comments]
+          `INSERT INTO grades (
+            student_id, teacher_id, subject, subject_id, score, semester, academic_year,
+            grade_level, section, assessment_type, total_marks, comments, submission_status
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
+          [
+            student_id,
+            teacher_id,
+            subject,
+            subject_id || null,
+            score,
+            semester,
+            academic_year,
+            grade_level,
+            section,
+            assessment_type,
+            total_marks,
+            comments,
+            status,
+          ]
         );
       }
     }
