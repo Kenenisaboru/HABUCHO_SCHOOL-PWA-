@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import RoleGuard from "./components/RoleGuard";
 import DashboardLayout from "./layouts/DashboardLayout";
 import LoadingSpinner from "./components/LoadingSpinner";
+import OfflineBanner from "./components/OfflineBanner";
 import { adminLinks, teacherLinks, studentLinks } from "./config/navLinks";
 
 // Public pages
@@ -29,6 +30,10 @@ const AdminEvents = lazy(() => import("./dashboards/admin/AdminEvents"));
 const AdminGallery = lazy(() => import("./dashboards/admin/AdminGallery"));
 const AdminStaff = lazy(() => import("./dashboards/admin/AdminStaff"));
 const AdminAdmissions = lazy(() => import("./dashboards/admin/AdminAdmissions"));
+const AdminAuditLogs = lazy(() => import("./dashboards/admin/AdminAuditLogs"));
+const AdminCurriculum = lazy(() => import("./dashboards/admin/AdminCurriculum"));
+const AdminTopScorers = lazy(() => import("./dashboards/admin/AdminTopScorers"));
+const AdminPerformanceAnalytics = lazy(() => import("./dashboards/admin/AdminPerformanceAnalytics"));
 
 // Teacher dashboards
 const TeacherDashboard = lazy(() => import("./dashboards/teacher/TeacherDashboard"));
@@ -55,6 +60,7 @@ function App() {
         </div>
       }
     >
+      <OfflineBanner />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
@@ -74,6 +80,10 @@ function App() {
               <Route path="/admin/schedules" element={<AdminSchedules />} />
               <Route path="/admin/announcements" element={<AdminAnnouncements />} />
               <Route path="/admin/messages" element={<AdminMessages />} />
+              <Route path="/admin/audit-logs" element={<AdminAuditLogs />} />
+              <Route path="/admin/curriculum" element={<AdminCurriculum />} />
+              <Route path="/admin/top-scorers" element={<AdminTopScorers />} />
+              <Route path="/admin/academic-analytics" element={<AdminPerformanceAnalytics />} />
               <Route path="/admin/admissions" element={<AdminAdmissions />} />
               <Route path="/admin/events" element={<AdminEvents />} />
               <Route path="/admin/gallery" element={<AdminGallery />} />
