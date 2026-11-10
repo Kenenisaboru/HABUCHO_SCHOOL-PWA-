@@ -19,6 +19,9 @@ import eventRoutes from "./routes/eventRoutes.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
 import staffRoutes from "./routes/staffRoutes.js";
 import admissionRoutes from "./routes/admissionRoutes.js";
+import auditRoutes from "./routes/auditRoutes.js";
+import subjectRoutes from "./routes/subjectRoutes.js";
+import academicRoutes from "./routes/academicRoutes.js";
 
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 import { apiLimiter } from "./middleware/rateLimiter.js";
@@ -113,6 +116,9 @@ app.use(["/api/events", "/events"], eventRoutes);
 app.use(["/api/gallery", "/gallery"], galleryRoutes);
 app.use(["/api/staff", "/staff"], staffRoutes);
 app.use(["/api/admissions", "/admissions"], admissionRoutes);
+app.use(["/api/audit-logs", "/audit-logs"], auditRoutes);
+app.use(["/api/subjects", "/subjects"], subjectRoutes);
+app.use(["/api/academic", "/academic"], academicRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
