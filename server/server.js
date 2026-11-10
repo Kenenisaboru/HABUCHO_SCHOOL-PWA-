@@ -21,6 +21,12 @@ const ensureAdminAccount = async () => {
 
   if (!adminEmail || !adminPassword) return;
 
+  if (process.env.NODE_ENV === "production" && !process.env.ADMIN_PASSWORD) {
+    logger.warn(
+      "SECURITY WARNING: ADMIN_PASSWORD is not set in environment variables! Using fallback credentials. Please configure ADMIN_PASSWORD in your production environment."
+    );
+  }
+
   try {
     const hashedPassword = await bcrypt.hash(adminPassword, 10);
     await pool.query(
