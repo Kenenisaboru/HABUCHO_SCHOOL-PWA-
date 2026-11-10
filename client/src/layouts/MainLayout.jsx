@@ -3,6 +3,7 @@
  */
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import MobileBottomNav from "../components/MobileBottomNav";
 
 const MainLayout = ({ children }) => {
   return (
@@ -11,8 +12,9 @@ const MainLayout = ({ children }) => {
         Skip to content
       </a>
       <Navbar />
-      <main id="main-content" className="flex-1">{children}</main>
+      <main id="main-content" className="flex-1 pb-16 md:pb-0">{children}</main>
       <Footer />
+      <MobileBottomNav />
     </div>
   );
 };
