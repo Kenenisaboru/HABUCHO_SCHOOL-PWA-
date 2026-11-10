@@ -1,25 +1,26 @@
 /**
  * Sidebar — Premium dashboard navigation with gradient active states,
- * royal sapphire & amber school branding, user avatar, and version tag
+ * royal sapphire & amber school branding, user avatar, and version tag.
+ * Supports both permanent desktop view and mobile slide-over drawer.
  */
 import { NavLink, Link } from "react-router-dom";
 import useAuthStore from "../context/authStore";
 import { getRoleGradient } from "../utils/roleColors";
 import SchoolLogo from "./SchoolLogo";
 
-const Sidebar = ({ links }) => {
+const Sidebar = ({ links = [], isMobile = false, onLinkClick }) => {
   const user = useAuthStore((s) => s.user);
   const roleGradient = getRoleGradient(user?.role);
 
   const linkClass = ({ isActive }) =>
     `group relative flex items-center gap-3 rounded-xl px-4 py-2.5 text-xs font-semibold transition-all duration-200 ${
       isActive
-        ? "bg-blue-50 text-primary shadow-xs dark:bg-blue-950/50 dark:text-blue-400"
+        ? "bg-blue-50 text-primary shadow-xs dark:bg-blue-950/50 dark:text-blue-400 font-bold"
         : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/50 dark:hover:text-slate-100"
     }`;
 
   // Group links by section for organized navigation display
-  const groupedLinks = links.reduce((acc, link) => {
+  const groupedLinks = (links || []).reduce((acc, link) => {
     const section = link.section || "Navigation";
     if (!acc[section]) acc[section] = [];
     acc[section].push(link);
@@ -27,22 +28,30 @@ const Sidebar = ({ links }) => {
   }, {});
 
   return (
-    <aside className="hidden h-screen min-h-0 w-64 shrink-0 flex-col border-r border-slate-200/80 bg-white dark:border-slate-800/80 dark:bg-slate-900 lg:flex">
-      {/* School branding header */}
-      <div className="border-b border-slate-100 p-5 dark:border-slate-800/80">
-        <Link to="/" className="group flex items-center gap-3">
-          <SchoolLogo className="h-10 w-10 shadow-md transition-transform duration-200 group-hover:scale-105" />
-          <div>
-            <p className="font-display text-sm font-extrabold text-slate-900 dark:text-white">Habucho</p>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-              Management Portal
-            </p>
-          </div>
-        </Link>
-      </div>
+    <aside
+      className={
+        isMobile
+          ? "flex h-full w-full flex-col bg-white dark:bg-slate-900"
+          : "hidden h-screen min-h-0 w-64 shrink-0 flex-col border-r border-slate-200/80 bg-white dark:border-slate-800/80 dark:bg-slate-900 md:flex"
+      }
+    >
+      {/* School branding header (only on desktop since mobile drawer already renders header) */}
+      {!isMobile && (
+        <div className="border-b border-slate-100 p-5 dark:border-slate-800/80">
+          <Link to="/" className="group flex items-center gap-3">
+            <SchoolLogo className="h-10 w-10 shadow-md transition-transform duration-200 group-hover:scale-105" />
+            <div>
+              <p className="font-display text-sm font-extrabold text-slate-900 dark:text-white">Habucho</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                Management Portal
+              </p>
+            </div>
+          </Link>
+        </div>
+      )}
 
       {/* User info card */}
-      <div className="px-4 py-4">
+      <div className="px-4 py-3">
         <div className="flex items-center gap-3 rounded-2xl bg-slate-50 p-3 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
           <div
             className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-br ${roleGradient} text-sm font-bold text-white shadow-md`}
@@ -51,7 +60,9 @@ const Sidebar = ({ links }) => {
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-xs font-bold text-slate-800 dark:text-white">{user?.name}</p>
-            <span className={`inline-block rounded-full bg-linear-to-r ${roleGradient} px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white mt-0.5`}>
+            <span
+              className={`inline-block rounded-full bg-linear-to-r ${roleGradient} px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white mt-0.5`}
+            >
               {user?.role}
             </span>
           </div>
@@ -67,7 +78,13 @@ const Sidebar = ({ links }) => {
             </p>
             <div className="space-y-1">
               {sectionLinks.map((link) => (
-                <NavLink key={link.to} to={link.to} end={link.end} className={linkClass}>
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  end={link.end}
+                  onClick={onLinkClick}
+                  className={linkClass}
+                >
                   {({ isActive }) => (
                     <>
                       {isActive && (
