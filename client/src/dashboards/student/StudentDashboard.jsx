@@ -13,7 +13,7 @@ import {
   getSchedules,
   submitContact,
 } from "../../services/authService";
-import { getGradeLetter, formatTime, exportGradesToPDF, formatDate } from "../../utils/helpers";
+import { formatTime, exportGradesToPDF, formatDate, getPassStatus } from "../../utils/helpers";
 
 const StudentDashboard = () => {
   const { user } = useAuthStore();
@@ -280,8 +280,12 @@ const StudentDashboard = () => {
                       <span>{g.subject}</span>
                       <span className="flex items-center gap-2">
                         <span>Score: {g.score}%</span>
-                        <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-bold text-blue-700 dark:bg-blue-950 dark:text-blue-400">
-                          {getGradeLetter(parseFloat(g.score))}
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                          parseFloat(g.score) >= 50
+                            ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400"
+                            : "bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-400"
+                        }`}>
+                          {getPassStatus(g.score)}
                         </span>
                       </span>
                     </div>
