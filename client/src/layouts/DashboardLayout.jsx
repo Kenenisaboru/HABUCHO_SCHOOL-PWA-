@@ -35,7 +35,7 @@ const DashboardLayout = ({ links, title }) => {
 
       {/* Mobile sidebar overlay */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-0 z-50 md:hidden">
           <div
             className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
@@ -60,8 +60,8 @@ const DashboardLayout = ({ links, title }) => {
                 </svg>
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto" onClick={() => setMobileOpen(false)}>
-              <Sidebar links={links} />
+            <div className="flex-1 overflow-y-auto">
+              <Sidebar links={links} isMobile={true} onLinkClick={() => setMobileOpen(false)} />
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@ const DashboardLayout = ({ links, title }) => {
           <div className="flex items-center gap-3">
             {/* Mobile menu button */}
             <button
-              className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition-colors hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800/60 lg:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition-colors hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800/60 md:hidden"
               onClick={() => setMobileOpen(true)}
               aria-label="Open navigation menu"
             >
