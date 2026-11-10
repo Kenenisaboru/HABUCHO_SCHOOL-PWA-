@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import logger from "../utils/logger.js";
+import { recalculateRankings } from "./academicCalculationEngine.js";
 
 const DEMO_PASSWORD = "Password123!";
 
@@ -9,6 +10,16 @@ export const seedDemoData = async (pool) => {
     const currentStudentCount = parseInt(studentCountRes.rows[0].count, 10);
 
     if (currentStudentCount >= 40) {
+      // Ensure academic rankings and summaries are generated if not yet populated
+      const summaryCountRes = await pool.query("SELECT COUNT(*) FROM student_academic_summaries");
+      const summaryCount = parseInt(summaryCountRes.rows[0].count, 10);
+      if (summaryCount === 0) {
+        await pool.query(
+          "UPDATE grades SET submission_status = 'approved' WHERE submission_status IS NULL OR submission_status = 'draft'"
+        );
+        await recalculateRankings("2024/2025", "Semester 1", "All");
+        logger.info("Auto-populated student academic summaries & Ethiopian rankings for existing students.");
+      }
       return;
     }
 
@@ -196,14 +207,24 @@ export const seedDemoData = async (pool) => {
         await pool.query(
           `INSERT INTO grades (
             student_id, teacher_id, subject, score, semester, academic_year,
-            grade_level, section, assessment_type, total_marks, comments
+            grade_level, section, assessment_type, total_marks, comments,
+            submission_status, approved_at
           ) VALUES (
             $1, $2, $3, $4, 'Semester 1', '2024/2025',
-            $5, $6, 'Final Exam', 100, 'Demonstrates consistent academic effort and good mastery.'
+            $5, $6, 'Final Exam', 100, 'Demonstrates consistent academic effort and good mastery.',
+            'approved', CURRENT_TIMESTAMP
           )`,
           [student.id, subj.teacher, subj.subject, baseScore, student.grade_level, student.section]
         );
       }
+    }
+
+    // Populate academic summaries and calculate ranking for demo data
+    try {
+      await recalculateRankings("2024/2025", "Semester 1", "All");
+      logger.info("Demo student rankings and academic summaries calculated successfully.");
+    } catch (calcErr) {
+      logger.warn(`Academic ranking calculation notice: ${calcErr.message}`);
     }
 
     // 6. Announcements
