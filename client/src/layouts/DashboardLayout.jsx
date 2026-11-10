@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation, Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import DashboardMobileBottomNav from "../components/DashboardMobileBottomNav";
 import useAuthStore from "../context/authStore";
 import { useTheme } from "../context/ThemeContext";
 import { getRoleGradient } from "../utils/roleColors";
@@ -145,9 +146,11 @@ const DashboardLayout = ({ links, title }) => {
         </header>
 
         {/* ── Main Content ─────────────────────────────── */}
-        <main id="main-content" className="mx-auto min-h-0 w-full max-w-7xl flex-1 overflow-y-auto p-4 md:p-6">
+        <main id="main-content" className="mx-auto min-h-0 w-full max-w-7xl flex-1 overflow-y-auto p-4 pb-20 md:p-6 md:pb-6">
           <Outlet />
         </main>
+        {/* Mobile Bottom Navigation (Telegram style) */}
+        <DashboardMobileBottomNav onOpenMenu={() => setMobileOpen(true)} />
       </div>
     </div>
   );
