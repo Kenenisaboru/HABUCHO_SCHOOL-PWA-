@@ -48,3 +48,31 @@ export const sendScoresToStudents = (data) => api.post("/grades/send-to-students
 export const submitContact = (data) => api.post("/contact", data);
 export const getContactMessages = (params) => api.get("/contact", { params });
 export const deleteContactMessage = (id) => api.delete(`/contact/${id}`);
+
+// --- Audit Logs (Admin) ---
+export const getAuditLogs = (params) => api.get("/audit-logs", { params });
+
+// --- Grade Submission & Approval Workflow ---
+export const submitGradesForApproval = (data) => api.post("/grades/submit", data);
+export const getPendingGradeSubmissions = () => api.get("/grades/pending-submissions");
+export const approveGradesBatch = (data) => api.post("/grades/approve-batch", data);
+export const rejectGradesBatch = (data) => api.post("/grades/reject-batch", data);
+
+// --- Ethiopian Curriculum & Subject Management ---
+export const getSubjects = (params) => api.get("/subjects", { params });
+export const getCurriculumStructure = (params) => api.get("/subjects/curriculum", { params });
+export const createSubject = (data) => api.post("/subjects", data);
+export const updateSubject = (id, data) => api.put(`/subjects/${id}`, data);
+export const getTeacherAssignments = (params) => api.get("/subjects/assignments", { params });
+export const assignTeacherToSubject = (data) => api.post("/subjects/assignments", data);
+export const removeTeacherAssignment = (id) => api.delete(`/subjects/assignments/${id}`);
+
+// --- Academic Analytics & Numerical Ranking Engine ---
+export const recalculateRankings = (data) => api.post("/academic/recalculate-rankings", data);
+export const getTopScorersByClass = (params) => api.get("/academic/top-scorers/class", { params });
+export const getTopScorersByGrade = (params) => api.get("/academic/top-scorers/grade", { params });
+export const getTopScorersSchoolWide = (params) => api.get("/academic/top-scorers/school", { params });
+export const getTopScorersBySubject = (params) => api.get("/academic/top-scorers/subject", { params });
+export const getSchoolAnalytics = (params) => api.get("/academic/analytics", { params });
+export const getStudentAcademicSummary = (studentId, params) => api.get(`/academic/student/${studentId}/summary`, { params });
+export const getStudentAcademicHistory = (studentId) => api.get(`/academic/student/${studentId}/history`);
