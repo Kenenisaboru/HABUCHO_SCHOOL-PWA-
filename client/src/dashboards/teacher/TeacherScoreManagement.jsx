@@ -4,7 +4,7 @@
 import { useEffect, useState, useRef } from "react";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import { getStudents, getGrades, bulkUpsertGrades, sendScoresToStudents } from "../../services/authService";
+import { getStudents, getGrades, bulkUpsertGrades, sendScoresToStudents, submitGradesForApproval } from "../../services/authService";
 import { getOfflineDraft, saveOfflineDraft, clearOfflineDraft } from "../../utils/offlineStorage";
 
 const ACADEMIC_YEARS = ["2023/2024", "2024/2025", "2025/2026"];
@@ -36,6 +36,7 @@ const TeacherScoreManagement = () => {
   const [sending, setSending] = useState(false);
   const [sendResult, setSendResult] = useState(null);
   const [sendFormat, setSendFormat] = useState("both");
+  const [submittingApproval, setSubmittingApproval] = useState(false);
 
   // Fetch roster and existing grades when filters change
   const loadData = async () => {
@@ -261,16 +262,69 @@ const TeacherScoreManagement = () => {
     }
   };
 
+  const currentBatchStatus = allGrades.find(g => g.assessment_type === filters.assessment_type)?.submission_status || "draft";
+
+  const handleSubmitForApproval = async () => {
+    if (!filters.grade_level || !filters.section || !filters.subject) {
+      return toast.error("Select grade, section, and subject first");
+    }
+    if (!confirm("Submit these scores for Admin approval? Once approved, they will be factored into official student rankings.")) {
+      return;
+    }
+    setSubmittingApproval(true);
+    try {
+      await saveScores();
+      await submitGradesForApproval({
+        academic_year: filters.academic_year,
+        semester: filters.semester,
+        grade_level: filters.grade_level,
+        section: filters.section,
+        subject: filters.subject,
+      });
+      toast.success("Scores submitted for administrative approval!");
+      loadData();
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to submit for approval");
+    } finally {
+      setSubmittingApproval(false);
+    }
+  };
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-2">
-        <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Score Management</h2>
-        <div className="flex gap-2">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Score Management</h2>
+          {filters.subject && (
+            <div className="mt-1 flex items-center gap-2">
+              <span className="text-xs text-slate-400">Batch Status:</span>
+              <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                currentBatchStatus === "approved"
+                  ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
+                  : currentBatchStatus === "submitted"
+                  ? "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400"
+                  : currentBatchStatus === "rejected"
+                  ? "bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400"
+                  : "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300"
+              }`}>
+                {currentBatchStatus === "submitted" ? "Pending Approval" : currentBatchStatus}
+              </span>
+            </div>
+          )}
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
           <button onClick={handleExportCSV} className="btn-outline text-sm">
             📄 Export CSV
           </button>
           <button onClick={saveScores} disabled={saving || students.length === 0} className="btn-primary text-sm flex items-center gap-2">
-            {saving ? <LoadingSpinner className="h-4 w-4" /> : "💾 Save Scores"}
+            {saving ? <LoadingSpinner className="h-4 w-4" /> : "💾 Save Draft"}
+          </button>
+          <button
+            onClick={handleSubmitForApproval}
+            disabled={submittingApproval || students.length === 0 || currentBatchStatus === "approved"}
+            className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-bold text-white shadow-xs hover:bg-blue-700 disabled:opacity-50 transition"
+          >
+            {submittingApproval ? "Submitting..." : currentBatchStatus === "approved" ? "✓ Approved" : "🚀 Submit for Approval"}
           </button>
         </div>
       </div>
