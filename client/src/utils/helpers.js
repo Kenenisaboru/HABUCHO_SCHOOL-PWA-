@@ -29,12 +29,17 @@ export const getDashboardPath = (role) => {
 
 export const capitalize = (str) => str?.charAt(0).toUpperCase() + str?.slice(1);
 
-export const getGradeLetter = (score) => {
-  if (score >= 90) return "A";
-  if (score >= 80) return "B";
-  if (score >= 70) return "C";
-  if (score >= 60) return "D";
-  return "F";
+export const getPassStatus = (score, passMark = 50) => {
+  const num = parseFloat(score);
+  if (isNaN(num)) return "-";
+  return num >= passMark ? "Pass" : "Fail";
+};
+
+export const formatScorePercentage = (score, totalMarks = 100) => {
+  const s = parseFloat(score);
+  const t = parseFloat(totalMarks) || 100;
+  if (isNaN(s)) return "-";
+  return `${((s / t) * 100).toFixed(1)}%`;
 };
 
 export const exportGradesToPDF = async (grades, studentName) => {
@@ -45,19 +50,21 @@ export const exportGradesToPDF = async (grades, studentName) => {
   doc.setFontSize(18);
   doc.text("Habucho Preparatory School", 14, 22);
   doc.setFontSize(12);
-  doc.text(`Grade Report — ${studentName || "Student"}`, 14, 32);
+  doc.text(`Academic Performance Report — ${studentName || "Student"}`, 14, 32);
   doc.text(`Generated: ${formatDate(new Date())}`, 14, 40);
 
   autoTable(doc, {
     startY: 48,
-    head: [["Subject", "Score", "Grade", "Semester"]],
+    head: [["Subject", "Marks", "Max Marks", "Percentage", "Semester", "Status"]],
     body: grades.map((g) => [
       g.subject,
       g.score,
-      getGradeLetter(parseFloat(g.score)),
+      g.total_marks || 100,
+      formatScorePercentage(g.score, g.total_marks || 100),
       g.semester,
+      getPassStatus(g.score),
     ]),
   });
 
-  doc.save(`grades-${studentName || "report"}.pdf`);
+  doc.save(`academic-report-${studentName || "student"}.pdf`);
 };
