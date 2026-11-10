@@ -287,7 +287,7 @@ const Admissions = () => {
                   <div>
                     <h4 className="text-sm font-bold text-slate-900 dark:text-white">Document Review & Screening</h4>
                     <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                      The admissions committee verifies your prerequisite coursework and minimum grade thresholds (GPA ≥ 3.0).
+                      The admissions committee verifies your prerequisite coursework and minimum academic average thresholds (Average ≥ 75%).
                     </p>
                   </div>
                 </div>
