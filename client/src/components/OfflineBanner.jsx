@@ -23,8 +23,8 @@ const OfflineBanner = () => {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-9999 flex items-center justify-center gap-2 bg-amber-600 px-4 py-2 text-center text-xs font-semibold text-white shadow-md animate-in slide-in-from-top duration-200 dark:bg-amber-700">
-      <span className="text-sm">⚠️</span>
-      <span>You are currently offline. Some features may be unavailable.</span>
+      <span className="text-sm">⚡</span>
+      <span>You are currently offline — cached content is accessible and score entries are auto-saved locally.</span>
     </div>
   );
 };
