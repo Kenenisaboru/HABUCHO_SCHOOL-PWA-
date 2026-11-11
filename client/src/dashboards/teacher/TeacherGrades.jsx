@@ -5,9 +5,14 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import { getGrades, createGrade, updateGrade, deleteGrade, getStudents } from "../../services/authService";
+import {
+  getGrades,
+  createGrade,
+  updateGrade,
+  deleteGrade,
+  getStudents,
+} from "../../services/authService";
 import { getPassStatus } from "../../utils/helpers";
-
 
 const TeacherGrades = () => {
   const [grades, setGrades] = useState([]);
@@ -34,7 +39,9 @@ const TeacherGrades = () => {
     }
   };
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const openCreate = () => {
     setEditing(null);
@@ -51,10 +58,18 @@ const TeacherGrades = () => {
   const onSubmit = async (data) => {
     try {
       if (editing) {
-        await updateGrade(editing.id, { subject: data.subject, score: parseFloat(data.score), semester: data.semester });
+        await updateGrade(editing.id, {
+          subject: data.subject,
+          score: parseFloat(data.score),
+          semester: data.semester,
+        });
         toast.success("Grade updated");
       } else {
-        await createGrade({ ...data, student_id: parseInt(data.student_id), score: parseFloat(data.score) });
+        await createGrade({
+          ...data,
+          student_id: parseInt(data.student_id),
+          score: parseFloat(data.score),
+        });
         toast.success("Grade created");
       }
       setShowModal(false);
@@ -78,7 +93,9 @@ const TeacherGrades = () => {
   return (
     <>
       <div className="mb-6 flex justify-end">
-        <button onClick={openCreate} className="btn-primary">+ Add Grade</button>
+        <button onClick={openCreate} className="btn-primary">
+          + Add Grade
+        </button>
       </div>
 
       {loading ? (
@@ -98,20 +115,38 @@ const TeacherGrades = () => {
             </thead>
             <tbody>
               {grades.map((g, i) => (
-                <tr key={g.id} className={`border-b dark:border-gray-700 ${i % 2 === 0 ? "bg-white dark:bg-gray-800" : "bg-gray-50 dark:bg-gray-800/50"}`}>
+                <tr
+                  key={g.id}
+                  className={`border-b dark:border-gray-700 ${i % 2 === 0 ? "bg-white dark:bg-gray-800" : "bg-gray-50 dark:bg-gray-800/50"}`}
+                >
                   <td className="px-4 py-3">{g.student_name}</td>
                   <td className="px-4 py-3">{g.subject}</td>
                   <td className="px-4 py-3 font-medium">{g.score}</td>
                   <td className="px-4 py-3">
-                    <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${parseFloat(g.score) >= 50 ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"
-                      }`}>
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-xs font-bold ${
+                        parseFloat(g.score) >= 50
+                          ? "bg-emerald-100 text-emerald-700"
+                          : "bg-rose-100 text-rose-700"
+                      }`}
+                    >
                       {getPassStatus(g.score)}
                     </span>
                   </td>
                   <td className="px-4 py-3">{g.semester}</td>
                   <td className="px-4 py-3">
-                    <button onClick={() => openEdit(g)} className="mr-2 text-blue-600 hover:underline">Edit</button>
-                    <button onClick={() => handleDelete(g.id)} className="text-red-500 hover:underline">Delete</button>
+                    <button
+                      onClick={() => openEdit(g)}
+                      className="mr-2 text-blue-600 hover:underline"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(g.id)}
+                      className="text-red-500 hover:underline"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -129,19 +164,41 @@ const TeacherGrades = () => {
                 <select className="input-field" {...register("student_id", { required: true })}>
                   <option value="">Select Student</option>
                   {students.map((s) => (
-                    <option key={s.id} value={s.id}>{s.full_name}</option>
+                    <option key={s.id} value={s.id}>
+                      {s.full_name}
+                    </option>
                   ))}
                 </select>
               )}
-              <input className="input-field" placeholder="Subject" {...register("subject", { required: true })} />
-              <input type="number" step="0.01" min="0" max="100" className="input-field" placeholder="Score (0-100)" {...register("score", { required: true })} />
+              <input
+                className="input-field"
+                placeholder="Subject"
+                {...register("subject", { required: true })}
+              />
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                max="100"
+                className="input-field"
+                placeholder="Score (0-100)"
+                {...register("score", { required: true })}
+              />
               <select className="input-field" {...register("semester")}>
                 <option value="Semester 1">Semester 1</option>
                 <option value="Semester 2">Semester 2</option>
               </select>
               <div className="flex gap-2 pt-2">
-                <button type="submit" className="btn-emerald flex-1">Save</button>
-                <button type="button" onClick={() => setShowModal(false)} className="btn-outline flex-1">Cancel</button>
+                <button type="submit" className="btn-emerald flex-1">
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="btn-outline flex-1"
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>

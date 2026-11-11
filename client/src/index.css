@@ -31,41 +31,94 @@
   --animate-scale-in: scale-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 
   --keyframes-fade-in: {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   };
   --keyframes-slide-up: {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   };
   --keyframes-float: {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    33% { transform: translateY(-10px) rotate(1deg); }
-    66% { transform: translateY(-5px) rotate(-1deg); }
+    0%,
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    33% {
+      transform: translateY(-10px) rotate(1deg);
+    }
+    66% {
+      transform: translateY(-5px) rotate(-1deg);
+    }
   };
   --keyframes-shimmer: {
-    0% { background-position: -200% center; }
-    100% { background-position: 200% center; }
+    0% {
+      background-position: -200% center;
+    }
+    100% {
+      background-position: 200% center;
+    }
   };
   --keyframes-pulse-glow: {
-    0%, 100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.35); }
-    50% { box-shadow: 0 0 40px rgba(37, 99, 235, 0.6), 0 0 60px rgba(59, 130, 246, 0.3); }
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(37, 99, 235, 0.35);
+    }
+    50% {
+      box-shadow:
+        0 0 40px rgba(37, 99, 235, 0.6),
+        0 0 60px rgba(59, 130, 246, 0.3);
+    }
   };
   --keyframes-bounce-soft: {
-    0%, 100% { transform: translateY(0); animation-timing-function: cubic-bezier(0.8,0,1,1); }
-    50% { transform: translateY(-6px); animation-timing-function: cubic-bezier(0,0,0.2,1); }
+    0%,
+    100% {
+      transform: translateY(0);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: translateY(-6px);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
   };
   --keyframes-slide-in-left: {
-    from { opacity: 0; transform: translateX(-30px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   };
   --keyframes-slide-in-right: {
-    from { opacity: 0; transform: translateX(30px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   };
   --keyframes-scale-in: {
-    from { opacity: 0; transform: scale(0.85); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+      opacity: 0;
+      transform: scale(0.85);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   };
 }
 
@@ -94,7 +147,7 @@ body.dark {
    Cards
    ============================================================ */
 .card {
-  @apply rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-slate-300/80 dark:border-slate-800/60 dark:bg-slate-900 dark:hover:border-slate-700/60;
+  @apply rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all duration-300 hover:border-slate-300/80 hover:shadow-lg dark:border-slate-800/60 dark:bg-slate-900 dark:hover:border-slate-700/60;
 }
 
 .card-hover {
@@ -102,7 +155,7 @@ body.dark {
 }
 
 .card-glow {
-  @apply rounded-2xl border border-emerald-200/50 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-emerald-100/60 hover:shadow-xl hover:border-emerald-300/60 dark:border-emerald-800/30 dark:bg-slate-900 dark:hover:border-emerald-700/40 dark:hover:shadow-emerald-900/30;
+  @apply rounded-2xl border border-emerald-200/50 bg-white p-6 shadow-sm transition-all duration-300 hover:border-emerald-300/60 hover:shadow-xl hover:shadow-emerald-100/60 dark:border-emerald-800/30 dark:bg-slate-900 dark:hover:border-emerald-700/40 dark:hover:shadow-emerald-900/30;
 }
 
 /* Gradient border card */
@@ -116,9 +169,18 @@ body.dark {
   inset: 0;
   padding: 1px;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(16,185,129,0.4), rgba(99,102,241,0.1), rgba(16,185,129,0.1));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.4),
+    rgba(99, 102, 241, 0.1),
+    rgba(16, 185, 129, 0.1)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
@@ -128,7 +190,7 @@ body.dark {
    Buttons
    ============================================================ */
 .btn-primary {
-  @apply inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:shadow-blue-500/25 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:outline-none disabled:opacity-50 disabled:hover:translate-y-0;
+  @apply bg-primary hover:bg-primary-dark focus-visible:ring-primary/30 inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:shadow-blue-500/25 focus-visible:ring-2 focus-visible:outline-none disabled:opacity-50 disabled:hover:translate-y-0;
 }
 
 .portal-login-button {
@@ -149,11 +211,11 @@ body.dark {
 }
 
 .btn-emerald {
-  @apply inline-flex items-center justify-center rounded-xl bg-emerald px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-emerald-dark hover:shadow-md hover:shadow-blue-500/25 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-emerald/30 focus-visible:outline-none disabled:opacity-50;
+  @apply bg-emerald hover:bg-emerald-dark focus-visible:ring-emerald/30 inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:shadow-blue-500/25 focus-visible:ring-2 focus-visible:outline-none disabled:opacity-50;
 }
 
 .btn-outline {
-  @apply inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:border-slate-300 focus-visible:ring-2 focus-visible:ring-slate-200 focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800/60 disabled:opacity-50;
+  @apply inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-200 hover:border-slate-300 hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-slate-200 focus-visible:outline-none disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800/60;
 }
 
 .btn-ghost {
@@ -161,7 +223,7 @@ body.dark {
 }
 
 .btn-glow {
-  @apply inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5;
+  @apply bg-primary inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5;
   animation: var(--animate-pulse-glow);
 }
 
@@ -169,7 +231,7 @@ body.dark {
    Form Inputs
    ============================================================ */
 .input-field {
-  @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary focus:ring-4 focus:ring-primary/10 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-primary;
+  @apply focus:border-primary focus:ring-primary/10 dark:focus:border-primary w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:ring-4 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500;
 }
 
 /* Floating label group */
@@ -177,10 +239,10 @@ body.dark {
   @apply relative;
 }
 .input-float {
-  @apply w-full rounded-xl border border-slate-200 bg-white px-4 pb-2.5 pt-6 text-sm text-slate-900 transition-all focus:border-primary focus:ring-4 focus:ring-primary/10 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-primary;
+  @apply focus:border-primary focus:ring-primary/10 dark:focus:border-primary w-full rounded-xl border border-slate-200 bg-white px-4 pt-6 pb-2.5 text-sm text-slate-900 transition-all focus:ring-4 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white;
 }
 .input-float-label {
-  @apply pointer-events-none absolute left-4 top-3.5 text-xs font-medium text-slate-500 transition-all peer-placeholder-shown:top-3.5 peer-focus:top-2 dark:text-slate-400;
+  @apply pointer-events-none absolute top-3.5 left-4 text-xs font-medium text-slate-500 transition-all peer-placeholder-shown:top-3.5 peer-focus:top-2 dark:text-slate-400;
 }
 
 /* ============================================================
@@ -202,8 +264,9 @@ body.dark {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 80% 20%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
-              radial-gradient(ellipse at 20% 80%, rgba(245, 158, 11, 0.12) 0%, transparent 40%);
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(245, 158, 11, 0.12) 0%, transparent 40%);
   pointer-events: none;
 }
 
@@ -217,13 +280,13 @@ body.dark {
 .page-hero-dots {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
   background-size: 28px 28px;
   pointer-events: none;
 }
 
 .section-label {
-  @apply mb-3 inline-block rounded-full bg-primary/10 px-4 py-1 text-xs font-bold uppercase tracking-widest text-primary dark:bg-primary/20 dark:text-emerald-400;
+  @apply bg-primary/10 text-primary dark:bg-primary/20 mb-3 inline-block rounded-full px-4 py-1 text-xs font-bold tracking-widest uppercase dark:text-emerald-400;
 }
 
 .section-title {
@@ -239,7 +302,7 @@ body.dark {
    ============================================================ */
 .feature-icon {
   @apply mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl text-2xl transition-transform duration-300 group-hover:scale-110;
-  background: linear-gradient(135deg, rgba(5,150,105,0.12), rgba(16,185,129,0.06));
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.12), rgba(16, 185, 129, 0.06));
 }
 
 /* ============================================================
@@ -280,16 +343,16 @@ body.dark {
   @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold;
 }
 .badge-emerald {
-  @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400;
+  @apply inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400;
 }
 .badge-amber {
-  @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400;
+  @apply inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-400;
 }
 .badge-red {
-  @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400;
+  @apply inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700 dark:bg-red-900/40 dark:text-red-400;
 }
 .badge-blue {
-  @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400;
+  @apply inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-400;
 }
 
 /* ============================================================
@@ -297,7 +360,14 @@ body.dark {
    ============================================================ */
 .gradient-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(16,185,129,0.4), rgba(5,150,105,0.6), rgba(16,185,129,0.4), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(16, 185, 129, 0.4),
+    rgba(5, 150, 105, 0.6),
+    rgba(16, 185, 129, 0.4),
+    transparent
+  );
 }
 
 /* ============================================================
@@ -318,7 +388,9 @@ body.dark {
    Reduced Motion
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
+  *,
+  ::before,
+  ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -330,13 +402,24 @@ body.dark {
    Timeline & Float Styles (About page)
    ============================================================ */
 @keyframes float-slow {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-30px) rotate(5deg); }
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-30px) rotate(5deg);
+  }
 }
 
 @keyframes slide-right {
-  from { transform: translateX(-100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .timeline-line {
@@ -345,7 +428,13 @@ body.dark {
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(to bottom, rgba(16, 185, 129, 0), rgba(16, 185, 129, 0.5) 20%, rgba(16, 185, 129, 0.5) 80%, rgba(16, 185, 129, 0));
+  background: linear-gradient(
+    to bottom,
+    rgba(16, 185, 129, 0),
+    rgba(16, 185, 129, 0.5) 20%,
+    rgba(16, 185, 129, 0.5) 80%,
+    rgba(16, 185, 129, 0)
+  );
   transform: translateX(-50%);
 }
 
@@ -1019,7 +1108,9 @@ body:has(.home-page) nav .portal-login-button:hover {
   color: #6ee7b7;
   font-size: 0.95rem;
   font-weight: 700;
-  transition: color 180ms ease, gap 180ms ease;
+  transition:
+    color 180ms ease,
+    gap 180ms ease;
 }
 
 .about-hero-link:hover {
@@ -1267,7 +1358,9 @@ body:has(.home-page) nav .portal-login-button:hover {
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.04em;
-  transition: transform 220ms ease, box-shadow 220ms ease;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease;
 }
 
 .alumni-timeline-item:hover .alumni-timeline-node {
@@ -1291,7 +1384,10 @@ body:has(.home-page) nav .portal-login-button:hover {
   padding: 1.35rem;
   background: linear-gradient(145deg, rgba(15, 31, 43, 0.92), rgba(9, 17, 33, 0.92));
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.17);
-  transition: transform 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
+  transition:
+    transform 240ms ease,
+    border-color 240ms ease,
+    box-shadow 240ms ease;
 }
 
 .alumni-card::before {
@@ -1326,7 +1422,9 @@ body:has(.home-page) nav .portal-login-button:hover {
 
 .alumni-card:hover {
   border-color: rgba(52, 211, 153, 0.5);
-  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.28), 0 0 30px rgba(16, 185, 129, 0.08);
+  box-shadow:
+    0 22px 55px rgba(0, 0, 0, 0.28),
+    0 0 30px rgba(16, 185, 129, 0.08);
 }
 
 .alumni-card:hover::before {

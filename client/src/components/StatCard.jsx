@@ -11,12 +11,18 @@ const StatCard = ({ title, value, icon, color = "emerald" }) => {
 
   return (
     <div className="card flex items-center gap-4 border border-slate-100 bg-white p-5 shadow-xs transition-transform duration-300 hover:-translate-y-1 hover:shadow-md dark:border-slate-800/60 dark:bg-slate-900">
-      <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-xl font-semibold ${colors[color]}`}>
+      <div
+        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-xl font-semibold ${colors[color]}`}
+      >
         {icon}
       </div>
       <div className="min-w-0">
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider dark:text-slate-500">{title}</p>
-        <p className="text-2xl font-bold text-slate-800 tracking-tight dark:text-slate-100 mt-0.5">{value}</p>
+        <p className="text-xs font-semibold tracking-wider text-slate-400 uppercase dark:text-slate-500">
+          {title}
+        </p>
+        <p className="mt-0.5 text-2xl font-bold tracking-tight text-slate-800 dark:text-slate-100">
+          {value}
+        </p>
       </div>
     </div>
   );

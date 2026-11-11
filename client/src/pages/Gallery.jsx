@@ -1,13 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import {
-  Images,
-  X,
-  ChevronLeft,
-  ChevronRight,
-  Sparkles,
-  Maximize2,
-  Calendar,
-} from "lucide-react";
+import { Images, X, ChevronLeft, ChevronRight, Sparkles, Maximize2, Calendar } from "lucide-react";
 import MainLayout from "../layouts/MainLayout";
 import PageHeader from "../components/PageHeader";
 import Reveal from "../components/Reveal";
@@ -31,7 +23,8 @@ const FALLBACK_GALLERY = [
   {
     id: 102,
     title: "A modern campus setting",
-    caption: "Representative campus architecture; contact the school for current facilities information.",
+    caption:
+      "Representative campus architecture; contact the school for current facilities information.",
     category: "Campus",
     image_path: campusBuildingImg,
   },
@@ -108,7 +101,7 @@ const Gallery = () => {
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           {/* Header & Filter Controls */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-12">
+          <div className="mb-12 flex flex-col items-center justify-between gap-6 sm:flex-row">
             <div>
               <span className="section-label">VISUAL TOUR</span>
               <h2 className="section-title text-2xl sm:text-3xl">Life at Habucho</h2>
@@ -135,9 +128,12 @@ const Gallery = () => {
           {loading ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {[1, 2, 3, 4, 5, 6].map((n) => (
-                <div key={n} className="overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-3">
-                  <SkeletonLoader className="h-64 w-full rounded-xl mb-3" />
-                  <SkeletonLoader className="h-4 w-3/4 mb-1" />
+                <div
+                  key={n}
+                  className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-900"
+                >
+                  <SkeletonLoader className="mb-3 h-64 w-full rounded-xl" />
+                  <SkeletonLoader className="mb-1 h-4 w-3/4" />
                   <SkeletonLoader className="h-3 w-1/2" />
                 </div>
               ))}
@@ -158,23 +154,23 @@ const Gallery = () => {
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-center justify-center">
+                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md">
                           <Maximize2 className="h-5 w-5" />
                         </span>
                       </div>
-                      <span className="absolute top-3 left-3 rounded-lg bg-black/60 px-2.5 py-1 text-[10px] font-bold text-white uppercase tracking-wider backdrop-blur-md">
+                      <span className="absolute top-3 left-3 rounded-lg bg-black/60 px-2.5 py-1 text-[10px] font-bold tracking-wider text-white uppercase backdrop-blur-md">
                         {img.category || "Campus"}
                       </span>
                     </div>
 
                     {/* Title & Caption */}
                     <div className="p-5">
-                      <h3 className="font-display text-sm font-bold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                      <h3 className="font-display group-hover:text-primary text-sm font-bold text-slate-900 transition-colors dark:text-white dark:group-hover:text-blue-400">
                         {img.title}
                       </h3>
                       {img.caption && (
-                        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
+                        <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
                           {img.caption}
                         </p>
                       )}
@@ -189,11 +185,11 @@ const Gallery = () => {
 
       {/* Lightbox Modal */}
       {selectedImage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 sm:p-8 animate-fade-in">
+        <div className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-md sm:p-8">
           {/* Close button */}
           <button
             onClick={() => setSelectedImage(null)}
-            className="absolute top-5 right-5 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            className="absolute top-5 right-5 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
             aria-label="Close preview"
           >
             <X className="h-6 w-6" />
@@ -205,7 +201,7 @@ const Gallery = () => {
               e.stopPropagation();
               handlePrev();
             }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm transition-colors"
+            className="absolute top-1/2 left-4 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-colors hover:bg-white/20"
             aria-label="Previous image"
           >
             <ChevronLeft className="h-6 w-6" />
@@ -217,7 +213,7 @@ const Gallery = () => {
               e.stopPropagation();
               handleNext();
             }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm transition-colors"
+            className="absolute top-1/2 right-4 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-colors hover:bg-white/20"
             aria-label="Next image"
           >
             <ChevronRight className="h-6 w-6" />
@@ -226,22 +222,22 @@ const Gallery = () => {
           {/* Modal Content */}
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-5xl max-h-[90vh] flex flex-col items-center overflow-hidden rounded-2xl bg-slate-950 border border-slate-800 shadow-2xl"
+            className="relative flex max-h-[90vh] max-w-5xl flex-col items-center overflow-hidden rounded-2xl border border-slate-800 bg-slate-950 shadow-2xl"
           >
             <img
               src={getAssetUrl(selectedImage.image_path)}
               alt={selectedImage.title}
               className="max-h-[70vh] w-auto max-w-full object-contain"
             />
-            <div className="w-full bg-slate-900/90 p-5 backdrop-blur-md text-left">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">
+            <div className="w-full bg-slate-900/90 p-5 text-left backdrop-blur-md">
+              <span className="text-[10px] font-bold tracking-wider text-amber-400 uppercase">
                 {selectedImage.category || "Campus Life"}
               </span>
-              <h3 className="font-display text-lg font-bold text-white mt-0.5">
+              <h3 className="font-display mt-0.5 text-lg font-bold text-white">
                 {selectedImage.title}
               </h3>
               {selectedImage.caption && (
-                <p className="mt-1 text-xs text-slate-300 leading-relaxed max-w-3xl">
+                <p className="mt-1 max-w-3xl text-xs leading-relaxed text-slate-300">
                   {selectedImage.caption}
                 </p>
               )}

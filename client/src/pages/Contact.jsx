@@ -15,7 +15,12 @@ const contactItems = [
 ];
 
 const Contact = () => {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm();
 
   useEffect(() => {
     document.title = "Contact Us — Habucho Preparatory School";
@@ -40,15 +45,15 @@ const Contact = () => {
         />
         <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-300">
+            <p className="mb-3 text-xs font-bold tracking-[0.18em] text-emerald-300 uppercase">
               Get in touch
             </p>
             <h1 className="font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
               How can we help?
             </h1>
             <p className="mt-3 max-w-xl text-base leading-relaxed text-slate-300">
-              Contact the Habucho school team with questions about admissions,
-              school life, or student support.
+              Contact the Habucho school team with questions about admissions, school life, or
+              student support.
             </p>
           </div>
           <a href="#contact-form" className="btn-primary shrink-0">
@@ -78,28 +83,57 @@ const Contact = () => {
           </div>
 
           {/* Contact Form */}
-          <form id="contact-form" onSubmit={handleSubmit(onSubmit)} className="card scroll-mt-24 space-y-5 lg:col-span-3">
+          <form
+            id="contact-form"
+            onSubmit={handleSubmit(onSubmit)}
+            className="card scroll-mt-24 space-y-5 lg:col-span-3"
+          >
             <div>
-              <h2 className="font-display text-xl font-bold text-slate-900 dark:text-white">Send a Message</h2>
-              <p className="mt-1 text-sm text-slate-500">We'll get back to you as soon as possible.</p>
+              <h2 className="font-display text-xl font-bold text-slate-900 dark:text-white">
+                Send a Message
+              </h2>
+              <p className="mt-1 text-sm text-slate-500">
+                We'll get back to you as soon as possible.
+              </p>
             </div>
 
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">Name</label>
-              <input className="input-field" {...register("name", { required: "Name is required" })} />
+              <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                Name
+              </label>
+              <input
+                className="input-field"
+                {...register("name", { required: "Name is required" })}
+              />
               {errors.name && <p className="mt-1.5 text-sm text-red-500">{errors.name.message}</p>}
             </div>
 
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">Email</label>
-              <input type="email" className="input-field" {...register("email", { required: "Email is required" })} />
-              {errors.email && <p className="mt-1.5 text-sm text-red-500">{errors.email.message}</p>}
+              <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                Email
+              </label>
+              <input
+                type="email"
+                className="input-field"
+                {...register("email", { required: "Email is required" })}
+              />
+              {errors.email && (
+                <p className="mt-1.5 text-sm text-red-500">{errors.email.message}</p>
+              )}
             </div>
 
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">Message</label>
-              <textarea rows={5} className="input-field resize-none" {...register("message", { required: "Message is required" })} />
-              {errors.message && <p className="mt-1.5 text-sm text-red-500">{errors.message.message}</p>}
+              <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                Message
+              </label>
+              <textarea
+                rows={5}
+                className="input-field resize-none"
+                {...register("message", { required: "Message is required" })}
+              />
+              {errors.message && (
+                <p className="mt-1.5 text-sm text-red-500">{errors.message.message}</p>
+              )}
             </div>
 
             <button type="submit" disabled={isSubmitting} className="btn-emerald w-full py-3">

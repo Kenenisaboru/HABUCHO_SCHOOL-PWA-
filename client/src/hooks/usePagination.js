@@ -10,11 +10,11 @@ const usePagination = (initialPage = 1, initialTotalPages = 1) => {
   const [totalPages, setTotalPages] = useState(initialTotalPages);
 
   const nextPage = () => {
-    if (page < totalPages) setPage(p => p + 1);
+    if (page < totalPages) setPage((p) => p + 1);
   };
 
   const prevPage = () => {
-    if (page > 1) setPage(p => p - 1);
+    if (page > 1) setPage((p) => p - 1);
   };
 
   const goToPage = (pageNumber) => {
@@ -28,7 +28,7 @@ const usePagination = (initialPage = 1, initialTotalPages = 1) => {
   const visiblePages = useMemo(() => {
     let start = Math.max(1, page - 2);
     let end = Math.min(totalPages, start + 4);
-    
+
     if (end - start < 4) {
       start = Math.max(1, end - 4);
     }

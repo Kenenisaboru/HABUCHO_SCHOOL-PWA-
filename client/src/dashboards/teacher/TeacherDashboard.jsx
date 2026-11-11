@@ -26,7 +26,7 @@ const TeacherDashboard = () => {
   // Modals state
   const [showGradeModal, setShowGradeModal] = useState(false);
   const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
-  
+
   // Real-time ticking date-time
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -96,7 +96,15 @@ const TeacherDashboard = () => {
 
   // Check if a class is active right now
   const isClassActive = (sched) => {
-    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
     const currentDayName = daysOfWeek[currentTime.getDay()];
 
     if (sched.day.toLowerCase() !== currentDayName.toLowerCase()) {
@@ -122,9 +130,10 @@ const TeacherDashboard = () => {
 
   // Calculate dynamic stats
   const totalGrades = grades.length;
-  const classAvg = totalGrades > 0 
-    ? (grades.reduce((acc, curr) => acc + parseFloat(curr.score), 0) / totalGrades).toFixed(1) 
-    : "0.0";
+  const classAvg =
+    totalGrades > 0
+      ? (grades.reduce((acc, curr) => acc + parseFloat(curr.score), 0) / totalGrades).toFixed(1)
+      : "0.0";
   const passCount = grades.filter((g) => parseFloat(g.score) >= 50).length;
   const passRate = totalGrades > 0 ? ((passCount / totalGrades) * 100).toFixed(0) : "0";
   const topPerformersCount = grades.filter((g) => parseFloat(g.score) >= 90).length;
@@ -158,35 +167,44 @@ const TeacherDashboard = () => {
     .slice(0, 3);
 
   // Students Needing Support (Score < 60)
-  const studentsNeedingSupport = grades
-    .filter((g) => parseFloat(g.score) < 60)
-    .slice(0, 3);
+  const studentsNeedingSupport = grades.filter((g) => parseFloat(g.score) < 60).slice(0, 3);
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="animate-fade-in space-y-8">
       {/* Dynamic Greetings Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-emerald-600 via-teal-700 to-indigo-800 p-6 md:p-8 text-white shadow-xl">
-        <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
+      <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-emerald-600 via-teal-700 to-indigo-800 p-6 text-white shadow-xl md:p-8">
+        <div className="absolute top-0 right-0 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
         <div className="absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-indigo-500/20 blur-3xl"></div>
-        
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+        <div className="relative z-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3.5 py-1 text-xs font-semibold tracking-wide text-white uppercase backdrop-blur-md">
               🏫 Teacher Workspace
             </span>
-            <h1 className="mt-4 text-3xl font-extrabold md:text-4xl tracking-tight">
+            <h1 className="mt-4 text-3xl font-extrabold tracking-tight md:text-4xl">
               {getGreeting()}, {user?.full_name || "Teacher"}
             </h1>
-            <p className="mt-2 text-slate-100 text-sm md:text-base font-light max-w-md">
-              Here is your school overview. Check out dynamic insights, manage student grades, and track your active schedules.
+            <p className="mt-2 max-w-md text-sm font-light text-slate-100 md:text-base">
+              Here is your school overview. Check out dynamic insights, manage student grades, and
+              track your active schedules.
             </p>
           </div>
-          <div className="flex shrink-0 items-center gap-3.5 rounded-2xl bg-white/15 p-4 backdrop-blur-lg border border-white/10 shadow-inner">
+          <div className="flex shrink-0 items-center gap-3.5 rounded-2xl border border-white/10 bg-white/15 p-4 shadow-inner backdrop-blur-lg">
             <span className="text-3xl">📅</span>
             <div>
-              <p className="text-xs font-medium text-teal-100 uppercase tracking-wider">Current Time</p>
-              <p className="text-lg font-bold">{currentTime.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}</p>
-              <p className="text-xs text-emerald-100/90">{currentTime.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</p>
+              <p className="text-xs font-medium tracking-wider text-teal-100 uppercase">
+                Current Time
+              </p>
+              <p className="text-lg font-bold">
+                {currentTime.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
+              </p>
+              <p className="text-xs text-emerald-100/90">
+                {currentTime.toLocaleDateString("en-US", {
+                  weekday: "short",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </p>
             </div>
           </div>
         </div>
@@ -196,48 +214,72 @@ const TeacherDashboard = () => {
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {/* Classes Card */}
         <div className="card group relative overflow-hidden">
-          <div className="absolute -right-3 -top-3 h-16 w-16 rounded-full bg-blue-500/10 transition-all duration-300 group-hover:scale-150"></div>
+          <div className="absolute -top-3 -right-3 h-16 w-16 rounded-full bg-blue-500/10 transition-all duration-300 group-hover:scale-150"></div>
           <div className="flex items-center gap-4">
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-2xl text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">📚</span>
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-2xl text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+              📚
+            </span>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">My Classes</p>
-              <p className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mt-1">{schedules.length}</p>
+              <p className="text-xs font-semibold tracking-wider text-slate-400 uppercase dark:text-slate-500">
+                My Classes
+              </p>
+              <p className="mt-1 text-3xl font-extrabold text-slate-800 dark:text-slate-100">
+                {schedules.length}
+              </p>
             </div>
           </div>
         </div>
 
         {/* Class Average Card */}
         <div className="card group relative overflow-hidden">
-          <div className="absolute -right-3 -top-3 h-16 w-16 rounded-full bg-emerald-500/10 transition-all duration-300 group-hover:scale-150"></div>
+          <div className="absolute -top-3 -right-3 h-16 w-16 rounded-full bg-emerald-500/10 transition-all duration-300 group-hover:scale-150"></div>
           <div className="flex items-center gap-4">
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-2xl text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400">📊</span>
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-2xl text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400">
+              📊
+            </span>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Class Average</p>
-              <p className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mt-1">{classAvg}%</p>
+              <p className="text-xs font-semibold tracking-wider text-slate-400 uppercase dark:text-slate-500">
+                Class Average
+              </p>
+              <p className="mt-1 text-3xl font-extrabold text-slate-800 dark:text-slate-100">
+                {classAvg}%
+              </p>
             </div>
           </div>
         </div>
 
         {/* Pass Rate Card */}
         <div className="card group relative overflow-hidden">
-          <div className="absolute -right-3 -top-3 h-16 w-16 rounded-full bg-purple-500/10 transition-all duration-300 group-hover:scale-150"></div>
+          <div className="absolute -top-3 -right-3 h-16 w-16 rounded-full bg-purple-500/10 transition-all duration-300 group-hover:scale-150"></div>
           <div className="flex items-center gap-4">
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-50 text-2xl text-purple-600 dark:bg-purple-900/20 dark:text-purple-400">📈</span>
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-50 text-2xl text-purple-600 dark:bg-purple-900/20 dark:text-purple-400">
+              📈
+            </span>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Pass Rate</p>
-              <p className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mt-1">{passRate}%</p>
+              <p className="text-xs font-semibold tracking-wider text-slate-400 uppercase dark:text-slate-500">
+                Pass Rate
+              </p>
+              <p className="mt-1 text-3xl font-extrabold text-slate-800 dark:text-slate-100">
+                {passRate}%
+              </p>
             </div>
           </div>
         </div>
 
         {/* Top Performers Card */}
         <div className="card group relative overflow-hidden">
-          <div className="absolute -right-3 -top-3 h-16 w-16 rounded-full bg-amber-500/10 transition-all duration-300 group-hover:scale-150"></div>
+          <div className="absolute -top-3 -right-3 h-16 w-16 rounded-full bg-amber-500/10 transition-all duration-300 group-hover:scale-150"></div>
           <div className="flex items-center gap-4">
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-2xl text-amber-600 dark:bg-amber-900/20 dark:text-amber-400">👑</span>
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-2xl text-amber-600 dark:bg-amber-900/20 dark:text-amber-400">
+              👑
+            </span>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Top Performers</p>
-              <p className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mt-1">{topPerformersCount}</p>
+              <p className="text-xs font-semibold tracking-wider text-slate-400 uppercase dark:text-slate-500">
+                Top Performers
+              </p>
+              <p className="mt-1 text-3xl font-extrabold text-slate-800 dark:text-slate-100">
+                {topPerformersCount}
+              </p>
             </div>
           </div>
         </div>
@@ -246,16 +288,22 @@ const TeacherDashboard = () => {
       {/* Main Operations Grid */}
       <div className="grid gap-8 lg:grid-cols-3">
         {/* Left Column (2/3 width on large screens) */}
-        <div className="lg:col-span-2 space-y-8">
+        <div className="space-y-8 lg:col-span-2">
           {/* Timeline & Weekly Timetable */}
           <div className="card">
             <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
-              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Schedule & Timetable</h2>
-              <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-600 dark:bg-emerald-500/20">Assigned Classes</span>
+              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">
+                Schedule & Timetable
+              </h2>
+              <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-600 dark:bg-emerald-500/20">
+                Assigned Classes
+              </span>
             </div>
 
             {schedules.length === 0 ? (
-              <div className="py-8 text-center text-slate-500">No classes assigned on your timetable.</div>
+              <div className="py-8 text-center text-slate-500">
+                No classes assigned on your timetable.
+              </div>
             ) : (
               <div className="mt-6 space-y-4">
                 {schedules.slice(0, 5).map((s) => {
@@ -263,33 +311,41 @@ const TeacherDashboard = () => {
                   return (
                     <div
                       key={s.id}
-                      className={`flex flex-col sm:flex-row sm:items-center justify-between rounded-2xl p-4 transition-all duration-200 border ${
+                      className={`flex flex-col justify-between rounded-2xl border p-4 transition-all duration-200 sm:flex-row sm:items-center ${
                         active
-                          ? "bg-linear-to-r from-emerald-500/5 to-teal-500/5 border-emerald-500 shadow-sm"
-                          : "bg-slate-50 border-slate-100 dark:bg-slate-800/40 dark:border-slate-800/60"
+                          ? "border-emerald-500 bg-linear-to-r from-emerald-500/5 to-teal-500/5 shadow-sm"
+                          : "border-slate-100 bg-slate-50 dark:border-slate-800/60 dark:bg-slate-800/40"
                       }`}
                     >
                       <div className="flex items-center gap-3">
-                        <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg font-semibold ${
-                          active ? "bg-emerald-500 text-white animate-pulse" : "bg-slate-200/60 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
-                        }`}>
+                        <span
+                          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg font-semibold ${
+                            active
+                              ? "animate-pulse bg-emerald-500 text-white"
+                              : "bg-slate-200/60 text-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                          }`}
+                        >
                           {s.subject.charAt(0).toUpperCase()}
                         </span>
                         <div>
-                          <p className="font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                          <p className="flex items-center gap-2 font-semibold text-slate-800 dark:text-slate-200">
                             {s.subject}
                             {active && (
                               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
-                                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                                <span className="h-1.5 w-1.5 animate-ping rounded-full bg-emerald-500"></span>
                                 LIVE NOW
                               </span>
                             )}
                           </p>
-                          <p className="text-xs text-slate-500">Grade {s.grade_level} · {s.day}</p>
+                          <p className="text-xs text-slate-500">
+                            Grade {s.grade_level} · {s.day}
+                          </p>
                         </div>
                       </div>
-                      <div className="mt-3 sm:mt-0 flex items-center justify-between gap-4">
-                        <span className={`text-sm font-semibold ${active ? "text-emerald-600 dark:text-emerald-400" : "text-slate-600 dark:text-slate-400"}`}>
+                      <div className="mt-3 flex items-center justify-between gap-4 sm:mt-0">
+                        <span
+                          className={`text-sm font-semibold ${active ? "text-emerald-600 dark:text-emerald-400" : "text-slate-600 dark:text-slate-400"}`}
+                        >
                           {formatTime(s.start_time)} – {formatTime(s.end_time)}
                         </span>
                       </div>
@@ -302,13 +358,15 @@ const TeacherDashboard = () => {
 
           {/* Quick Actions & Modals */}
           <div className="card">
-            <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 pb-4 dark:border-slate-800">Quick Actions</h2>
+            <h2 className="border-b border-slate-100 pb-4 text-lg font-bold text-slate-800 dark:border-slate-800 dark:text-slate-100">
+              Quick Actions
+            </h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
               <Link
                 to="/teacher/grades"
-                className="flex items-center gap-4 rounded-2xl bg-linear-to-br from-emerald-500 to-teal-600 p-4 text-left text-white shadow-sm hover:shadow-md transition-all hover:scale-[1.02]"
+                className="flex items-center gap-4 rounded-2xl bg-linear-to-br from-emerald-500 to-teal-600 p-4 text-left text-white shadow-sm transition-all hover:scale-[1.02] hover:shadow-md"
               >
-                <span className="text-3xl bg-white/20 p-2 rounded-xl">📊</span>
+                <span className="rounded-xl bg-white/20 p-2 text-3xl">📊</span>
                 <div>
                   <h3 className="font-bold">Excel Score Sheet</h3>
                   <p className="text-xs text-teal-100">Enter marks for whole class</p>
@@ -317,9 +375,9 @@ const TeacherDashboard = () => {
 
               <button
                 onClick={() => setShowGradeModal(true)}
-                className="flex items-center gap-4 rounded-2xl bg-linear-to-br from-teal-600 to-cyan-700 p-4 text-left text-white shadow-sm hover:shadow-md transition-all hover:scale-[1.02]"
+                className="flex items-center gap-4 rounded-2xl bg-linear-to-br from-teal-600 to-cyan-700 p-4 text-left text-white shadow-sm transition-all hover:scale-[1.02] hover:shadow-md"
               >
-                <span className="text-3xl bg-white/20 p-2 rounded-xl">📝</span>
+                <span className="rounded-xl bg-white/20 p-2 text-3xl">📝</span>
                 <div>
                   <h3 className="font-bold">Single Grade Entry</h3>
                   <p className="text-xs text-teal-100">Add individual score</p>
@@ -328,9 +386,9 @@ const TeacherDashboard = () => {
 
               <button
                 onClick={() => setShowAnnouncementModal(true)}
-                className="flex items-center gap-4 rounded-2xl bg-linear-to-br from-indigo-500 to-purple-600 p-4 text-left text-white shadow-sm hover:shadow-md transition-all hover:scale-[1.02]"
+                className="flex items-center gap-4 rounded-2xl bg-linear-to-br from-indigo-500 to-purple-600 p-4 text-left text-white shadow-sm transition-all hover:scale-[1.02] hover:shadow-md"
               >
-                <span className="text-3xl bg-white/20 p-2 rounded-xl">📢</span>
+                <span className="rounded-xl bg-white/20 p-2 text-3xl">📢</span>
                 <div>
                   <h3 className="font-bold">Post Announcement</h3>
                   <p className="text-xs text-indigo-100">Notify your classes & students</p>
@@ -344,12 +402,14 @@ const TeacherDashboard = () => {
         <div className="space-y-8">
           {/* Dynamic Grade Distribution Chart */}
           <div className="card">
-            <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 pb-4 dark:border-slate-800">Grade Distribution</h2>
+            <h2 className="border-b border-slate-100 pb-4 text-lg font-bold text-slate-800 dark:border-slate-800 dark:text-slate-100">
+              Grade Distribution
+            </h2>
             <div className="mt-6 space-y-4">
               {Object.keys(gradeBands).map((grade) => {
                 const count = gradeBands[grade];
                 const percentage = totalGrades > 0 ? ((count / totalGrades) * 100).toFixed(0) : "0";
-                
+
                 // Color mapping for grades
                 const colors = {
                   A: "bg-emerald-500",
@@ -363,9 +423,11 @@ const TeacherDashboard = () => {
                   <div key={grade} className="space-y-1">
                     <div className="flex items-center justify-between text-xs font-semibold text-slate-600 dark:text-slate-400">
                       <span>Grade {grade}</span>
-                      <span>{count} student(s) ({percentage}%)</span>
+                      <span>
+                        {count} student(s) ({percentage}%)
+                      </span>
                     </div>
-                    <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
                       <div
                         className={`h-full rounded-full transition-all duration-700 ${colors[grade]}`}
                         style={{ width: `${percentage}%` }}
@@ -380,18 +442,29 @@ const TeacherDashboard = () => {
           {/* Student Achievements & Alerts */}
           <div className="card space-y-6">
             <div>
-              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 pb-3 dark:border-slate-800">Top Performers</h2>
+              <h2 className="border-b border-slate-100 pb-3 text-lg font-bold text-slate-800 dark:border-slate-800 dark:text-slate-100">
+                Top Performers
+              </h2>
               {topStudents.length === 0 ? (
-                <p className="text-sm text-slate-500 mt-3">No grades entered yet.</p>
+                <p className="mt-3 text-sm text-slate-500">No grades entered yet.</p>
               ) : (
                 <div className="mt-3 space-y-3">
                   {topStudents.map((s, idx) => (
-                    <div key={s.id} className="flex items-center justify-between rounded-xl bg-slate-50 p-3 dark:bg-slate-800/40">
+                    <div
+                      key={s.id}
+                      className="flex items-center justify-between rounded-xl bg-slate-50 p-3 dark:bg-slate-800/40"
+                    >
                       <div className="flex items-center gap-2">
-                        <span className="text-lg">{idx === 0 ? "🥇" : idx === 1 ? "🥈" : "🥉"}</span>
+                        <span className="text-lg">
+                          {idx === 0 ? "🥇" : idx === 1 ? "🥈" : "🥉"}
+                        </span>
                         <div>
-                          <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{s.student_name}</p>
-                          <p className="text-[10px] text-slate-500">{s.subject} · {s.semester}</p>
+                          <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                            {s.student_name}
+                          </p>
+                          <p className="text-[10px] text-slate-500">
+                            {s.subject} · {s.semester}
+                          </p>
                         </div>
                       </div>
                       <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">
@@ -404,18 +477,27 @@ const TeacherDashboard = () => {
             </div>
 
             <div>
-              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 pb-3 dark:border-slate-800 flex items-center gap-2">
+              <h2 className="flex items-center gap-2 border-b border-slate-100 pb-3 text-lg font-bold text-slate-800 dark:border-slate-800 dark:text-slate-100">
                 Needs Support ⚠️
               </h2>
               {studentsNeedingSupport.length === 0 ? (
-                <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium mt-3">All students passing! Good job! 🎉</p>
+                <p className="mt-3 text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                  All students passing! Good job! 🎉
+                </p>
               ) : (
                 <div className="mt-3 space-y-3">
                   {studentsNeedingSupport.map((s) => (
-                    <div key={s.id} className="flex items-center justify-between rounded-xl bg-red-50/50 p-3 dark:bg-red-950/10 border border-red-100/50 dark:border-red-900/20">
+                    <div
+                      key={s.id}
+                      className="flex items-center justify-between rounded-xl border border-red-100/50 bg-red-50/50 p-3 dark:border-red-900/20 dark:bg-red-950/10"
+                    >
                       <div>
-                        <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{s.student_name}</p>
-                        <p className="text-[10px] text-slate-500">{s.subject} · {s.semester}</p>
+                        <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                          {s.student_name}
+                        </p>
+                        <p className="text-[10px] text-slate-500">
+                          {s.subject} · {s.semester}
+                        </p>
                       </div>
                       <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-bold text-red-700 dark:bg-red-950 dark:text-red-400">
                         {s.score}%
@@ -432,35 +514,67 @@ const TeacherDashboard = () => {
       {/* MODAL 1: ADD GRADE */}
       {showGradeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800 animate-slide-up border border-slate-100 dark:border-slate-700/60">
+          <div className="animate-slide-up w-full max-w-md rounded-2xl border border-slate-100 bg-white p-6 shadow-xl dark:border-slate-700/60 dark:bg-gray-800">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-700">
-              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Add Grade Record</h2>
-              <button onClick={() => setShowGradeModal(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold">×</button>
+              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">
+                Add Grade Record
+              </h2>
+              <button
+                onClick={() => setShowGradeModal(false)}
+                className="text-xl font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              >
+                ×
+              </button>
             </div>
-            
+
             <form onSubmit={handleSubmitGrade(onGradeSubmit)} className="mt-4 space-y-4">
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Select Student</label>
-                <select className="input-field" {...registerGrade("student_id", { required: true })}>
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Select Student
+                </label>
+                <select
+                  className="input-field"
+                  {...registerGrade("student_id", { required: true })}
+                >
                   <option value="">Choose student...</option>
                   {students.map((s) => (
-                    <option key={s.id} value={s.id}>{s.full_name}</option>
+                    <option key={s.id} value={s.id}>
+                      {s.full_name}
+                    </option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Subject</label>
-                <input className="input-field" placeholder="e.g., Mathematics" {...registerGrade("subject", { required: true })} />
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Subject
+                </label>
+                <input
+                  className="input-field"
+                  placeholder="e.g., Mathematics"
+                  {...registerGrade("subject", { required: true })}
+                />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Score (0-100)</label>
-                <input type="number" step="0.01" min="0" max="100" className="input-field" placeholder="e.g., 85" {...registerGrade("score", { required: true })} />
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Score (0-100)
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  max="100"
+                  className="input-field"
+                  placeholder="e.g., 85"
+                  {...registerGrade("score", { required: true })}
+                />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Semester</label>
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Semester
+                </label>
                 <select className="input-field" {...registerGrade("semester")}>
                   <option value="Semester 1">Semester 1</option>
                   <option value="Semester 2">Semester 2</option>
@@ -468,8 +582,16 @@ const TeacherDashboard = () => {
               </div>
 
               <div className="flex gap-3 pt-2">
-                <button type="submit" className="btn-emerald flex-1 shadow-sm">Save Grade</button>
-                <button type="button" onClick={() => setShowGradeModal(false)} className="btn-outline flex-1">Cancel</button>
+                <button type="submit" className="btn-emerald flex-1 shadow-sm">
+                  Save Grade
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowGradeModal(false)}
+                  className="btn-outline flex-1"
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>
@@ -479,26 +601,54 @@ const TeacherDashboard = () => {
       {/* MODAL 2: POST ANNOUNCEMENT */}
       {showAnnouncementModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800 animate-slide-up border border-slate-100 dark:border-slate-700/60">
+          <div className="animate-slide-up w-full max-w-md rounded-2xl border border-slate-100 bg-white p-6 shadow-xl dark:border-slate-700/60 dark:bg-gray-800">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-700">
-              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Post New Announcement</h2>
-              <button onClick={() => setShowAnnouncementModal(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold">×</button>
+              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">
+                Post New Announcement
+              </h2>
+              <button
+                onClick={() => setShowAnnouncementModal(false)}
+                className="text-xl font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              >
+                ×
+              </button>
             </div>
-            
+
             <form onSubmit={handleSubmitAnn(onAnnouncementSubmit)} className="mt-4 space-y-4">
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Title</label>
-                <input className="input-field" placeholder="e.g., Midterm Exam Schedule" {...registerAnn("title", { required: true })} />
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Title
+                </label>
+                <input
+                  className="input-field"
+                  placeholder="e.g., Midterm Exam Schedule"
+                  {...registerAnn("title", { required: true })}
+                />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Content</label>
-                <textarea rows={5} className="input-field" placeholder="Write your announcement details here..." {...registerAnn("content", { required: true })} />
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Content
+                </label>
+                <textarea
+                  rows={5}
+                  className="input-field"
+                  placeholder="Write your announcement details here..."
+                  {...registerAnn("content", { required: true })}
+                />
               </div>
 
               <div className="flex gap-3 pt-2">
-                <button type="submit" className="btn-primary flex-1 shadow-sm">Post Now</button>
-                <button type="button" onClick={() => setShowAnnouncementModal(false)} className="btn-outline flex-1">Cancel</button>
+                <button type="submit" className="btn-primary flex-1 shadow-sm">
+                  Post Now
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowAnnouncementModal(false)}
+                  className="btn-outline flex-1"
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>

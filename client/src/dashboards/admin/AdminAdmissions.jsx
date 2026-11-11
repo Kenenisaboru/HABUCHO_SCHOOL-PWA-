@@ -20,10 +20,7 @@ import {
 import LoadingSpinner from "../../components/LoadingSpinner";
 import Pagination from "../../components/Pagination";
 import StatCard from "../../components/StatCard";
-import {
-  getAdmissions,
-  updateAdmissionStatus,
-} from "../../services/admissionService";
+import { getAdmissions, updateAdmissionStatus } from "../../services/admissionService";
 
 const PAGE_SIZE = 10;
 const API_BASE_URL = (import.meta.env.VITE_API_URL || "/api").replace(/\/$/, "");
@@ -75,8 +72,7 @@ const AdminAdmissions = () => {
   };
 
   const filtered = applications.filter((app) => {
-    const matchesStatus =
-      statusFilter === "all" || app.status === statusFilter;
+    const matchesStatus = statusFilter === "all" || app.status === statusFilter;
     if (!matchesStatus) return false;
 
     if (!search) return true;
@@ -111,7 +107,7 @@ const AdminAdmissions = () => {
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2.5 py-0.5 text-[11px] font-bold text-primary dark:bg-blue-950/50 dark:text-blue-400">
+          <span className="text-primary inline-flex items-center gap-1 rounded-full bg-blue-50 px-2.5 py-0.5 text-[11px] font-bold dark:bg-blue-950/50 dark:text-blue-400">
             <Clock className="h-3 w-3" /> Pending
           </span>
         );
@@ -121,13 +117,14 @@ const AdminAdmissions = () => {
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-white">
             Admission Applications Review
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            Evaluate prospective student submissions, inspect attached certificates, and update admission status.
+          <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+            Evaluate prospective student submissions, inspect attached certificates, and update
+            admission status.
           </p>
         </div>
       </div>
@@ -161,8 +158,8 @@ const AdminAdmissions = () => {
       </div>
 
       {/* Filter Tabs & Search */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div className="flex flex-wrap gap-1.5 w-full sm:w-auto">
+      <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
+        <div className="flex w-full flex-wrap gap-1.5 sm:w-auto">
           {["all", "pending", "under_review", "approved", "rejected"].map((st) => (
             <button
               key={st}
@@ -178,14 +175,14 @@ const AdminAdmissions = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-1.5 dark:border-slate-800 dark:bg-slate-900 w-full sm:w-64">
-          <Search className="h-4 w-4 text-slate-400 shrink-0" />
+        <div className="flex w-full items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-1.5 sm:w-64 dark:border-slate-800 dark:bg-slate-900">
+          <Search className="h-4 w-4 shrink-0 text-slate-400" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search applicant or ref #..."
-            className="w-full text-xs text-slate-900 focus:outline-none dark:text-white bg-transparent"
+            className="w-full bg-transparent text-xs text-slate-900 focus:outline-none dark:text-white"
           />
         </div>
       </div>
@@ -194,9 +191,11 @@ const AdminAdmissions = () => {
       {loading ? (
         <LoadingSpinner className="py-16" />
       ) : filtered.length === 0 ? (
-        <div className="card text-center py-14">
-          <GraduationCap className="mx-auto h-10 w-10 text-slate-400 mb-2" />
-          <p className="text-xs text-slate-500">No admission applications found matching this criteria.</p>
+        <div className="card py-14 text-center">
+          <GraduationCap className="mx-auto mb-2 h-10 w-10 text-slate-400" />
+          <p className="text-xs text-slate-500">
+            No admission applications found matching this criteria.
+          </p>
         </div>
       ) : (
         <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
@@ -215,7 +214,7 @@ const AdminAdmissions = () => {
               {filtered.map((app) => (
                 <tr key={app.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40">
                   <td className="px-4 py-3">
-                    <span className="font-mono font-bold text-primary dark:text-blue-400">
+                    <span className="text-primary font-mono font-bold dark:text-blue-400">
                       {app.reference_number}
                     </span>
                   </td>
@@ -231,15 +230,15 @@ const AdminAdmissions = () => {
                     {app.grade_level || "Grade 11"}
                   </td>
                   <td className="px-4 py-3 text-slate-500">
-                    {new Date(app.created_at || Date.now()).toLocaleDateString("en-US", { dateStyle: "medium" })}
+                    {app.created_at ? new Date(app.created_at).toLocaleDateString("en-US", {
+                      dateStyle: "medium",
+                    }) : "N/A"}
                   </td>
-                  <td className="px-4 py-3">
-                    {getStatusBadge(app.status)}
-                  </td>
+                  <td className="px-4 py-3">{getStatusBadge(app.status)}</td>
                   <td className="px-4 py-3 text-right">
                     <button
                       onClick={() => setSelectedApp(app)}
-                      className="btn-outline px-2.5 py-1 text-xs gap-1"
+                      className="btn-outline gap-1 px-2.5 py-1 text-xs"
                     >
                       <Eye className="h-3.5 w-3.5" />
                       <span>Inspect</span>
@@ -252,20 +251,18 @@ const AdminAdmissions = () => {
         </div>
       )}
 
-      {totalPages > 1 && (
-        <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
-      )}
+      {totalPages > 1 && <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />}
 
       {/* Inspect / Decision Modal */}
       {selectedApp && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fade-in">
-          <div className="card max-w-2xl w-full p-6 bg-white dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto">
+        <div className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
+          <div className="card max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
             <div className="flex items-start justify-between border-b border-slate-100 pb-3 dark:border-slate-800">
               <div>
-                <span className="font-mono text-xs font-bold text-primary dark:text-blue-400">
+                <span className="text-primary font-mono text-xs font-bold dark:text-blue-400">
                   {selectedApp.reference_number}
                 </span>
-                <h2 className="font-display text-lg font-bold text-slate-900 dark:text-white mt-0.5">
+                <h2 className="font-display mt-0.5 text-lg font-bold text-slate-900 dark:text-white">
                   {selectedApp.applicant_name}
                 </h2>
               </div>
@@ -279,48 +276,55 @@ const AdminAdmissions = () => {
 
             <div className="mt-4 space-y-4 text-xs">
               {/* Status Header */}
-              <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-                <span className="text-slate-500 font-medium">Current Evaluation Status:</span>
+              <div className="flex items-center justify-between rounded-xl bg-slate-50 p-3 dark:bg-slate-800/60">
+                <span className="font-medium text-slate-500">Current Evaluation Status:</span>
                 <div>{getStatusBadge(selectedApp.status)}</div>
               </div>
 
               {/* Personal Details */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <span className="text-slate-400 block mb-0.5">Grade Applying For</span>
-                  <span className="font-semibold text-slate-900 dark:text-white">{selectedApp.grade_level}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block mb-0.5">Date of Birth & Gender</span>
+                  <span className="mb-0.5 block text-slate-400">Grade Applying For</span>
                   <span className="font-semibold text-slate-900 dark:text-white">
-                    {selectedApp.date_of_birth ? new Date(selectedApp.date_of_birth).toLocaleDateString() : "N/A"} ({selectedApp.gender})
+                    {selectedApp.grade_level}
                   </span>
                 </div>
                 <div>
-                  <span className="text-slate-400 block mb-0.5">Parent / Guardian</span>
+                  <span className="mb-0.5 block text-slate-400">Date of Birth & Gender</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">
+                    {selectedApp.date_of_birth
+                      ? new Date(selectedApp.date_of_birth).toLocaleDateString()
+                      : "N/A"}{" "}
+                    ({selectedApp.gender})
+                  </span>
+                </div>
+                <div>
+                  <span className="mb-0.5 block text-slate-400">Parent / Guardian</span>
                   <span className="font-semibold text-slate-900 dark:text-white">
                     {selectedApp.parent_name} ({selectedApp.parent_phone})
                   </span>
                 </div>
                 <div>
-                  <span className="text-slate-400 block mb-0.5">Previous School</span>
-                  <span className="font-semibold text-slate-900 dark:text-white">{selectedApp.previous_school || "N/A"}</span>
+                  <span className="mb-0.5 block text-slate-400">Previous School</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">
+                    {selectedApp.previous_school || "N/A"}
+                  </span>
                 </div>
               </div>
 
               {selectedApp.address && (
                 <div>
-                  <span className="text-slate-400 block mb-0.5">Residential Address</span>
+                  <span className="mb-0.5 block text-slate-400">Residential Address</span>
                   <p className="text-slate-700 dark:text-slate-300">{selectedApp.address}</p>
                 </div>
               )}
 
               {selectedApp.message && (
-                <div className="p-3 rounded-xl bg-blue-50/50 border border-blue-100 dark:bg-blue-950/20 dark:border-blue-900/40">
-                  <span className="text-primary dark:text-blue-400 font-bold block mb-1">
+                <div className="rounded-xl border border-blue-100 bg-blue-50/50 p-3 dark:border-blue-900/40 dark:bg-blue-950/20">
+                  <span className="text-primary mb-1 block font-bold dark:text-blue-400">
                     Student Statement of Intent:
                   </span>
-                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed italic">
+                  <p className="leading-relaxed text-slate-700 italic dark:text-slate-300">
                     &quot;{selectedApp.message}&quot;
                   </p>
                 </div>
@@ -329,21 +333,25 @@ const AdminAdmissions = () => {
               {/* Uploaded Documents */}
               {selectedApp.document_paths && selectedApp.document_paths.length > 0 && (
                 <div>
-                  <span className="text-slate-400 font-semibold block mb-2">Uploaded Certificates & Transcripts</span>
+                  <span className="mb-2 block font-semibold text-slate-400">
+                    Uploaded Certificates & Transcripts
+                  </span>
                   <div className="flex flex-wrap gap-2">
                     {selectedApp.document_paths.map((docPath, i) => {
                       const filename = docPath.split(/[\\/]/).pop();
-                      return <a
-                        key={i}
-                        href={`${API_BASE_URL}/admissions/${selectedApp.id}/documents/${encodeURIComponent(filename)}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs text-primary hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-800 dark:text-blue-400"
-                      >
-                        <FileText className="h-3.5 w-3.5" />
-                        <span>Document #{i + 1}</span>
-                        <ExternalLink className="h-3 w-3 opacity-60" />
-                      </a>
+                      return (
+                        <a
+                          key={i}
+                          href={`${API_BASE_URL}/admissions/${selectedApp.id}/documents/${encodeURIComponent(filename)}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-primary inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-800 dark:text-blue-400"
+                        >
+                          <FileText className="h-3.5 w-3.5" />
+                          <span>Document #{i + 1}</span>
+                          <ExternalLink className="h-3 w-3 opacity-60" />
+                        </a>
+                      );
                     })}
                   </div>
                 </div>
@@ -351,14 +359,14 @@ const AdminAdmissions = () => {
 
               {/* Committee Decision Actions */}
               <div className="border-t border-slate-100 pt-4 dark:border-slate-800">
-                <span className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-2">
+                <span className="mb-2 block text-xs font-bold text-slate-700 dark:text-slate-300">
                   Update Application Status:
                 </span>
                 <div className="flex flex-wrap gap-2">
                   <button
                     disabled={updatingId === selectedApp.id}
                     onClick={() => handleStatusChange(selectedApp.id, "approved")}
-                    className="btn-primary bg-emerald-600 hover:bg-emerald-700 px-4 py-2 text-xs gap-1.5"
+                    className="btn-primary gap-1.5 bg-emerald-600 px-4 py-2 text-xs hover:bg-emerald-700"
                   >
                     <CheckCircle2 className="h-4 w-4" />
                     <span>Approve Admission</span>
@@ -366,7 +374,7 @@ const AdminAdmissions = () => {
                   <button
                     disabled={updatingId === selectedApp.id}
                     onClick={() => handleStatusChange(selectedApp.id, "under_review")}
-                    className="btn-outline px-4 py-2 text-xs gap-1.5 text-amber-600 border-amber-300 hover:bg-amber-50"
+                    className="btn-outline gap-1.5 border-amber-300 px-4 py-2 text-xs text-amber-600 hover:bg-amber-50"
                   >
                     <Clock className="h-4 w-4" />
                     <span>Mark Under Review</span>
@@ -374,7 +382,7 @@ const AdminAdmissions = () => {
                   <button
                     disabled={updatingId === selectedApp.id}
                     onClick={() => handleStatusChange(selectedApp.id, "rejected")}
-                    className="btn-outline px-4 py-2 text-xs gap-1.5 text-red-600 border-red-300 hover:bg-red-50"
+                    className="btn-outline gap-1.5 border-red-300 px-4 py-2 text-xs text-red-600 hover:bg-red-50"
                   >
                     <XCircle className="h-4 w-4" />
                     <span>Reject Application</span>

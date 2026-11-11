@@ -10,7 +10,8 @@ export const loginUser = (credentials) => api.post("/auth/login", credentials);
 export const registerUser = (data) => api.post("/auth/register", data);
 export const getProfile = () => api.get("/auth/profile");
 export const updateProfile = (data) => api.put("/auth/profile", data);
-export const uploadAvatar = (formData) => api.post("/auth/avatar", formData, { headers: { "Content-Type": "multipart/form-data" } });
+export const uploadAvatar = (formData) =>
+  api.post("/auth/avatar", formData, { headers: { "Content-Type": "multipart/form-data" } });
 export const changePassword = (data) => api.post("/auth/change-password", data);
 export const forgotPassword = (data) => api.post("/auth/forgot-password", data);
 export const resetPassword = (data) => api.post("/auth/reset-password", data);
@@ -71,8 +72,12 @@ export const removeTeacherAssignment = (id) => api.delete(`/subjects/assignments
 export const recalculateRankings = (data) => api.post("/academic/recalculate-rankings", data);
 export const getTopScorersByClass = (params) => api.get("/academic/top-scorers/class", { params });
 export const getTopScorersByGrade = (params) => api.get("/academic/top-scorers/grade", { params });
-export const getTopScorersSchoolWide = (params) => api.get("/academic/top-scorers/school", { params });
-export const getTopScorersBySubject = (params) => api.get("/academic/top-scorers/subject", { params });
+export const getTopScorersSchoolWide = (params) =>
+  api.get("/academic/top-scorers/school", { params });
+export const getTopScorersBySubject = (params) =>
+  api.get("/academic/top-scorers/subject", { params });
 export const getSchoolAnalytics = (params) => api.get("/academic/analytics", { params });
-export const getStudentAcademicSummary = (studentId, params) => api.get(`/academic/student/${studentId}/summary`, { params });
-export const getStudentAcademicHistory = (studentId) => api.get(`/academic/student/${studentId}/history`);
+export const getStudentAcademicSummary = (studentId, params) =>
+  api.get(`/academic/student/${studentId}/summary`, { params });
+export const getStudentAcademicHistory = (studentId) =>
+  api.get(`/academic/student/${studentId}/history`);

@@ -16,12 +16,7 @@ import {
 import LoadingSpinner from "../../components/LoadingSpinner";
 import Pagination from "../../components/Pagination";
 import StatCard from "../../components/StatCard";
-import {
-  getEvents,
-  createEvent,
-  updateEvent,
-  deleteEvent,
-} from "../../services/eventService";
+import { getEvents, createEvent, updateEvent, deleteEvent } from "../../services/eventService";
 import { getAssetUrl } from "../../services/api";
 
 const PAGE_SIZE = 8;
@@ -137,16 +132,16 @@ const AdminEvents = () => {
   return (
     <div className="space-y-6">
       {/* Top Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-white">
             News & Events Management
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
             Publish school news, announcements, and important academic calendar events.
           </p>
         </div>
-        <button onClick={openCreate} className="btn-primary text-xs px-4 py-2 gap-1.5 shadow-sm">
+        <button onClick={openCreate} className="btn-primary gap-1.5 px-4 py-2 text-xs shadow-sm">
           <Plus className="h-4 w-4" />
           <span>New Event</span>
         </button>
@@ -154,12 +149,7 @@ const AdminEvents = () => {
 
       {/* Stats Summary */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard
-          icon={<Calendar />}
-          title="Total Events"
-          value={totalCount}
-          color="blue"
-        />
+        <StatCard icon={<Calendar />} title="Total Events" value={totalCount} color="blue" />
         <StatCard
           icon={<CheckCircle />}
           title="Published"
@@ -182,7 +172,7 @@ const AdminEvents = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search events by title or category..."
-          className="w-full text-xs text-slate-900 focus:outline-none dark:text-white bg-transparent"
+          className="w-full bg-transparent text-xs text-slate-900 focus:outline-none dark:text-white"
         />
       </div>
 
@@ -190,7 +180,7 @@ const AdminEvents = () => {
       {loading ? (
         <LoadingSpinner className="py-16" />
       ) : filtered.length === 0 ? (
-        <div className="card text-center py-12">
+        <div className="card py-12 text-center">
           <p className="text-xs text-slate-500">No events found.</p>
         </div>
       ) : (
@@ -214,10 +204,10 @@ const AdminEvents = () => {
                         <img
                           src={getAssetUrl(item.image_path)}
                           alt={item.title}
-                          className="h-10 w-10 rounded-lg object-cover shrink-0"
+                          className="h-10 w-10 shrink-0 rounded-lg object-cover"
                         />
                       ) : (
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-primary dark:bg-blue-950 dark:text-blue-400">
+                        <div className="text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-950 dark:text-blue-400">
                           <Calendar className="h-5 w-5" />
                         </div>
                       )}
@@ -225,7 +215,7 @@ const AdminEvents = () => {
                         <div className="font-semibold text-slate-900 dark:text-white">
                           {item.title}
                         </div>
-                        <div className="text-[11px] text-slate-400 line-clamp-1 max-w-xs">
+                        <div className="line-clamp-1 max-w-xs text-[11px] text-slate-400">
                           {item.content || "No details provided"}
                         </div>
                       </div>
@@ -238,7 +228,9 @@ const AdminEvents = () => {
                   </td>
                   <td className="px-4 py-3 text-slate-600 dark:text-slate-300">
                     {item.event_date
-                      ? new Date(item.event_date).toLocaleDateString("en-US", { dateStyle: "medium" })
+                      ? new Date(item.event_date).toLocaleDateString("en-US", {
+                          dateStyle: "medium",
+                        })
                       : "TBA"}
                   </td>
                   <td className="px-4 py-3">
@@ -256,7 +248,7 @@ const AdminEvents = () => {
                     <div className="flex items-center justify-end gap-1">
                       <button
                         onClick={() => openEdit(item)}
-                        className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-primary dark:hover:bg-slate-800"
+                        className="hover:text-primary rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
                         title="Edit event"
                       >
                         <Pencil className="h-3.5 w-3.5" />
@@ -277,14 +269,12 @@ const AdminEvents = () => {
         </div>
       )}
 
-      {totalPages > 1 && (
-        <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
-      )}
+      {totalPages > 1 && <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />}
 
       {/* Create / Edit Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fade-in">
-          <div className="card max-w-lg w-full p-6 bg-white dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto">
+        <div className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
+          <div className="card max-h-[90vh] w-full max-w-lg overflow-y-auto border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-800">
               <h2 className="font-display text-base font-bold text-slate-900 dark:text-white">
                 {editing ? "Edit Event" : "Create New Event"}
@@ -299,7 +289,7 @@ const AdminEvents = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Title *
                 </label>
                 <input
@@ -312,17 +302,13 @@ const AdminEvents = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                     Event Date
                   </label>
-                  <input
-                    type="date"
-                    {...register("event_date")}
-                    className="input-field text-xs"
-                  />
+                  <input type="date" {...register("event_date")} className="input-field text-xs" />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                     Category
                   </label>
                   <select {...register("category")} className="input-field text-xs">
@@ -336,7 +322,7 @@ const AdminEvents = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Status
                 </label>
                 <select {...register("status")} className="input-field text-xs">
@@ -346,19 +332,19 @@ const AdminEvents = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Cover Image
                 </label>
                 <input
                   type="file"
                   accept="image/*"
                   {...register("image")}
-                  className="input-field text-xs file:mr-2 file:py-1 file:px-2 file:rounded-lg file:border-0 file:text-[11px] file:bg-blue-50 file:text-primary dark:file:bg-blue-950 dark:file:text-blue-300"
+                  className="input-field file:text-primary text-xs file:mr-2 file:rounded-lg file:border-0 file:bg-blue-50 file:px-2 file:py-1 file:text-[11px] dark:file:bg-blue-950 dark:file:text-blue-300"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Content & Details
                 </label>
                 <textarea
@@ -369,7 +355,7 @@ const AdminEvents = () => {
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+              <div className="flex justify-end gap-2 border-t border-slate-100 pt-2 dark:border-slate-800">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}

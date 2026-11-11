@@ -6,7 +6,7 @@
  * - Section comparisons
  * - Subject-by-subject average scores & pass rates
  * - School-wide pass/fail distribution
- * 
+ *
  * STRICT COMPLIANCE: Purely numerical metrics, averages, and percentages.
  */
 import { useEffect, useState } from "react";
@@ -60,13 +60,13 @@ const AdminPerformanceAnalytics = () => {
     total_fail: analytics?.failedStudents ?? 0,
     pass_rate: analytics?.overallPassRate ?? 0,
   };
-  const gradeBreakdown = (analytics?.gradePerformance || []).map(g => ({
+  const gradeBreakdown = (analytics?.gradePerformance || []).map((g) => ({
     grade_level: g.grade_level,
     student_count: g.student_count,
     avg_score: g.average_percentage,
     pass_rate: g.student_count > 0 ? ((g.passed_count / g.student_count) * 100).toFixed(1) : 0,
   }));
-  const subjectBreakdown = (analytics?.subjectPerformance || []).map(s => ({
+  const subjectBreakdown = (analytics?.subjectPerformance || []).map((s) => ({
     subject: s.subject,
     student_count: s.test_count,
     avg_score: s.average_score,
@@ -76,7 +76,7 @@ const AdminPerformanceAnalytics = () => {
     pass_count: "-",
     fail_count: "-",
   }));
-  const sectionBreakdown = (analytics?.sectionPerformance || []).map(sec => ({
+  const sectionBreakdown = (analytics?.sectionPerformance || []).map((sec) => ({
     grade_level: sec.grade_level,
     section: sec.section,
     student_count: sec.student_count,
@@ -89,14 +89,15 @@ const AdminPerformanceAnalytics = () => {
       {/* Header Banner */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+          <span className="text-xs font-bold tracking-wider text-emerald-600 uppercase dark:text-emerald-400">
             Ethiopian Ministry of Education Standards
           </span>
-          <h1 className="text-2xl font-extrabold text-slate-800 dark:text-slate-100 sm:text-3xl">
+          <h1 className="text-2xl font-extrabold text-slate-800 sm:text-3xl dark:text-slate-100">
             School Academic Performance Analytics
           </h1>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            School-wide academic trends, grade comparisons, subject mastery rates, and student achievement metrics.
+            School-wide academic trends, grade comparisons, subject mastery rates, and student
+            achievement metrics.
           </p>
         </div>
 
@@ -126,22 +127,25 @@ const AdminPerformanceAnalytics = () => {
       {loading ? (
         <LoadingSpinner className="py-20" />
       ) : !analytics ? (
-        <div className="rounded-2xl bg-white p-12 text-center shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
-          <BarChart3 className="mx-auto h-12 w-12 text-slate-300 dark:text-slate-600 mb-3" />
+        <div className="rounded-2xl border border-slate-100 bg-white p-12 text-center shadow-xs dark:border-slate-800 dark:bg-slate-800">
+          <BarChart3 className="mx-auto mb-3 h-12 w-12 text-slate-300 dark:text-slate-600" />
           <p className="text-base font-bold text-slate-700 dark:text-slate-200">
             No academic data available for this academic period
           </p>
           <p className="mt-1 text-xs text-slate-400">
-            Once examination marks are submitted and approved, analytics will populate automatically.
+            Once examination marks are submitted and approved, analytics will populate
+            automatically.
           </p>
         </div>
       ) : (
         <>
           {/* Key Metric KPI Cards */}
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            <div className="rounded-2xl bg-white p-5 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
+            <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-xs dark:border-slate-800 dark:bg-slate-800">
               <div className="flex items-center justify-between text-slate-400">
-                <span className="text-xs font-bold uppercase tracking-wider">Evaluated Students</span>
+                <span className="text-xs font-bold tracking-wider uppercase">
+                  Evaluated Students
+                </span>
                 <Users className="h-4 w-4 text-blue-500" />
               </div>
               <div className="mt-2 text-2xl font-black text-slate-800 dark:text-slate-100">
@@ -150,9 +154,9 @@ const AdminPerformanceAnalytics = () => {
               <div className="mt-1 text-[11px] text-slate-400">Enrolled across Grades 9–12</div>
             </div>
 
-            <div className="rounded-2xl bg-white p-5 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
+            <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-xs dark:border-slate-800 dark:bg-slate-800">
               <div className="flex items-center justify-between text-slate-400">
-                <span className="text-xs font-bold uppercase tracking-wider">School Average</span>
+                <span className="text-xs font-bold tracking-wider uppercase">School Average</span>
                 <TrendingUp className="h-4 w-4 text-emerald-500" />
               </div>
               <div className="mt-2 text-2xl font-black text-emerald-600 dark:text-emerald-400">
@@ -161,22 +165,22 @@ const AdminPerformanceAnalytics = () => {
               <div className="mt-1 text-[11px] text-slate-400">Overall academic average</div>
             </div>
 
-            <div className="rounded-2xl bg-white p-5 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
+            <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-xs dark:border-slate-800 dark:bg-slate-800">
               <div className="flex items-center justify-between text-slate-400">
-                <span className="text-xs font-bold uppercase tracking-wider">Pass Rate</span>
+                <span className="text-xs font-bold tracking-wider uppercase">Pass Rate</span>
                 <CheckCircle2 className="h-4 w-4 text-emerald-500" />
               </div>
               <div className="mt-2 text-2xl font-black text-slate-800 dark:text-slate-100">
                 {parseFloat(summary.pass_rate || 0).toFixed(1)}%
               </div>
-              <div className="mt-1 text-[11px] text-emerald-600 font-bold">
+              <div className="mt-1 text-[11px] font-bold text-emerald-600">
                 {summary.total_pass || 0} students passing
               </div>
             </div>
 
-            <div className="rounded-2xl bg-white p-5 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
+            <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-xs dark:border-slate-800 dark:bg-slate-800">
               <div className="flex items-center justify-between text-slate-400">
-                <span className="text-xs font-bold uppercase tracking-wider">Needs Remedial</span>
+                <span className="text-xs font-bold tracking-wider uppercase">Needs Remedial</span>
                 <XCircle className="h-4 w-4 text-rose-500" />
               </div>
               <div className="mt-2 text-2xl font-black text-rose-600 dark:text-rose-400">
@@ -189,8 +193,8 @@ const AdminPerformanceAnalytics = () => {
           {/* Grade Comparison & Section Breakdown */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* Grade-Level Comparison */}
-            <div className="rounded-2xl bg-white p-6 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
-              <h2 className="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-800">
+              <h2 className="flex items-center gap-2 text-sm font-bold text-slate-800 dark:text-slate-100">
                 <BarChart3 className="h-4 w-4 text-emerald-600" />
                 Grade-Level Academic Comparison (Grades 9–12)
               </h2>
@@ -215,13 +219,13 @@ const AdminPerformanceAnalytics = () => {
                             <span className="font-extrabold text-emerald-600 dark:text-emerald-400">
                               Avg: {avg.toFixed(1)}%
                             </span>
-                            <span className="text-slate-400 text-[11px]">
+                            <span className="text-[11px] text-slate-400">
                               Pass Rate: {passRate.toFixed(1)}%
                             </span>
                           </div>
                         </div>
 
-                        <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
+                        <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700">
                           <div
                             className="h-full rounded-full bg-linear-to-r from-emerald-500 to-teal-600"
                             style={{ width: `${Math.min(avg, 100)}%` }}
@@ -235,8 +239,8 @@ const AdminPerformanceAnalytics = () => {
             </div>
 
             {/* Section Comparison */}
-            <div className="rounded-2xl bg-white p-6 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
-              <h2 className="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-800">
+              <h2 className="flex items-center gap-2 text-sm font-bold text-slate-800 dark:text-slate-100">
                 <Users className="h-4 w-4 text-blue-600" />
                 Section-by-Section Performance
               </h2>
@@ -284,15 +288,16 @@ const AdminPerformanceAnalytics = () => {
           </div>
 
           {/* Subject Mastery & Performance Breakdown */}
-          <div className="rounded-2xl bg-white p-6 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
-            <div className="flex items-center justify-between mb-4">
+          <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-800">
+            <div className="mb-4 flex items-center justify-between">
               <div>
-                <h2 className="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                <h2 className="flex items-center gap-2 text-sm font-bold text-slate-800 dark:text-slate-100">
                   <BookOpen className="h-4 w-4 text-emerald-600" />
                   Subject-by-Subject Academic Mastery
                 </h2>
                 <p className="mt-1 text-xs text-slate-400">
-                  Comprehensive performance across each curriculum subject in Ethiopian secondary education.
+                  Comprehensive performance across each curriculum subject in Ethiopian secondary
+                  education.
                 </p>
               </div>
             </div>
@@ -300,7 +305,7 @@ const AdminPerformanceAnalytics = () => {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold dark:bg-slate-700/50 dark:border-slate-700 dark:text-slate-300">
+                  <tr className="border-b border-slate-200 bg-slate-50 font-bold text-slate-600 dark:border-slate-700 dark:bg-slate-700/50 dark:text-slate-300">
                     <th className="px-4 py-3">Subject Name</th>
                     <th className="px-4 py-3">Students Tested</th>
                     <th className="px-4 py-3">Average Score</th>
@@ -325,7 +330,7 @@ const AdminPerformanceAnalytics = () => {
                           {s.subject}
                         </td>
                         <td className="px-4 py-3 text-slate-500">{s.student_count}</td>
-                        <td className="px-4 py-3 font-extrabold text-emerald-600 dark:text-emerald-400 text-sm">
+                        <td className="px-4 py-3 text-sm font-extrabold text-emerald-600 dark:text-emerald-400">
                           {parseFloat(s.avg_score || 0).toFixed(1)}%
                         </td>
                         <td className="px-4 py-3 font-bold text-slate-700 dark:text-slate-300">
@@ -334,16 +339,16 @@ const AdminPerformanceAnalytics = () => {
                         <td className="px-4 py-3 font-bold text-slate-500">
                           {parseFloat(s.lowest_score || 0).toFixed(1)}
                         </td>
-                        <td className="px-4 py-3 text-emerald-600 font-bold">{s.pass_count}</td>
-                        <td className="px-4 py-3 text-rose-500 font-bold">{s.fail_count}</td>
+                        <td className="px-4 py-3 font-bold text-emerald-600">{s.pass_count}</td>
+                        <td className="px-4 py-3 font-bold text-rose-500">{s.fail_count}</td>
                         <td className="px-4 py-3 text-right">
                           <span
                             className={`rounded-full px-2 py-0.5 font-bold ${
                               parseFloat(s.pass_rate || 0) >= 80
                                 ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
                                 : parseFloat(s.pass_rate || 0) >= 50
-                                ? "bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400"
-                                : "bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400"
+                                  ? "bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400"
+                                  : "bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400"
                             }`}
                           >
                             {parseFloat(s.pass_rate || 0).toFixed(1)}%

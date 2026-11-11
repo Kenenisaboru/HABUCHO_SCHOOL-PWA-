@@ -32,7 +32,7 @@ const Sidebar = ({ links = [], isMobile = false, onLinkClick }) => {
       className={
         isMobile
           ? "flex h-full w-full flex-col bg-white dark:bg-slate-900"
-          : "hidden h-screen min-h-0 w-64 shrink-0 flex-col border-r border-slate-200/80 bg-white dark:border-slate-800/80 dark:bg-slate-900 md:flex"
+          : "hidden h-screen min-h-0 w-64 shrink-0 flex-col border-r border-slate-200/80 bg-white md:flex dark:border-slate-800/80 dark:bg-slate-900"
       }
     >
       {/* School branding header (only on desktop since mobile drawer already renders header) */}
@@ -41,8 +41,10 @@ const Sidebar = ({ links = [], isMobile = false, onLinkClick }) => {
           <Link to="/" className="group flex items-center gap-3">
             <SchoolLogo className="h-10 w-10 shadow-md transition-transform duration-200 group-hover:scale-105" />
             <div>
-              <p className="font-display text-sm font-extrabold text-slate-900 dark:text-white">Habucho</p>
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+              <p className="font-display text-sm font-extrabold text-slate-900 dark:text-white">
+                Habucho
+              </p>
+              <p className="text-[10px] font-semibold tracking-wider text-slate-400 uppercase">
                 Management Portal
               </p>
             </div>
@@ -52,16 +54,18 @@ const Sidebar = ({ links = [], isMobile = false, onLinkClick }) => {
 
       {/* User info card */}
       <div className="px-4 py-3">
-        <div className="flex items-center gap-3 rounded-2xl bg-slate-50 p-3 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+        <div className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/50">
           <div
             className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-br ${roleGradient} text-sm font-bold text-white shadow-md`}
           >
             {user?.name?.charAt(0)?.toUpperCase() || "U"}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-xs font-bold text-slate-800 dark:text-white">{user?.name}</p>
+            <p className="truncate text-xs font-bold text-slate-800 dark:text-white">
+              {user?.name}
+            </p>
             <span
-              className={`inline-block rounded-full bg-linear-to-r ${roleGradient} px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white mt-0.5`}
+              className={`inline-block rounded-full bg-linear-to-r ${roleGradient} mt-0.5 px-2 py-0.5 text-[9px] font-bold tracking-wider text-white uppercase`}
             >
               {user?.role}
             </span>
@@ -73,7 +77,7 @@ const Sidebar = ({ links = [], isMobile = false, onLinkClick }) => {
       <nav className="min-h-0 flex-1 overflow-y-auto px-3 pb-4">
         {Object.entries(groupedLinks).map(([sectionName, sectionLinks]) => (
           <div key={sectionName}>
-            <p className="mb-2 mt-4 px-2 text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+            <p className="mt-4 mb-2 px-2 text-[10px] font-bold tracking-widest text-slate-400 uppercase dark:text-slate-500">
               {sectionName}
             </p>
             <div className="space-y-1">
@@ -88,9 +92,11 @@ const Sidebar = ({ links = [], isMobile = false, onLinkClick }) => {
                   {({ isActive }) => (
                     <>
                       {isActive && (
-                        <span className="absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-r-full bg-primary dark:bg-blue-400" />
+                        <span className="bg-primary absolute top-1/2 left-0 h-5 w-1 -translate-y-1/2 rounded-r-full dark:bg-blue-400" />
                       )}
-                      <span className={`transition-transform duration-150 ${isActive ? "" : "group-hover:scale-110"}`}>
+                      <span
+                        className={`transition-transform duration-150 ${isActive ? "" : "group-hover:scale-110"}`}
+                      >
                         {typeof link.icon === "string" ? (
                           <span className="text-base">{link.icon}</span>
                         ) : link.icon ? (
@@ -111,7 +117,7 @@ const Sidebar = ({ links = [], isMobile = false, onLinkClick }) => {
       <div className="border-t border-slate-100 px-5 py-4 dark:border-slate-800/60">
         <div className="flex items-center justify-between">
           <p className="text-[11px] text-slate-400">Habucho Prep © {new Date().getFullYear()}</p>
-          <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-bold text-primary dark:bg-blue-900/40 dark:text-blue-400">
+          <span className="text-primary rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-bold dark:bg-blue-900/40 dark:text-blue-400">
             v2.0 Pro
           </span>
         </div>

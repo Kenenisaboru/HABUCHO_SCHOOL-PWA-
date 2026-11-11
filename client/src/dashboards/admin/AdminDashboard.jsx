@@ -38,12 +38,16 @@ const ServerTimeBadge = () => {
   }, []);
 
   return (
-    <div className="flex shrink-0 items-center gap-3.5 rounded-2xl bg-white/10 p-4 backdrop-blur-lg border border-white/10 shadow-inner">
+    <div className="flex shrink-0 items-center gap-3.5 rounded-2xl border border-white/10 bg-white/10 p-4 shadow-inner backdrop-blur-lg">
       <span className="text-3xl">⏰</span>
       <div>
-        <p className="text-xs font-medium text-slate-300 uppercase tracking-wider">Server Status</p>
-        <p className="text-lg font-bold">{time.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}</p>
-        <p className="text-xs text-slate-400">{time.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</p>
+        <p className="text-xs font-medium tracking-wider text-slate-300 uppercase">Server Status</p>
+        <p className="text-lg font-bold">
+          {time.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
+        </p>
+        <p className="text-xs text-slate-400">
+          {time.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}
+        </p>
       </div>
     </div>
   );
@@ -61,8 +65,13 @@ const AdminDashboard = () => {
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [showAnnModal, setShowAnnModal] = useState(false);
 
-  const { register: registerUser, handleSubmit: handleSubmitUser, reset: resetUser, watch: watchUser } = useForm({
-    defaultValues: { role: "student", grade_level: "11", section: "A", stream: "Natural Science" }
+  const {
+    register: registerUser,
+    handleSubmit: handleSubmitUser,
+    reset: resetUser,
+    watch: watchUser,
+  } = useForm({
+    defaultValues: { role: "student", grade_level: "11", section: "A", stream: "Natural Science" },
   });
   const currentRole = watchUser("role", "student");
   const { register: registerSched, handleSubmit: handleSubmitSched, reset: resetSched } = useForm();
@@ -164,22 +173,23 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="animate-fade-in space-y-8">
       {/* Greetings Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-blue-700 via-indigo-800 to-slate-900 p-6 md:p-8 text-white shadow-xl">
-        <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-white/5 blur-2xl"></div>
+      <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-blue-700 via-indigo-800 to-slate-900 p-6 text-white shadow-xl md:p-8">
+        <div className="absolute top-0 right-0 h-48 w-48 rounded-full bg-white/5 blur-2xl"></div>
         <div className="absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-blue-500/10 blur-3xl"></div>
 
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="relative z-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3.5 py-1 text-xs font-semibold tracking-wide text-white uppercase backdrop-blur-md">
               👑 System Administrator
             </span>
-            <h1 className="mt-4 text-3xl font-extrabold md:text-4xl tracking-tight">
+            <h1 className="mt-4 text-3xl font-extrabold tracking-tight md:text-4xl">
               {getGreeting()}, {user?.full_name || "Admin"}
             </h1>
-            <p className="mt-2 text-slate-200 text-sm md:text-base font-light max-w-md">
-              Welcome back to your command center. Monitor system activities, manage school lists, and update class routines.
+            <p className="mt-2 max-w-md text-sm font-light text-slate-200 md:text-base">
+              Welcome back to your command center. Monitor system activities, manage school lists,
+              and update class routines.
             </p>
           </div>
           <ServerTimeBadge />
@@ -190,19 +200,28 @@ const AdminDashboard = () => {
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard title="Total Students" value={stats?.students || 0} icon="🎓" color="blue" />
         <StatCard title="Total Teachers" value={stats?.teachers || 0} icon="👨‍🏫" color="emerald" />
-        <StatCard title="Announcements" value={stats?.announcements || 0} icon="📢" color="purple" />
+        <StatCard
+          title="Announcements"
+          value={stats?.announcements || 0}
+          icon="📢"
+          color="purple"
+        />
         <StatCard title="Schedules" value={stats?.schedules || 0} icon="📅" color="orange" />
       </div>
 
       {/* Quick Actions Panel */}
       <div className="card">
-        <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 pb-4 dark:border-slate-800">Quick Console Operations</h2>
+        <h2 className="border-b border-slate-100 pb-4 text-lg font-bold text-slate-800 dark:border-slate-800 dark:text-slate-100">
+          Quick Console Operations
+        </h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
           <button
             onClick={() => setShowUserModal(true)}
-            className="flex items-center gap-4 rounded-2xl bg-slate-50 p-4 border border-slate-100 dark:bg-slate-800/40 dark:border-slate-800/60 shadow-xs hover:border-blue-500 hover:scale-[1.02] hover:shadow-md transition-all duration-200"
+            className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-slate-50 p-4 shadow-xs transition-all duration-200 hover:scale-[1.02] hover:border-blue-500 hover:shadow-md dark:border-slate-800/60 dark:bg-slate-800/40"
           >
-            <span className="text-3xl bg-blue-500/10 p-2.5 rounded-xl text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">👤</span>
+            <span className="rounded-xl bg-blue-500/10 p-2.5 text-3xl text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+              👤
+            </span>
             <div className="text-left">
               <h3 className="font-bold text-slate-800 dark:text-slate-200">Add User Account</h3>
               <p className="text-xs text-slate-500">Register teachers/students</p>
@@ -211,9 +230,11 @@ const AdminDashboard = () => {
 
           <button
             onClick={() => setShowScheduleModal(true)}
-            className="flex items-center gap-4 rounded-2xl bg-slate-50 p-4 border border-slate-100 dark:bg-slate-800/40 dark:border-slate-800/60 shadow-xs hover:border-emerald-500 hover:scale-[1.02] hover:shadow-md transition-all duration-200"
+            className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-slate-50 p-4 shadow-xs transition-all duration-200 hover:scale-[1.02] hover:border-emerald-500 hover:shadow-md dark:border-slate-800/60 dark:bg-slate-800/40"
           >
-            <span className="text-3xl bg-emerald-500/10 p-2.5 rounded-xl text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400">📅</span>
+            <span className="rounded-xl bg-emerald-500/10 p-2.5 text-3xl text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400">
+              📅
+            </span>
             <div className="text-left">
               <h3 className="font-bold text-slate-800 dark:text-slate-200">Create Schedule</h3>
               <p className="text-xs text-slate-500">Configure class timetable</p>
@@ -222,9 +243,11 @@ const AdminDashboard = () => {
 
           <button
             onClick={() => setShowAnnModal(true)}
-            className="flex items-center gap-4 rounded-2xl bg-slate-50 p-4 border border-slate-100 dark:bg-slate-800/40 dark:border-slate-800/60 shadow-xs hover:border-purple-500 hover:scale-[1.02] hover:shadow-md transition-all duration-200"
+            className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-slate-50 p-4 shadow-xs transition-all duration-200 hover:scale-[1.02] hover:border-purple-500 hover:shadow-md dark:border-slate-800/60 dark:bg-slate-800/40"
           >
-            <span className="text-3xl bg-purple-500/10 p-2.5 rounded-xl text-purple-600 dark:bg-purple-900/20 dark:text-purple-400">📢</span>
+            <span className="rounded-xl bg-purple-500/10 p-2.5 text-3xl text-purple-600 dark:bg-purple-900/20 dark:text-purple-400">
+              📢
+            </span>
             <div className="text-left">
               <h3 className="font-bold text-slate-800 dark:text-slate-200">Post Announcement</h3>
               <p className="text-xs text-slate-500">Publish school updates</p>
@@ -236,12 +259,17 @@ const AdminDashboard = () => {
       {/* Main Stats Charts & Recent Messages */}
       <div className="grid gap-8 lg:grid-cols-3">
         {/* Charts Container */}
-        <div className="lg:col-span-2 space-y-8">
+        <div className="space-y-8 lg:col-span-2">
           <div className="grid gap-6 md:grid-cols-2">
             <div className="card">
-              <h3 className="mb-4 font-bold text-slate-800 dark:text-slate-100">User Distribution</h3>
-              <div className="h-64 flex justify-center items-center">
-                <Doughnut data={doughnutData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <h3 className="mb-4 font-bold text-slate-800 dark:text-slate-100">
+                User Distribution
+              </h3>
+              <div className="flex h-64 items-center justify-center">
+                <Doughnut
+                  data={doughnutData}
+                  options={{ responsive: true, maintainAspectRatio: false }}
+                />
               </div>
             </div>
             <div className="card">
@@ -263,19 +291,34 @@ const AdminDashboard = () => {
         {/* Recent Inbox Messages */}
         <div className="space-y-8">
           <div className="card">
-            <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 pb-4 dark:border-slate-800">Recent Messages Inbox</h2>
+            <h2 className="border-b border-slate-100 pb-4 text-lg font-bold text-slate-800 dark:border-slate-800 dark:text-slate-100">
+              Recent Messages Inbox
+            </h2>
             {messages.length === 0 ? (
-              <p className="text-sm text-slate-500 mt-6 text-center">No contact messages received.</p>
+              <p className="mt-6 text-center text-sm text-slate-500">
+                No contact messages received.
+              </p>
             ) : (
               <div className="mt-4 space-y-4">
                 {messages.map((msg) => (
-                  <div key={msg.id} className="rounded-xl border border-slate-100 p-3 bg-slate-50 dark:bg-slate-800/40 dark:border-slate-800/60">
+                  <div
+                    key={msg.id}
+                    className="rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800/60 dark:bg-slate-800/40"
+                  >
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{msg.name}</p>
-                      <span className="text-[10px] text-slate-400">{formatDate(msg.created_at)}</span>
+                      <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                        {msg.name}
+                      </p>
+                      <span className="text-[10px] text-slate-400">
+                        {formatDate(msg.created_at)}
+                      </span>
                     </div>
-                    <p className="text-[11px] text-blue-600 dark:text-blue-400 font-medium">{msg.email}</p>
-                    <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 line-clamp-2">{msg.message}</p>
+                    <p className="text-[11px] font-medium text-blue-600 dark:text-blue-400">
+                      {msg.email}
+                    </p>
+                    <p className="mt-2 line-clamp-2 text-xs text-slate-600 dark:text-slate-400">
+                      {msg.message}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -284,7 +327,9 @@ const AdminDashboard = () => {
 
           {/* System Health */}
           <div className="card">
-            <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 pb-3 dark:border-slate-800">System Health</h2>
+            <h2 className="border-b border-slate-100 pb-3 text-lg font-bold text-slate-800 dark:border-slate-800 dark:text-slate-100">
+              System Health
+            </h2>
             <div className="mt-4 space-y-2.5 text-sm">
               <div className="flex items-center justify-between">
                 <span className="text-slate-500">Database connection:</span>
@@ -294,11 +339,15 @@ const AdminDashboard = () => {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-slate-500">Environment mode:</span>
-                <span className="font-semibold text-slate-700 dark:text-slate-300">development</span>
+                <span className="font-semibold text-slate-700 dark:text-slate-300">
+                  development
+                </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-slate-500">Client instance:</span>
-                <span className="font-semibold text-slate-700 dark:text-slate-300">Vite PWA active</span>
+                <span className="font-semibold text-slate-700 dark:text-slate-300">
+                  Vite PWA active
+                </span>
               </div>
             </div>
           </div>
@@ -307,32 +356,61 @@ const AdminDashboard = () => {
 
       {/* MODAL 1: ADD USER */}
       {showUserModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs overflow-y-auto">
-          <div className="my-8 w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800 animate-slide-up border border-slate-100 dark:border-slate-700/60 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-xs">
+          <div className="animate-slide-up my-8 max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-slate-100 bg-white p-6 shadow-xl dark:border-slate-700/60 dark:bg-gray-800">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-700">
-              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Add User Account</h2>
-              <button onClick={() => setShowUserModal(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold">×</button>
+              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">
+                Add User Account
+              </h2>
+              <button
+                onClick={() => setShowUserModal(false)}
+                className="text-xl font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              >
+                ×
+              </button>
             </div>
 
             <form onSubmit={handleSubmitUser(onUserSubmit)} className="mt-4 space-y-4">
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Full Name *</label>
-                <input className="input-field" placeholder="John Doe" {...registerUser("full_name", { required: true })} />
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Full Name *
+                </label>
+                <input
+                  className="input-field"
+                  placeholder="John Doe"
+                  {...registerUser("full_name", { required: true })}
+                />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Email Address *</label>
-                  <input type="email" className="input-field" placeholder="user@habucho.edu" {...registerUser("email", { required: true })} />
+                  <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    className="input-field"
+                    placeholder="user@habucho.edu"
+                    {...registerUser("email", { required: true })}
+                  />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Password *</label>
-                  <input type="password" className="input-field" placeholder="••••••••" {...registerUser("password", { required: true, minLength: 6 })} />
+                  <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    Password *
+                  </label>
+                  <input
+                    type="password"
+                    className="input-field"
+                    placeholder="••••••••"
+                    {...registerUser("password", { required: true, minLength: 6 })}
+                  />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Role / Access Type *</label>
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Role / Access Type *
+                </label>
                 <select className="input-field" {...registerUser("role", { required: true })}>
                   <option value="student">Student</option>
                   <option value="teacher">Teacher</option>
@@ -341,14 +419,16 @@ const AdminDashboard = () => {
               </div>
 
               {currentRole === "student" && (
-                <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-700">
-                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                <div className="space-y-3 border-t border-slate-100 pt-2 dark:border-slate-700">
+                  <span className="text-xs font-bold tracking-wider text-emerald-600 uppercase dark:text-emerald-400">
                     Student Details & Placement
                   </span>
 
                   <div className="grid grid-cols-3 gap-2">
                     <div>
-                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Grade</label>
+                      <label className="mb-1 block text-[11px] font-semibold text-slate-500">
+                        Grade
+                      </label>
                       <select className="input-field text-xs" {...registerUser("grade_level")}>
                         <option value="9">Grade 9</option>
                         <option value="10">Grade 10</option>
@@ -357,7 +437,9 @@ const AdminDashboard = () => {
                       </select>
                     </div>
                     <div>
-                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Section</label>
+                      <label className="mb-1 block text-[11px] font-semibold text-slate-500">
+                        Section
+                      </label>
                       <select className="input-field text-xs" {...registerUser("section")}>
                         <option value="A">Sec A</option>
                         <option value="B">Sec B</option>
@@ -367,7 +449,9 @@ const AdminDashboard = () => {
                       </select>
                     </div>
                     <div>
-                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Gender</label>
+                      <label className="mb-1 block text-[11px] font-semibold text-slate-500">
+                        Gender
+                      </label>
                       <select className="input-field text-xs" {...registerUser("gender")}>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -377,7 +461,9 @@ const AdminDashboard = () => {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Academic Stream</label>
+                      <label className="mb-1 block text-[11px] font-semibold text-slate-500">
+                        Academic Stream
+                      </label>
                       <select className="input-field text-xs" {...registerUser("stream")}>
                         <option value="Natural Science">Natural Science</option>
                         <option value="Social Science">Social Science</option>
@@ -385,27 +471,55 @@ const AdminDashboard = () => {
                       </select>
                     </div>
                     <div>
-                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Student Phone</label>
-                      <input type="tel" className="input-field text-xs" placeholder="+251 9..." {...registerUser("phone")} />
+                      <label className="mb-1 block text-[11px] font-semibold text-slate-500">
+                        Student Phone
+                      </label>
+                      <input
+                        type="tel"
+                        className="input-field text-xs"
+                        placeholder="+251 9..."
+                        {...registerUser("phone")}
+                      />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Parent Name</label>
-                      <input className="input-field text-xs" placeholder="Parent/Guardian" {...registerUser("parent_name")} />
+                      <label className="mb-1 block text-[11px] font-semibold text-slate-500">
+                        Parent Name
+                      </label>
+                      <input
+                        className="input-field text-xs"
+                        placeholder="Parent/Guardian"
+                        {...registerUser("parent_name")}
+                      />
                     </div>
                     <div>
-                      <label className="text-[11px] font-semibold text-slate-500 block mb-1">Parent Phone</label>
-                      <input type="tel" className="input-field text-xs" placeholder="+251 9..." {...registerUser("parent_phone")} />
+                      <label className="mb-1 block text-[11px] font-semibold text-slate-500">
+                        Parent Phone
+                      </label>
+                      <input
+                        type="tel"
+                        className="input-field text-xs"
+                        placeholder="+251 9..."
+                        {...registerUser("parent_phone")}
+                      />
                     </div>
                   </div>
                 </div>
               )}
 
               <div className="flex gap-3 pt-2">
-                <button type="submit" className="btn-emerald flex-1 shadow-sm">Save User</button>
-                <button type="button" onClick={() => setShowUserModal(false)} className="btn-outline flex-1">Cancel</button>
+                <button type="submit" className="btn-emerald flex-1 shadow-sm">
+                  Save User
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowUserModal(false)}
+                  className="btn-outline flex-1"
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>
@@ -415,16 +529,28 @@ const AdminDashboard = () => {
       {/* MODAL 2: CREATE SCHEDULE */}
       {showScheduleModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800 animate-slide-up border border-slate-100 dark:border-slate-700/60">
+          <div className="animate-slide-up w-full max-w-md rounded-2xl border border-slate-100 bg-white p-6 shadow-xl dark:border-slate-700/60 dark:bg-gray-800">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-700">
-              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Create Timetable Schedule</h2>
-              <button onClick={() => setShowScheduleModal(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold">×</button>
+              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">
+                Create Timetable Schedule
+              </h2>
+              <button
+                onClick={() => setShowScheduleModal(false)}
+                className="text-xl font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              >
+                ×
+              </button>
             </div>
 
             <form onSubmit={handleSubmitSched(onScheduleSubmit)} className="mt-4 space-y-4">
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Grade Level</label>
-                <select className="input-field" {...registerSched("grade_level", { required: true })}>
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Grade Level
+                </label>
+                <select
+                  className="input-field"
+                  {...registerSched("grade_level", { required: true })}
+                >
                   <option value="9">Grade 9</option>
                   <option value="10">Grade 10</option>
                   <option value="11">Grade 11</option>
@@ -433,22 +559,37 @@ const AdminDashboard = () => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Subject</label>
-                <input className="input-field" placeholder="e.g., Mathematics" {...registerSched("subject", { required: true })} />
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Subject
+                </label>
+                <input
+                  className="input-field"
+                  placeholder="e.g., Mathematics"
+                  {...registerSched("subject", { required: true })}
+                />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Assigned Teacher</label>
-                <select className="input-field" {...registerSched("teacher_id", { required: true })}>
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Assigned Teacher
+                </label>
+                <select
+                  className="input-field"
+                  {...registerSched("teacher_id", { required: true })}
+                >
                   <option value="">Choose teacher...</option>
                   {teachers.map((t) => (
-                    <option key={t.id} value={t.id}>{t.full_name}</option>
+                    <option key={t.id} value={t.id}>
+                      {t.full_name}
+                    </option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Weekday Day</label>
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Weekday Day
+                </label>
                 <select className="input-field" {...registerSched("day", { required: true })}>
                   <option value="Monday">Monday</option>
                   <option value="Tuesday">Tuesday</option>
@@ -460,18 +601,38 @@ const AdminDashboard = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Start Time</label>
-                  <input type="time" className="input-field" {...registerSched("start_time", { required: true })} />
+                  <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    Start Time
+                  </label>
+                  <input
+                    type="time"
+                    className="input-field"
+                    {...registerSched("start_time", { required: true })}
+                  />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">End Time</label>
-                  <input type="time" className="input-field" {...registerSched("end_time", { required: true })} />
+                  <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    End Time
+                  </label>
+                  <input
+                    type="time"
+                    className="input-field"
+                    {...registerSched("end_time", { required: true })}
+                  />
                 </div>
               </div>
 
               <div className="flex gap-3 pt-2">
-                <button type="submit" className="btn-emerald flex-1 shadow-sm">Save Schedule</button>
-                <button type="button" onClick={() => setShowScheduleModal(false)} className="btn-outline flex-1">Cancel</button>
+                <button type="submit" className="btn-emerald flex-1 shadow-sm">
+                  Save Schedule
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowScheduleModal(false)}
+                  className="btn-outline flex-1"
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>
@@ -481,26 +642,54 @@ const AdminDashboard = () => {
       {/* MODAL 3: POST ANNOUNCEMENT */}
       {showAnnModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800 animate-slide-up border border-slate-100 dark:border-slate-700/60">
+          <div className="animate-slide-up w-full max-w-md rounded-2xl border border-slate-100 bg-white p-6 shadow-xl dark:border-slate-700/60 dark:bg-gray-800">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-700">
-              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Post School Announcement</h2>
-              <button onClick={() => setShowAnnModal(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold">×</button>
+              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">
+                Post School Announcement
+              </h2>
+              <button
+                onClick={() => setShowAnnModal(false)}
+                className="text-xl font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              >
+                ×
+              </button>
             </div>
 
             <form onSubmit={handleSubmitAnn(onAnnSubmit)} className="mt-4 space-y-4">
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Title</label>
-                <input className="input-field" placeholder="e.g., Final Exam Schedule" {...registerAnn("title", { required: true })} />
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Title
+                </label>
+                <input
+                  className="input-field"
+                  placeholder="e.g., Final Exam Schedule"
+                  {...registerAnn("title", { required: true })}
+                />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">Announcement Content</label>
-                <textarea rows={5} className="input-field" placeholder="Write announcement details..." {...registerAnn("content", { required: true })} />
+                <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Announcement Content
+                </label>
+                <textarea
+                  rows={5}
+                  className="input-field"
+                  placeholder="Write announcement details..."
+                  {...registerAnn("content", { required: true })}
+                />
               </div>
 
               <div className="flex gap-3 pt-2">
-                <button type="submit" className="btn-primary flex-1 shadow-sm">Post Now</button>
-                <button type="button" onClick={() => setShowAnnModal(false)} className="btn-outline flex-1">Cancel</button>
+                <button type="submit" className="btn-primary flex-1 shadow-sm">
+                  Post Now
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowAnnModal(false)}
+                  className="btn-outline flex-1"
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>

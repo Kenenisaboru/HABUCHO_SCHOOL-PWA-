@@ -7,7 +7,6 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { getSchedules } from "../../services/authService";
 import { formatTime } from "../../utils/helpers";
 
-
 const StudentSchedule = () => {
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,9 +43,14 @@ const StudentSchedule = () => {
             </thead>
             <tbody>
               {schedules.map((s, i) => (
-                <tr key={s.id} className={`border-b dark:border-gray-700 ${i % 2 === 0 ? "bg-white dark:bg-gray-800" : "bg-gray-50 dark:bg-gray-800/50"}`}>
+                <tr
+                  key={s.id}
+                  className={`border-b dark:border-gray-700 ${i % 2 === 0 ? "bg-white dark:bg-gray-800" : "bg-gray-50 dark:bg-gray-800/50"}`}
+                >
                   <td className="px-4 py-3">{s.day}</td>
-                  <td className="px-4 py-3">{formatTime(s.start_time)} – {formatTime(s.end_time)}</td>
+                  <td className="px-4 py-3">
+                    {formatTime(s.start_time)} – {formatTime(s.end_time)}
+                  </td>
                   <td className="px-4 py-3 font-medium">{s.subject}</td>
                   <td className="px-4 py-3">{s.teacher_name}</td>
                   <td className="px-4 py-3">Grade {s.grade_level}</td>

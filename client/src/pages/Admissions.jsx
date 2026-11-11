@@ -61,12 +61,14 @@ const Admissions = () => {
       }
 
       const res = await submitAdmission(formData);
-      const refCode = res.data?.data?.referenceNumber || "HAB-" + new Date().getFullYear() + "-SUBMITTED";
+      const refCode =
+        res.data?.data?.referenceNumber || "HAB-" + new Date().getFullYear() + "-SUBMITTED";
       setSubmittedRef(refCode);
       toast.success("Application submitted successfully!");
       reset();
     } catch (err) {
-      const msg = err.response?.data?.message || "Failed to submit application. Please check your inputs.";
+      const msg =
+        err.response?.data?.message || "Failed to submit application. Please check your inputs.";
       toast.error(msg);
     } finally {
       setSubmitting(false);
@@ -126,7 +128,7 @@ const Admissions = () => {
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3 py-1 text-xs font-bold text-primary dark:bg-blue-500/20 dark:text-blue-400">
+          <span className="text-primary inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3 py-1 text-xs font-bold dark:bg-blue-500/20 dark:text-blue-400">
             <Clock className="h-4 w-4" /> Pending Review
           </span>
         );
@@ -142,12 +144,12 @@ const Admissions = () => {
       />
 
       {/* Reference Tracker Bar */}
-      <section className="relative -mt-10 z-20 mx-auto max-w-4xl px-4">
-        <div className="card shadow-xl border border-slate-200/90 bg-white/95 backdrop-blur-xl p-6 dark:border-slate-800/90 dark:bg-slate-900/95">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <section className="relative z-20 mx-auto -mt-10 max-w-4xl px-4">
+        <div className="card border border-slate-200/90 bg-white/95 p-6 shadow-xl backdrop-blur-xl dark:border-slate-800/90 dark:bg-slate-900/95">
+          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div>
-              <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <Search className="h-4 w-4 text-primary dark:text-blue-400" />
+              <h2 className="flex items-center gap-2 text-base font-bold text-slate-900 dark:text-white">
+                <Search className="text-primary h-4 w-4 dark:text-blue-400" />
                 Track Submitted Application
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -155,18 +157,18 @@ const Admissions = () => {
               </p>
             </div>
 
-            <form onSubmit={handleLookup} className="flex w-full sm:w-auto items-center gap-2">
+            <form onSubmit={handleLookup} className="flex w-full items-center gap-2 sm:w-auto">
               <input
                 type="text"
                 placeholder="HAB-2026-XXXXXX"
                 value={lookupRef}
                 onChange={(e) => setLookupRef(e.target.value)}
-                className="input-field text-xs py-2 w-full sm:w-48 uppercase tracking-wider font-mono"
+                className="input-field w-full py-2 font-mono text-xs tracking-wider uppercase sm:w-48"
               />
               <button
                 type="submit"
                 disabled={lookupLoading}
-                className="btn-primary whitespace-nowrap text-xs px-4 py-2"
+                className="btn-primary px-4 py-2 text-xs whitespace-nowrap"
               >
                 {lookupLoading ? "Checking..." : "Track Status"}
               </button>
@@ -176,30 +178,38 @@ const Admissions = () => {
           {/* Lookup Result Modal/Card */}
           {lookupResult && (
             <div className="mt-5 border-t border-slate-100 pt-4 dark:border-slate-800/80">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+              <div className="flex flex-col items-start justify-between gap-3 rounded-xl bg-slate-50 p-4 sm:flex-row sm:items-center dark:bg-slate-800/50">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-sm font-bold text-primary dark:text-blue-400">
+                    <span className="text-primary font-mono text-sm font-bold dark:text-blue-400">
                       {lookupResult.referenceNumber}
                     </span>
                     {getStatusBadge(lookupResult.status)}
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
-                    Applicant: <strong className="text-slate-900 dark:text-white">{lookupResult.applicantName}</strong>
+                  <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">
+                    Applicant:{" "}
+                    <strong className="text-slate-900 dark:text-white">
+                      {lookupResult.applicantName}
+                    </strong>
                     {lookupResult.gradeLevel && ` • ${lookupResult.gradeLevel}`}
                   </p>
-                  <p className="text-[11px] text-slate-400 mt-0.5">
-                    Submitted: {new Date(lookupResult.submittedAt || Date.now()).toLocaleDateString("en-US", { dateStyle: "medium" })}
+                  <p className="mt-0.5 text-[11px] text-slate-400">
+                    Submitted:{" "}
+                    {lookupResult.submittedAt
+                      ? new Date(lookupResult.submittedAt).toLocaleDateString("en-US", {
+                          dateStyle: "medium",
+                        })
+                      : "Recently submitted"}
                   </p>
                 </div>
-                <div className="text-xs text-right">
-                  <span className="text-slate-500 block">Admissions Office Notice:</span>
+                <div className="text-right text-xs">
+                  <span className="block text-slate-500">Admissions Office Notice:</span>
                   <span className="font-medium text-slate-700 dark:text-slate-200">
                     {lookupResult.status === "approved"
                       ? "Congratulations! Please check your email for enrollment instructions."
                       : lookupResult.status === "rejected"
-                      ? "Unfortunately your application was not accepted for this term."
-                      : "Your application is undergoing evaluation by the academic board."}
+                        ? "Unfortunately your application was not accepted for this term."
+                        : "Your application is undergoing evaluation by the academic board."}
                   </span>
                 </div>
               </div>
@@ -217,20 +227,21 @@ const Admissions = () => {
 
       {/* Submission Success Dialog */}
       {submittedRef && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="card max-w-md w-full p-8 text-center bg-white dark:bg-slate-900 shadow-2xl border border-blue-500/30">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div className="card w-full max-w-md border border-blue-500/30 bg-white p-8 text-center shadow-2xl dark:bg-slate-900">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500">
               <CheckCircle2 className="h-9 w-9" />
             </div>
             <h3 className="font-display text-2xl font-bold text-slate-900 dark:text-white">
               Application Received!
             </h3>
-            <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              Your application has been logged into the admissions ledger. Please write down or copy your unique tracking reference code:
+            <p className="mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+              Your application has been logged into the admissions ledger. Please write down or copy
+              your unique tracking reference code:
             </p>
 
             <div className="my-6 flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50/80 p-3.5 dark:border-blue-900/50 dark:bg-blue-950/40">
-              <span className="font-mono text-base font-extrabold tracking-widest text-primary dark:text-blue-400">
+              <span className="text-primary font-mono text-base font-extrabold tracking-widest dark:text-blue-400">
                 {submittedRef}
               </span>
               <button
@@ -238,7 +249,11 @@ const Admissions = () => {
                 className="rounded-lg p-1.5 text-slate-500 hover:bg-white hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800"
                 title="Copy reference code"
               >
-                {copied ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+                {copied ? (
+                  <Check className="h-4 w-4 text-emerald-500" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
               </button>
             </div>
 
@@ -257,49 +272,59 @@ const Admissions = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="grid gap-12 lg:grid-cols-12">
             {/* Left Column: Requirements & Steps */}
-            <div className="lg:col-span-5 space-y-8">
+            <div className="space-y-8 lg:col-span-5">
               <div>
                 <span className="section-label">ADMISSIONS PROCEDURE</span>
                 <h2 className="section-title text-2xl sm:text-3xl">How to Apply</h2>
-                <p className="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Admission to Habucho Preparatory School is competitive and based on academic achievement, character evaluation, and interview readiness.
+                <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                  Admission to Habucho Preparatory School is competitive and based on academic
+                  achievement, character evaluation, and interview readiness.
                 </p>
               </div>
 
               {/* Steps List */}
               <div className="space-y-4">
-                <div className="flex gap-4 p-4 rounded-2xl bg-white border border-slate-200/80 dark:bg-slate-900 dark:border-slate-800/80 shadow-sm">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white font-bold text-sm">
+                <div className="flex gap-4 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-800/80 dark:bg-slate-900">
+                  <div className="bg-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white">
                     1
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">Submit Online Application</h4>
-                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                      Complete all personal, academic, and parent details on this portal, including uploading your Grade 10 transcript.
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                      Submit Online Application
+                    </h4>
+                    <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                      Complete all personal, academic, and parent details on this portal, including
+                      uploading your Grade 10 transcript.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex gap-4 p-4 rounded-2xl bg-white border border-slate-200/80 dark:bg-slate-900 dark:border-slate-800/80 shadow-sm">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500 text-white font-bold text-sm">
+                <div className="flex gap-4 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-800/80 dark:bg-slate-900">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500 text-sm font-bold text-white">
                     2
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">Document Review & Screening</h4>
-                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                      The admissions committee verifies your prerequisite coursework and minimum academic average thresholds (Average ≥ 75%).
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                      Document Review & Screening
+                    </h4>
+                    <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                      The admissions committee verifies your prerequisite coursework and minimum
+                      academic average thresholds (Average ≥ 75%).
                     </p>
                   </div>
                 </div>
 
-                <div className="flex gap-4 p-4 rounded-2xl bg-white border border-slate-200/80 dark:bg-slate-900 dark:border-slate-800/80 shadow-sm">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500 text-white font-bold text-sm">
+                <div className="flex gap-4 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-800/80 dark:bg-slate-900">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500 text-sm font-bold text-white">
                     3
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">Admission Confirmation & ID</h4>
-                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                      Upon approval, receive your digital acceptance packet and student portal credentials to select class schedules.
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                      Admission Confirmation & ID
+                    </h4>
+                    <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                      Upon approval, receive your digital acceptance packet and student portal
+                      credentials to select class schedules.
                     </p>
                   </div>
                 </div>
@@ -307,21 +332,25 @@ const Admissions = () => {
 
               {/* Required Documents Card */}
               <div className="rounded-2xl border border-blue-200/60 bg-blue-50/50 p-6 dark:border-blue-900/40 dark:bg-blue-950/20">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-primary dark:text-blue-400 flex items-center gap-1.5 mb-3">
+                <h4 className="text-primary mb-3 flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase dark:text-blue-400">
                   <ShieldCheck className="h-4 w-4" /> Checklist of Documents
                 </h4>
                 <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
                   <li className="flex items-center gap-2">
-                    <Check className="h-3.5 w-3.5 text-primary" /> Grade 10 Certificate or Official Transcript
+                    <Check className="text-primary h-3.5 w-3.5" /> Grade 10 Certificate or Official
+                    Transcript
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-3.5 w-3.5 text-primary" /> Copy of National ID or Birth Certificate
+                    <Check className="text-primary h-3.5 w-3.5" /> Copy of National ID or Birth
+                    Certificate
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-3.5 w-3.5 text-primary" /> 2 Recent Passport Size Photographs
+                    <Check className="text-primary h-3.5 w-3.5" /> 2 Recent Passport Size
+                    Photographs
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-3.5 w-3.5 text-primary" /> Letter of Conduct from Previous School
+                    <Check className="text-primary h-3.5 w-3.5" /> Letter of Conduct from Previous
+                    School
                   </li>
                 </ul>
               </div>
@@ -329,14 +358,17 @@ const Admissions = () => {
 
             {/* Right Column: Application Form */}
             <div className="lg:col-span-7">
-              <div className="card shadow-md border border-slate-200/90 bg-white p-8 dark:border-slate-800/90 dark:bg-slate-900">
-                <div className="border-b border-slate-100 pb-5 dark:border-slate-800/80 mb-6">
-                  <span className="text-xs font-bold uppercase tracking-wider text-amber-500">2026/2027 In-Take</span>
-                  <h3 className="font-display text-xl font-bold text-slate-900 dark:text-white mt-1">
+              <div className="card border border-slate-200/90 bg-white p-8 shadow-md dark:border-slate-800/90 dark:bg-slate-900">
+                <div className="mb-6 border-b border-slate-100 pb-5 dark:border-slate-800/80">
+                  <span className="text-xs font-bold tracking-wider text-amber-500 uppercase">
+                    2026/2027 In-Take
+                  </span>
+                  <h3 className="font-display mt-1 text-xl font-bold text-slate-900 dark:text-white">
                     Student Enrollment Form
                   </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    Please provide accurate information. All fields marked with an asterisk (*) are mandatory.
+                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    Please provide accurate information. All fields marked with an asterisk (*) are
+                    mandatory.
                   </p>
                 </div>
 
@@ -344,29 +376,33 @@ const Admissions = () => {
                   {/* Applicant Name & Email */}
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                         Applicant Full Name *
                       </label>
                       <div className="relative">
-                        <User className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                        <User className="pointer-events-none absolute top-3 left-3 h-4 w-4 text-slate-400" />
                         <input
                           type="text"
-                          {...register("applicant_name", { required: "Applicant name is required" })}
+                          {...register("applicant_name", {
+                            required: "Applicant name is required",
+                          })}
                           placeholder="e.g. Samuel Kebede"
                           className="input-field pl-9 text-xs"
                         />
                       </div>
                       {errors.applicant_name && (
-                        <p className="mt-1 text-[11px] text-red-500">{errors.applicant_name.message}</p>
+                        <p className="mt-1 text-[11px] text-red-500">
+                          {errors.applicant_name.message}
+                        </p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                         Email Address *
                       </label>
                       <div className="relative">
-                        <Mail className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                        <Mail className="pointer-events-none absolute top-3 left-3 h-4 w-4 text-slate-400" />
                         <input
                           type="email"
                           {...register("email", {
@@ -386,11 +422,11 @@ const Admissions = () => {
                   {/* Phone & Date of Birth */}
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                         Applicant Phone *
                       </label>
                       <div className="relative">
-                        <Phone className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                        <Phone className="pointer-events-none absolute top-3 left-3 h-4 w-4 text-slate-400" />
                         <input
                           type="tel"
                           {...register("phone", { required: "Phone number is required" })}
@@ -404,11 +440,11 @@ const Admissions = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                         Date of Birth *
                       </label>
                       <div className="relative">
-                        <Calendar className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                        <Calendar className="pointer-events-none absolute top-3 left-3 h-4 w-4 text-slate-400" />
                         <input
                           type="date"
                           {...register("date_of_birth", { required: "Date of birth is required" })}
@@ -416,7 +452,9 @@ const Admissions = () => {
                         />
                       </div>
                       {errors.date_of_birth && (
-                        <p className="mt-1 text-[11px] text-red-500">{errors.date_of_birth.message}</p>
+                        <p className="mt-1 text-[11px] text-red-500">
+                          {errors.date_of_birth.message}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -424,7 +462,7 @@ const Admissions = () => {
                   {/* Gender & Grade Level */}
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                         Gender *
                       </label>
                       <select
@@ -442,7 +480,7 @@ const Admissions = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                         Grade Level Applying For *
                       </label>
                       <select
@@ -454,7 +492,9 @@ const Admissions = () => {
                         <option value="Grade 12">Grade 12 (Senior / University Prep)</option>
                       </select>
                       {errors.grade_level && (
-                        <p className="mt-1 text-[11px] text-red-500">{errors.grade_level.message}</p>
+                        <p className="mt-1 text-[11px] text-red-500">
+                          {errors.grade_level.message}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -462,7 +502,7 @@ const Admissions = () => {
                   {/* Parent Details */}
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                         Parent / Guardian Name *
                       </label>
                       <input
@@ -472,12 +512,14 @@ const Admissions = () => {
                         className="input-field text-xs"
                       />
                       {errors.parent_name && (
-                        <p className="mt-1 text-[11px] text-red-500">{errors.parent_name.message}</p>
+                        <p className="mt-1 text-[11px] text-red-500">
+                          {errors.parent_name.message}
+                        </p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                         Parent Emergency Phone *
                       </label>
                       <input
@@ -487,7 +529,9 @@ const Admissions = () => {
                         className="input-field text-xs"
                       />
                       {errors.parent_phone && (
-                        <p className="mt-1 text-[11px] text-red-500">{errors.parent_phone.message}</p>
+                        <p className="mt-1 text-[11px] text-red-500">
+                          {errors.parent_phone.message}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -495,7 +539,7 @@ const Admissions = () => {
                   {/* Address & Previous School */}
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                         Residential Address
                       </label>
                       <input
@@ -507,24 +551,28 @@ const Admissions = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                         Previous School Attended *
                       </label>
                       <input
                         type="text"
-                        {...register("previous_school", { required: "Previous school is required" })}
+                        {...register("previous_school", {
+                          required: "Previous school is required",
+                        })}
                         placeholder="Secondary School Name"
                         className="input-field text-xs"
                       />
                       {errors.previous_school && (
-                        <p className="mt-1 text-[11px] text-red-500">{errors.previous_school.message}</p>
+                        <p className="mt-1 text-[11px] text-red-500">
+                          {errors.previous_school.message}
+                        </p>
                       )}
                     </div>
                   </div>
 
                   {/* Statement / Message */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                       Academic Interests & Aspirations
                     </label>
                     <textarea
@@ -537,11 +585,11 @@ const Admissions = () => {
 
                   {/* Supporting Documents Upload */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                       Supporting Documents (PDF or Images, max 5MB each)
                     </label>
-                    <div className="relative border-2 border-dashed border-slate-200 rounded-2xl p-4 text-center hover:border-primary transition-colors dark:border-slate-800">
-                      <UploadCloud className="mx-auto h-7 w-7 text-slate-400 mb-1" />
+                    <div className="hover:border-primary relative rounded-2xl border-2 border-dashed border-slate-200 p-4 text-center transition-colors dark:border-slate-800">
+                      <UploadCloud className="mx-auto mb-1 h-7 w-7 text-slate-400" />
                       <p className="text-xs text-slate-600 dark:text-slate-400">
                         Upload Grade 10 transcript or ID copies
                       </p>
@@ -550,7 +598,7 @@ const Admissions = () => {
                         multiple
                         accept="image/*,.pdf"
                         {...register("documents")}
-                        className="mt-2 text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100 dark:file:bg-blue-950 dark:file:text-blue-300"
+                        className="file:text-primary mt-2 text-xs text-slate-500 file:mr-3 file:rounded-xl file:border-0 file:bg-blue-50 file:px-3 file:py-1.5 file:text-xs file:font-semibold hover:file:bg-blue-100 dark:file:bg-blue-950 dark:file:text-blue-300"
                       />
                     </div>
                   </div>
@@ -560,7 +608,7 @@ const Admissions = () => {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="btn-primary w-full py-3 text-sm shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2"
+                      className="btn-primary flex w-full items-center justify-center gap-2 py-3 text-sm shadow-lg shadow-blue-500/25"
                     >
                       {submitting ? (
                         <span>Submitting Application...</span>

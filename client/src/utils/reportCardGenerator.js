@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------
  * Generates official PDF report cards adhering strictly to the Ethiopian
  * Ministry of Education secondary curriculum standards.
- * 
+ *
  * STRICT MANDATE: Numerical scores, percentages, and numerical rankings ONLY.
  * NO letter grades (A/B/C/D/F), NO GPA, NO grade points.
  */
@@ -49,12 +49,19 @@ export const generateEthiopianReportCard = async ({
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
   doc.setTextColor(...mutedText);
-  doc.text("Federal Democratic Republic of Ethiopia — Ministry of Education Curriculum", pageWidth / 2, 26, { align: "center" });
+  doc.text(
+    "Federal Democratic Republic of Ethiopia — Ministry of Education Curriculum",
+    pageWidth / 2,
+    26,
+    { align: "center" },
+  );
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(12);
   doc.setTextColor(...darkText);
-  doc.text(`OFFICIAL STUDENT ACADEMIC PERFORMANCE REPORT CARD`, pageWidth / 2, 33, { align: "center" });
+  doc.text(`OFFICIAL STUDENT ACADEMIC PERFORMANCE REPORT CARD`, pageWidth / 2, 33, {
+    align: "center",
+  });
 
   // Divider line
   doc.setDrawColor(200, 210, 220);
@@ -89,12 +96,21 @@ export const generateEthiopianReportCard = async ({
   doc.setFont("helvetica", "bold");
   doc.text("Grade & Section:", col2X, 46);
   doc.setFont("helvetica", "normal");
-  doc.text(`Grade ${student.grade_level || "10"} — Section ${student.section || "A"}`, col2X + 32, 46);
+  doc.text(
+    `Grade ${student.grade_level || "10"} — Section ${student.section || "A"}`,
+    col2X + 32,
+    46,
+  );
 
   doc.setFont("helvetica", "bold");
   doc.text("Stream / Pathway:", col2X, 53);
   doc.setFont("helvetica", "normal");
-  doc.text(student.stream || (parseInt(student.grade_level) >= 11 ? "Natural Science" : "General Secondary"), col2X + 32, 53);
+  doc.text(
+    student.stream ||
+      (parseInt(student.grade_level) >= 11 ? "Natural Science" : "General Secondary"),
+    col2X + 32,
+    53,
+  );
 
   doc.setFont("helvetica", "bold");
   doc.text("Academic Year:", col2X, 60);
@@ -121,8 +137,21 @@ export const generateEthiopianReportCard = async ({
 
   autoTable(doc, {
     startY: 70,
-    head: [["#", "Curriculum Subject", "Assessment Type", "Marks Obtained", "Maximum Marks", "Percentage", "Status"]],
-    body: tableData.length > 0 ? tableData : [["-", "No examination marks published", "-", "-", "-", "-", "-"]],
+    head: [
+      [
+        "#",
+        "Curriculum Subject",
+        "Assessment Type",
+        "Marks Obtained",
+        "Maximum Marks",
+        "Percentage",
+        "Status",
+      ],
+    ],
+    body:
+      tableData.length > 0
+        ? tableData
+        : [["-", "No examination marks published", "-", "-", "-", "-", "-"]],
     theme: "striped",
     headStyles: {
       fillColor: primaryColor,
@@ -176,13 +205,21 @@ export const generateEthiopianReportCard = async ({
   doc.text("OFFICIAL NUMERICAL ACADEMIC SUMMARY", 18, summaryBoxY + 6);
 
   // Metrics grid
-  const totalObtained = academicSummary?.total_marks_obtained ?? subjectGrades.reduce((sum, g) => sum + (parseFloat(g.score) || 0), 0);
-  const totalPossible = academicSummary?.total_possible_marks ?? subjectGrades.reduce((sum, g) => sum + (parseFloat(g.total_marks) || 100), 0);
-  const avgPercentage = academicSummary?.average_percentage ?? (totalPossible > 0 ? ((totalObtained / totalPossible) * 100).toFixed(1) : 0);
+  const totalObtained =
+    academicSummary?.total_marks_obtained ??
+    subjectGrades.reduce((sum, g) => sum + (parseFloat(g.score) || 0), 0);
+  const totalPossible =
+    academicSummary?.total_possible_marks ??
+    subjectGrades.reduce((sum, g) => sum + (parseFloat(g.total_marks) || 100), 0);
+  const avgPercentage =
+    academicSummary?.average_percentage ??
+    (totalPossible > 0 ? ((totalObtained / totalPossible) * 100).toFixed(1) : 0);
   const classRank = academicSummary?.class_rank ? `${academicSummary.class_rank}` : "Pending";
   const gradeRank = academicSummary?.grade_rank ? `${academicSummary.grade_rank}` : "Pending";
-  const passedCount = academicSummary?.subjects_passed ?? subjectGrades.filter((g) => (parseFloat(g.score) || 0) >= (g.pass_mark || 50)).length;
-  const failedCount = academicSummary?.subjects_failed ?? (subjectGrades.length - passedCount);
+  const passedCount =
+    academicSummary?.subjects_passed ??
+    subjectGrades.filter((g) => (parseFloat(g.score) || 0) >= (g.pass_mark || 50)).length;
+  const failedCount = academicSummary?.subjects_failed ?? subjectGrades.length - passedCount;
 
   doc.setFontSize(8.5);
   doc.setTextColor(...darkText);
@@ -191,7 +228,11 @@ export const generateEthiopianReportCard = async ({
   doc.setFont("helvetica", "bold");
   doc.text("Total Marks Obtained:", 18, summaryBoxY + 14);
   doc.setFont("helvetica", "normal");
-  doc.text(`${parseFloat(totalObtained).toFixed(1)} / ${parseFloat(totalPossible).toFixed(0)}`, 58, summaryBoxY + 14);
+  doc.text(
+    `${parseFloat(totalObtained).toFixed(1)} / ${parseFloat(totalPossible).toFixed(0)}`,
+    58,
+    summaryBoxY + 14,
+  );
 
   doc.setFont("helvetica", "bold");
   doc.text("Average Percentage:", 90, summaryBoxY + 14);
@@ -214,7 +255,11 @@ export const generateEthiopianReportCard = async ({
   doc.setFont("helvetica", "bold");
   doc.text("Subjects Failed:", 90, summaryBoxY + 22);
   doc.setFont("helvetica", "normal");
-  doc.setTextColor(failedCount > 0 ? 220 : 100, failedCount > 0 ? 38 : 116, failedCount > 0 ? 38 : 139);
+  doc.setTextColor(
+    failedCount > 0 ? 220 : 100,
+    failedCount > 0 ? 38 : 116,
+    failedCount > 0 ? 38 : 139,
+  );
   doc.text(`${failedCount} Subjects`, 130, summaryBoxY + 22);
 
   doc.setTextColor(...darkText);
@@ -229,7 +274,11 @@ export const generateEthiopianReportCard = async ({
   doc.setFont("helvetica", "normal");
   const isPromoted = parseFloat(avgPercentage) >= 50 && failedCount <= 2;
   doc.setTextColor(isPromoted ? 16 : 220, isPromoted ? 120 : 38, isPromoted ? 80 : 38);
-  doc.text(isPromoted ? "Satisfactory Academic Progress" : "Academic Review / Remedial Required", 58, summaryBoxY + 28);
+  doc.text(
+    isPromoted ? "Satisfactory Academic Progress" : "Academic Review / Remedial Required",
+    58,
+    summaryBoxY + 28,
+  );
 
   // 6. Signatures and Official Stamp Section
   const sigY = pageHeight - 34;
@@ -261,10 +310,13 @@ export const generateEthiopianReportCard = async ({
     `Official document of Habucho Secondary School. Generated on ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}. Numerical grading system compliant with Ethiopian MoE.`,
     pageWidth / 2,
     pageHeight - 11,
-    { align: "center" }
+    { align: "center" },
   );
 
-  const safeName = (student.full_name || student.name || "student").toLowerCase().replace(/[^a-z0-9]/g, "_");
-  doc.save(`report_card_${safeName}_${academicYear.replace(/\//g, "-")}_${semester.replace(/\s+/g, "_")}.pdf`);
+  const safeName = (student.full_name || student.name || "student")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "_");
+  doc.save(
+    `report_card_${safeName}_${academicYear.replace(/\//g, "-")}_${semester.replace(/\s+/g, "_")}.pdf`,
+  );
 };
-

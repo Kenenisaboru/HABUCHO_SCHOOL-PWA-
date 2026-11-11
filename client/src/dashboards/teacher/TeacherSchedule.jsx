@@ -7,7 +7,6 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { getSchedules } from "../../services/authService";
 import { formatTime } from "../../utils/helpers";
 
-
 const TeacherSchedule = () => {
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,7 +39,9 @@ const TeacherSchedule = () => {
               <p className="mt-1 text-sm text-gray-500">Grade {s.grade_level}</p>
               <div className="mt-4 space-y-2 text-sm">
                 <p>📅 {s.day}</p>
-                <p>🕐 {formatTime(s.start_time)} – {formatTime(s.end_time)}</p>
+                <p>
+                  🕐 {formatTime(s.start_time)} – {formatTime(s.end_time)}
+                </p>
               </div>
             </div>
           ))}

@@ -8,7 +8,6 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { getAnnouncements, createAnnouncement } from "../../services/authService";
 import { formatDate } from "../../utils/helpers";
 
-
 const TeacherAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +27,9 @@ const TeacherAnnouncements = () => {
     }
   };
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const onSubmit = async (data) => {
     try {
@@ -52,9 +53,20 @@ const TeacherAnnouncements = () => {
 
       {showForm && (
         <form onSubmit={handleSubmit(onSubmit)} className="card mb-6 space-y-4">
-          <input className="input-field" placeholder="Title" {...register("title", { required: true })} />
-          <textarea rows={4} className="input-field" placeholder="Content" {...register("content", { required: true })} />
-          <button type="submit" className="btn-emerald">Post Announcement</button>
+          <input
+            className="input-field"
+            placeholder="Title"
+            {...register("title", { required: true })}
+          />
+          <textarea
+            rows={4}
+            className="input-field"
+            placeholder="Content"
+            {...register("content", { required: true })}
+          />
+          <button type="submit" className="btn-emerald">
+            Post Announcement
+          </button>
         </form>
       )}
 
@@ -66,7 +78,9 @@ const TeacherAnnouncements = () => {
             <div key={a.id} className="card">
               <h3 className="font-semibold">{a.title}</h3>
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">{a.content}</p>
-              <p className="mt-3 text-xs text-gray-500">{formatDate(a.created_at)} · {a.author_name}</p>
+              <p className="mt-3 text-xs text-gray-500">
+                {formatDate(a.created_at)} · {a.author_name}
+              </p>
             </div>
           ))}
         </div>

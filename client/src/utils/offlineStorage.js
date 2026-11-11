@@ -52,7 +52,10 @@ export const saveOfflineDraft = async (key, data) => {
   } catch {
     // Fallback to localStorage if IndexedDB is blocked in private browsing
     try {
-      localStorage.setItem(`draft_${key}`, JSON.stringify({ data, updatedAt: new Date().toISOString() }));
+      localStorage.setItem(
+        `draft_${key}`,
+        JSON.stringify({ data, updatedAt: new Date().toISOString() }),
+      );
       return true;
     } catch {
       return false;
@@ -107,4 +110,3 @@ export const clearOfflineDraft = async (key) => {
     }
   }
 };
-

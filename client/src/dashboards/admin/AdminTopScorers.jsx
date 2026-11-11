@@ -6,7 +6,7 @@
  * - Grade Level (9, 10, 11, 12)
  * - School-Wide (Top 5, 10, 20)
  * - Individual Subject Top Scorers
- * 
+ *
  * STRICT COMPLIANCE: Numerical marks, averages, and rankings only.
  */
 import { useEffect, useState } from "react";
@@ -182,21 +182,22 @@ const AdminTopScorers = () => {
       {/* Header Banner */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+          <span className="text-xs font-bold tracking-wider text-emerald-600 uppercase dark:text-emerald-400">
             Ethiopian Academic Performance System
           </span>
-          <h1 className="text-2xl font-extrabold text-slate-800 dark:text-slate-100 sm:text-3xl">
+          <h1 className="text-2xl font-extrabold text-slate-800 sm:text-3xl dark:text-slate-100">
             Student Performance & Top Scorer Analytics
           </h1>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            Automatic school-wide ranking engine based purely on numerical marks, averages, and finalized results.
+            Automatic school-wide ranking engine based purely on numerical marks, averages, and
+            finalized results.
           </p>
         </div>
 
         <button
           onClick={handleRecalculate}
           disabled={recalculating}
-          className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 disabled:opacity-50 transition"
+          className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700 disabled:opacity-50"
         >
           <RefreshCw className={`h-4 w-4 ${recalculating ? "animate-spin" : ""}`} />
           {recalculating ? "Calculating..." : "Recalculate Rankings"}
@@ -204,7 +205,7 @@ const AdminTopScorers = () => {
       </div>
 
       {/* Global Academic Year & Semester Selector */}
-      <div className="flex flex-wrap items-center gap-3 rounded-2xl bg-white p-4 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
+      <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-slate-100 bg-white p-4 shadow-xs dark:border-slate-800 dark:bg-slate-800">
         <div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400">
           <Filter className="h-3.5 w-3.5" /> Academic Period:
         </div>
@@ -225,7 +226,9 @@ const AdminTopScorers = () => {
           className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
         >
           {SEMESTERS.map((s) => (
-            <option key={s} value={s}>{s}</option>
+            <option key={s} value={s}>
+              {s}
+            </option>
           ))}
         </select>
 
@@ -241,7 +244,7 @@ const AdminTopScorers = () => {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex flex-wrap gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+      <div className="flex flex-wrap gap-2 border-b border-slate-200 pb-2 dark:border-slate-800">
         <button
           onClick={() => setActiveTab("school")}
           className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition ${
@@ -292,7 +295,7 @@ const AdminTopScorers = () => {
       </div>
 
       {/* Tab-Specific Filter Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white p-3 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800/80">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-100 bg-white p-3 shadow-xs dark:border-slate-800 dark:bg-slate-800/80">
         <div className="flex flex-wrap items-center gap-3">
           {activeTab === "school" && (
             <div className="flex items-center gap-2">
@@ -378,8 +381,8 @@ const AdminTopScorers = () => {
       {loading ? (
         <LoadingSpinner className="py-20" />
       ) : topScorers.length === 0 ? (
-        <div className="rounded-2xl bg-white p-12 text-center shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
-          <Trophy className="mx-auto h-12 w-12 text-slate-300 dark:text-slate-600 mb-3" />
+        <div className="rounded-2xl border border-slate-100 bg-white p-12 text-center shadow-xs dark:border-slate-800 dark:bg-slate-800">
+          <Trophy className="mx-auto mb-3 h-12 w-12 text-slate-300 dark:text-slate-600" />
           <p className="text-base font-bold text-slate-700 dark:text-slate-200">
             No finalized academic rankings available for this selection
           </p>
@@ -388,11 +391,11 @@ const AdminTopScorers = () => {
           </p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl bg-white shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
+        <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xs dark:border-slate-800 dark:bg-slate-800">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold dark:bg-slate-700/50 dark:border-slate-700 dark:text-slate-300">
+                <tr className="border-b border-slate-200 bg-slate-50 font-bold text-slate-600 dark:border-slate-700 dark:bg-slate-700/50 dark:text-slate-300">
                   <th className="px-4 py-3">Rank</th>
                   <th className="px-4 py-3">Student Name</th>
                   <th className="px-4 py-3">Student ID</th>
@@ -415,11 +418,12 @@ const AdminTopScorers = () => {
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-700/50">
                 {topScorers.map((row, idx) => {
-                  const rank = row.rank || row.class_rank || row.grade_rank || row.school_rank || (idx + 1);
+                  const rank =
+                    row.rank || row.class_rank || row.grade_rank || row.school_rank || idx + 1;
                   return (
                     <tr
                       key={row.student_id || idx}
-                      className={`hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition ${
+                      className={`transition hover:bg-slate-50/50 dark:hover:bg-slate-700/30 ${
                         parseInt(rank, 10) === 1 ? "bg-amber-50/30 dark:bg-amber-950/10" : ""
                       }`}
                     >
@@ -429,9 +433,7 @@ const AdminTopScorers = () => {
                           {row.full_name || row.student_name}
                         </div>
                         {row.stream && (
-                          <div className="text-[10px] text-slate-400 font-normal">
-                            {row.stream}
-                          </div>
+                          <div className="text-[10px] font-normal text-slate-400">{row.stream}</div>
                         )}
                       </td>
                       <td className="px-4 py-3 font-mono font-semibold text-slate-600 dark:text-slate-300">
@@ -445,43 +447,49 @@ const AdminTopScorers = () => {
 
                       {activeTab === "subject" ? (
                         <>
-                          <td className="px-4 py-3 font-bold text-emerald-600 dark:text-emerald-400 text-sm">
+                          <td className="px-4 py-3 text-sm font-bold text-emerald-600 dark:text-emerald-400">
                             {parseFloat(row.score).toFixed(1)}
                           </td>
                           <td className="px-4 py-3 font-medium text-slate-500">
                             {row.total_marks || 100}
                           </td>
                           <td className="px-4 py-3 font-bold text-slate-700 dark:text-slate-200">
-                            {((parseFloat(row.score) / (parseFloat(row.total_marks) || 100)) * 100).toFixed(1)}%
+                            {(
+                              (parseFloat(row.score) / (parseFloat(row.total_marks) || 100)) *
+                              100
+                            ).toFixed(1)}
+                            %
                           </td>
                         </>
                       ) : (
                         <>
-                          <td className="px-4 py-3 font-bold text-emerald-600 dark:text-emerald-400 text-sm">
+                          <td className="px-4 py-3 text-sm font-bold text-emerald-600 dark:text-emerald-400">
                             {parseFloat(row.total_marks_obtained).toFixed(1)}
-                            <span className="text-[10px] text-slate-400 font-normal ml-1">
+                            <span className="ml-1 text-[10px] font-normal text-slate-400">
                               / {parseFloat(row.total_possible_marks).toFixed(0)}
                             </span>
                           </td>
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-2">
-                              <span className="font-extrabold text-slate-800 dark:text-slate-100 text-sm">
+                              <span className="text-sm font-extrabold text-slate-800 dark:text-slate-100">
                                 {parseFloat(row.average_percentage).toFixed(1)}%
                               </span>
-                              <div className="w-16 h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
+                              <div className="h-1.5 w-16 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700">
                                 <div
                                   className="h-full rounded-full bg-emerald-500"
-                                  style={{ width: `${Math.min(parseFloat(row.average_percentage), 100)}%` }}
+                                  style={{
+                                    width: `${Math.min(parseFloat(row.average_percentage), 100)}%`,
+                                  }}
                                 ></div>
                               </div>
                             </div>
                           </td>
                           <td className="px-4 py-3">
-                            <span className="text-emerald-600 font-bold">
+                            <span className="font-bold text-emerald-600">
                               {row.subjects_passed || row.subjects_registered} passed
                             </span>
                             {row.subjects_failed > 0 && (
-                              <span className="text-rose-500 font-bold ml-1">
+                              <span className="ml-1 font-bold text-rose-500">
                                 ({row.subjects_failed} failed)
                               </span>
                             )}
@@ -507,4 +515,3 @@ const AdminTopScorers = () => {
 };
 
 export default AdminTopScorers;
-

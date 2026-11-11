@@ -24,7 +24,7 @@ const AnnouncementCard = ({ a, index }) => {
 
   return (
     <article
-      className="group card card-hover flex flex-col relative overflow-hidden"
+      className="group card card-hover relative flex flex-col overflow-hidden"
       style={{
         opacity: 1,
         animation: `scale-in 0.4s cubic-bezier(0.34,1.56,0.64,1) ${index * 60}ms both`,
@@ -32,10 +32,12 @@ const AnnouncementCard = ({ a, index }) => {
     >
       {/* Priority accent bar */}
       <div
-        className={`absolute top-0 left-0 right-0 h-1 rounded-t-2xl ${
-          a.priority === "urgent" ? "bg-linear-to-r from-red-500 to-red-400" :
-          a.priority === "important" ? "bg-linear-to-r from-amber-500 to-amber-400" :
-          "bg-linear-to-r from-emerald-500 to-emerald-400"
+        className={`absolute top-0 right-0 left-0 h-1 rounded-t-2xl ${
+          a.priority === "urgent"
+            ? "bg-linear-to-r from-red-500 to-red-400"
+            : a.priority === "important"
+              ? "bg-linear-to-r from-amber-500 to-amber-400"
+              : "bg-linear-to-r from-emerald-500 to-emerald-400"
         }`}
       />
 
@@ -47,17 +49,19 @@ const AnnouncementCard = ({ a, index }) => {
         <span className="text-xs text-slate-400">{readTime} min read</span>
       </div>
 
-      <h2 className="mb-3 font-display text-lg font-bold text-slate-900 leading-snug group-hover:text-primary transition-colors dark:text-white dark:group-hover:text-emerald-400">
+      <h2 className="font-display group-hover:text-primary mb-3 text-lg leading-snug font-bold text-slate-900 transition-colors dark:text-white dark:group-hover:text-emerald-400">
         {a.title}
       </h2>
-      <p className="mb-5 flex-1 text-sm leading-relaxed text-slate-600 line-clamp-3 dark:text-slate-400">
+      <p className="mb-5 line-clamp-3 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
         {a.content}
       </p>
 
       <div className="flex items-center justify-between border-t border-slate-100 pt-4 dark:border-slate-800">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white"
-            style={{ background: "linear-gradient(135deg, #059669, #0891b2)" }}>
+          <div
+            className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white"
+            style={{ background: "linear-gradient(135deg, #059669, #0891b2)" }}
+          >
             {(a.author_name || "S").charAt(0)}
           </div>
           <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
@@ -65,8 +69,18 @@ const AnnouncementCard = ({ a, index }) => {
           </span>
         </div>
         <span className="flex items-center gap-1.5 text-xs text-slate-400">
-          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <svg
+            className="h-3.5 w-3.5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
           </svg>
           {formatDate(a.created_at)}
         </span>
@@ -103,9 +117,12 @@ const Announcements = () => {
     fetchData();
   }, [page]);
 
-  const filtered = activeFilter === "All"
-    ? announcements
-    : announcements.filter((a) => (a.priority || "general").toLowerCase() === activeFilter.toLowerCase());
+  const filtered =
+    activeFilter === "All"
+      ? announcements
+      : announcements.filter(
+          (a) => (a.priority || "general").toLowerCase() === activeFilter.toLowerCase(),
+        );
 
   return (
     <MainLayout>
@@ -130,10 +147,16 @@ const Announcements = () => {
             >
               {f}
               {f !== "All" && (
-                <span className={`ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold ${
-                  activeFilter === f ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"
-                }`}>
-                  {announcements.filter((a) => (a.priority || "general").toLowerCase() === f.toLowerCase()).length || "0"}
+                <span
+                  className={`ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold ${
+                    activeFilter === f
+                      ? "bg-white/20 text-white"
+                      : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"
+                  }`}
+                >
+                  {announcements.filter(
+                    (a) => (a.priority || "general").toLowerCase() === f.toLowerCase(),
+                  ).length || "0"}
                 </span>
               )}
             </button>
@@ -150,15 +173,16 @@ const Announcements = () => {
             <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 text-4xl dark:bg-slate-800">
               📢
             </div>
-            <h3 className="font-display text-xl font-bold text-slate-900 dark:text-white">No announcements yet</h3>
+            <h3 className="font-display text-xl font-bold text-slate-900 dark:text-white">
+              No announcements yet
+            </h3>
             <p className="mt-2 text-slate-500 dark:text-slate-400">
-              {activeFilter === "All" ? "Check back soon for updates." : `No ${activeFilter.toLowerCase()} announcements found.`}
+              {activeFilter === "All"
+                ? "Check back soon for updates."
+                : `No ${activeFilter.toLowerCase()} announcements found.`}
             </p>
             {activeFilter !== "All" && (
-              <button
-                onClick={() => setActiveFilter("All")}
-                className="btn-outline mt-6 mx-auto"
-              >
+              <button onClick={() => setActiveFilter("All")} className="btn-outline mx-auto mt-6">
                 View All Announcements
               </button>
             )}

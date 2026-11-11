@@ -22,7 +22,12 @@ export default defineConfig({
         icons: [
           { src: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
           { src: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
-          { src: "/icons/icon-512x512-maskable.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+          {
+            src: "/icons/icon-512x512-maskable.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable",
+          },
         ],
       },
       workbox: {
@@ -31,13 +36,20 @@ export default defineConfig({
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
             handler: "CacheFirst",
-            options: { cacheName: "google-fonts-cache", expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 } },
+            options: {
+              cacheName: "google-fonts-cache",
+              expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
+            },
           },
           {
             // Only cache public unauthenticated API endpoints
             urlPattern: /\/api\/public\/.*/i,
             handler: "NetworkFirst",
-            options: { cacheName: "public-api-cache", networkTimeoutSeconds: 5, expiration: { maxEntries: 20, maxAgeSeconds: 60 * 5 } },
+            options: {
+              cacheName: "public-api-cache",
+              networkTimeoutSeconds: 5,
+              expiration: { maxEntries: 20, maxAgeSeconds: 60 * 5 },
+            },
           },
         ],
       },

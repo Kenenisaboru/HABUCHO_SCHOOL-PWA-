@@ -7,7 +7,12 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import useAuthStore from "../../context/authStore";
-import { getProfile, updateProfile, uploadAvatar, changePassword } from "../../services/authService";
+import {
+  getProfile,
+  updateProfile,
+  uploadAvatar,
+  changePassword,
+} from "../../services/authService";
 import { getAssetUrl } from "../../services/api";
 import { formatDate } from "../../utils/helpers";
 import { getRoleGradient } from "../../utils/roleColors";
@@ -19,7 +24,11 @@ const Profile = () => {
   const [saving, setSaving] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [editForm, setEditForm] = useState({ full_name: "", phone: "" });
-  const [passwordForm, setPasswordForm] = useState({ current_password: "", new_password: "", confirm_password: "" });
+  const [passwordForm, setPasswordForm] = useState({
+    current_password: "",
+    new_password: "",
+    confirm_password: "",
+  });
   const [changingPassword, setChangingPassword] = useState(false);
   const user = useAuthStore((s) => s.user);
   const fetchUser = useAuthStore((s) => s.fetchUser);
@@ -151,8 +160,12 @@ const Profile = () => {
     <div className="mx-auto max-w-3xl py-6">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h2 className="font-display text-2xl font-bold text-slate-900 dark:text-white">Your Profile & Records</h2>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Comprehensive student and account identity details</p>
+          <h2 className="font-display text-2xl font-bold text-slate-900 dark:text-white">
+            Your Profile & Records
+          </h2>
+          <p className="text-xs text-slate-500 sm:text-sm dark:text-slate-400">
+            Comprehensive student and account identity details
+          </p>
         </div>
         <div className="flex gap-2">
           {!editing && (
@@ -166,33 +179,49 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="card overflow-hidden p-0! rounded-3xl border border-slate-200/80 shadow-md dark:border-slate-800 dark:bg-slate-900">
+      <div className="card overflow-hidden rounded-3xl border border-slate-200/80 p-0! shadow-md dark:border-slate-800 dark:bg-slate-900">
         <div className="relative h-32 w-full bg-slate-900 sm:h-44">
           <div className="absolute inset-0 bg-linear-to-r from-emerald-600 via-teal-600 to-indigo-700 opacity-90" />
           <div
             className="absolute inset-0 opacity-[0.15]"
-            style={{ backgroundImage: "radial-gradient(rgba(255,255,255,1) 1px, transparent 1px)", backgroundSize: "16px 16px" }}
+            style={{
+              backgroundImage: "radial-gradient(rgba(255,255,255,1) 1px, transparent 1px)",
+              backgroundSize: "16px 16px",
+            }}
           />
         </div>
 
         <div className="relative px-6 pb-8 sm:px-10">
-          <div className="relative -mt-16 mb-4 flex justify-between items-end sm:-mt-20">
-            <div className="relative group">
-              <div className={`flex h-28 w-28 sm:h-36 sm:w-36 items-center justify-center rounded-3xl border-4 border-white bg-linear-to-br ${roleGradient} text-4xl sm:text-5xl font-extrabold text-white shadow-xl dark:border-slate-900 overflow-hidden`}>
+          <div className="relative -mt-16 mb-4 flex items-end justify-between sm:-mt-20">
+            <div className="group relative">
+              <div
+                className={`flex h-28 w-28 items-center justify-center rounded-3xl border-4 border-white bg-linear-to-br sm:h-36 sm:w-36 ${roleGradient} overflow-hidden text-4xl font-extrabold text-white shadow-xl sm:text-5xl dark:border-slate-900`}
+              >
                 {profile?.avatar_url ? (
-                  <img src={getAssetUrl(profile.avatar_url)} alt={displayData.name} className="h-full w-full object-cover" />
+                  <img
+                    src={getAssetUrl(profile.avatar_url)}
+                    alt={displayData.name}
+                    className="h-full w-full object-cover"
+                  />
                 ) : (
                   displayData.name.charAt(0).toUpperCase()
                 )}
               </div>
-              <label className="absolute inset-0 flex items-center justify-center rounded-3xl bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+              <label className="absolute inset-0 flex cursor-pointer items-center justify-center rounded-3xl bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
                 <span className="text-xs font-bold text-white">Change</span>
-                <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleAvatarChange}
+                />
               </label>
             </div>
             <div className="flex gap-2">
-              <span className={`inline-flex items-center gap-1.5 rounded-full bg-linear-to-r ${roleGradient.split(" shadow")[0]} px-3.5 py-1.5 text-xs font-bold capitalize tracking-wide text-white shadow-sm`}>
-                <span className="h-1.5 w-1.5 rounded-full bg-white/70 animate-pulse" />
+              <span
+                className={`inline-flex items-center gap-1.5 rounded-full bg-linear-to-r ${roleGradient.split(" shadow")[0]} px-3.5 py-1.5 text-xs font-bold tracking-wide text-white capitalize shadow-sm`}
+              >
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/70" />
                 {displayData.role}
               </span>
             </div>
@@ -200,9 +229,11 @@ const Profile = () => {
 
           <div>
             {editing ? (
-              <div className="space-y-3 mb-4">
+              <div className="mb-4 space-y-3">
                 <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-500">Full Name</label>
+                  <label className="mb-1 block text-xs font-semibold text-slate-500">
+                    Full Name
+                  </label>
                   <input
                     type="text"
                     value={editForm.full_name}
@@ -221,7 +252,11 @@ const Profile = () => {
                   />
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={handleSaveProfile} disabled={saving} className="btn-primary text-xs">
+                  <button
+                    onClick={handleSaveProfile}
+                    disabled={saving}
+                    className="btn-primary text-xs"
+                  >
                     {saving ? "Saving..." : "Save Changes"}
                   </button>
                   <button onClick={() => setEditing(false)} className="btn-outline text-xs">
@@ -231,88 +266,134 @@ const Profile = () => {
               </div>
             ) : (
               <>
-                <h3 className="font-display text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                <h3 className="font-display text-2xl font-bold text-slate-900 sm:text-3xl dark:text-white">
                   {displayData.name}
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">{displayData.email}</p>
+                <p className="mt-1 text-xs text-slate-500 sm:text-sm dark:text-slate-400">
+                  {displayData.email}
+                </p>
               </>
             )}
           </div>
 
-          <div className="mt-6 gradient-divider opacity-50" />
+          <div className="gradient-divider mt-6 opacity-50" />
 
           {displayData.role === "student" && (
-            <div className="mt-6 p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 dark:bg-emerald-950/20">
-              <div className="flex items-center justify-between flex-wrap gap-2 mb-3">
-                <h4 className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
+            <div className="mt-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-5 dark:bg-emerald-950/20">
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                <h4 className="text-xs font-extrabold tracking-wider text-emerald-700 uppercase dark:text-emerald-300">
                   Academic Placement & Enrollment
                 </h4>
-                <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-md bg-emerald-600 text-white">
+                <span className="rounded-md bg-emerald-600 px-2.5 py-0.5 font-mono text-xs font-bold text-white">
                   ID: {displayData.student_id}
                 </span>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+              <div className="grid grid-cols-2 gap-4 text-xs sm:grid-cols-4">
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Grade Level</span>
-                  <span className="font-bold text-slate-900 dark:text-white text-sm">Grade {displayData.grade_level}</span>
+                  <span className="block text-[11px] text-slate-500 dark:text-slate-400">
+                    Grade Level
+                  </span>
+                  <span className="text-sm font-bold text-slate-900 dark:text-white">
+                    Grade {displayData.grade_level}
+                  </span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Section</span>
-                  <span className="font-bold text-slate-900 dark:text-white text-sm">Section {displayData.section}</span>
+                  <span className="block text-[11px] text-slate-500 dark:text-slate-400">
+                    Section
+                  </span>
+                  <span className="text-sm font-bold text-slate-900 dark:text-white">
+                    Section {displayData.section}
+                  </span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Stream</span>
-                  <span className="font-bold text-teal-600 dark:text-teal-400 text-sm">{displayData.stream}</span>
+                  <span className="block text-[11px] text-slate-500 dark:text-slate-400">
+                    Stream
+                  </span>
+                  <span className="text-sm font-bold text-teal-600 dark:text-teal-400">
+                    {displayData.stream}
+                  </span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Academic Year</span>
-                  <span className="font-bold text-slate-900 dark:text-white text-sm">{displayData.academic_year}</span>
+                  <span className="block text-[11px] text-slate-500 dark:text-slate-400">
+                    Academic Year
+                  </span>
+                  <span className="text-sm font-bold text-slate-900 dark:text-white">
+                    {displayData.academic_year}
+                  </span>
                 </div>
               </div>
             </div>
           )}
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 text-xs sm:text-sm">
+          <div className="mt-6 grid gap-4 text-xs sm:grid-cols-2 sm:text-sm">
             <div className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 dark:border-slate-800/60 dark:bg-slate-800/40">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Gender & Date of Birth</p>
+              <p className="mb-1 text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                Gender & Date of Birth
+              </p>
               <p className="font-semibold text-slate-800 dark:text-slate-200">
                 {displayData.gender} • {displayData.date_of_birth}
               </p>
             </div>
             <div className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 dark:border-slate-800/60 dark:bg-slate-800/40">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Student Contact Phone</p>
-              <p className="font-semibold text-slate-800 dark:text-slate-200">{displayData.phone}</p>
+              <p className="mb-1 text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                Student Contact Phone
+              </p>
+              <p className="font-semibold text-slate-800 dark:text-slate-200">
+                {displayData.phone}
+              </p>
             </div>
             <div className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 dark:border-slate-800/60 dark:bg-slate-800/40">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Parent / Guardian Name</p>
-              <p className="font-semibold text-slate-800 dark:text-slate-200">{displayData.parent_name}</p>
+              <p className="mb-1 text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                Parent / Guardian Name
+              </p>
+              <p className="font-semibold text-slate-800 dark:text-slate-200">
+                {displayData.parent_name}
+              </p>
             </div>
             <div className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 dark:border-slate-800/60 dark:bg-slate-800/40">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Parent Contact Phone</p>
-              <p className="font-semibold text-slate-800 dark:text-slate-200">{displayData.parent_phone}</p>
+              <p className="mb-1 text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                Parent Contact Phone
+              </p>
+              <p className="font-semibold text-slate-800 dark:text-slate-200">
+                {displayData.parent_phone}
+              </p>
             </div>
-            <div className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 dark:border-slate-800/60 dark:bg-slate-800/40 sm:col-span-2">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Residential Address</p>
-              <p className="font-semibold text-slate-800 dark:text-slate-200">{displayData.address}</p>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 sm:col-span-2 dark:border-slate-800/60 dark:bg-slate-800/40">
+              <p className="mb-1 text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                Residential Address
+              </p>
+              <p className="font-semibold text-slate-800 dark:text-slate-200">
+                {displayData.address}
+              </p>
             </div>
             <div className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 dark:border-slate-800/60 dark:bg-slate-800/40">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Blood Group</p>
-              <p className="font-semibold text-slate-800 dark:text-slate-200">{displayData.blood_group}</p>
+              <p className="mb-1 text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                Blood Group
+              </p>
+              <p className="font-semibold text-slate-800 dark:text-slate-200">
+                {displayData.blood_group}
+              </p>
             </div>
             <div className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 dark:border-slate-800/60 dark:bg-slate-800/40">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Previous School</p>
-              <p className="font-semibold text-slate-800 dark:text-slate-200">{displayData.previous_school}</p>
+              <p className="mb-1 text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                Previous School
+              </p>
+              <p className="font-semibold text-slate-800 dark:text-slate-200">
+                {displayData.previous_school}
+              </p>
             </div>
           </div>
 
           {displayData.remarks && (
-            <div className="mt-4 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs dark:bg-amber-950/20">
-              <span className="font-bold text-amber-700 dark:text-amber-300 block mb-1">Administrative Remarks:</span>
+            <div className="mt-4 rounded-2xl border border-amber-500/20 bg-amber-500/10 p-4 text-xs dark:bg-amber-950/20">
+              <span className="mb-1 block font-bold text-amber-700 dark:text-amber-300">
+                Administrative Remarks:
+              </span>
               <p className="text-slate-700 dark:text-slate-300">{displayData.remarks}</p>
             </div>
           )}
 
-          <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs text-slate-400">
+          <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4 text-xs text-slate-400 dark:border-slate-800">
             <span>Member since: {displayData.date}</span>
             <span>Account ID: #{displayData.id.toString().padStart(6, "0")}</span>
           </div>
@@ -325,37 +406,55 @@ const Profile = () => {
             <h2 className="mb-4 text-lg font-bold">Change Password</h2>
             <div className="space-y-3">
               <div>
-                <label className="mb-1 block text-xs font-semibold text-slate-500">Current Password</label>
+                <label className="mb-1 block text-xs font-semibold text-slate-500">
+                  Current Password
+                </label>
                 <input
                   type="password"
                   value={passwordForm.current_password}
-                  onChange={(e) => setPasswordForm({ ...passwordForm, current_password: e.target.value })}
+                  onChange={(e) =>
+                    setPasswordForm({ ...passwordForm, current_password: e.target.value })
+                  }
                   className="input-field"
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-semibold text-slate-500">New Password</label>
+                <label className="mb-1 block text-xs font-semibold text-slate-500">
+                  New Password
+                </label>
                 <input
                   type="password"
                   value={passwordForm.new_password}
-                  onChange={(e) => setPasswordForm({ ...passwordForm, new_password: e.target.value })}
+                  onChange={(e) =>
+                    setPasswordForm({ ...passwordForm, new_password: e.target.value })
+                  }
                   className="input-field"
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-semibold text-slate-500">Confirm New Password</label>
+                <label className="mb-1 block text-xs font-semibold text-slate-500">
+                  Confirm New Password
+                </label>
                 <input
                   type="password"
                   value={passwordForm.confirm_password}
-                  onChange={(e) => setPasswordForm({ ...passwordForm, confirm_password: e.target.value })}
+                  onChange={(e) =>
+                    setPasswordForm({ ...passwordForm, confirm_password: e.target.value })
+                  }
                   className="input-field"
                 />
               </div>
               <div className="flex gap-2 pt-2">
-                <button onClick={handleChangePassword} disabled={changingPassword} className="btn-primary flex-1">
+                <button
+                  onClick={handleChangePassword}
+                  disabled={changingPassword}
+                  className="btn-primary flex-1"
+                >
                   {changingPassword ? "Changing..." : "Change Password"}
                 </button>
-                <button onClick={() => setShowPasswordModal(false)} className="btn-outline flex-1">Cancel</button>
+                <button onClick={() => setShowPasswordModal(false)} className="btn-outline flex-1">
+                  Cancel
+                </button>
               </div>
             </div>
           </div>

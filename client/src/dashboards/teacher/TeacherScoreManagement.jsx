@@ -4,7 +4,13 @@
 import { useEffect, useState, useRef } from "react";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import { getStudents, getGrades, bulkUpsertGrades, sendScoresToStudents, submitGradesForApproval } from "../../services/authService";
+import {
+  getStudents,
+  getGrades,
+  bulkUpsertGrades,
+  sendScoresToStudents,
+  submitGradesForApproval,
+} from "../../services/authService";
 import { getOfflineDraft, saveOfflineDraft, clearOfflineDraft } from "../../utils/offlineStorage";
 
 const ACADEMIC_YEARS = ["2023/2024", "2024/2025", "2025/2026"];
@@ -18,7 +24,7 @@ const TeacherScoreManagement = () => {
   const [saving, setSaving] = useState(false);
   const [students, setStudents] = useState([]);
   const [allGrades, setAllGrades] = useState([]);
-  
+
   const [filters, setFilters] = useState({
     academic_year: "2023/2024",
     semester: "Semester 1",
@@ -50,10 +56,10 @@ const TeacherScoreManagement = () => {
     setLoading(true);
     try {
       // Fetch students in this class/section
-      const studentsRes = await getStudents({ 
-        grade_level: filters.grade_level, 
+      const studentsRes = await getStudents({
+        grade_level: filters.grade_level,
         section: filters.section,
-        limit: 1000 
+        limit: 1000,
       });
       const roster = studentsRes.data.data.students || [];
 
@@ -67,13 +73,13 @@ const TeacherScoreManagement = () => {
         assessment_type: filters.assessment_type,
         limit: 1000,
       });
-      
+
       const existingGrades = gradesRes.data.data.grades || [];
 
       // Merge data
       const newGridData = {};
-      roster.forEach(student => {
-        const existing = existingGrades.find(g => g.student_id === student.id);
+      roster.forEach((student) => {
+        const existing = existingGrades.find((g) => g.student_id === student.id);
         newGridData[student.id] = {
           score: existing && existing.score !== null ? existing.score : "",
           comments: existing ? existing.comments || "" : "",
@@ -122,13 +128,14 @@ const TeacherScoreManagement = () => {
       setGridData({});
       setAllGrades([]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    filters.academic_year, 
-    filters.semester, 
-    filters.grade_level, 
-    filters.section, 
-    filters.subject, 
-    filters.assessment_type
+    filters.academic_year,
+    filters.semester,
+    filters.grade_level,
+    filters.section,
+    filters.subject,
+    filters.assessment_type,
   ]);
 
   const handleFilterChange = (e) => {
@@ -136,13 +143,13 @@ const TeacherScoreManagement = () => {
   };
 
   const handleGridChange = (studentId, field, value) => {
-    setGridData(prev => {
+    setGridData((prev) => {
       const updated = {
         ...prev,
         [studentId]: {
           ...prev[studentId],
-          [field]: value
-        }
+          [field]: value,
+        },
       };
       if (filters.grade_level && filters.section && filters.subject) {
         const draftKey = `grades_${filters.academic_year}_${filters.semester}_${filters.grade_level}_${filters.section}_${filters.subject}_${filters.assessment_type}`;
@@ -154,20 +161,24 @@ const TeacherScoreManagement = () => {
 
   // Keyboard navigation logic
   const handleKeyDown = (e, rowIndex, field) => {
-    const isScore = field === 'score';
-    if (e.key === 'ArrowDown' || e.key === 'Enter') {
+    const isScore = field === "score";
+    if (e.key === "ArrowDown" || e.key === "Enter") {
       e.preventDefault();
       const nextInput = inputsRef.current[`${rowIndex + 1}-${field}`];
       if (nextInput) nextInput.focus();
-    } else if (e.key === 'ArrowUp') {
+    } else if (e.key === "ArrowUp") {
       e.preventDefault();
       const prevInput = inputsRef.current[`${rowIndex - 1}-${field}`];
       if (prevInput) prevInput.focus();
-    } else if (e.key === 'ArrowRight' && isScore && e.target.selectionEnd === e.target.value.length) {
+    } else if (
+      e.key === "ArrowRight" &&
+      isScore &&
+      e.target.selectionEnd === e.target.value.length
+    ) {
       // Only jump if cursor is at the end of the input
       const commentInput = inputsRef.current[`${rowIndex}-comments`];
       if (commentInput) commentInput.focus();
-    } else if (e.key === 'ArrowLeft' && !isScore && e.target.selectionStart === 0) {
+    } else if (e.key === "ArrowLeft" && !isScore && e.target.selectionStart === 0) {
       const scoreInput = inputsRef.current[`${rowIndex}-score`];
       if (scoreInput) scoreInput.focus();
     }
@@ -178,30 +189,34 @@ const TeacherScoreManagement = () => {
       return toast.error("Please select Grade, Section, and Subject.");
     }
 
-    const payload = students.map(s => {
-      const row = gridData[s.id];
-      return {
-        student_id: s.id,
-        subject: filters.subject,
-        score: row.score === "" ? null : parseFloat(row.score),
-        semester: filters.semester,
-        academic_year: filters.academic_year,
-        grade_level: filters.grade_level,
-        section: filters.section,
-        assessment_type: filters.assessment_type,
-        total_marks: filters.total_marks,
-        comments: row.comments
-      };
-    }).filter(row => row.score !== null && !isNaN(row.score)); // Only save rows with actual scores entered
+    const payload = students
+      .map((s) => {
+        const row = gridData[s.id];
+        return {
+          student_id: s.id,
+          subject: filters.subject,
+          score: row.score === "" ? null : parseFloat(row.score),
+          semester: filters.semester,
+          academic_year: filters.academic_year,
+          grade_level: filters.grade_level,
+          section: filters.section,
+          assessment_type: filters.assessment_type,
+          total_marks: filters.total_marks,
+          comments: row.comments,
+        };
+      })
+      .filter((row) => row.score !== null && !isNaN(row.score)); // Only save rows with actual scores entered
 
     if (payload.length === 0) {
       return toast.error("No valid scores to save.");
     }
 
     // Validate scores against total marks
-    const invalid = payload.find(p => p.score < 0 || p.score > filters.total_marks);
+    const invalid = payload.find((p) => p.score < 0 || p.score > filters.total_marks);
     if (invalid) {
-      return toast.error(`Scores must be between 0 and ${filters.total_marks}. Check your entries.`);
+      return toast.error(
+        `Scores must be between 0 and ${filters.total_marks}. Check your entries.`,
+      );
     }
 
     setSaving(true);
@@ -221,17 +236,20 @@ const TeacherScoreManagement = () => {
   const handleExportCSV = () => {
     if (students.length === 0) return toast.error("No data to export");
     const headers = ["Student Name", "Score", "Comments"];
-    const rows = students.map(s => [
+    const rows = students.map((s) => [
       s.full_name,
       gridData[s.id]?.score || "",
-      gridData[s.id]?.comments || ""
+      gridData[s.id]?.comments || "",
     ]);
-    const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const csvContent = [headers, ...rows].map((e) => e.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", `Scores_${filters.grade_level}${filters.section}_${filters.subject}.csv`);
+    link.setAttribute(
+      "download",
+      `Scores_${filters.grade_level}${filters.section}_${filters.subject}.csv`,
+    );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -262,13 +280,19 @@ const TeacherScoreManagement = () => {
     }
   };
 
-  const currentBatchStatus = allGrades.find(g => g.assessment_type === filters.assessment_type)?.submission_status || "draft";
+  const currentBatchStatus =
+    allGrades.find((g) => g.assessment_type === filters.assessment_type)?.submission_status ||
+    "draft";
 
   const handleSubmitForApproval = async () => {
     if (!filters.grade_level || !filters.section || !filters.subject) {
       return toast.error("Select grade, section, and subject first");
     }
-    if (!confirm("Submit these scores for Admin approval? Once approved, they will be factored into official student rankings.")) {
+    if (
+      !window.confirm(
+        "Submit these scores for Admin approval? Once approved, they will be factored into official student rankings.",
+      )
+    ) {
       return;
     }
     setSubmittingApproval(true);
@@ -291,22 +315,24 @@ const TeacherScoreManagement = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-2">
+    <div className="animate-fade-in space-y-6">
+      <div className="mb-2 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Score Management</h2>
           {filters.subject && (
             <div className="mt-1 flex items-center gap-2">
               <span className="text-xs text-slate-400">Batch Status:</span>
-              <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
-                currentBatchStatus === "approved"
-                  ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
-                  : currentBatchStatus === "submitted"
-                  ? "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400"
-                  : currentBatchStatus === "rejected"
-                  ? "bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400"
-                  : "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300"
-              }`}>
+              <span
+                className={`rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${
+                  currentBatchStatus === "approved"
+                    ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
+                    : currentBatchStatus === "submitted"
+                      ? "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400"
+                      : currentBatchStatus === "rejected"
+                        ? "bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400"
+                        : "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300"
+                }`}
+              >
                 {currentBatchStatus === "submitted" ? "Pending Approval" : currentBatchStatus}
               </span>
             </div>
@@ -316,69 +342,153 @@ const TeacherScoreManagement = () => {
           <button onClick={handleExportCSV} className="btn-outline text-sm">
             📄 Export CSV
           </button>
-          <button onClick={saveScores} disabled={saving || students.length === 0} className="btn-primary text-sm flex items-center gap-2">
+          <button
+            onClick={saveScores}
+            disabled={saving || students.length === 0}
+            className="btn-primary flex items-center gap-2 text-sm"
+          >
             {saving ? <LoadingSpinner className="h-4 w-4" /> : "💾 Save Draft"}
           </button>
           <button
             onClick={handleSubmitForApproval}
-            disabled={submittingApproval || students.length === 0 || currentBatchStatus === "approved"}
-            className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-bold text-white shadow-xs hover:bg-blue-700 disabled:opacity-50 transition"
+            disabled={
+              submittingApproval || students.length === 0 || currentBatchStatus === "approved"
+            }
+            className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-bold text-white shadow-xs transition hover:bg-blue-700 disabled:opacity-50"
           >
-            {submittingApproval ? "Submitting..." : currentBatchStatus === "approved" ? "✓ Approved" : "🚀 Submit for Approval"}
+            {submittingApproval
+              ? "Submitting..."
+              : currentBatchStatus === "approved"
+                ? "✓ Approved"
+                : "🚀 Submit for Approval"}
           </button>
         </div>
       </div>
 
       {/* Filters Panel */}
-      <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-700/50 dark:bg-slate-800">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">Academic Year</label>
-            <select name="academic_year" value={filters.academic_year} onChange={handleFilterChange} className="input-field py-2 text-sm">
-              {ACADEMIC_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+            <label className="mb-1 block text-xs font-semibold tracking-wider text-slate-500 uppercase">
+              Academic Year
+            </label>
+            <select
+              name="academic_year"
+              value={filters.academic_year}
+              onChange={handleFilterChange}
+              className="input-field py-2 text-sm"
+            >
+              {ACADEMIC_YEARS.map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">Semester</label>
-            <select name="semester" value={filters.semester} onChange={handleFilterChange} className="input-field py-2 text-sm">
-              {SEMESTERS.map(s => <option key={s} value={s}>{s}</option>)}
+            <label className="mb-1 block text-xs font-semibold tracking-wider text-slate-500 uppercase">
+              Semester
+            </label>
+            <select
+              name="semester"
+              value={filters.semester}
+              onChange={handleFilterChange}
+              className="input-field py-2 text-sm"
+            >
+              {SEMESTERS.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">Grade</label>
-            <select name="grade_level" value={filters.grade_level} onChange={handleFilterChange} className="input-field py-2 text-sm">
+            <label className="mb-1 block text-xs font-semibold tracking-wider text-slate-500 uppercase">
+              Grade
+            </label>
+            <select
+              name="grade_level"
+              value={filters.grade_level}
+              onChange={handleFilterChange}
+              className="input-field py-2 text-sm"
+            >
               <option value="">Select Grade</option>
-              {GRADE_LEVELS.map(g => <option key={g} value={g}>Grade {g}</option>)}
+              {GRADE_LEVELS.map((g) => (
+                <option key={g} value={g}>
+                  Grade {g}
+                </option>
+              ))}
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">Section</label>
-            <select name="section" value={filters.section} onChange={handleFilterChange} className="input-field py-2 text-sm">
+            <label className="mb-1 block text-xs font-semibold tracking-wider text-slate-500 uppercase">
+              Section
+            </label>
+            <select
+              name="section"
+              value={filters.section}
+              onChange={handleFilterChange}
+              className="input-field py-2 text-sm"
+            >
               <option value="">Select Section</option>
-              {SECTIONS.map(s => <option key={s} value={s}>Section {s}</option>)}
+              {SECTIONS.map((s) => (
+                <option key={s} value={s}>
+                  Section {s}
+                </option>
+              ))}
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">Subject</label>
-            <input name="subject" value={filters.subject} onChange={handleFilterChange} placeholder="e.g. Mathematics" className="input-field py-2 text-sm" />
+            <label className="mb-1 block text-xs font-semibold tracking-wider text-slate-500 uppercase">
+              Subject
+            </label>
+            <input
+              name="subject"
+              value={filters.subject}
+              onChange={handleFilterChange}
+              placeholder="e.g. Mathematics"
+              className="input-field py-2 text-sm"
+            />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">Assessment Type</label>
-            <select name="assessment_type" value={filters.assessment_type} onChange={handleFilterChange} className="input-field py-2 text-sm">
-              {ASSESSMENT_TYPES.map(a => <option key={a} value={a}>{a}</option>)}
+            <label className="mb-1 block text-xs font-semibold tracking-wider text-slate-500 uppercase">
+              Assessment Type
+            </label>
+            <select
+              name="assessment_type"
+              value={filters.assessment_type}
+              onChange={handleFilterChange}
+              className="input-field py-2 text-sm"
+            >
+              {ASSESSMENT_TYPES.map((a) => (
+                <option key={a} value={a}>
+                  {a}
+                </option>
+              ))}
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">Total Marks</label>
-            <input type="number" name="total_marks" value={filters.total_marks} onChange={handleFilterChange} min="1" className="input-field py-2 text-sm" />
+            <label className="mb-1 block text-xs font-semibold tracking-wider text-slate-500 uppercase">
+              Total Marks
+            </label>
+            <input
+              type="number"
+              name="total_marks"
+              value={filters.total_marks}
+              onChange={handleFilterChange}
+              min="1"
+              className="input-field py-2 text-sm"
+            />
           </div>
         </div>
       </div>
 
       {/* Spreadsheet Grid */}
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50 overflow-hidden">
+      <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm dark:border-slate-700/50 dark:bg-slate-800">
         {loading ? (
-          <div className="p-12"><LoadingSpinner /></div>
+          <div className="p-12">
+            <LoadingSpinner />
+          </div>
         ) : !filters.grade_level || !filters.section || !filters.subject ? (
           <div className="p-12 text-center text-slate-500">
             Please select Grade, Section, and Subject to load the student roster.
@@ -389,44 +499,60 @@ const TeacherScoreManagement = () => {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm border-collapse">
+            <table className="w-full border-collapse text-left text-sm">
               <thead>
-                <tr className="bg-slate-50 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
-                  <th className="px-4 py-3 w-16 font-semibold border-r border-slate-200 dark:border-slate-700 text-center">#</th>
-                  <th className="px-4 py-3 font-semibold border-r border-slate-200 dark:border-slate-700">Student Name</th>
-                  <th className="px-4 py-3 w-48 font-semibold border-r border-slate-200 dark:border-slate-700 text-center">Score (/{filters.total_marks})</th>
+                <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-700 dark:bg-slate-700/50 dark:text-slate-300">
+                  <th className="w-16 border-r border-slate-200 px-4 py-3 text-center font-semibold dark:border-slate-700">
+                    #
+                  </th>
+                  <th className="border-r border-slate-200 px-4 py-3 font-semibold dark:border-slate-700">
+                    Student Name
+                  </th>
+                  <th className="w-48 border-r border-slate-200 px-4 py-3 text-center font-semibold dark:border-slate-700">
+                    Score (/{filters.total_marks})
+                  </th>
                   <th className="px-4 py-3 font-semibold">Teacher Comments</th>
                 </tr>
               </thead>
               <tbody>
                 {students.map((student, rowIndex) => {
                   const scoreVal = gridData[student.id]?.score;
-                  const isInvalid = scoreVal !== "" && (parseFloat(scoreVal) > parseFloat(filters.total_marks) || parseFloat(scoreVal) < 0);
-                  
+                  const isInvalid =
+                    scoreVal !== "" &&
+                    (parseFloat(scoreVal) > parseFloat(filters.total_marks) ||
+                      parseFloat(scoreVal) < 0);
+
                   return (
-                    <tr key={student.id} className="border-b border-slate-100 dark:border-slate-700/50 hover:bg-emerald-50/50 dark:hover:bg-slate-700/30 transition-colors">
-                      <td className="px-4 py-2 border-r border-slate-100 dark:border-slate-700/50 text-center text-slate-500">{rowIndex + 1}</td>
-                      <td className="px-4 py-2 border-r border-slate-100 dark:border-slate-700/50 font-medium text-slate-700 dark:text-slate-200">{student.full_name}</td>
-                      <td className="p-0 border-r border-slate-100 dark:border-slate-700/50 relative group">
+                    <tr
+                      key={student.id}
+                      className="border-b border-slate-100 transition-colors hover:bg-emerald-50/50 dark:border-slate-700/50 dark:hover:bg-slate-700/30"
+                    >
+                      <td className="border-r border-slate-100 px-4 py-2 text-center text-slate-500 dark:border-slate-700/50">
+                        {rowIndex + 1}
+                      </td>
+                      <td className="border-r border-slate-100 px-4 py-2 font-medium text-slate-700 dark:border-slate-700/50 dark:text-slate-200">
+                        {student.full_name}
+                      </td>
+                      <td className="group relative border-r border-slate-100 p-0 dark:border-slate-700/50">
                         <input
-                          ref={el => inputsRef.current[`${rowIndex}-score`] = el}
+                          ref={(el) => (inputsRef.current[`${rowIndex}-score`] = el)}
                           type="number"
                           step="0.01"
-                          className={`w-full h-full p-3 bg-transparent outline-none text-center font-semibold transition-all ${isInvalid ? 'bg-red-50 text-red-600 dark:bg-red-900/20' : 'focus:bg-emerald-50 dark:focus:bg-emerald-900/20'}`}
+                          className={`h-full w-full bg-transparent p-3 text-center font-semibold transition-all outline-none ${isInvalid ? "bg-red-50 text-red-600 dark:bg-red-900/20" : "focus:bg-emerald-50 dark:focus:bg-emerald-900/20"}`}
                           value={scoreVal}
-                          onChange={(e) => handleGridChange(student.id, 'score', e.target.value)}
-                          onKeyDown={(e) => handleKeyDown(e, rowIndex, 'score')}
+                          onChange={(e) => handleGridChange(student.id, "score", e.target.value)}
+                          onKeyDown={(e) => handleKeyDown(e, rowIndex, "score")}
                           placeholder="--"
                         />
                       </td>
-                      <td className="p-0 relative group">
+                      <td className="group relative p-0">
                         <input
-                          ref={el => inputsRef.current[`${rowIndex}-comments`] = el}
+                          ref={(el) => (inputsRef.current[`${rowIndex}-comments`] = el)}
                           type="text"
-                          className="w-full h-full p-3 bg-transparent outline-none focus:bg-emerald-50 dark:focus:bg-emerald-900/20 transition-all text-slate-600 dark:text-slate-300"
+                          className="h-full w-full bg-transparent p-3 text-slate-600 transition-all outline-none focus:bg-emerald-50 dark:text-slate-300 dark:focus:bg-emerald-900/20"
                           value={gridData[student.id]?.comments}
-                          onChange={(e) => handleGridChange(student.id, 'comments', e.target.value)}
-                          onKeyDown={(e) => handleKeyDown(e, rowIndex, 'comments')}
+                          onChange={(e) => handleGridChange(student.id, "comments", e.target.value)}
+                          onKeyDown={(e) => handleKeyDown(e, rowIndex, "comments")}
                           placeholder="Add note..."
                         />
                       </td>
@@ -438,22 +564,28 @@ const TeacherScoreManagement = () => {
           </div>
         )}
       </div>
-      
-      <div className="text-xs text-slate-400 text-center mb-8">
+
+      <div className="mb-8 text-center text-xs text-slate-400">
         💡 Tip: Use your keyboard arrow keys, Tab, or Enter to quickly navigate between cells.
       </div>
 
       {/* Summary Table: All Scores by Category */}
       {students.length > 0 && (
-        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50 overflow-hidden mt-8">
-          <div className="p-5 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50 dark:bg-slate-800/80">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="mt-8 overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm dark:border-slate-700/50 dark:bg-slate-800">
+          <div className="border-b border-slate-100 bg-slate-50 p-5 dark:border-slate-700/50 dark:bg-slate-800/80">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h3 className="text-lg font-bold text-slate-800 dark:text-white">Class Scores Summary</h3>
+                <h3 className="text-lg font-bold text-slate-800 dark:text-white">
+                  Class Scores Summary
+                </h3>
                 <p className="text-sm text-slate-500">Overview of all scores grouped by category</p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <select value={sendFormat} onChange={(e) => setSendFormat(e.target.value)} className="input-field py-1.5 text-xs w-auto">
+                <select
+                  value={sendFormat}
+                  onChange={(e) => setSendFormat(e.target.value)}
+                  className="input-field w-auto py-1.5 text-xs"
+                >
                   <option value="both">PDF + CSV</option>
                   <option value="pdf">PDF Only</option>
                   <option value="csv">CSV Only</option>
@@ -461,12 +593,29 @@ const TeacherScoreManagement = () => {
                 <button
                   onClick={handleSendToStudents}
                   disabled={sending || students.length === 0}
-                  className="btn-primary text-xs flex items-center gap-1.5"
+                  className="btn-primary flex items-center gap-1.5 text-xs"
                 >
                   {sending ? (
-                    <><LoadingSpinner className="h-3 w-3" /> Sending...</>
+                    <>
+                      <LoadingSpinner className="h-3 w-3" /> Sending...
+                    </>
                   ) : (
-                    <><svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> Send to Students</>
+                    <>
+                      <svg
+                        className="h-3.5 w-3.5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        />
+                      </svg>{" "}
+                      Send to Students
+                    </>
                   )}
                 </button>
               </div>
@@ -474,59 +623,81 @@ const TeacherScoreManagement = () => {
             {sendResult && (
               <div className="mt-3 rounded-lg bg-emerald-50 p-3 text-xs text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300">
                 Sent to {sendResult.sent} of {sendResult.total} students.
-                {sendResult.failed > 0 && <> Failed: {sendResult.failed}. {sendResult.errors?.join("; ")}</>}
+                {sendResult.failed > 0 && (
+                  <>
+                    {" "}
+                    Failed: {sendResult.failed}. {sendResult.errors?.join("; ")}
+                  </>
+                )}
               </div>
             )}
           </div>
-          <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
-            <table className="w-full text-left text-sm border-collapse">
-              <thead className="sticky top-0 z-10 bg-slate-50 dark:bg-slate-800 shadow-sm">
-                <tr className="text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
-                  <th className="px-4 py-3 font-semibold border-r border-slate-200 dark:border-slate-700">Student Name</th>
-                  {ASSESSMENT_TYPES.map(type => (
-                     <th key={type} className="px-4 py-3 font-semibold border-r border-slate-200 dark:border-slate-700 text-center whitespace-nowrap">{type}</th>
+          <div className="max-h-[600px] overflow-x-auto overflow-y-auto">
+            <table className="w-full border-collapse text-left text-sm">
+              <thead className="sticky top-0 z-10 bg-slate-50 shadow-sm dark:bg-slate-800">
+                <tr className="border-b border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300">
+                  <th className="border-r border-slate-200 px-4 py-3 font-semibold dark:border-slate-700">
+                    Student Name
+                  </th>
+                  {ASSESSMENT_TYPES.map((type) => (
+                    <th
+                      key={type}
+                      className="border-r border-slate-200 px-4 py-3 text-center font-semibold whitespace-nowrap dark:border-slate-700"
+                    >
+                      {type}
+                    </th>
                   ))}
-                  <th className="px-4 py-3 font-semibold text-center text-emerald-600">Average</th>
+                  <th className="px-4 py-3 text-center font-semibold text-emerald-600">Average</th>
                 </tr>
               </thead>
               <tbody>
                 {students.map((student, index) => {
-                  const studentGrades = allGrades.filter(g => g.student_id === student.id);
+                  const studentGrades = allGrades.filter((g) => g.student_id === student.id);
                   let totalScore = 0;
                   let validScoresCount = 0;
 
                   return (
-                    <tr key={student.id} className={`border-b border-slate-100 dark:border-slate-700/50 hover:bg-emerald-50/50 dark:hover:bg-slate-700/30 ${index % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50/30 dark:bg-slate-800/50'}`}>
-                      <td className="px-4 py-3 font-medium text-slate-700 dark:text-slate-200 border-r border-slate-100 dark:border-slate-700/50 whitespace-nowrap">
+                    <tr
+                      key={student.id}
+                      className={`border-b border-slate-100 hover:bg-emerald-50/50 dark:border-slate-700/50 dark:hover:bg-slate-700/30 ${index % 2 === 0 ? "bg-white dark:bg-slate-800" : "bg-slate-50/30 dark:bg-slate-800/50"}`}
+                    >
+                      <td className="border-r border-slate-100 px-4 py-3 font-medium whitespace-nowrap text-slate-700 dark:border-slate-700/50 dark:text-slate-200">
                         {student.full_name}
                       </td>
-                      {ASSESSMENT_TYPES.map(type => {
-                        const g = studentGrades.find(g => g.assessment_type === type);
+                      {ASSESSMENT_TYPES.map((type) => {
+                        const g = studentGrades.find((g) => g.assessment_type === type);
                         if (g && g.score !== null) {
-                           // Attempt to normalize score to percentage if total_marks is known for that grade,
-                           // but for simplicity we'll just sum raw scores or assume they are out of 100 if we average them.
-                           // Actually, let's just display the raw score.
-                           totalScore += parseFloat(g.score);
-                           validScoresCount++;
+                          // Attempt to normalize score to percentage if total_marks is known for that grade,
+                          // but for simplicity we'll just sum raw scores or assume they are out of 100 if we average them.
+                          // Actually, let's just display the raw score.
+                          totalScore += parseFloat(g.score);
+                          validScoresCount++;
                         }
                         return (
-                          <td key={type} className="px-4 py-3 text-center border-r border-slate-100 dark:border-slate-700/50">
+                          <td
+                            key={type}
+                            className="border-r border-slate-100 px-4 py-3 text-center dark:border-slate-700/50"
+                          >
                             {g && g.score !== null ? (
-                               <div className="flex flex-col items-center justify-center">
-                                 <span className="font-bold text-slate-700 dark:text-slate-300">{g.score}</span>
-                                 <span className="text-[10px] text-slate-400">/{g.total_marks || 100}</span>
-                               </div>
+                              <div className="flex flex-col items-center justify-center">
+                                <span className="font-bold text-slate-700 dark:text-slate-300">
+                                  {g.score}
+                                </span>
+                                <span className="text-[10px] text-slate-400">
+                                  /{g.total_marks || 100}
+                                </span>
+                              </div>
                             ) : (
-                               <span className="text-slate-300 dark:text-slate-600">-</span>
+                              <span className="text-slate-300 dark:text-slate-600">-</span>
                             )}
                           </td>
                         );
                       })}
-                      <td className="px-4 py-3 text-center font-extrabold text-emerald-600 bg-emerald-50/30 dark:bg-emerald-900/10">
+                      <td className="bg-emerald-50/30 px-4 py-3 text-center font-extrabold text-emerald-600 dark:bg-emerald-900/10">
                         {validScoresCount > 0 ? (totalScore / validScoresCount).toFixed(1) : "-"}
                       </td>
                     </tr>
-                  )
+                  );
                 })}
               </tbody>
             </table>

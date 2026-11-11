@@ -12,8 +12,7 @@
 import { useRef, useState, useEffect } from "react";
 
 const prefersReducedMotion =
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const Reveal = ({ children, delay = 0, className = "", direction = "up" }) => {
   const ref = useRef(null);
@@ -23,8 +22,10 @@ const Reveal = ({ children, delay = 0, className = "", direction = "up" }) => {
     if (prefersReducedMotion) return;
 
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setVisible(true); },
-      { threshold: 0.1 }
+      ([e]) => {
+        if (e.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.1 },
     );
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
@@ -33,11 +34,16 @@ const Reveal = ({ children, delay = 0, className = "", direction = "up" }) => {
   const getTransform = () => {
     if (visible) return "translate(0, 0)";
     switch (direction) {
-      case "up":    return "translateY(40px)";
-      case "down":  return "translateY(-40px)";
-      case "left":  return "translateX(40px)";
-      case "right": return "translateX(-40px)";
-      default:      return "translateY(40px)";
+      case "up":
+        return "translateY(40px)";
+      case "down":
+        return "translateY(-40px)";
+      case "left":
+        return "translateX(40px)";
+      case "right":
+        return "translateX(-40px)";
+      default:
+        return "translateY(40px)";
     }
   };
 
@@ -48,7 +54,9 @@ const Reveal = ({ children, delay = 0, className = "", direction = "up" }) => {
       style={{
         opacity: visible ? 1 : 0,
         transform: getTransform(),
-        transition: prefersReducedMotion ? "none" : `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
+        transition: prefersReducedMotion
+          ? "none"
+          : `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
       }}
     >
       {children}

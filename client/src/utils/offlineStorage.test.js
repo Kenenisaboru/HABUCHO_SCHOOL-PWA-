@@ -8,9 +8,15 @@ describe("Offline Storage Utility", () => {
     Object.keys(store).forEach((k) => delete store[k]);
     globalThis.localStorage = {
       getItem: (key) => store[key] || null,
-      setItem: (key, val) => { store[key] = String(val); },
-      removeItem: (key) => { delete store[key]; },
-      clear: () => { Object.keys(store).forEach((k) => delete store[k]); },
+      setItem: (key, val) => {
+        store[key] = String(val);
+      },
+      removeItem: (key) => {
+        delete store[key];
+      },
+      clear: () => {
+        Object.keys(store).forEach((k) => delete store[k]);
+      },
     };
   });
 

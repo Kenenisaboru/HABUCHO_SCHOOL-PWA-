@@ -56,23 +56,31 @@ const NotFound = () => {
       {/* Background grid */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.04]"
-        style={{ backgroundImage: "radial-gradient(rgba(16,185,129,1) 1px, transparent 1px)", backgroundSize: "32px 32px" }}
+        style={{
+          backgroundImage: "radial-gradient(rgba(16,185,129,1) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
       />
       {/* Radial glow */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(5,150,105,0.08),transparent_70%)]" />
 
       {/* Content */}
-      <div className="relative z-10 text-center" style={{ animation: "fade-in 0.6s ease-out both" }}>
+      <div
+        className="relative z-10 text-center"
+        style={{ animation: "fade-in 0.6s ease-out both" }}
+      >
         {/* 404 with glitch */}
-        <div className="relative select-none mb-2">
+        <div className="relative mb-2 select-none">
           <p
-            className="font-display text-[120px] font-extrabold leading-none md:text-[180px]"
+            className="font-display text-[120px] leading-none font-extrabold md:text-[180px]"
             style={{
               backgroundImage: "linear-gradient(135deg, #6ee7b7, #34d399, #10b981)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
-              filter: glitch ? "drop-shadow(4px 0 0 rgba(239,68,68,0.8)) drop-shadow(-4px 0 0 rgba(59,130,246,0.8))" : "none",
+              filter: glitch
+                ? "drop-shadow(4px 0 0 rgba(239,68,68,0.8)) drop-shadow(-4px 0 0 rgba(59,130,246,0.8))"
+                : "none",
               transform: glitch ? "skewX(-2deg)" : "skewX(0deg)",
               transition: "filter 0.05s, transform 0.05s",
             }}
@@ -82,12 +90,16 @@ const NotFound = () => {
           {/* Glitch copy layers */}
           {glitch && (
             <>
-              <p className="font-display absolute inset-0 text-[120px] font-extrabold leading-none md:text-[180px] text-red-500/30 blur-[1px]"
-                style={{ transform: "translate(3px, 0)", pointerEvents: "none" }}>
+              <p
+                className="font-display absolute inset-0 text-[120px] leading-none font-extrabold text-red-500/30 blur-[1px] md:text-[180px]"
+                style={{ transform: "translate(3px, 0)", pointerEvents: "none" }}
+              >
                 404
               </p>
-              <p className="font-display absolute inset-0 text-[120px] font-extrabold leading-none md:text-[180px] text-blue-500/30 blur-[1px]"
-                style={{ transform: "translate(-3px, 0)", pointerEvents: "none" }}>
+              <p
+                className="font-display absolute inset-0 text-[120px] leading-none font-extrabold text-blue-500/30 blur-[1px] md:text-[180px]"
+                style={{ transform: "translate(-3px, 0)", pointerEvents: "none" }}
+              >
                 404
               </p>
             </>
@@ -104,7 +116,8 @@ const NotFound = () => {
           className="mx-auto mt-4 max-w-md text-base leading-relaxed text-slate-400"
           style={{ animation: "slide-up 0.6s ease-out 0.3s both" }}
         >
-          The page you&apos;re looking for seems to have wandered off. Let us help you find your way back.
+          The page you&apos;re looking for seems to have wandered off. Let us help you find your way
+          back.
         </p>
 
         {/* Primary actions */}
@@ -119,17 +132,17 @@ const NotFound = () => {
           >
             ← Go Back Home
           </Link>
-          <Link to="/login" className="btn-outline border-slate-700 bg-transparent px-8 py-3.5 text-base text-slate-300 hover:bg-slate-800/60 hover:text-white">
+          <Link
+            to="/login"
+            className="btn-outline border-slate-700 bg-transparent px-8 py-3.5 text-base text-slate-300 hover:bg-slate-800/60 hover:text-white"
+          >
             Sign In →
           </Link>
         </div>
 
         {/* Suggested links */}
-        <div
-          className="mt-12"
-          style={{ animation: "fade-in 0.6s ease-out 0.6s both" }}
-        >
-          <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-slate-500">
+        <div className="mt-12" style={{ animation: "fade-in 0.6s ease-out 0.6s both" }}>
+          <p className="mb-4 text-sm font-semibold tracking-widest text-slate-500 uppercase">
             You might be looking for
           </p>
           <div className="flex flex-wrap justify-center gap-3">

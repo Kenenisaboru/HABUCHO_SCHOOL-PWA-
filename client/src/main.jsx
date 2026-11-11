@@ -25,5 +25,5 @@ createRoot(document.getElementById("root")).render(
         </ThemeProvider>
       </BrowserRouter>
     </ErrorBoundary>
-  </StrictMode>
+  </StrictMode>,
 );

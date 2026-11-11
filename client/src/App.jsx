@@ -33,7 +33,9 @@ const AdminAdmissions = lazy(() => import("./dashboards/admin/AdminAdmissions"))
 const AdminAuditLogs = lazy(() => import("./dashboards/admin/AdminAuditLogs"));
 const AdminCurriculum = lazy(() => import("./dashboards/admin/AdminCurriculum"));
 const AdminTopScorers = lazy(() => import("./dashboards/admin/AdminTopScorers"));
-const AdminPerformanceAnalytics = lazy(() => import("./dashboards/admin/AdminPerformanceAnalytics"));
+const AdminPerformanceAnalytics = lazy(
+  () => import("./dashboards/admin/AdminPerformanceAnalytics"),
+);
 
 // Teacher dashboards
 const TeacherDashboard = lazy(() => import("./dashboards/teacher/TeacherDashboard"));
@@ -55,7 +57,7 @@ function App() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
+        <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950">
           <LoadingSpinner className="py-20" />
         </div>
       }

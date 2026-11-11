@@ -22,19 +22,55 @@ import {
 
 export const adminLinks = [
   // School Operations section
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true, section: "School Operations" },
+  {
+    to: "/admin",
+    label: "Dashboard",
+    icon: LayoutDashboard,
+    end: true,
+    section: "School Operations",
+  },
   { to: "/admin/users", label: "Manage Users", icon: Users, section: "School Operations" },
-  { to: "/admin/schedules", label: "Class Schedules", icon: CalendarDays, section: "School Operations" },
-  { to: "/admin/announcements", label: "Announcements", icon: Megaphone, section: "School Operations" },
+  {
+    to: "/admin/schedules",
+    label: "Class Schedules",
+    icon: CalendarDays,
+    section: "School Operations",
+  },
+  {
+    to: "/admin/announcements",
+    label: "Announcements",
+    icon: Megaphone,
+    section: "School Operations",
+  },
   { to: "/admin/messages", label: "Messages", icon: Mail, section: "School Operations" },
   { to: "/admin/audit-logs", label: "Audit Logs", icon: ShieldCheck, section: "School Operations" },
   { to: "/admin/profile", label: "Profile", icon: User, section: "School Operations" },
   // Academic & Ethiopian Curriculum Management section
-  { to: "/admin/curriculum", label: "Curriculum & Subjects", icon: BookOpen, section: "Academic Management" },
-  { to: "/admin/top-scorers", label: "Top Scorer Rankings", icon: Trophy, section: "Academic Management" },
-  { to: "/admin/academic-analytics", label: "Academic Analytics", icon: BarChart3, section: "Academic Management" },
+  {
+    to: "/admin/curriculum",
+    label: "Curriculum & Subjects",
+    icon: BookOpen,
+    section: "Academic Management",
+  },
+  {
+    to: "/admin/top-scorers",
+    label: "Top Scorer Rankings",
+    icon: Trophy,
+    section: "Academic Management",
+  },
+  {
+    to: "/admin/academic-analytics",
+    label: "Academic Analytics",
+    icon: BarChart3,
+    section: "Academic Management",
+  },
   // Website & Admissions Management section
-  { to: "/admin/admissions", label: "Admissions", icon: GraduationCap, section: "Website Management" },
+  {
+    to: "/admin/admissions",
+    label: "Admissions",
+    icon: GraduationCap,
+    section: "Website Management",
+  },
   { to: "/admin/events", label: "News & Events", icon: Newspaper, section: "Website Management" },
   { to: "/admin/gallery", label: "Gallery", icon: Images, section: "Website Management" },
   { to: "/admin/staff", label: "Staff Profiles", icon: UsersRound, section: "Website Management" },

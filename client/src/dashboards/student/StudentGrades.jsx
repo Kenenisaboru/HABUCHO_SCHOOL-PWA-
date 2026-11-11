@@ -25,7 +25,9 @@ const StudentGrades = () => {
       try {
         const [gradeRes, summaryRes] = await Promise.all([
           getGrades({ limit: 100 }),
-          user?.id ? getStudentAcademicSummary(user.id).catch(() => ({ data: { data: [] } })) : Promise.resolve({ data: { data: [] } }),
+          user?.id
+            ? getStudentAcademicSummary(user.id).catch(() => ({ data: { data: [] } }))
+            : Promise.resolve({ data: { data: [] } }),
         ]);
         setGrades(gradeRes.data?.data?.grades || []);
         const summaries = summaryRes.data?.data || [];
@@ -75,23 +77,24 @@ const StudentGrades = () => {
   return (
     <div className="space-y-6">
       {/* Top Header with Report Card Download */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+          <span className="text-xs font-bold tracking-wider text-emerald-600 uppercase dark:text-emerald-400">
             Ethiopian Curriculum Secondary Assessment
           </span>
-          <h1 className="text-2xl font-extrabold text-slate-800 dark:text-slate-100 sm:text-3xl">
+          <h1 className="text-2xl font-extrabold text-slate-800 sm:text-3xl dark:text-slate-100">
             My Academic Results
           </h1>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            Grade {user?.grade_level || "10"} Section {user?.section || "A"} — Numerical grading and rank summary.
+            Grade {user?.grade_level || "10"} Section {user?.section || "A"} — Numerical grading and
+            rank summary.
           </p>
         </div>
 
         <button
           onClick={handleDownloadReportCard}
           disabled={generatingReport || grades.length === 0}
-          className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 disabled:opacity-50 transition"
+          className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700 disabled:opacity-50"
         >
           <FileText className="h-4 w-4" />
           {generatingReport ? "Generating..." : "Download Official Report Card (PDF)"}
@@ -100,27 +103,35 @@ const StudentGrades = () => {
 
       {/* KPI Cards: Numerical Totals & Rankings */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <div className="rounded-2xl bg-white p-5 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Marks</span>
+        <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-xs dark:border-slate-800 dark:bg-slate-800">
+          <span className="text-xs font-bold tracking-wider text-slate-400 uppercase">
+            Total Marks
+          </span>
           <div className="mt-2 text-2xl font-black text-slate-800 dark:text-slate-100">
             {totalObtained.toFixed(1)}
-            <span className="text-xs text-slate-400 font-normal ml-1">/ {totalPossible.toFixed(0)}</span>
+            <span className="ml-1 text-xs font-normal text-slate-400">
+              / {totalPossible.toFixed(0)}
+            </span>
           </div>
           <div className="mt-1 text-[11px] text-slate-400">{grades.length} subjects recorded</div>
         </div>
 
-        <div className="rounded-2xl bg-white p-5 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Overall Average</span>
+        <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-xs dark:border-slate-800 dark:bg-slate-800">
+          <span className="text-xs font-bold tracking-wider text-slate-400 uppercase">
+            Overall Average
+          </span>
           <div className="mt-2 text-2xl font-black text-emerald-600 dark:text-emerald-400">
             {calculatedAvg}%
           </div>
-          <div className="mt-1 text-[11px] text-emerald-600 font-bold">
+          <div className="mt-1 text-[11px] font-bold text-emerald-600">
             {parseFloat(calculatedAvg) >= 50 ? "Satisfactory Progress" : "Academic Remedial"}
           </div>
         </div>
 
-        <div className="rounded-2xl bg-white p-5 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Class Rank</span>
+        <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-xs dark:border-slate-800 dark:bg-slate-800">
+          <span className="text-xs font-bold tracking-wider text-slate-400 uppercase">
+            Class Rank
+          </span>
           <div className="mt-2 flex items-center gap-2 text-2xl font-black text-slate-800 dark:text-slate-100">
             <Trophy className="h-5 w-5 text-amber-500" />
             {academicSummary?.class_rank ? `#${academicSummary.class_rank}` : "Pending"}
@@ -128,11 +139,13 @@ const StudentGrades = () => {
           <div className="mt-1 text-[11px] text-slate-400">In Section {user?.section || "A"}</div>
         </div>
 
-        <div className="rounded-2xl bg-white p-5 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Passed / Failed</span>
+        <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-xs dark:border-slate-800 dark:bg-slate-800">
+          <span className="text-xs font-bold tracking-wider text-slate-400 uppercase">
+            Passed / Failed
+          </span>
           <div className="mt-2 text-2xl font-black text-slate-800 dark:text-slate-100">
             <span className="text-emerald-600">{passedCount}</span>
-            <span className="text-slate-400 mx-1">/</span>
+            <span className="mx-1 text-slate-400">/</span>
             <span className="text-rose-500">{failedCount}</span>
           </div>
           <div className="mt-1 text-[11px] text-slate-400">Pass mark is 50%</div>
@@ -143,22 +156,36 @@ const StudentGrades = () => {
       {loading ? (
         <LoadingSpinner className="py-20" />
       ) : grades.length === 0 ? (
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-12 text-center shadow-xs border border-slate-100 dark:border-slate-800">
-          <p className="text-slate-500 font-medium text-lg">No examination marks recorded yet.</p>
-          <p className="text-slate-400 text-sm mt-1">Your scores will appear here once finalized by your teachers.</p>
+        <div className="rounded-2xl border border-slate-100 bg-white p-12 text-center shadow-xs dark:border-slate-800 dark:bg-slate-800">
+          <p className="text-lg font-medium text-slate-500">No examination marks recorded yet.</p>
+          <p className="mt-1 text-sm text-slate-400">
+            Your scores will appear here once finalized by your teachers.
+          </p>
         </div>
       ) : (
-        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xs border border-slate-100 dark:border-slate-800 overflow-hidden">
+        <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xs dark:border-slate-800 dark:bg-slate-800">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
+            <table className="w-full border-collapse text-left text-xs">
               <thead>
-                <tr className="bg-slate-50 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
-                  <th className="px-4 py-3 font-semibold border-r border-slate-200 dark:border-slate-700">Subject</th>
-                  <th className="px-4 py-3 font-semibold border-r border-slate-200 dark:border-slate-700">Assessment Type</th>
-                  <th className="px-4 py-3 font-semibold border-r border-slate-200 dark:border-slate-700">Score / Total</th>
-                  <th className="px-4 py-3 font-semibold border-r border-slate-200 dark:border-slate-700">Percentage</th>
-                  <th className="px-4 py-3 font-semibold border-r border-slate-200 dark:border-slate-700">Status</th>
-                  <th className="px-4 py-3 font-semibold border-r border-slate-200 dark:border-slate-700">Comments</th>
+                <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-700 dark:bg-slate-700/50 dark:text-slate-300">
+                  <th className="border-r border-slate-200 px-4 py-3 font-semibold dark:border-slate-700">
+                    Subject
+                  </th>
+                  <th className="border-r border-slate-200 px-4 py-3 font-semibold dark:border-slate-700">
+                    Assessment Type
+                  </th>
+                  <th className="border-r border-slate-200 px-4 py-3 font-semibold dark:border-slate-700">
+                    Score / Total
+                  </th>
+                  <th className="border-r border-slate-200 px-4 py-3 font-semibold dark:border-slate-700">
+                    Percentage
+                  </th>
+                  <th className="border-r border-slate-200 px-4 py-3 font-semibold dark:border-slate-700">
+                    Status
+                  </th>
+                  <th className="border-r border-slate-200 px-4 py-3 font-semibold dark:border-slate-700">
+                    Comments
+                  </th>
                   <th className="px-4 py-3 font-semibold">Teacher</th>
                 </tr>
               </thead>
@@ -166,38 +193,52 @@ const StudentGrades = () => {
                 {grades.map((g) => {
                   const pct = getPercentage(g.score, g.total_marks || 100);
                   return (
-                    <tr key={g.id} className="hover:bg-emerald-50/30 dark:hover:bg-slate-700/30 transition-colors">
-                      <td className="px-4 py-3 font-semibold text-slate-800 dark:text-slate-200 border-r border-slate-100 dark:border-slate-700/50">
+                    <tr
+                      key={g.id}
+                      className="transition-colors hover:bg-emerald-50/30 dark:hover:bg-slate-700/30"
+                    >
+                      <td className="border-r border-slate-100 px-4 py-3 font-semibold text-slate-800 dark:border-slate-700/50 dark:text-slate-200">
                         {g.subject}
-                        <div className="text-[10px] text-slate-400 font-normal mt-0.5">{g.semester}</div>
+                        <div className="mt-0.5 text-[10px] font-normal text-slate-400">
+                          {g.semester}
+                        </div>
                       </td>
-                      <td className="px-4 py-3 text-slate-600 dark:text-slate-300 border-r border-slate-100 dark:border-slate-700/50">
-                        <span className="inline-block px-2 py-0.5 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-bold rounded uppercase tracking-wide">
+                      <td className="border-r border-slate-100 px-4 py-3 text-slate-600 dark:border-slate-700/50 dark:text-slate-300">
+                        <span className="inline-block rounded bg-blue-50 px-2 py-0.5 text-[10px] font-bold tracking-wide text-blue-600 uppercase dark:bg-blue-900/30 dark:text-blue-400">
                           {g.assessment_type || "Examination"}
                         </span>
                       </td>
-                      <td className="px-4 py-3 font-medium border-r border-slate-100 dark:border-slate-700/50">
-                        <span className="text-slate-800 dark:text-slate-200 font-bold">{g.score}</span>
-                        <span className="text-slate-400 ml-1">/ {g.total_marks || 100}</span>
+                      <td className="border-r border-slate-100 px-4 py-3 font-medium dark:border-slate-700/50">
+                        <span className="font-bold text-slate-800 dark:text-slate-200">
+                          {g.score}
+                        </span>
+                        <span className="ml-1 text-slate-400">/ {g.total_marks || 100}</span>
                       </td>
-                      <td className="px-4 py-3 border-r border-slate-100 dark:border-slate-700/50">
+                      <td className="border-r border-slate-100 px-4 py-3 dark:border-slate-700/50">
                         <div className="flex items-center gap-2">
-                          <span className="w-10 font-bold text-slate-700 dark:text-slate-300">{pct}%</span>
-                          <div className="flex-1 h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden w-16">
-                            <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${pct}%` }}></div>
+                          <span className="w-10 font-bold text-slate-700 dark:text-slate-300">
+                            {pct}%
+                          </span>
+                          <div className="h-1.5 w-16 flex-1 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700">
+                            <div
+                              className="h-full rounded-full bg-emerald-500"
+                              style={{ width: `${pct}%` }}
+                            ></div>
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-3 border-r border-slate-100 dark:border-slate-700/50">
-                        <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
-                          parseFloat(pct) >= 50
-                            ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400"
-                            : "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-400"
-                        }`}>
+                      <td className="border-r border-slate-100 px-4 py-3 dark:border-slate-700/50">
+                        <span
+                          className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
+                            parseFloat(pct) >= 50
+                              ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400"
+                              : "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-400"
+                          }`}
+                        >
                           {getPassStatus(pct)}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-slate-500 border-r border-slate-100 dark:border-slate-700/50 italic">
+                      <td className="border-r border-slate-100 px-4 py-3 text-slate-500 italic dark:border-slate-700/50">
                         {g.comments || "-"}
                       </td>
                       <td className="px-4 py-3 text-slate-600 dark:text-slate-400">

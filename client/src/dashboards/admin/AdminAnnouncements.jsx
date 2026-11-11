@@ -6,7 +6,12 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import Pagination from "../../components/Pagination";
-import { getAnnouncements, createAnnouncement, updateAnnouncement, deleteAnnouncement } from "../../services/authService";
+import {
+  getAnnouncements,
+  createAnnouncement,
+  updateAnnouncement,
+  deleteAnnouncement,
+} from "../../services/authService";
 import { formatDate } from "../../utils/helpers";
 
 const PAGE_SIZE = 9;
@@ -35,9 +40,13 @@ const AdminAnnouncements = () => {
     }
   };
 
-  useEffect(() => { fetchData(); }, [page]);
+  useEffect(() => {
+    fetchData();
+  }, [page]);
 
-  useEffect(() => { setPage(1); }, [search]);
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
 
   const filtered = announcements.filter((a) => {
     if (!search) return true;
@@ -87,9 +96,19 @@ const AdminAnnouncements = () => {
   return (
     <>
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="relative flex-1 max-w-sm">
-          <svg className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <div className="relative max-w-sm flex-1">
+          <svg
+            className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
           <input
             type="text"
@@ -99,24 +118,40 @@ const AdminAnnouncements = () => {
             className="input-field pl-9"
           />
         </div>
-        <button onClick={openCreate} className="btn-primary whitespace-nowrap">+ New Announcement</button>
+        <button onClick={openCreate} className="btn-primary whitespace-nowrap">
+          + New Announcement
+        </button>
       </div>
 
       {loading ? (
         <LoadingSpinner className="py-20" />
       ) : filtered.length === 0 ? (
-        <p className="py-12 text-center text-slate-400">{search ? "No announcements match your search." : "No announcements yet."}</p>
+        <p className="py-12 text-center text-slate-400">
+          {search ? "No announcements match your search." : "No announcements yet."}
+        </p>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {filtered.map((a) => (
             <div key={a.id} className="card">
               <h3 className="font-semibold">{a.title}</h3>
-              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 line-clamp-3">{a.content}</p>
+              <p className="mt-2 line-clamp-3 text-sm text-gray-600 dark:text-gray-400">
+                {a.content}
+              </p>
               <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
                 <span>{formatDate(a.created_at)}</span>
                 <div>
-                  <button onClick={() => openEdit(a)} className="mr-2 text-blue-600 hover:underline">Edit</button>
-                  <button onClick={() => handleDelete(a.id)} className="text-red-500 hover:underline">Delete</button>
+                  <button
+                    onClick={() => openEdit(a)}
+                    className="mr-2 text-blue-600 hover:underline"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(a.id)}
+                    className="text-red-500 hover:underline"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>
@@ -131,11 +166,28 @@ const AdminAnnouncements = () => {
           <div className="w-full max-w-lg rounded-xl bg-white p-6 dark:bg-gray-800">
             <h2 className="mb-4 text-lg font-bold">{editing ? "Edit" : "Create"} Announcement</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <input className="input-field" placeholder="Title" {...register("title", { required: true })} />
-              <textarea rows={5} className="input-field" placeholder="Content" {...register("content", { required: true })} />
+              <input
+                className="input-field"
+                placeholder="Title"
+                {...register("title", { required: true })}
+              />
+              <textarea
+                rows={5}
+                className="input-field"
+                placeholder="Content"
+                {...register("content", { required: true })}
+              />
               <div className="flex gap-2">
-                <button type="submit" className="btn-primary flex-1">Save</button>
-                <button type="button" onClick={() => setShowModal(false)} className="btn-outline flex-1">Cancel</button>
+                <button type="submit" className="btn-primary flex-1">
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="btn-outline flex-1"
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>

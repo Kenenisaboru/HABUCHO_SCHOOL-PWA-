@@ -193,14 +193,15 @@ const AdminCurriculum = () => {
       {/* Header Banner */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+          <span className="text-xs font-bold tracking-wider text-emerald-600 uppercase dark:text-emerald-400">
             Ethiopian Ministry of Education Standard
           </span>
-          <h1 className="text-2xl font-extrabold text-slate-800 dark:text-slate-100 sm:text-3xl">
+          <h1 className="text-2xl font-extrabold text-slate-800 sm:text-3xl dark:text-slate-100">
             Curriculum & Subject Management
           </h1>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            Configure official curriculum subjects for Grades 9–12, Natural & Social Science streams, and teacher assignments.
+            Configure official curriculum subjects for Grades 9–12, Natural & Social Science
+            streams, and teacher assignments.
           </p>
         </div>
 
@@ -217,7 +218,7 @@ const AdminCurriculum = () => {
           </button>
           <button
             onClick={openAddSubject}
-            className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 transition"
+            className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700"
           >
             <Plus className="h-4 w-4" />
             Add Subject
@@ -229,7 +230,7 @@ const AdminCurriculum = () => {
       <div className="flex border-b border-slate-200 dark:border-slate-800">
         <button
           onClick={() => setActiveTab("subjects")}
-          className={`flex items-center gap-2 px-6 py-3 text-sm font-bold border-b-2 transition ${
+          className={`flex items-center gap-2 border-b-2 px-6 py-3 text-sm font-bold transition ${
             activeTab === "subjects"
               ? "border-emerald-600 text-emerald-600 dark:border-emerald-400 dark:text-emerald-400"
               : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-300"
@@ -240,7 +241,7 @@ const AdminCurriculum = () => {
         </button>
         <button
           onClick={() => setActiveTab("assignments")}
-          className={`flex items-center gap-2 px-6 py-3 text-sm font-bold border-b-2 transition ${
+          className={`flex items-center gap-2 border-b-2 px-6 py-3 text-sm font-bold transition ${
             activeTab === "assignments"
               ? "border-emerald-600 text-emerald-600 dark:border-emerald-400 dark:text-emerald-400"
               : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-300"
@@ -256,7 +257,7 @@ const AdminCurriculum = () => {
       ) : activeTab === "subjects" ? (
         <div className="space-y-4">
           {/* Filter Bar */}
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-white p-4 shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800/80">
+          <div className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-white p-4 shadow-xs sm:flex-row sm:items-center sm:justify-between dark:border-slate-800 dark:bg-slate-800/80">
             <div className="flex flex-wrap items-center gap-2">
               <span className="flex items-center gap-1.5 text-xs font-bold text-slate-400 dark:text-slate-500">
                 <Filter className="h-3.5 w-3.5" /> Grade:
@@ -295,7 +296,9 @@ const AdminCurriculum = () => {
               >
                 <option value="all">All Streams</option>
                 {STREAM_OPTIONS.map((s) => (
-                  <option key={s} value={s}>{s}</option>
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
                 ))}
               </select>
             </div>
@@ -305,16 +308,16 @@ const AdminCurriculum = () => {
               placeholder="Search subject or code..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full sm:w-64 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 dark:border-slate-700 dark:bg-slate-900/50 dark:text-slate-200"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 sm:w-64 dark:border-slate-700 dark:bg-slate-900/50 dark:text-slate-200"
             />
           </div>
 
           {/* Subjects Table */}
-          <div className="overflow-hidden rounded-2xl bg-white shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
+          <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xs dark:border-slate-800 dark:bg-slate-800">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold dark:bg-slate-700/50 dark:border-slate-700 dark:text-slate-300">
+                  <tr className="border-b border-slate-200 bg-slate-50 font-bold text-slate-600 dark:border-slate-700 dark:bg-slate-700/50 dark:text-slate-300">
                     <th className="px-4 py-3">Code</th>
                     <th className="px-4 py-3">Subject Name</th>
                     <th className="px-4 py-3">Grade Levels</th>
@@ -336,7 +339,7 @@ const AdminCurriculum = () => {
                     filteredSubjects.map((s) => (
                       <tr
                         key={s.id}
-                        className="hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition"
+                        className="transition hover:bg-slate-50/50 dark:hover:bg-slate-700/30"
                       >
                         <td className="px-4 py-3 font-mono font-bold text-emerald-600 dark:text-emerald-400">
                           {s.code}
@@ -344,7 +347,7 @@ const AdminCurriculum = () => {
                         <td className="px-4 py-3 font-semibold text-slate-800 dark:text-slate-200">
                           {s.name}
                           {s.description && (
-                            <div className="text-[10px] text-slate-400 font-normal">
+                            <div className="text-[10px] font-normal text-slate-400">
                               {s.description}
                             </div>
                           )}
@@ -368,8 +371,8 @@ const AdminCurriculum = () => {
                               s.stream === "Natural Science"
                                 ? "bg-cyan-50 text-cyan-700 dark:bg-cyan-950/40 dark:text-cyan-300"
                                 : s.stream === "Social Science"
-                                ? "bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300"
-                                : "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300"
+                                  ? "bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300"
+                                  : "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300"
                             }`}
                           >
                             {s.stream || "General"}
@@ -411,11 +414,11 @@ const AdminCurriculum = () => {
         </div>
       ) : (
         /* Teacher Subject Assignments Table */
-        <div className="overflow-hidden rounded-2xl bg-white shadow-xs border border-slate-100 dark:border-slate-800 dark:bg-slate-800">
+        <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xs dark:border-slate-800 dark:bg-slate-800">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold dark:bg-slate-700/50 dark:border-slate-700 dark:text-slate-300">
+                <tr className="border-b border-slate-200 bg-slate-50 font-bold text-slate-600 dark:border-slate-700 dark:bg-slate-700/50 dark:text-slate-300">
                   <th className="px-4 py-3">Teacher</th>
                   <th className="px-4 py-3">Subject</th>
                   <th className="px-4 py-3">Subject Code</th>
@@ -436,7 +439,7 @@ const AdminCurriculum = () => {
                   assignments.map((a) => (
                     <tr
                       key={a.id}
-                      className="hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition"
+                      className="transition hover:bg-slate-50/50 dark:hover:bg-slate-700/30"
                     >
                       <td className="px-4 py-3 font-semibold text-slate-800 dark:text-slate-200">
                         {a.teacher_name}
@@ -479,7 +482,7 @@ const AdminCurriculum = () => {
       {/* Subject Create / Edit Modal */}
       {showSubjectModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-800 max-h-[90vh] overflow-y-auto">
+          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-800">
             <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">
               {editingSubject ? "Edit Curriculum Subject" : "Add Ethiopian Curriculum Subject"}
             </h2>
@@ -490,7 +493,7 @@ const AdminCurriculum = () => {
             <form onSubmit={handleSubmit(onSubjectSubmit)} className="mt-4 space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                  <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
                     Subject Code
                   </label>
                   <input
@@ -504,7 +507,7 @@ const AdminCurriculum = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                  <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
                     Subject Name
                   </label>
                   <input
@@ -520,7 +523,7 @@ const AdminCurriculum = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                  <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
                     Stream / Pathway
                   </label>
                   <select
@@ -528,13 +531,15 @@ const AdminCurriculum = () => {
                     className="w-full rounded-xl border border-slate-200 bg-white p-2 text-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
                   >
                     {STREAM_OPTIONS.map((st) => (
-                      <option key={st} value={st}>{st}</option>
+                      <option key={st} value={st}>
+                        {st}
+                      </option>
                     ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                  <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
                     Category
                   </label>
                   <select
@@ -552,12 +557,15 @@ const AdminCurriculum = () => {
 
               {/* Grade Levels Multi-select */}
               <div>
-                <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
                   Applicable Grade Levels
                 </label>
                 <div className="flex gap-4">
                   {GRADE_OPTIONS.map((g) => (
-                    <label key={g} className="flex items-center gap-1.5 text-xs text-slate-700 dark:text-slate-300">
+                    <label
+                      key={g}
+                      className="flex items-center gap-1.5 text-xs text-slate-700 dark:text-slate-300"
+                    >
                       <input
                         type="checkbox"
                         value={g}
@@ -573,7 +581,7 @@ const AdminCurriculum = () => {
               {/* Marks */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                  <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
                     Maximum Marks (Numerical)
                   </label>
                   <input
@@ -587,7 +595,7 @@ const AdminCurriculum = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                  <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
                     Pass Mark Threshold (Numerical)
                   </label>
                   <input
@@ -608,13 +616,16 @@ const AdminCurriculum = () => {
                   {...register("is_active")}
                   className="rounded text-emerald-600"
                 />
-                <label htmlFor="is_active" className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                <label
+                  htmlFor="is_active"
+                  className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                >
                   Subject is Active in Curriculum
                 </label>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
                   Description / Curriculum Notes
                 </label>
                 <textarea
@@ -638,7 +649,11 @@ const AdminCurriculum = () => {
                   disabled={isSubmitting}
                   className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-700 disabled:opacity-50"
                 >
-                  {isSubmitting ? "Saving..." : editingSubject ? "Update Subject" : "Create Subject"}
+                  {isSubmitting
+                    ? "Saving..."
+                    : editingSubject
+                      ? "Update Subject"
+                      : "Create Subject"}
                 </button>
               </div>
             </form>
@@ -659,7 +674,7 @@ const AdminCurriculum = () => {
 
             <form onSubmit={handleAssignSubmit(onAssignSubmit)} className="mt-4 space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
                   Select Teacher
                 </label>
                 <select
@@ -676,7 +691,7 @@ const AdminCurriculum = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
                   Select Subject
                 </label>
                 <select
@@ -684,17 +699,19 @@ const AdminCurriculum = () => {
                   className="w-full rounded-xl border border-slate-200 bg-white p-2 text-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
                 >
                   <option value="">-- Choose Subject --</option>
-                  {subjects.filter((s) => s.is_active).map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.name} ({s.code}) - {s.stream}
-                    </option>
-                  ))}
+                  {subjects
+                    .filter((s) => s.is_active)
+                    .map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name} ({s.code}) - {s.stream}
+                      </option>
+                    ))}
                 </select>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                  <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
                     Grade Level
                   </label>
                   <select
@@ -702,13 +719,15 @@ const AdminCurriculum = () => {
                     className="w-full rounded-xl border border-slate-200 bg-white p-2 text-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
                   >
                     {GRADE_OPTIONS.map((g) => (
-                      <option key={g} value={g}>Grade {g}</option>
+                      <option key={g} value={g}>
+                        Grade {g}
+                      </option>
                     ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                  <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
                     Section
                   </label>
                   <select
@@ -716,14 +735,16 @@ const AdminCurriculum = () => {
                     className="w-full rounded-xl border border-slate-200 bg-white p-2 text-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
                   >
                     {["A", "B", "C", "D"].map((sec) => (
-                      <option key={sec} value={sec}>Section {sec}</option>
+                      <option key={sec} value={sec}>
+                        Section {sec}
+                      </option>
                     ))}
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
                   Academic Year
                 </label>
                 <input

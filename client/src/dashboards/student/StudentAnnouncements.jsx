@@ -7,7 +7,6 @@ import SkeletonLoader from "../../components/SkeletonLoader";
 import { getAnnouncements } from "../../services/authService";
 import { formatDate } from "../../utils/helpers";
 
-
 const StudentAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +37,9 @@ const StudentAnnouncements = () => {
             <div key={a.id} className="card">
               <h3 className="font-semibold">{a.title}</h3>
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">{a.content}</p>
-              <p className="mt-3 text-xs text-gray-500">{formatDate(a.created_at)} · {a.author_name}</p>
+              <p className="mt-3 text-xs text-gray-500">
+                {formatDate(a.created_at)} · {a.author_name}
+              </p>
             </div>
           ))}
         </div>

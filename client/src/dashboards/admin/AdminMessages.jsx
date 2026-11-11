@@ -8,7 +8,6 @@ import Pagination from "../../components/Pagination";
 import { getContactMessages, deleteContactMessage } from "../../services/authService";
 import { formatDate } from "../../utils/helpers";
 
-
 const AdminMessages = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,8 +28,12 @@ const AdminMessages = () => {
     }
   };
 
-  useEffect(() => { fetchData(); }, [page]);
-  useEffect(() => { setPage(1); }, [search]);
+  useEffect(() => {
+    fetchData();
+  }, [page]);
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
 
   const filtered = messages.filter((m) => {
     if (!search) return true;
@@ -57,8 +60,18 @@ const AdminMessages = () => {
     <>
       <div className="mb-4">
         <div className="relative max-w-sm">
-          <svg className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <svg
+            className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
           <input
             type="text"
@@ -73,7 +86,9 @@ const AdminMessages = () => {
       {loading ? (
         <LoadingSpinner className="py-20" />
       ) : filtered.length === 0 ? (
-        <p className="py-12 text-center text-slate-400">{search ? "No messages match your search." : "No messages yet."}</p>
+        <p className="py-12 text-center text-slate-400">
+          {search ? "No messages match your search." : "No messages yet."}
+        </p>
       ) : (
         <div className="space-y-4">
           {filtered.map((m) => (
@@ -86,7 +101,10 @@ const AdminMessages = () => {
                 <span className="text-xs text-gray-500">{formatDate(m.created_at)}</span>
               </div>
               <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">{m.message}</p>
-              <button onClick={() => handleDelete(m.id)} className="mt-3 text-sm text-red-500 hover:underline">
+              <button
+                onClick={() => handleDelete(m.id)}
+                className="mt-3 text-sm text-red-500 hover:underline"
+              >
                 Delete
               </button>
             </div>
