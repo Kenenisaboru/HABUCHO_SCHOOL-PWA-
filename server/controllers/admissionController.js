@@ -9,6 +9,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { getPrivateUploadPath } from "../utils/uploadStorage.js";
 import { logAuditEvent } from "../services/auditService.js";
+import { sendAdmissionAlert } from "../services/telegramService.js";
 
 export const getAdmissions = async (req, res, next) => {
   try {
@@ -97,6 +98,13 @@ export const updateAdmissionStatus = async (req, res, next) => {
       details: { new_status: status },
       ip: req.ip,
     });
+
+    sendAdmissionAlert({
+      applicantName: application.applicant_name,
+      referenceNumber: application.reference_number,
+      status,
+      remarks: req.body.remarks || "",
+    }).catch(() => {});
 
     return sendSuccess(res, application, `Application status updated to ${status}`);
   } catch (err) {
