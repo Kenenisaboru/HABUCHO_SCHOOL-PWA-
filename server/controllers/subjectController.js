@@ -208,7 +208,7 @@ export const assignTeacherToSubject = async (req, res, next) => {
       return sendError(res, "Subject, teacher, grade level, and section are required", 400);
     }
 
-    const year = academic_year || "2024/2025";
+    const year = academic_year || "2017";
 
     const { rows } = await pool.query(
       `INSERT INTO subject_teacher_assignments (subject_id, teacher_id, academic_year, grade_level, section)

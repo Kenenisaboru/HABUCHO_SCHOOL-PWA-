@@ -42,7 +42,7 @@ const AdminTopScorers = () => {
   const [recalculating, setRecalculating] = useState(false);
 
   // Global filters
-  const [academicYear, setAcademicYear] = useState("2024/2025");
+  const [academicYear, setAcademicYear] = useState("2017");
   const [semester, setSemester] = useState("Semester 1");
   const [assessmentType, setAssessmentType] = useState("All");
 
@@ -215,9 +215,10 @@ const AdminTopScorers = () => {
           onChange={(e) => setAcademicYear(e.target.value)}
           className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
         >
-          <option value="2024/2025">Academic Year 2024/2025</option>
-          <option value="2023/2024">Academic Year 2023/2024</option>
-          <option value="2022/2023">Academic Year 2022/2023</option>
+          <option value="2017">Academic Year 2017 E.C. (Current)</option>
+          <option value="2018">Academic Year 2018 E.C.</option>
+          <option value="2019">Academic Year 2019 E.C.</option>
+          <option value="2016">Academic Year 2016 E.C.</option>
         </select>
 
         <select

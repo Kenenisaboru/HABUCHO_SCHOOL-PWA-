@@ -12,7 +12,7 @@ export const generateEthiopianReportCard = async ({
   student,
   academicSummary,
   subjectGrades = [],
-  academicYear = "2024/2025",
+  academicYear = "2017",
   semester = "Semester 1",
 }) => {
   const { default: jsPDF } = await import("jspdf");
@@ -115,7 +115,11 @@ export const generateEthiopianReportCard = async ({
   doc.setFont("helvetica", "bold");
   doc.text("Academic Year:", col2X, 60);
   doc.setFont("helvetica", "normal");
-  doc.text(`${academicYear} (${semester})`, col2X + 32, 60);
+  doc.text(
+    `${academicYear.includes("E.C.") ? academicYear : `${academicYear} E.C.`} (${semester})`,
+    col2X + 32,
+    60
+  );
 
   // 4. Numerical Subject Results Table
   const tableData = subjectGrades.map((g, idx) => {

@@ -150,7 +150,7 @@ const AdminCurriculum = () => {
         subject_id: parseInt(formData.subject_id, 10),
         grade_level: formData.grade_level,
         section: formData.section,
-        academic_year: formData.academic_year || "2024/2025",
+        academic_year: formData.academic_year || "2017",
       });
       toast.success("Teacher assigned successfully");
       setShowAssignModal(false);
@@ -208,7 +208,7 @@ const AdminCurriculum = () => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => {
-              resetAssign({ academic_year: "2024/2025", grade_level: "10", section: "A" });
+              resetAssign({ academic_year: "2017", grade_level: "10", section: "A" });
               setShowAssignModal(true);
             }}
             className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 shadow-xs hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
@@ -749,7 +749,7 @@ const AdminCurriculum = () => {
                 </label>
                 <input
                   {...registerAssign("academic_year", { required: true })}
-                  defaultValue="2024/2025"
+                  defaultValue="2017"
                   className="w-full rounded-xl border border-slate-200 bg-white p-2 text-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
                 />
               </div>

@@ -149,7 +149,7 @@ const Profile = () => {
     parent_name: profile?.parent_name || "N/A",
     parent_phone: profile?.parent_phone || "N/A",
     address: profile?.address || "N/A",
-    academic_year: profile?.academic_year || "2024/2025",
+    academic_year: profile?.academic_year || "2017",
     admission_date: profile?.admission_date ? profile.admission_date.split("T")[0] : "N/A",
     blood_group: profile?.blood_group || "N/A",
     previous_school: profile?.previous_school || "N/A",

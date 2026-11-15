@@ -21,7 +21,7 @@ import pool from "../config/db.js";
  */
 export const triggerRankingRecalculation = async (req, res, next) => {
   try {
-    const { academic_year = "2024/2025", semester = "Semester 1", assessment_type = "All" } = req.body;
+    const { academic_year = "2017", semester = "Semester 1", assessment_type = "All" } = req.body;
     await recalculateRankings(academic_year, semester, assessment_type);
     return sendSuccess(res, null, "Rankings recalculated successfully");
   } catch (error) {
@@ -39,7 +39,7 @@ export const topScorersByClass = async (req, res, next) => {
       return sendError(res, "grade_level and section are required", 400);
     }
     const data = await getTopScorersByClass({
-      academic_year: academic_year || "2024/2025",
+      academic_year: academic_year || "2017",
       semester: semester || "Semester 1",
       assessment_type: assessment_type || "All",
       grade_level,
@@ -62,7 +62,7 @@ export const topScorersByGrade = async (req, res, next) => {
       return sendError(res, "grade_level is required", 400);
     }
     const data = await getTopScorersByGrade({
-      academic_year: academic_year || "2024/2025",
+      academic_year: academic_year || "2017",
       semester: semester || "Semester 1",
       assessment_type: assessment_type || "All",
       grade_level,
@@ -81,7 +81,7 @@ export const topScorersSchoolWide = async (req, res, next) => {
   try {
     const { academic_year, semester, assessment_type, limit } = req.query;
     const data = await getTopScorersSchoolWide({
-      academic_year: academic_year || "2024/2025",
+      academic_year: academic_year || "2017",
       semester: semester || "Semester 1",
       assessment_type: assessment_type || "All",
       limit: parseInt(limit) || 10,
@@ -102,7 +102,7 @@ export const topScorersBySubjectHandler = async (req, res, next) => {
       return sendError(res, "subject is required", 400);
     }
     const data = await getTopScorersBySubject({
-      academic_year: academic_year || "2024/2025",
+      academic_year: academic_year || "2017",
       semester: semester || "Semester 1",
       subject,
       grade_level: grade_level || null,
@@ -121,7 +121,7 @@ export const schoolPerformanceAnalytics = async (req, res, next) => {
   try {
     const { academic_year, semester, assessment_type } = req.query;
     const data = await getSchoolPerformanceAnalytics({
-      academic_year: academic_year || "2024/2025",
+      academic_year: academic_year || "2017",
       semester: semester || "Semester 1",
       assessment_type: assessment_type || "All",
     });

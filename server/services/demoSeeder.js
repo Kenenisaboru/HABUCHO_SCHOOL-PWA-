@@ -17,7 +17,7 @@ export const seedDemoData = async (pool) => {
         await pool.query(
           "UPDATE grades SET submission_status = 'approved' WHERE submission_status IS NULL OR submission_status = 'draft'"
         );
-        await recalculateRankings("2024/2025", "Semester 1", "All");
+        await recalculateRankings("2017", "Semester 1", "All");
         logger.info("Auto-populated student academic summaries & Ethiopian rankings for existing students.");
       }
       return;
@@ -115,7 +115,7 @@ export const seedDemoData = async (pool) => {
           date_of_birth, parent_name, parent_phone, address, academic_year, blood_group
         ) VALUES (
           $1, $2, $3, 'student', $4, $5, $6, $7, $8,
-          $9, $10, $11, 'Addis Ababa', '2024/2025', $12
+          $9, $10, $11, 'Addis Ababa', '2017', $12
         ) ON CONFLICT (email) DO UPDATE SET
           full_name = EXCLUDED.full_name,
           student_id = EXCLUDED.student_id,
@@ -210,7 +210,7 @@ export const seedDemoData = async (pool) => {
             grade_level, section, assessment_type, total_marks, comments,
             submission_status, approved_at
           ) VALUES (
-            $1, $2, $3, $4, 'Semester 1', '2024/2025',
+            $1, $2, $3, $4, 'Semester 1', '2017',
             $5, $6, 'Final Exam', 100, 'Demonstrates consistent academic effort and good mastery.',
             'approved', CURRENT_TIMESTAMP
           )`,
@@ -221,7 +221,7 @@ export const seedDemoData = async (pool) => {
 
     // Populate academic summaries and calculate ranking for demo data
     try {
-      await recalculateRankings("2024/2025", "Semester 1", "All");
+      await recalculateRankings("2017", "Semester 1", "All");
       logger.info("Demo student rankings and academic summaries calculated successfully.");
     } catch (calcErr) {
       logger.warn(`Academic ranking calculation notice: ${calcErr.message}`);
@@ -232,7 +232,7 @@ export const seedDemoData = async (pool) => {
     if (parseInt(existingAnnounce.rows[0].count, 10) === 0) {
       await pool.query(
         `INSERT INTO announcements (title, content, created_by) VALUES
-         ('Welcome to 2024/2025 Academic Year', 'Habucho Preparatory School warmly welcomes all Grades 9-12 students, guardians, and faculty.', $1),
+         ('Welcome to 2017 E.C. Academic Year', 'Habucho Preparatory School warmly welcomes all Grades 9-12 students, guardians, and faculty.', $1),
          ('Midterm Examination Dates Announced', 'First semester midterm examinations will commence next month across all grades 9 through 12.', $1),
          ('Science & Tech Club Orientation', 'Students interested in robotics and coding can attend the club meeting every Wednesday in Lab 2.', $2),
          ('National Examination Preparation for Grade 12', 'Special remedial tutorial sessions for Grade 12 college entrance exam start this Saturday.', $1)`,

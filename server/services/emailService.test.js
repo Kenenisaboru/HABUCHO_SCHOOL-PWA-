@@ -19,7 +19,7 @@ describe("Email Service Templates", () => {
       studentName: "Abebe Bikila",
       teacherName: "Sarah Johnson",
       subject: "Mathematics",
-      academicYear: "2024/2025",
+      academicYear: "2017",
       semester: "Semester 1",
       grades: [
         { assessment_type: "Mid Exam", score: 85, total_marks: 100 },

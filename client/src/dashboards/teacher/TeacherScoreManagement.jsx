@@ -13,7 +13,7 @@ import {
 } from "../../services/authService";
 import { getOfflineDraft, saveOfflineDraft, clearOfflineDraft } from "../../utils/offlineStorage";
 
-const ACADEMIC_YEARS = ["2023/2024", "2024/2025", "2025/2026"];
+const ACADEMIC_YEARS = ["2016", "2017", "2018", "2019"];
 const GRADE_LEVELS = ["9", "10", "11", "12"];
 const SECTIONS = ["A", "B", "C", "D"];
 const SEMESTERS = ["Semester 1", "Semester 2"];
@@ -26,7 +26,7 @@ const TeacherScoreManagement = () => {
   const [allGrades, setAllGrades] = useState([]);
 
   const [filters, setFilters] = useState({
-    academic_year: "2023/2024",
+    academic_year: "2017",
     semester: "Semester 1",
     grade_level: "",
     section: "",
@@ -380,7 +380,7 @@ const TeacherScoreManagement = () => {
             >
               {ACADEMIC_YEARS.map((y) => (
                 <option key={y} value={y}>
-                  {y}
+                  {y} E.C.
                 </option>
               ))}
             </select>

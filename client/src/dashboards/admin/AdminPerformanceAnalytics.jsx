@@ -27,7 +27,7 @@ import { getSchoolAnalytics } from "../../services/authService";
 
 const AdminPerformanceAnalytics = () => {
   const [loading, setLoading] = useState(true);
-  const [academicYear, setAcademicYear] = useState("2024/2025");
+  const [academicYear, setAcademicYear] = useState("2017");
   const [semester, setSemester] = useState("Semester 1");
   const [assessmentType, setAssessmentType] = useState("All");
 
@@ -108,9 +108,10 @@ const AdminPerformanceAnalytics = () => {
             onChange={(e) => setAcademicYear(e.target.value)}
             className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-xs dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
           >
-            <option value="2024/2025">Year 2024/2025</option>
-            <option value="2023/2024">Year 2023/2024</option>
-            <option value="2022/2023">Year 2022/2023</option>
+            <option value="2017">Year 2017 E.C. (Current)</option>
+            <option value="2018">Year 2018 E.C.</option>
+            <option value="2019">Year 2019 E.C.</option>
+            <option value="2016">Year 2016 E.C.</option>
           </select>
 
           <select

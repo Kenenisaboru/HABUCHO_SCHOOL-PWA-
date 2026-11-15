@@ -337,7 +337,7 @@ export const getTopScorersBySubject = async ({ academic_year, semester, subject,
  * School Performance Analytics
  * Overall pass rates, averages, and comparisons across grades/sections
  */
-export const getSchoolPerformanceAnalytics = async ({ academic_year = "2024/2025", semester = "Semester 1", assessment_type = "All" }) => {
+export const getSchoolPerformanceAnalytics = async ({ academic_year = "2017", semester = "Semester 1", assessment_type = "All" }) => {
   // 1. Registered students count
   const regRes = await pool.query("SELECT COUNT(*) FROM users WHERE role = 'student'");
   const totalRegisteredStudents = parseInt(regRes.rows[0].count, 10);

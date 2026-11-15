@@ -79,7 +79,7 @@ export const createUser = async ({
       parent_name || null,
       parent_phone || null,
       address || null,
-      academic_year || "2024/2025",
+      academic_year || "2017",
       admission_date || null,
       emergency_contact_name || null,
       emergency_contact_phone || null,

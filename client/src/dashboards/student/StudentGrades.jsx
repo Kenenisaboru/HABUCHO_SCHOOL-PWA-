@@ -52,7 +52,7 @@ const StudentGrades = () => {
         student: user,
         academicSummary,
         subjectGrades: grades,
-        academicYear: grades[0]?.academic_year || "2024/2025",
+        academicYear: grades[0]?.academic_year || "2017",
         semester: grades[0]?.semester || "Semester 1",
       });
       toast.success("Official Ethiopian Report Card downloaded!");

@@ -251,7 +251,7 @@ const Academics = () => {
         <div className="mx-auto max-w-4xl px-4">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-xs font-semibold text-amber-300 backdrop-blur-sm">
             <Award className="h-4 w-4 text-amber-400" />
-            Admissions for 2026/2027 Academic Year Are Now Open
+            Admissions for 2018 / 2019 E.C. Academic Year Are Now Open
           </div>
           <h2 className="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
             Ready to Begin Your Preparatory Journey?

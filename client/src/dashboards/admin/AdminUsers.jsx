@@ -76,7 +76,7 @@ const AdminUsers = () => {
       emergency_contact_name: "",
       emergency_contact_phone: "",
       address: "",
-      academic_year: "2024/2025",
+      academic_year: "2017",
       admission_date: new Date().toISOString().split("T")[0],
       blood_group: "",
       previous_school: "",
@@ -104,7 +104,7 @@ const AdminUsers = () => {
       emergency_contact_name: user.emergency_contact_name || "",
       emergency_contact_phone: user.emergency_contact_phone || "",
       address: user.address || "",
-      academic_year: user.academic_year || "2024/2025",
+      academic_year: user.academic_year || "2017",
       admission_date: user.admission_date ? user.admission_date.split("T")[0] : "",
       blood_group: user.blood_group || "",
       previous_school: user.previous_school || "",
@@ -487,7 +487,7 @@ const AdminUsers = () => {
                         </label>
                         <input
                           className="input-field text-xs"
-                          placeholder="2024/2025"
+                          placeholder="2017"
                           {...register("academic_year")}
                         />
                       </div>
@@ -792,7 +792,7 @@ const AdminUsers = () => {
                 <div className="space-y-2 text-xs">
                   <p>
                     <strong className="text-slate-500">Academic Year:</strong>{" "}
-                    {selectedUser.academic_year || "2024/2025"}
+                    {selectedUser.academic_year || "2017"}
                   </p>
                   <p>
                     <strong className="text-slate-500">Admission Date:</strong>{" "}
