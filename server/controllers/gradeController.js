@@ -8,6 +8,7 @@ import { sendSuccess, sendError, getPagination } from "../utils/response.js";
 import { sendEmail, buildScoreReportEmail } from "../services/emailService.js";
 import { logAuditEvent } from "../services/auditService.js";
 import { recalculateRankings } from "../services/academicCalculationEngine.js";
+import { sendAdminPendingApprovalAlert, broadcastToSchoolChannel } from "../services/telegramService.js";
 import pool from "../config/db.js";
 
 export const getGrades = async (req, res, next) => {
@@ -284,6 +285,14 @@ export const submitGradesForApproval = async (req, res, next) => {
       ip: req.ip,
     });
 
+    sendAdminPendingApprovalAlert({
+      teacherName: req.user.full_name || "Teacher",
+      gradeLevel: grade_level,
+      section,
+      subject,
+      studentCount: result.rowCount,
+    }).catch(() => {});
+
     return sendSuccess(res, { count: result.rowCount }, "Scores submitted for administrative approval");
   } catch (error) {
     next(error);
@@ -352,6 +361,12 @@ export const approveGradesBatch = async (req, res, next) => {
       details: { academic_year, semester, subject, grade_level, section, count: result.rowCount },
       ip: req.ip,
     });
+
+    broadcastToSchoolChannel(
+      `Grade Report: Grade ${grade_level}${section} - ${subject}`,
+      `Final scores for Grade ${grade_level} Section ${section} (${subject}, Semester ${semester}, ${academic_year}) have been verified and approved. Class rankings are updated. Check your student portal for detailed score cards.`,
+      "Academic"
+    ).catch(() => {});
 
     return sendSuccess(res, { count: result.rowCount }, "Scores approved and rankings updated");
   } catch (error) {
