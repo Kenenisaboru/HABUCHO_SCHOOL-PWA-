@@ -33,6 +33,10 @@ services:
         value: /var/data/private-uploads
       - key: LOG_LEVEL
         value: info
+      - key: ADMIN_EMAIL
+        value: kenenisaboru998@gmail.com
+      - key: ADMIN_PASSWORD
+        value: kbl@2026
 
   - type: web
     name: habucho-school-client
