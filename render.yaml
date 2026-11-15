@@ -40,9 +40,9 @@ services:
       - key: CLOUDINARY_URL
         sync: false
       - key: CLOUDINARY_CLOUD_NAME
-        sync: false
+        value: dlqmxrx36
       - key: CLOUDINARY_API_KEY
-        sync: false
+        value: "441939881177415"
       - key: CLOUDINARY_API_SECRET
         sync: false
 
