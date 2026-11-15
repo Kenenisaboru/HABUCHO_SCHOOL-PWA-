@@ -7,6 +7,7 @@ import fs from "fs";
 import * as GalleryModel from "../models/galleryModel.js";
 import { sendSuccess, sendError } from "../utils/response.js";
 import { getUploadPath } from "../utils/uploadStorage.js";
+import { deleteFromCloudinary } from "../services/cloudinaryService.js";
 
 export const getGalleryImages = async (_req, res, next) => {
   try {
@@ -24,7 +25,7 @@ export const createGalleryImage = async (req, res, next) => {
       return sendError(res, "Image file is required", 400);
     }
 
-    const image_path = `/uploads/${req.file.filename}`;
+    const image_path = req.file.secure_url || req.file.url || `/uploads/${req.file.filename}`;
 
     const image = await GalleryModel.createGalleryImage({
       title: title || "Gallery Image",
@@ -46,8 +47,12 @@ export const deleteGalleryImage = async (req, res, next) => {
     if (!deleted) return sendError(res, "Gallery image not found", 404);
 
     if (deleted.image_path) {
-      const filePath = getUploadPath(deleted.image_path);
-      if (filePath) fs.unlink(filePath, () => {});
+      if (deleted.image_path.startsWith("http")) {
+        await deleteFromCloudinary(deleted.image_path).catch(() => {});
+      } else {
+        const filePath = getUploadPath(deleted.image_path);
+        if (filePath) fs.unlink(filePath, () => {});
+      }
     }
 
     return sendSuccess(res, { id: req.params.id }, "Image removed from gallery successfully");
