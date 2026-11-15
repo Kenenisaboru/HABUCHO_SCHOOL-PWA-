@@ -5,7 +5,7 @@
  * (grade modifications, admission reviews, role updates, etc.)
  */
 import pool from "../config/db.js";
-import { sendSuccess, sendError, getPagination } from "../utils/response.js";
+import { sendSuccess, getPagination } from "../utils/response.js";
 
 export const getAuditLogs = async (req, res, next) => {
   try {
