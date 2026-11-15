@@ -22,6 +22,7 @@ import admissionRoutes from "./routes/admissionRoutes.js";
 import auditRoutes from "./routes/auditRoutes.js";
 import subjectRoutes from "./routes/subjectRoutes.js";
 import academicRoutes from "./routes/academicRoutes.js";
+import backupRoutes from "./routes/backupRoutes.js";
 
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 import { apiLimiter } from "./middleware/rateLimiter.js";
@@ -119,6 +120,7 @@ app.use(["/api/admissions", "/admissions"], admissionRoutes);
 app.use(["/api/audit-logs", "/audit-logs"], auditRoutes);
 app.use(["/api/subjects", "/subjects"], subjectRoutes);
 app.use(["/api/academic", "/academic"], academicRoutes);
+app.use(["/api/backup", "/backup"], backupRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
