@@ -14,9 +14,6 @@ const resolveApiUrl = () => {
     }
     return envUrl;
   }
-  if (typeof window !== "undefined" && window.location.hostname.endsWith("onrender.com")) {
-    return "https://habucho-school-pwa-zc34.onrender.com/api";
-  }
   return "/api";
 };
 
