@@ -6,6 +6,7 @@ import useAuthStore from "../context/authStore";
 import { useTheme } from "../context/ThemeContext";
 import { getRoleGradient } from "../utils/roleColors";
 import SchoolLogo from "../components/SchoolLogo";
+import AdminApprovalNotifications from "../components/AdminApprovalNotifications";
 
 const DashboardLayout = ({ links, title }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -124,6 +125,9 @@ const DashboardLayout = ({ links, title }) => {
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Real-time Admin Approval Notifications */}
+            {user?.role === "admin" && <AdminApprovalNotifications />}
+
             {/* Theme toggle */}
             <button
               onClick={toggleTheme}
