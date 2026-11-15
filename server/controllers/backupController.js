@@ -5,7 +5,7 @@
  * and download timestamped JSON backups to prevent data loss.
  */
 import pool from "../config/db.js";
-import { sendSuccess, sendError } from "../utils/response.js";
+import { sendSuccess } from "../utils/response.js";
 import logger from "../utils/logger.js";
 
 const TABLES_TO_BACKUP = [
