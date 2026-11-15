@@ -5,6 +5,7 @@
  */
 import * as AnnouncementModel from "../models/announcementModel.js";
 import { sendSuccess, sendError, getPagination } from "../utils/response.js";
+import { broadcastToSchoolChannel } from "../services/telegramService.js";
 
 export const getAnnouncements = async (req, res, next) => {
   try {
@@ -35,6 +36,8 @@ export const createAnnouncement = async (req, res, next) => {
       content,
       created_by: req.user.id,
     });
+
+    broadcastToSchoolChannel(title, content, "Announcement").catch(() => {});
 
     return sendSuccess(res, announcement, "Announcement created", 201);
   } catch (error) {
