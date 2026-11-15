@@ -7,6 +7,7 @@ import fs from "fs";
 import * as StaffModel from "../models/staffModel.js";
 import { sendSuccess, sendError } from "../utils/response.js";
 import { getUploadPath } from "../utils/uploadStorage.js";
+import { deleteFromCloudinary } from "../services/cloudinaryService.js";
 
 export const getStaffProfiles = async (_req, res, next) => {
   try {
@@ -30,7 +31,7 @@ export const getStaffProfileById = async (req, res, next) => {
 export const createStaffProfile = async (req, res, next) => {
   try {
     const { name, title, department, bio, display_order } = req.body;
-    const photo_path = req.file ? `/uploads/${req.file.filename}` : null;
+    const photo_path = req.file ? (req.file.secure_url || req.file.url || `/uploads/${req.file.filename}`) : null;
 
     const profile = await StaffModel.createStaffProfile({
       name,
@@ -54,7 +55,7 @@ export const updateStaffProfile = async (req, res, next) => {
     const fields = { name, title, department, bio, display_order, is_active };
 
     if (req.file) {
-      fields.photo_path = `/uploads/${req.file.filename}`;
+      fields.photo_path = req.file.secure_url || req.file.url || `/uploads/${req.file.filename}`;
     }
 
     const profile = await StaffModel.updateStaffProfile(req.params.id, fields);
@@ -72,8 +73,12 @@ export const deleteStaffProfile = async (req, res, next) => {
     if (!deleted) return sendError(res, "Staff profile not found", 404);
 
     if (deleted.photo_path) {
-      const filePath = getUploadPath(deleted.photo_path);
-      if (filePath) fs.unlink(filePath, () => {});
+      if (deleted.photo_path.startsWith("http")) {
+        await deleteFromCloudinary(deleted.photo_path).catch(() => {});
+      } else {
+        const filePath = getUploadPath(deleted.photo_path);
+        if (filePath) fs.unlink(filePath, () => {});
+      }
     }
 
     return sendSuccess(res, { id: req.params.id }, "Staff profile deleted successfully");
