@@ -45,6 +45,10 @@ services:
         value: "441939881177415"
       - key: CLOUDINARY_API_SECRET
         sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        value: 9090272331:AAH2DnEqKuXS8Bh9nNFbOZTvf06Vq0hxrJw
+      - key: TELEGRAM_CHANNEL_ID
+        sync: false
 
   - type: web
     name: habucho-school-client
