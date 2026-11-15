@@ -138,6 +138,16 @@ const TeacherScoreManagement = () => {
     filters.assessment_type,
   ]);
 
+  useEffect(() => {
+    const handleSync = () => {
+      toast("Reconnected to school network! Your offline draft scores are ready to save or submit.", {
+        icon: "🔄",
+      });
+    };
+    window.addEventListener("app:online-sync", handleSync);
+    return () => window.removeEventListener("app:online-sync", handleSync);
+  }, []);
+
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
