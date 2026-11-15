@@ -81,3 +81,12 @@ export const getStudentAcademicSummary = (studentId, params) =>
   api.get(`/academic/student/${studentId}/summary`, { params });
 export const getStudentAcademicHistory = (studentId) =>
   api.get(`/academic/student/${studentId}/history`);
+
+// --- Database Backup & Health ---
+export const getDatabaseStats = () => api.get("/backup/stats");
+export const downloadDatabaseBackup = () =>
+  api.get("/backup/download", { responseType: "blob" });
+
+// --- Grade Approvals & Notifications ---
+export const getPendingApprovalsCount = () => api.get("/grades/pending-submissions");
+
