@@ -31,6 +31,7 @@ const AdminGallery = lazy(() => import("./dashboards/admin/AdminGallery"));
 const AdminStaff = lazy(() => import("./dashboards/admin/AdminStaff"));
 const AdminAdmissions = lazy(() => import("./dashboards/admin/AdminAdmissions"));
 const AdminAuditLogs = lazy(() => import("./dashboards/admin/AdminAuditLogs"));
+const AdminBackup = lazy(() => import("./dashboards/admin/AdminBackup"));
 const AdminCurriculum = lazy(() => import("./dashboards/admin/AdminCurriculum"));
 const AdminTopScorers = lazy(() => import("./dashboards/admin/AdminTopScorers"));
 const AdminPerformanceAnalytics = lazy(
@@ -83,6 +84,7 @@ function App() {
               <Route path="/admin/announcements" element={<AdminAnnouncements />} />
               <Route path="/admin/messages" element={<AdminMessages />} />
               <Route path="/admin/audit-logs" element={<AdminAuditLogs />} />
+              <Route path="/admin/backup" element={<AdminBackup />} />
               <Route path="/admin/curriculum" element={<AdminCurriculum />} />
               <Route path="/admin/top-scorers" element={<AdminTopScorers />} />
               <Route path="/admin/academic-analytics" element={<AdminPerformanceAnalytics />} />
