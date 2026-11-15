@@ -44,18 +44,27 @@ export const downloadAdmissionDocument = async (req, res, next) => {
     const application = await AdmissionModel.getApplicationById(req.params.id);
     if (!application) return sendError(res, "Admission application not found", 404);
 
-    const filename = path.basename(req.params.filename);
-    const ownedDocuments = (application.document_paths || []).map((storedPath) =>
-      path.basename(String(storedPath).replace(/\\/g, "/"))
-    );
-    if (!ownedDocuments.includes(filename)) {
+    const target = req.params.filename;
+    const documentPaths = application.document_paths || [];
+    const matched = documentPaths.find((doc) => {
+      if (typeof doc === "string" && doc.startsWith("http")) {
+        return path.basename(doc) === target || doc === target;
+      }
+      return path.basename(String(doc).replace(/\\/g, "/")) === path.basename(target);
+    });
+
+    if (!matched) {
       return sendError(res, "Admission document not found", 404);
     }
 
-    const filePath = getPrivateUploadPath(filename);
+    if (typeof matched === "string" && matched.startsWith("http")) {
+      return res.redirect(matched);
+    }
+
+    const filePath = getPrivateUploadPath(path.basename(target));
     if (!filePath) return sendError(res, "Admission document not found", 404);
     await fs.access(filePath);
-    return res.download(filePath, filename, (error) => {
+    return res.download(filePath, path.basename(target), (error) => {
       if (error && !res.headersSent) next(error);
     });
   } catch (error) {
