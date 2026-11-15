@@ -7,6 +7,7 @@ import fs from "fs";
 import * as EventModel from "../models/eventModel.js";
 import { sendSuccess, sendError, getPagination } from "../utils/response.js";
 import { getUploadPath } from "../utils/uploadStorage.js";
+import { deleteFromCloudinary } from "../services/cloudinaryService.js";
 
 export const getEvents = async (req, res, next) => {
   try {
@@ -40,7 +41,7 @@ export const getEventById = async (req, res, next) => {
 export const createEvent = async (req, res, next) => {
   try {
     const { title, content, event_date, category, status } = req.body;
-    const image_path = req.file ? `/uploads/${req.file.filename}` : null;
+    const image_path = req.file ? (req.file.secure_url || req.file.url || `/uploads/${req.file.filename}`) : null;
 
     const event = await EventModel.createEvent({
       title,
@@ -64,7 +65,7 @@ export const updateEvent = async (req, res, next) => {
     const fields = { title, content, event_date, category, status };
 
     if (req.file) {
-      fields.image_path = `/uploads/${req.file.filename}`;
+      fields.image_path = req.file.secure_url || req.file.url || `/uploads/${req.file.filename}`;
     }
 
     const event = await EventModel.updateEvent(req.params.id, fields);
@@ -82,8 +83,12 @@ export const deleteEvent = async (req, res, next) => {
     if (!existing) return sendError(res, "Event not found", 404);
 
     if (existing.image_path) {
-      const filePath = getUploadPath(existing.image_path);
-      if (filePath) fs.unlink(filePath, () => {});
+      if (existing.image_path.startsWith("http")) {
+        await deleteFromCloudinary(existing.image_path).catch(() => {});
+      } else {
+        const filePath = getUploadPath(existing.image_path);
+        if (filePath) fs.unlink(filePath, () => {});
+      }
     }
 
     await EventModel.deleteEvent(req.params.id);
