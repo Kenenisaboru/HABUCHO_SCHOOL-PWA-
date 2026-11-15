@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   Trophy,
   BarChart3,
+  Database,
 } from "lucide-react";
 
 export const adminLinks = [
@@ -44,6 +45,7 @@ export const adminLinks = [
   },
   { to: "/admin/messages", label: "Messages", icon: Mail, section: "School Operations" },
   { to: "/admin/audit-logs", label: "Audit Logs", icon: ShieldCheck, section: "School Operations" },
+  { to: "/admin/backup", label: "Database & Backups", icon: Database, section: "School Operations" },
   { to: "/admin/profile", label: "Profile", icon: User, section: "School Operations" },
   // Academic & Ethiopian Curriculum Management section
   {
