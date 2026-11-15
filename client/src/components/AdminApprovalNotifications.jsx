@@ -6,7 +6,7 @@
  */
 import { useEffect, useState, useRef } from "react";
 import toast from "react-hot-toast";
-import { Bell, CheckCircle2, XCircle, Clock, Check, AlertCircle } from "lucide-react";
+import { Bell, CheckCircle2, XCircle, Clock, Check } from "lucide-react";
 import {
   getPendingApprovalsCount,
   approveGradesBatch,
@@ -15,7 +15,6 @@ import {
 
 const AdminApprovalNotifications = () => {
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
   const [pendingList, setPendingList] = useState([]);
   const dropdownRef = useRef(null);
