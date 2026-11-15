@@ -282,7 +282,7 @@ export const uploadAvatar = async (req, res, next) => {
   try {
     if (!req.file) return sendError(res, "No image file provided");
 
-    const avatarPath = `/uploads/${req.file.filename}`;
+    const avatarPath = req.file.secure_url || req.file.url || `/uploads/${req.file.filename}`;
     await pool.query(
       "UPDATE users SET avatar_url = $1, updated_at = NOW() WHERE id = $2",
       [avatarPath, req.user.id]
