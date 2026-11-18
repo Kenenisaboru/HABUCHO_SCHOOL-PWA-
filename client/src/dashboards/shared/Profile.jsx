@@ -89,6 +89,7 @@ const Profile = () => {
       toast.success("Avatar updated");
       const res = await getProfile();
       setProfile(res.data.data);
+      if (fetchUser) await fetchUser();
     } catch (err) {
       toast.error(err.response?.data?.message || "Avatar upload failed");
     }
@@ -197,9 +198,9 @@ const Profile = () => {
               <div
                 className={`flex h-28 w-28 items-center justify-center rounded-3xl border-4 border-white bg-linear-to-br sm:h-36 sm:w-36 ${roleGradient} overflow-hidden text-4xl font-extrabold text-white shadow-xl sm:text-5xl dark:border-slate-900`}
               >
-                {profile?.avatar_url ? (
+                {profile?.avatar_url || profile?.profile_picture ? (
                   <img
-                    src={getAssetUrl(profile.avatar_url)}
+                    src={getAssetUrl(profile.avatar_url || profile.profile_picture)}
                     alt={displayData.name}
                     className="h-full w-full object-cover"
                   />

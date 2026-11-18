@@ -36,7 +36,13 @@ const useAuthStore = create((set) => ({
     try {
       const res = await getProfile();
       const u = res.data.data;
-      const userData = { id: u.id, name: u.full_name, role: u.role };
+      const userData = {
+        id: u.id,
+        name: u.full_name,
+        role: u.role,
+        avatar_url: u.avatar_url || u.profile_picture || null,
+        profile_picture: u.avatar_url || u.profile_picture || null,
+      };
       localStorage.setItem("user", JSON.stringify(userData));
       set({ user: userData });
     } catch {

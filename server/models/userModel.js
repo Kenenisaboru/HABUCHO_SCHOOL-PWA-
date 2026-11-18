@@ -6,7 +6,7 @@
 import pool from "../config/db.js";
 
 const USER_FIELDS = `
-  id, full_name, email, role, profile_picture,
+  id, full_name, email, role, profile_picture, avatar_url,
   student_id, gender, date_of_birth, grade_level, section, stream,
   phone, parent_name, parent_phone, address,
   academic_year, admission_date, emergency_contact_name, emergency_contact_phone,

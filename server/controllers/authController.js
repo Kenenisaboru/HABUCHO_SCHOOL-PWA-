@@ -255,7 +255,12 @@ export const getProfile = async (req, res, next) => {
   try {
     const user = await UserModel.findUserById(req.user.id);
     if (!user) return sendError(res, "User not found", 404);
-    return sendSuccess(res, user);
+    const picture = user.avatar_url || user.profile_picture || null;
+    return sendSuccess(res, {
+      ...user,
+      avatar_url: picture,
+      profile_picture: picture,
+    });
   } catch (error) {
     next(error);
   }
@@ -263,16 +268,39 @@ export const getProfile = async (req, res, next) => {
 
 export const updateProfile = async (req, res, next) => {
   try {
-    const { full_name, phone } = req.body;
-    if (!full_name?.trim()) return sendError(res, "Full name is required");
+    const { full_name, phone, address, gender } = req.body;
+    if (!full_name || !full_name.trim()) return sendError(res, "Full name is required", 400);
 
     const { rows } = await pool.query(
-      "UPDATE users SET full_name = $1, phone = $2, updated_at = NOW() WHERE id = $3 RETURNING id, full_name, email, role, phone",
-      [full_name.trim(), phone?.trim() || null, req.user.id]
+      `UPDATE users 
+       SET full_name = $1, 
+           phone = $2, 
+           address = COALESCE($3, address),
+           gender = COALESCE($4, gender),
+           updated_at = NOW() 
+       WHERE id = $5 
+       RETURNING id, full_name, email, role, phone, address, gender, profile_picture, avatar_url`,
+      [
+        full_name.trim(),
+        phone !== undefined && phone !== "" ? phone.trim() : null,
+        address !== undefined && address !== "" ? address.trim() : null,
+        gender !== undefined && gender !== "" ? gender.trim() : null,
+        req.user.id,
+      ]
     );
 
     if (!rows.length) return sendError(res, "User not found", 404);
-    return sendSuccess(res, rows[0], "Profile updated");
+    const updated = rows[0];
+    const picture = updated.avatar_url || updated.profile_picture || null;
+    return sendSuccess(
+      res,
+      {
+        ...updated,
+        avatar_url: picture,
+        profile_picture: picture,
+      },
+      "Profile updated"
+    );
   } catch (error) {
     next(error);
   }
@@ -280,15 +308,23 @@ export const updateProfile = async (req, res, next) => {
 
 export const uploadAvatar = async (req, res, next) => {
   try {
-    if (!req.file) return sendError(res, "No image file provided");
+    if (!req.file) return sendError(res, "No image file provided", 400);
 
     const avatarPath = req.file.secure_url || req.file.url || `/uploads/${req.file.filename}`;
     await pool.query(
-      "UPDATE users SET avatar_url = $1, updated_at = NOW() WHERE id = $2",
+      `UPDATE users 
+       SET profile_picture = $1, 
+           avatar_url = $1, 
+           updated_at = NOW() 
+       WHERE id = $2`,
       [avatarPath, req.user.id]
     );
 
-    return sendSuccess(res, { avatar_url: avatarPath }, "Avatar updated");
+    return sendSuccess(
+      res,
+      { avatar_url: avatarPath, profile_picture: avatarPath },
+      "Avatar updated"
+    );
   } catch (error) {
     next(error);
   }

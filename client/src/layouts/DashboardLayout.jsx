@@ -7,6 +7,7 @@ import { useTheme } from "../context/ThemeContext";
 import { getRoleGradient } from "../utils/roleColors";
 import SchoolLogo from "../components/SchoolLogo";
 import AdminApprovalNotifications from "../components/AdminApprovalNotifications";
+import { getAssetUrl } from "../services/api";
 
 const DashboardLayout = ({ links, title }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -189,10 +190,18 @@ const DashboardLayout = ({ links, title }) => {
             {/* User avatar + logout */}
             <div className="flex items-center gap-2">
               <div
-                className={`flex h-8 w-8 items-center justify-center rounded-xl bg-linear-to-br ${avatarGradient} text-xs font-bold text-white shadow-sm`}
+                className={`flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl bg-linear-to-br ${avatarGradient} text-xs font-bold text-white shadow-sm`}
                 title={user?.name}
               >
-                {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                {user?.avatar_url || user?.profile_picture ? (
+                  <img
+                    src={getAssetUrl(user.avatar_url || user.profile_picture)}
+                    alt={user?.name}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  user?.name?.charAt(0)?.toUpperCase() || "U"
+                )}
               </div>
               <button
                 onClick={handleLogout}
