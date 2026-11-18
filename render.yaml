@@ -37,6 +37,18 @@ services:
         value: kenenisaboru998@gmail.com
       - key: ADMIN_PASSWORD
         value: kbl@2026
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_SECURE
+        value: "false"
+      - key: SMTP_USER
+        value: kenenisaboru998@gmail.com
+      - key: SMTP_PASS
+        value: imemewokeomtfhlm
+      - key: SMTP_FROM
+        value: "Habucho Preparatory School <kenenisaboru998@gmail.com>"
       - key: CLOUDINARY_URL
         sync: false
       - key: CLOUDINARY_CLOUD_NAME
